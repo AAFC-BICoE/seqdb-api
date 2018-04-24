@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Launches the application.
- * @author poffm
  */
 @SpringBootApplication
 public class SeqdbApiLauncher {

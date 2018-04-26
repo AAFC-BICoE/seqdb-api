@@ -7,6 +7,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.modelmapper.ModelMapper;
 
@@ -48,10 +49,18 @@ public class JpaResourceRepository<D extends JsonApiDto, E extends UniqueObj>
 
   @Override
   public D findOne(Serializable id, QuerySpec querySpec) {
-    
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<E> criteriaQuery = cb.createQuery(entityClass);
-    criteriaQuery.from(entityClass);
+    Root<E> root = criteriaQuery.from(entityClass);
+
+    // Filter by the ID attribute of the JPA entity, which might not be the same as the DTO's
+    // @JsonApiId attribute.
+    String idAttribute = entityManager
+        .getMetamodel()
+        .entity(entityClass)
+        .getId(Integer.class)
+        .getName();
+    criteriaQuery.where(cb.equal(root.get(idAttribute), id));
     
     E entityResult;
     try {
@@ -86,7 +95,11 @@ public class JpaResourceRepository<D extends JsonApiDto, E extends UniqueObj>
 
   @Override
   public void delete(Serializable id) {
-    entityManager.remove(entityManager.find(entityClass, id));
+    E entity = entityManager.find(this.entityClass, id);
+    if (entity == null) {
+      throw new ResourceNotFoundException("Resource not found");
+    }
+    entityManager.remove(entity);
   }
 
 }

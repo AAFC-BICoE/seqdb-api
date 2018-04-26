@@ -67,12 +67,17 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));
   }
-  
+
   @Test
   public void deletePrimer_onPrimerLookup_primerNotFound() {
     PcrPrimer primer = persistTestPrimer();
     primerRepository.delete(primer.getId());
     assertNull(entityManager.find(PcrPrimer.class, primer.getId()));
+  }
+
+  @Test(expected = ResourceNotFoundException.class)
+  public void deletePrimer_onPrimerNotFound_throwResourceNotFoundException() {
+    primerRepository.delete(1);
   }
 
 }

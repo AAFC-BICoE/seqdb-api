@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -9,6 +13,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import io.crnk.core.exception.ResourceNotFoundException;
+import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class JpaResourceRepositoryTest extends BaseIntegrationTest {
@@ -17,52 +22,77 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   private JpaResourceRepository<PcrPrimerDto, PcrPrimer> primerRepository;
 
   private static final String TEST_PRIMER_NAME = "test primer";
+  private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
   private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
   private static final String TEST_PRIMER_SEQ = "test seq";
-  private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
-  
+
   /**
    * Persists a PcrPrimer with the required fields set.
-   * 
+   *
    * @return the persisted primer
    */
   private PcrPrimer persistTestPrimer() {
     PcrPrimer primer = new PcrPrimer();
     primer.setName(TEST_PRIMER_NAME);
+    primer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
     primer.setType(TEST_PRIMER_TYPE);
     primer.setSeq(TEST_PRIMER_SEQ);
-    primer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
-    
+
     assertNull(primer.getId());
     entityManager.persist(primer);
+    // New primer must have an ID.
     assertNotNull(primer.getId());
-    
+
     return primer;
   }
-  
+
+  private static List<IncludeFieldSpec> includeFieldSpecs(String... includedFields) {
+    return Arrays.asList(includedFields)
+        .stream()
+        .map(Arrays::asList)
+        .map(IncludeFieldSpec::new)
+        .collect(Collectors.toList());
+  }
+
   @Test
-  public void findOnePrimer_onRepositoryReturn_primerFound() {
+  public void findOnePrimerWithoutFieldSelection_onRepositoryReturn_primerFoundWithAllFields() {
     PcrPrimer primer = persistTestPrimer();
-    
-    // New primer must have an ID.
-    Integer newPrimerId = primer.getId();
-    assertNotNull(newPrimerId);
 
     PcrPrimerDto primerDto = primerRepository.findOne(
-      newPrimerId,
-      new QuerySpec(PcrPrimerDto.class)
+        primer.getId(),
+        new QuerySpec(PcrPrimerDto.class)
     );
 
-    // Returned primer DTO must have correct values.
+    // Returned primer DTO must have correct values: all fields are present because no selected
+    // fields were specified in the QuerySpec
     assertNotNull(primerDto);
-    assertEquals(newPrimerId, primerDto.getId());
+    assertEquals(primer.getId(), primerDto.getPcrPrimerId());
     assertEquals(TEST_PRIMER_NAME, primerDto.getName());
+    assertEquals(TEST_PRIMER_LOT_NUMBER, primerDto.getLotNumber());
     assertEquals(TEST_PRIMER_TYPE.getValue(), primerDto.getType().getValue());
     assertEquals(TEST_PRIMER_SEQ, primerDto.getSeq());
-    assertEquals(TEST_PRIMER_LOT_NUMBER, primerDto.getLotNumber());
 
   }
-  
+
+  @Test
+  public void findOnePrimerWithFieldSelection_onRepositoryReturn_primerFoundWithSelectedFieldsOnly() {
+    PcrPrimer primer = persistTestPrimer();
+
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    querySpec.setIncludedFields(includeFieldSpecs("name", "lotNumber"));
+
+    PcrPrimerDto primerDto = primerRepository.findOne(primer.getId(), querySpec);
+
+    // Returned primer DTO must have correct values: selected fields are present, non-selected
+    // fields are null.
+    assertNotNull(primerDto);
+    assertEquals(primer.getId(), primerDto.getPcrPrimerId());
+    assertEquals(TEST_PRIMER_NAME, primerDto.getName());
+    assertEquals(TEST_PRIMER_LOT_NUMBER, primerDto.getLotNumber());
+    assertNull(primerDto.getType());
+    assertNull(primerDto.getSeq());
+  }
+
   @Test(expected = ResourceNotFoundException.class)
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));

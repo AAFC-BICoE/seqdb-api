@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
-public class PcrPrimerDto implements JsonApiDto {
+public class PcrPrimerDto {
 
   @RequiredArgsConstructor
   public enum PrimerType {
@@ -32,7 +32,7 @@ public class PcrPrimerDto implements JsonApiDto {
   }
   
   @JsonApiId
-  private Integer id;
+  private Integer pcrPrimerId;
   
   private String name;
   

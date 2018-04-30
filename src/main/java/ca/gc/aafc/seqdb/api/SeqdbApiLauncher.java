@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 /**
  * Launches the application.
- * @author poffm
  */
 @SpringBootApplication
 @EntityScan("ca.gc.aafc.seqdb.entities")

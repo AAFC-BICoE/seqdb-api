@@ -6,25 +6,41 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class JpaResourceRepositoryTest extends BaseIntegrationTest {
 
-  @Inject
-  private JpaResourceRepository<PcrPrimerDto, PcrPrimer> primerRepository;
-
   private static final String TEST_PRIMER_NAME = "test primer";
   private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
   private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
   private static final String TEST_PRIMER_SEQ = "test seq";
+  
+  @Inject
+  private JpaResourceRepository<PcrPrimerDto, PcrPrimer> primerRepository;
+  
+  @Inject
+  private ResourceRegistry resourceRegistry;
+  
+  /**
+   * Crnk injects the resource repository into "ResourceRegistryAware"-implementing repositories on
+   * each request before executing the repository's CRUD method. The ResourceRegistry does not
+   * provide correct resource metadata when injected into the repository by constructor. This method
+   * simulates crnk's behavior of injecting the ResourceRegistry on each request.
+   */
+  @Before
+  public void initRepository() {
+    primerRepository.setResourceRegistry(resourceRegistry);
+  }
 
   /**
    * Persists a PcrPrimer with the required fields set.
@@ -55,7 +71,7 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   }
 
   @Test
-  public void findOnePrimerWithoutFieldSelection_onRepositoryReturn_primerFoundWithAllFields() {
+  public void findOnePrimer_whenNoFieldsAreSelected_primerReturnedWithAllFields() {
     PcrPrimer primer = persistTestPrimer();
 
     PcrPrimerDto primerDto = primerRepository.findOne(
@@ -75,7 +91,7 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   }
 
   @Test
-  public void findOnePrimerWithFieldSelection_onRepositoryReturn_primerFoundWithSelectedFieldsOnly() {
+  public void findOnePrimer_whenFieldsAreSelected_primerReturnedWithSelectedFieldsOnly() {
     PcrPrimer primer = persistTestPrimer();
 
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);

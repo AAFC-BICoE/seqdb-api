@@ -90,6 +90,10 @@ public class JpaResourceRepository<D, E extends UniqueObj>
 
     Map<String, Object> resultMap = new HashMap<>();
     for (TupleElement<?> element : entityResult.getElements()) {
+      Object value = entityResult.get(element);
+      if (value == null) {
+        continue;
+      }
       Map<String, Object> currentNode = resultMap;
       List<String> attributePath = Arrays.asList(element.getAlias().split("\\."));
       for (int i = 0; i < attributePath.size() - 1; i++) {
@@ -99,7 +103,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
         }
         currentNode = (Map<String, Object>) currentNode.get(pathElement);
       }
-      currentNode.put(attributePath.get(attributePath.size() - 1), entityResult.get(element));
+      currentNode.put(attributePath.get(attributePath.size() - 1), value);
     }
     
     return mapper.map(resultMap, this.resourceClass);

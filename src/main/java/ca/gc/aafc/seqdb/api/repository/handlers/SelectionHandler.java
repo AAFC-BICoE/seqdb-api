@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Named;
 import javax.persistence.criteria.From;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
@@ -99,7 +100,7 @@ public class SelectionHandler {
     for (IncludeRelationSpec rel : querySpec.getIncludedRelations()) {
       From<?, ?> join = root;
       for (String pathElement : rel.getAttributePath()) {
-        join = join.join(pathElement);
+        join = join.join(pathElement, JoinType.LEFT);
       }
       
       List<Selection<?>> includeSelections = new ArrayList<>();

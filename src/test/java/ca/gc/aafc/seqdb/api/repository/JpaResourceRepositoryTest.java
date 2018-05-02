@@ -23,80 +23,16 @@ import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-public class JpaResourceRepositoryTest extends BaseIntegrationTest {
+public class JpaResourceRepositoryTest extends BaseRepositoryTest {
 
-  private static final String TEST_PRIMER_NAME = "test primer";
-  private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
-  private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
-  private static final String TEST_PRIMER_SEQ = "test seq";
-  
-  private static final String TEST_REGION_NAME = "test region";
-  private static final String TEST_REGION_DESCRIPTION = "test description";
-  private static final String TEST_REGION_SYMBOL = "test symbol";
-
-  @Inject
-  private ResourceRegistry resourceRegistry;
-  
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
-  
+
   /**
-   * Get the repository facade from crnk, which will invoke all filters, decorators, etc. 
+   * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
    */
   @Before
   public void initRepository() {
-    primerRepository = resourceRegistry.getEntry(PcrPrimerDto.class).getResourceRepositoryFacade();
-  }
-
-  /**
-   * Persists a PcrPrimer with the required fields set.
-   *
-   * @return the persisted primer
-   */
-  private PcrPrimer persistTestPrimer() {
-    PcrPrimer primer = new PcrPrimer();
-    primer.setName(TEST_PRIMER_NAME);
-    primer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
-    primer.setType(TEST_PRIMER_TYPE);
-    primer.setSeq(TEST_PRIMER_SEQ);
-
-    assertNull(primer.getId());
-    entityManager.persist(primer);
-    // New primer must have an ID.
-    assertNotNull(primer.getId());
-
-    return primer;
-  }
-  
-  private PcrPrimer persistTestPrimerWithRegion() {
-    PcrPrimer primer = this.persistTestPrimer();
-    
-    Region region = new Region();
-    region.setName(TEST_REGION_NAME);
-    region.setDescription(TEST_REGION_DESCRIPTION);
-    region.setSymbol(TEST_REGION_SYMBOL);
-    
-    assertNull(region.getId());
-    entityManager.persist(region);
-    assertNotNull(region.getId());
-    
-    primer.setRegion(region);
-    
-    return primer;
-  }
-
-  private static List<IncludeFieldSpec> includeFieldSpecs(String... includedFields) {
-    return Arrays.asList(includedFields)
-        .stream()
-        .map(Arrays::asList)
-        .map(IncludeFieldSpec::new)
-        .collect(Collectors.toList());
-  }
-  private static List<IncludeRelationSpec> includeRelationSpecs(String... includedRelations) {
-    return Arrays.asList(includedRelations)
-        .stream()
-        .map(Arrays::asList)
-        .map(IncludeRelationSpec::new)
-        .collect(Collectors.toList());
+    this.primerRepository = this.resourceRegistry.getEntry(PcrPrimerDto.class).getResourceRepositoryFacade();
   }
 
   @Test
@@ -188,7 +124,21 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
     assertNotNull(primerDto.getRegion().getDescription());
     assertNotNull(primerDto.getRegion().getSymbol());
   }
-
+  
+  @Test
+  public void findOnePrimer_whenRegionIsIncludedButDoesNotExist_primerReturnedWithNullRegion() {
+    PcrPrimer primer = persistTestPrimer();
+    
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    querySpec.setIncludedRelations(includeRelationSpecs("region"));
+    
+    PcrPrimerDto primerDto = primerRepository.findOne(primer.getId(), querySpec);
+    
+    assertNotNull(primerDto.getPcrPrimerId());
+    assertNotNull(primerDto.getName());
+    assertNull(primerDto.getRegion());
+  }
+  
   @Test(expected = ResourceNotFoundException.class)
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));

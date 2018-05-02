@@ -17,17 +17,26 @@ import ca.gc.aafc.seqdb.entities.Region;
 public class ResourceRepositoryConfig {
   
   @Bean
-  public JpaResourceRepository<PcrPrimerDto, PcrPrimer> pcrPrimerRepository(EntityManager entityManager, SelectionHandler selectionHandler) {
+  public JpaResourceRepository<PcrPrimerDto, PcrPrimer> pcrPrimerRepository(
+      EntityManager entityManager,
+      SelectionHandler selectionHandler
+  ) {
     return new JpaResourceRepository<>(PcrPrimerDto.class, PcrPrimer.class, entityManager, selectionHandler);
   }
   
   @Bean
-  public JpaResourceRepository<RegionDto, Region> regionRepository(EntityManager entityManager, SelectionHandler selectionHandler) {
+  public JpaResourceRepository<RegionDto, Region> regionRepository(
+      EntityManager entityManager,
+      SelectionHandler selectionHandler
+  ) {
     return new JpaResourceRepository<>(RegionDto.class, Region.class, entityManager, selectionHandler);
   }
   
   @Bean
-  public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository() {
+  public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
+      JpaResourceRepository<PcrPrimerDto, PcrPrimer> pcrPrimerRepository,
+      JpaResourceRepository<RegionDto, Region> regionRepository
+  ) {
     return new JpaRelationshipRepository<>(PcrPrimerDto.class, RegionDto.class);
   }
   

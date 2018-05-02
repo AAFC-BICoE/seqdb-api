@@ -78,7 +78,6 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     );
 
     List<Selection<?>> selections = this.selectionHandler.getSelections(querySpec, root, resourceRegistry);
-    
     criteriaQuery.multiselect(selections);
 
     Tuple entityResult;
@@ -126,7 +125,9 @@ public class JpaResourceRepository<D, E extends UniqueObj>
 
   @Override
   public <S extends D> S create(S resource) {
-    throw new UnsupportedOperationException();
+    E entity = mapper.map(resource, entityClass);
+    entityManager.persist(entity);
+    return (S) this.findOne(entity.getId(), new QuerySpec(resourceClass));
   }
 
   @Override

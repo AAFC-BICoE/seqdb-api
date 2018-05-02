@@ -2,24 +2,15 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto.PrimerType;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
-import ca.gc.aafc.seqdb.entities.Region;
-import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.IncludeFieldSpec;
-import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
@@ -142,6 +133,30 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
   @Test(expected = ResourceNotFoundException.class)
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));
+  }
+  
+  @Test
+  public void createPrimer_onSuccess_returnPrimerWithId() {
+    PcrPrimerDto newPrimer = new PcrPrimerDto();
+    newPrimer.setName(TEST_PRIMER_NAME);
+    newPrimer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
+    newPrimer.setType(PrimerType.PRIMER);
+    newPrimer.setSeq(TEST_PRIMER_SEQ);
+    
+    PcrPrimerDto createdPrimer = primerRepository.create(newPrimer);
+    
+    assertNotNull(createdPrimer.getPcrPrimerId());
+    assertEquals(TEST_PRIMER_NAME, createdPrimer.getName());
+    assertEquals(TEST_PRIMER_LOT_NUMBER, createdPrimer.getLotNumber());
+    assertEquals(PrimerType.PRIMER, createdPrimer.getType());
+    assertEquals(TEST_PRIMER_SEQ, createdPrimer.getSeq());
+    
+    PcrPrimer primerEntity = entityManager.find(PcrPrimer.class, createdPrimer.getPcrPrimerId());
+    assertNotNull(primerEntity.getPcrPrimerId());
+    assertEquals(TEST_PRIMER_NAME, primerEntity.getName());
+    assertEquals(TEST_PRIMER_LOT_NUMBER, primerEntity.getLotNumber());
+    assertEquals(ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType.PRIMER, primerEntity.getType());
+    assertEquals(TEST_PRIMER_SEQ, primerEntity.getSeq());
   }
 
   @Test

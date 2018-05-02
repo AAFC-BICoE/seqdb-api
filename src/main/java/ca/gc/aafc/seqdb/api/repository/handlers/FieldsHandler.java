@@ -1,13 +1,12 @@
 package ca.gc.aafc.seqdb.api.repository.handlers;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
 
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.registry.ResourceRegistry;
@@ -20,22 +19,11 @@ import lombok.NonNull;
  */
 public class FieldsHandler {
   
-  private final Class<?> resourceClass;
-  
-  private final Class<?> entityClass;
-  
   private final EntityManager entityManager;
   
-//  private final Set<String> resourceFields;
-//  private final Set<String> resourceRelationships;
-  
   public FieldsHandler(
-      @NonNull Class<?> resourceClass,
-      @NonNull Class<?> entityClass,
       @NonNull EntityManager entityManager
   ) {
-    this.resourceClass = resourceClass;
-    this.entityClass = entityClass;
     this.entityManager = entityManager;
   }
   
@@ -46,13 +34,15 @@ public class FieldsHandler {
    * @param root
    * @return
    */
-  public List<String> getSelectedFields(ResourceRegistry resourceRegistry, QuerySpec querySpec, Root<?> root) {
-    List<String> selectedFields = new ArrayList<>();
+  public Map<Class<?>, List<String>> getSelectedFields(ResourceRegistry resourceRegistry, QuerySpec querySpec) {
+    Map<Class<?>, List<String>> selectedFields = new HashMap<>();
+    
+    List<String> selectedFieldsOfThisClass = new ArrayList<>();
 
     // If no fields are specified, include all fields.
     if (querySpec.getIncludedFields().size() == 0) {
-      selectedFields.addAll(
-          resourceRegistry.getEntry(this.resourceClass)
+      selectedFieldsOfThisClass.addAll(
+          resourceRegistry.getEntry(querySpec.getResourceClass())
               .getResourceInformation()
               .getAttributeFields()
               .stream()
@@ -61,31 +51,23 @@ public class FieldsHandler {
       );
     } else {
       for (IncludeFieldSpec includedField : querySpec.getIncludedFields()) {
-        selectedFields.add(includedField.getAttributePath().get(0));
+        selectedFieldsOfThisClass.add(String.join(".", includedField.getAttributePath()));
       }
     }
-    
+
     // The id field is always selected, even if not explicitly requested by the user.
-    String entityIdAttribute = getEntityIdAttribute();
-    if (!selectedFields.contains(entityIdAttribute)) {
-      selectedFields.add(entityIdAttribute);
+    String idAttribute = getIdAttribute(querySpec.getResourceClass(), resourceRegistry);
+    if (!selectedFieldsOfThisClass.contains(idAttribute)) {
+      selectedFieldsOfThisClass.add(idAttribute);
+    }
+    
+    selectedFields.put(querySpec.getResourceClass(), selectedFieldsOfThisClass);
+    
+    for (QuerySpec nestedSpec : querySpec.getNestedSpecs()) {
+      selectedFields.putAll(this.getSelectedFields(resourceRegistry, nestedSpec));
     }
     
     return selectedFields;
-  }
-  
-  /**
-   * Gets the JPA criteria query selections from a list of DTO properties.
-   * 
-   * @param selectedFields
-   * @param root
-   * @return
-   */
-  public Selection<?>[] getSelections(List<String> selectedFields, Root<?> root) {
-    return selectedFields
-        .stream()
-        .map(root::get)
-        .toArray(Selection[]::new);
   }
   
   /**
@@ -93,12 +75,11 @@ public class FieldsHandler {
    * 
    * @return
    */
-  public String getEntityIdAttribute() {
-    return entityManager
-        .getMetamodel()
-        .entity(entityClass)
-        .getId(Serializable.class)
-        .getName();
+  public String getIdAttribute(Class<?> resourceClass, ResourceRegistry resourceRegistry) {
+    return resourceRegistry.findEntry(resourceClass)
+        .getResourceInformation()
+        .getIdField()
+        .getUnderlyingName();
   }
   
 }

@@ -1,22 +1,24 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Tuple;
+import javax.persistence.TupleElement;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 
 import org.modelmapper.ModelMapper;
 
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
-
 import ca.gc.aafc.seqdb.api.repository.handlers.FieldsHandler;
+import ca.gc.aafc.seqdb.api.repository.handlers.IncludeHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
@@ -26,6 +28,7 @@ import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -34,6 +37,7 @@ import lombok.Setter;
  * @param <D> the JsonApi DTO class.
  * @param <E> the JPA entity class.
  */
+@RequiredArgsConstructor
 public class JpaResourceRepository<D, E extends UniqueObj>
     implements ResourceRepositoryV2<D, Serializable>, ResourceRegistryAware {
 
@@ -49,26 +53,19 @@ public class JpaResourceRepository<D, E extends UniqueObj>
   @Getter
   private final Class<E> entityClass;
 
+  @NonNull
   private final EntityManager entityManager;
   
+  @NonNull
   private final FieldsHandler fieldsHandler;
+  
+  @NonNull
+  private final IncludeHandler includeHandler;
   
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
   
   private final ModelMapper mapper = new ModelMapper();
-  
-  public JpaResourceRepository(
-    @NonNull Class<D> resourceClass,
-    @NonNull Class<E> entityClass,
-    @NonNull EntityManager entityManager
-  ) {
-    this.resourceClass = resourceClass;
-    this.entityClass = entityClass;
-    this.entityManager = entityManager;
-    
-    this.fieldsHandler = new FieldsHandler(resourceClass, entityClass, entityManager);
-  }
 
   @Override
   public D findOne(Serializable id, QuerySpec querySpec) {
@@ -77,11 +74,18 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     Root<E> root = criteriaQuery.from(entityClass);
 
     // Filter by entity id attribute.
-    criteriaQuery.where(cb.equal(root.get(this.fieldsHandler.getEntityIdAttribute()), id));
+    criteriaQuery.where(
+        cb.equal(
+            root.get(this.fieldsHandler.getIdAttribute(resourceClass, resourceRegistry)),
+            id
+        )
+    );
 
-    List<String> selectedFields = this.fieldsHandler.getSelectedFields(resourceRegistry, querySpec, root);
+    Map<Class<?>, List<String>> selectedFields = this.fieldsHandler.getSelectedFields(resourceRegistry, querySpec);
     
-    criteriaQuery.multiselect(this.fieldsHandler.getSelections(selectedFields, root));
+    List<Selection<?>> selections = this.includeHandler.getSelections(querySpec, root, selectedFields);
+    
+    criteriaQuery.multiselect(selections);
 
     Tuple entityResult;
     try {
@@ -90,17 +94,21 @@ public class JpaResourceRepository<D, E extends UniqueObj>
       throw new ResourceNotFoundException(e.getMessage());
     }
 
-    DocumentContext result = JsonPath.parse(new HashMap<>());
-
-    for (int i = 0; i < selectedFields.size(); i++) {
-      result.put(
-          "$",
-          selectedFields.get(i),
-          entityResult.get(i)
-      );
+    Map<String, Object> resultMap = new HashMap<>();
+    for (TupleElement<?> element : entityResult.getElements()) {
+      Map<String, Object> currentNode = resultMap;
+      List<String> attributePath = Arrays.asList(element.getAlias().split("\\."));
+      for (int i = 0; i < attributePath.size() - 1; i++) {
+        String pathElement = attributePath.get(i);
+        if (!currentNode.containsKey(pathElement)) {
+          currentNode.put(pathElement, new HashMap<>());
+        }
+        currentNode = (Map<String, Object>) currentNode.get(pathElement);
+      }
+      currentNode.put(attributePath.get(attributePath.size() - 1), entityResult.get(element));
     }
-
-    return mapper.map(result.json(), resourceClass);
+    
+    return mapper.map(resultMap, this.resourceClass);
   }
 
   @Override

@@ -17,8 +17,7 @@ import javax.persistence.criteria.Selection;
 
 import org.modelmapper.ModelMapper;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.FieldsHandler;
-import ca.gc.aafc.seqdb.api.repository.handlers.IncludeHandler;
+import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
@@ -57,10 +56,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
   private final EntityManager entityManager;
   
   @NonNull
-  private final FieldsHandler fieldsHandler;
-  
-  @NonNull
-  private final IncludeHandler includeHandler;
+  private final SelectionHandler selectionHandler;
   
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -76,14 +72,12 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     // Filter by entity id attribute.
     criteriaQuery.where(
         cb.equal(
-            root.get(this.fieldsHandler.getIdAttribute(resourceClass, resourceRegistry)),
+            root.get(this.selectionHandler.getIdAttribute(resourceClass, resourceRegistry)),
             id
         )
     );
 
-    Map<Class<?>, List<String>> selectedFields = this.fieldsHandler.getSelectedFields(resourceRegistry, querySpec);
-    
-    List<Selection<?>> selections = this.includeHandler.getSelections(querySpec, root, selectedFields);
+    List<Selection<?>> selections = this.selectionHandler.getSelections(querySpec, root, resourceRegistry);
     
     criteriaQuery.multiselect(selections);
 

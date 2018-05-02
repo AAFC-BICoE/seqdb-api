@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.repository.ResourceRepositoryV2;
 
 public class JpaResourceRepositoryTest extends BaseIntegrationTest {
 
@@ -31,22 +33,18 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   private static final String TEST_REGION_NAME = "test region";
   private static final String TEST_REGION_DESCRIPTION = "test description";
   private static final String TEST_REGION_SYMBOL = "test symbol";
-  
-  @Inject
-  private JpaResourceRepository<PcrPrimerDto, PcrPrimer> primerRepository;
-  
+
   @Inject
   private ResourceRegistry resourceRegistry;
   
+  private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  
   /**
-   * Crnk injects the resource repository into "ResourceRegistryAware"-implementing repositories on
-   * each request before executing the repository's CRUD method. The ResourceRegistry does not
-   * provide correct resource metadata when injected into the repository by constructor. This method
-   * simulates crnk's behavior of injecting the ResourceRegistry on each request.
+   * Get the repository facade from crnk, which will invoke all filters, decorators, etc. 
    */
   @Before
   public void initRepository() {
-    primerRepository.setResourceRegistry(resourceRegistry);
+    primerRepository = resourceRegistry.getEntry(PcrPrimerDto.class).getResourceRepositoryFacade();
   }
 
   /**
@@ -141,7 +139,7 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
   }
   
   @Test
-  public void findOnePrimer_whenRegionIsIncludedAndFieldsAreSelected_primerAndRegionsReturnedWithSelectedFieldsOnly() {
+  public void findOnePrimer_whenRegionIsIncludedAndFieldsAreSelected_primerWithRegionReturnedWithSelectedFieldsOnly() {
     PcrPrimer primer = persistTestPrimerWithRegion();
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
@@ -167,6 +165,28 @@ public class JpaResourceRepositoryTest extends BaseIntegrationTest {
     assertNotNull(primerDto.getRegion().getDescription());
     
     assertNull(primerDto.getRegion().getSymbol());
+  }
+  
+  @Test
+  public void findOnePrimer_whenRegionIsIncludedAndNoFieldsAreSelected_primerAndRegionReturnedWithAllFields() {
+    PcrPrimer primer = persistTestPrimerWithRegion();
+    
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    
+    querySpec.setIncludedRelations(includeRelationSpecs("region"));
+    
+    PcrPrimerDto primerDto = primerRepository.findOne(primer.getId(), querySpec);
+    
+    assertNotNull(primerDto.getName());
+    assertNotNull(primerDto.getLotNumber());
+    assertNotNull(primerDto.getType());
+    assertNotNull(primerDto.getSeq());
+    
+    assertNotNull(primerDto.getRegion());
+    assertNotNull(primerDto.getRegion().getTagId());
+    assertNotNull(primerDto.getRegion().getName());
+    assertNotNull(primerDto.getRegion().getDescription());
+    assertNotNull(primerDto.getRegion().getSymbol());
   }
 
   @Test(expected = ResourceNotFoundException.class)

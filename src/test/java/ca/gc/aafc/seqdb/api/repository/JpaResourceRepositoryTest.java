@@ -1,29 +1,42 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.Comparators;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto.PrimerType;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.exception.ResourceNotFoundException;
+import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.queryspec.SortSpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.resource.list.ResourceList;
 
 public class JpaResourceRepositoryTest extends BaseRepositoryTest {
 
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  private ResourceRepositoryV2<RegionDto, Serializable> regionRepository;
 
   /**
    * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
    */
   @Before
-  public void initRepository() {
-    this.primerRepository = this.resourceRegistry.getEntry(PcrPrimerDto.class).getResourceRepositoryFacade();
+  public void initRepositories() {
+    this.primerRepository = this.resourceRegistry.getEntry(PcrPrimerDto.class)
+        .getResourceRepositoryFacade();
+    this.regionRepository = this.resourceRegistry.getEntry(RegionDto.class)
+        .getResourceRepositoryFacade();
   }
 
   @Test
@@ -133,6 +146,96 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
   @Test(expected = ResourceNotFoundException.class)
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));
+  }
+  
+  @Test
+  public void findAll_whenSortingByName_resultsAreSorted() {
+    
+    Region region1 = new Region();
+    region1.setName("Internal Transcribed Spacer");
+    region1.setSymbol("ITS");
+    entityManager.persist(region1);
+    
+    Region region2 = new Region();
+    region2.setName("Cytochrome c oxidase subunit I");
+    region2.setSymbol("COI");
+    entityManager.persist(region2);
+    
+    Region region3 = new Region();
+    region3.setName("ACA");
+    region3.setSymbol("ACA");
+    entityManager.persist(region3);
+    
+    QuerySpec querySpecAscending = new QuerySpec(RegionDto.class);
+    querySpecAscending.setSort(Arrays.asList(
+        new SortSpec(Arrays.asList("name"), Direction.ASC)
+    ));
+    ResourceList<RegionDto> regionsWithAscendingNames = regionRepository
+        .findAll(querySpecAscending);
+    assertTrue(
+        "Names must be sorted alphabetically (ascending)",
+        Comparators.isInOrder(
+            regionsWithAscendingNames.stream()
+                .map(RegionDto::getName)
+                .collect(Collectors.toList()),
+            String::compareTo
+        )
+    );
+    
+    QuerySpec querySpecDescending = new QuerySpec(RegionDto.class);
+    querySpecDescending.setSort(Arrays.asList(
+        new SortSpec(Arrays.asList("name"), Direction.DESC)
+    ));
+    ResourceList<RegionDto> regionsWithDescendingNames = regionRepository
+        .findAll(querySpecDescending);
+    assertTrue(
+        "Names must be sorted alphabetically (descending)",
+        Comparators.isInOrder(
+            regionsWithDescendingNames.stream()
+                .map(RegionDto::getName)
+                .collect(Collectors.toList()),
+            (a, b) -> b.compareTo(a)
+        )
+    );
+  }
+  
+  @Test
+  public void findAll_whenPageLimitIsSet_pageSizeIsLimited() {
+    final long pageLimit = 9;
+    
+    for (int i = 1; i <= 100; i++) {
+      Region region = new Region();
+      region.setName("test region" + i);
+      region.setSymbol("test symbol" + i);
+      entityManager.persist(region);
+    }
+    
+    QuerySpec querySpec = new QuerySpec(RegionDto.class);
+    querySpec.setLimit(pageLimit);
+    ResourceList<RegionDto> limitedRegions = regionRepository.findAll(querySpec);
+    assertEquals(pageLimit, limitedRegions.size());
+  }
+  
+  @Test
+  public void findAll_whenPageOffsetIsSet_pageStartsAfterOffset() {
+    List<Region> newRegions = new ArrayList<>();
+    for (int i = 1; i <= 100; i++) {
+      Region region = new Region();
+      region.setName("test region" + i);
+      region.setSymbol("test symbol" + i);
+      newRegions.add(region);
+      entityManager.persist(region);
+    }
+    
+    final int offset = 15;
+    final Integer expectedRegionId = newRegions.get(offset).getId();
+    assertNotNull(expectedRegionId);
+    
+    QuerySpec querySpec = new QuerySpec(RegionDto.class);
+    querySpec.setOffset(offset);
+    List<RegionDto> regionDtos = regionRepository.findAll(querySpec);
+    
+    assertEquals(expectedRegionId, regionDtos.get(0).getTagId());
   }
   
   @Test

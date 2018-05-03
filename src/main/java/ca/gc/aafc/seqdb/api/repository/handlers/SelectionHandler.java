@@ -1,14 +1,15 @@
 package ca.gc.aafc.seqdb.api.repository.handlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
@@ -19,12 +20,21 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
+import lombok.NonNull;
 
 /**
- * Provides methods for handling sparse field sets.
+ * Provides methods for handling sparse field sets and inclusion of related resources.
  */
 @Named
 public class SelectionHandler {
+  
+  @NonNull
+  private final ExpressionHandler expressionHandler;
+  
+  @Inject
+  public SelectionHandler(ExpressionHandler expressionHandler) {
+    this.expressionHandler = expressionHandler;
+  }
   
   /**
    * Gets the selected fields as strings from the querySpec.
@@ -33,10 +43,11 @@ public class SelectionHandler {
    * @param root
    * @return
    */
-  private Map<Class<?>, List<String>> getSelectedFieldsPerClass(ResourceRegistry resourceRegistry, QuerySpec querySpec) {
-    Map<Class<?>, List<String>> selectedFields = new HashMap<>();
+  private Map<Class<?>, List<List<String>>> getSelectedFieldsPerClass(
+      ResourceRegistry resourceRegistry, QuerySpec querySpec) {
+    Map<Class<?>, List<List<String>>> selectedFields = new HashMap<>();
     
-    List<String> selectedFieldsOfThisClass = new ArrayList<>();
+    List<List<String>> selectedFieldsOfThisClass = new ArrayList<>();
 
     // If no fields are specified, include all fields.
     if (querySpec.getIncludedFields().size() == 0) {
@@ -46,18 +57,19 @@ public class SelectionHandler {
               .getAttributeFields()
               .stream()
               .map(ResourceField::getUnderlyingName)
+              .map(Collections::singletonList)
               .collect(Collectors.toList())
       );
     } else {
       for (IncludeFieldSpec includedField : querySpec.getIncludedFields()) {
-        selectedFieldsOfThisClass.add(String.join(".", includedField.getAttributePath()));
+        selectedFieldsOfThisClass.add(includedField.getAttributePath());
       }
     }
 
     // The id field is always selected, even if not explicitly requested by the user.
     String idAttribute = getIdAttribute(querySpec.getResourceClass(), resourceRegistry);
-    if (!selectedFieldsOfThisClass.contains(idAttribute)) {
-      selectedFieldsOfThisClass.add(idAttribute);
+    if (!selectedFieldsOfThisClass.contains(Collections.singletonList(idAttribute))) {
+      selectedFieldsOfThisClass.add(Collections.singletonList(idAttribute));
     }
     
     selectedFields.put(querySpec.getResourceClass(), selectedFieldsOfThisClass);
@@ -71,7 +83,8 @@ public class SelectionHandler {
     for (IncludeRelationSpec rel : querySpec.getIncludedRelations()) {
       Class<?> relationClass = this.getType(querySpec.getResourceClass(), rel.getAttributePath());
       if (!selectedFields.containsKey(relationClass)) {
-        selectedFields.putAll(this.getSelectedFieldsPerClass(resourceRegistry, new QuerySpec(relationClass)));
+        selectedFields
+            .putAll(this.getSelectedFieldsPerClass(resourceRegistry, new QuerySpec(relationClass)));
       }
     }
     
@@ -84,31 +97,34 @@ public class SelectionHandler {
       ResourceRegistry resourceRegistry
   ) {
 
-    Map<Class<?>, List<String>> selectedFields = this.getSelectedFieldsPerClass(resourceRegistry, querySpec);
+    Map<Class<?>, List<List<String>>> selectedFields = this
+        .getSelectedFieldsPerClass(resourceRegistry, querySpec);
     
     List<Selection<?>> selections = new ArrayList<>();
     
     // Get the selections from the root resource.
-    for (String selectedField : selectedFields.get(querySpec.getResourceClass())) {
+    for (List<String> selectedAttributePath : selectedFields.get(querySpec.getResourceClass())) {
       selections.add(
-          root.get(selectedField)
-              .alias(selectedField)
+          this.expressionHandler.getExpression(root, selectedAttributePath)
+              .alias(String.join(".", selectedAttributePath))
       );
     }
     
     // Loop through the "include"d relation paths to get the Selections for each relation.
     for (IncludeRelationSpec rel : querySpec.getIncludedRelations()) {
-      From<?, ?> join = root;
-      for (String pathElement : rel.getAttributePath()) {
-        join = join.join(pathElement, JoinType.LEFT);
-      }
-      
       List<Selection<?>> includeSelections = new ArrayList<>();
-      for (String selectedField : selectedFields.get(
+      for (List<String> selectedField : selectedFields.get(
           this.getType(querySpec.getResourceClass(), rel.getAttributePath())
       )) {
+        List<String> fieldPath = Stream
+            .concat(rel.getAttributePath().stream(), selectedField.stream())
+            .collect(Collectors.toList());
         includeSelections.add(
-            join.get(selectedField).alias(String.join(".", rel.getAttributePath()) + "." + selectedField)
+            this.expressionHandler.getExpression(
+                root,
+                fieldPath
+            )
+            .alias(String.join(".", fieldPath))
         );
       }
       selections.addAll(includeSelections);

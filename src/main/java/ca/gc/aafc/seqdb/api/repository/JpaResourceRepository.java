@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Tuple;
@@ -17,9 +19,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.modelmapper.ModelMapper;
+
+import com.google.common.collect.Iterables;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.ExpressionHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
@@ -30,10 +35,10 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
-import io.crnk.core.resource.links.DefaultPagedLinksInformation;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
 import io.crnk.core.resource.meta.DefaultPagedMetaInformation;
+import io.crnk.core.resource.meta.PagedMetaInformation;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -105,12 +110,17 @@ public class JpaResourceRepository<D, E extends UniqueObj>
 
   @Override
   public ResourceList<D> findAll(QuerySpec querySpec) {
+    return this.findAll(null, querySpec);
+  }
+
+  @Override
+  public ResourceList<D> findAll(@Nullable Iterable<Serializable> ids, QuerySpec querySpec) {
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
     Root<E> root = criteriaQuery.from(entityClass);
     
     criteriaQuery.multiselect(this.selectionHandler.getSelections(querySpec, root, resourceRegistry));
-
+    
     List<Order> orders = querySpec.getSort().stream().map(sort -> {
       Function<Expression<?>, Order> orderFunc = sort.getDirection() == Direction.ASC ? cb::asc : cb::desc;
       return orderFunc.apply(this.expressionHandler.getExpression(root, sort.getAttributePath()));
@@ -119,25 +129,33 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     
     criteriaQuery.orderBy(orders);
     
+    List<Predicate> restrictions = new ArrayList<>();
+    
+    if (ids != null) {
+      restrictions.add(
+          this.expressionHandler.getIdExpression(root, resourceClass, resourceRegistry)
+              .in(Iterables.toArray(ids, Object.class))
+      );
+    }
+    
+    criteriaQuery.where(restrictions.stream().toArray(Predicate[]::new));
+    
     List<Tuple> result = entityManager
         .createQuery(criteriaQuery)
         .setFirstResult(Optional.ofNullable(querySpec.getOffset()).orElse(Long.valueOf(0)).intValue())
         .setMaxResults(Optional.ofNullable(querySpec.getLimit()).orElse(Long.valueOf(100)).intValue())
         .getResultList();
     
+    PagedMetaInformation metaInformation = new DefaultPagedMetaInformation();
+    
     return new DefaultResourceList<>(
         result.stream()
-            .map(JpaResourceRepository::mapFromTuple)
-            .map(map -> this.mapper.map(map, this.resourceClass))
-            .collect(Collectors.toList()),
-        new DefaultPagedMetaInformation(),
-        new DefaultPagedLinksInformation()
-    );
-  }
-
-  @Override
-  public ResourceList<D> findAll(Iterable<Serializable> ids, QuerySpec querySpec) {
-    throw new UnsupportedOperationException();
+        .map(JpaResourceRepository::mapFromTuple)
+        .map(map -> this.mapper.map(map, this.resourceClass))
+        .collect(Collectors.toList()),
+        metaInformation,
+        null
+        );
   }
 
   @Override

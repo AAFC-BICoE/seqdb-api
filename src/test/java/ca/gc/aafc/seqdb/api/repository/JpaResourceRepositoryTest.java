@@ -239,6 +239,32 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
   }
   
   @Test
+  public void findAll_whenIdsArgumentIsSet_resultsAreFilteredById() {
+    List<Region> newRegions = new ArrayList<>();
+    for (int i = 1; i <= 10; i++) {
+      Region region = new Region();
+      region.setName("test region" + i);
+      region.setSymbol("test symbol" + i);
+      newRegions.add(region);
+      entityManager.persist(region);
+    }
+    
+    Iterable<Serializable> expectedIds = Arrays.asList(
+        newRegions.get(2).getId(),
+        newRegions.get(4).getId(),
+        newRegions.get(6).getId()
+    );
+    
+    QuerySpec querySpec = new QuerySpec(RegionDto.class);
+    List<RegionDto> regionDtos = regionRepository.findAll(expectedIds, querySpec);
+    
+    assertEquals(
+        expectedIds,
+        regionDtos.stream().map(RegionDto::getTagId).collect(Collectors.toList())
+    );
+  }
+  
+  @Test
   public void createPrimer_onSuccess_returnPrimerWithId() {
     PcrPrimerDto newPrimer = new PcrPrimerDto();
     newPrimer.setName(TEST_PRIMER_NAME);

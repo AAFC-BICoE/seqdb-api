@@ -21,20 +21,17 @@ import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Provides methods for handling sparse field sets and inclusion of related resources.
  */
 @Named
+@RequiredArgsConstructor(onConstructor_ = @Inject)
 public class SelectionHandler {
   
   @NonNull
   private final ExpressionHandler expressionHandler;
-  
-  @Inject
-  public SelectionHandler(ExpressionHandler expressionHandler) {
-    this.expressionHandler = expressionHandler;
-  }
   
   /**
    * Gets the selected fields as strings from the querySpec.

@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
@@ -20,18 +22,12 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
 import io.crnk.core.queryspec.QuerySpec;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Provides methods for handling sparse field sets and inclusion of related resources.
  */
 @Named
-@RequiredArgsConstructor(onConstructor_ = @Inject)
 public class SelectionHandler {
-  
-  @NonNull
-  private final ExpressionHandler expressionHandler;
   
   /**
    * Gets the selected fields as strings from the querySpec.
@@ -102,7 +98,7 @@ public class SelectionHandler {
     // Get the selections from the root resource.
     for (List<String> selectedAttributePath : selectedFields.get(querySpec.getResourceClass())) {
       selections.add(
-          this.expressionHandler.getExpression(root, selectedAttributePath)
+          this.getExpression(root, selectedAttributePath)
               .alias(String.join(".", selectedAttributePath))
       );
     }
@@ -117,7 +113,7 @@ public class SelectionHandler {
             .concat(rel.getAttributePath().stream(), selectedField.stream())
             .collect(Collectors.toList());
         includeSelections.add(
-            this.expressionHandler.getExpression(
+            this.getExpression(
                 root,
                 fieldPath
             )
@@ -131,6 +127,14 @@ public class SelectionHandler {
     return selections;
   }
   
+  public Expression<?> getExpression(From<?, ?> root, List<String> attributePath) {
+    From<?,?> from = root;
+    for (String pathElement : attributePath.subList(0, attributePath.size() - 1)) {
+      from = from.join(pathElement, JoinType.LEFT);
+    }
+    return from.get(attributePath.get(attributePath.size() - 1));
+  }
+  
   /**
    * Gets the name of the JPA entity's @Id attribute
    * 
@@ -141,6 +145,15 @@ public class SelectionHandler {
         .getResourceInformation()
         .getIdField()
         .getUnderlyingName();
+  }
+  
+  /**
+   * Gets the resource class' @JsonApiId attribute.
+   * 
+   * @return the JPA Expression of the Id attribute.
+   */
+  public Expression<?> getIdExpression(Root<?> root, Class<?> resourceClass, ResourceRegistry resourceRegistry) {
+    return root.get(this.getIdAttribute(resourceClass, resourceRegistry));
   }
   
   private Class<?> getType(Class<?> baseType, List<String> attributePath) {

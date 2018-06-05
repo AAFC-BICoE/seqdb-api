@@ -26,7 +26,7 @@ import org.modelmapper.ModelMapper;
 
 import com.google.common.collect.Iterables;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.ExpressionHandler;
+import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
@@ -73,7 +73,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
   private final SelectionHandler selectionHandler;
   
   @NonNull
-  private final ExpressionHandler expressionHandler;
+  private final FilterHandler filterHandler;
   
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -89,7 +89,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     // Filter by entity id attribute.
     criteriaQuery.where(
         cb.equal(
-            this.expressionHandler.getIdExpression(root, resourceClass, resourceRegistry),
+            this.selectionHandler.getIdExpression(root, resourceClass, resourceRegistry),
             id
         )
     );
@@ -123,7 +123,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     
     List<Order> orders = querySpec.getSort().stream().map(sort -> {
       Function<Expression<?>, Order> orderFunc = sort.getDirection() == Direction.ASC ? cb::asc : cb::desc;
-      return orderFunc.apply(this.expressionHandler.getExpression(root, sort.getAttributePath()));
+      return orderFunc.apply(this.selectionHandler.getExpression(root, sort.getAttributePath()));
     })
     .collect(Collectors.toList());
     
@@ -131,9 +131,11 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     
     List<Predicate> restrictions = new ArrayList<>();
     
+    restrictions.add(this.filterHandler.getRestriction(querySpec, cb, root));
+    
     if (ids != null) {
       restrictions.add(
-          this.expressionHandler.getIdExpression(root, resourceClass, resourceRegistry)
+          this.selectionHandler.getIdExpression(root, resourceClass, resourceRegistry)
               .in(Iterables.toArray(ids, Object.class))
       );
     }
@@ -179,6 +181,13 @@ public class JpaResourceRepository<D, E extends UniqueObj>
     entityManager.remove(entity);
   }
   
+  /**
+   * Gets a Map<String, Object> from a JPA Tuple. This is used to convert JPA's data-fetching output
+   * to an object-graph-like structure that can more easily be deserialized to DTOs
+   * 
+   * @param tuple
+   * @return map
+   */
   private static Map<String, Object> mapFromTuple(Tuple tuple) {
     Map<String, Object> map = new HashMap<>();
     for (TupleElement<?> element : tuple.getElements()) {

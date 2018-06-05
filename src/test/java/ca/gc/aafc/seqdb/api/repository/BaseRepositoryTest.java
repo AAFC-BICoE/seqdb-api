@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.Region;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
@@ -48,6 +48,11 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     return primer;
   }
   
+  /**
+   * Persists a test PcrPrimer with an associated Region.
+   * 
+   * @return the persisted primer
+   */
   protected PcrPrimer persistTestPrimerWithRegion() {
     PcrPrimer primer = this.persistTestPrimer();
     
@@ -65,6 +70,13 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     return primer;
   }
 
+  /**
+   * Get a List<IncludeFieldSpec> from of an array of field names.
+   * E.g. includeFieldSpecs("name", "description")
+   * 
+   * @param includedFields strings
+   * @return List<IncludeFieldSpec>
+   */
   protected static List<IncludeFieldSpec> includeFieldSpecs(String... includedFields) {
     return Arrays.asList(includedFields)
         .stream()
@@ -73,6 +85,13 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
         .collect(Collectors.toList());
   }
   
+  /**
+   * Get a List<IncludeRelationSpec> from an array of relation names.
+   * E.g. includeRelationSpecs("region")
+   * 
+   * @param includedRelations strings
+   * @return List<IncludeRelationSpec>
+   */
   protected static List<IncludeRelationSpec> includeRelationSpecs(String... includedRelations) {
     return Arrays.asList(includedRelations)
         .stream()

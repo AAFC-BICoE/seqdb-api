@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
+import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
@@ -69,6 +72,34 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     
     return primer;
   }
+  
+  /**
+   * Persists a test PCR batch with 22 reactions.
+   * 
+   * @return the persisted PCR batch.
+   */
+  protected PcrBatch persistTestPcrBatchWith22Reactions() {
+    PcrBatch batch = new PcrBatch();
+    batch.setType(PcrBatchType.SANGER);
+    batch.setName("test batch");
+    
+    for (int i = 1; i <= 22; i++) {
+      PcrReaction reaction = new PcrReaction();
+      assertNull(reaction.getId());
+      
+      reaction.setPcrBatch(batch);
+      batch.getReactions().add(reaction);
+    }
+    
+    assertNull(batch.getId());
+    entityManager.persist(batch);
+    assertNotNull(batch.getId());
+    
+    assertEquals(22, batch.getReactions().size());
+    batch.getReactions().forEach(BaseRepositoryTest::assertNotNull);
+    
+    return batch;
+  };
 
   /**
    * Get a List<IncludeFieldSpec> from of an array of field names.

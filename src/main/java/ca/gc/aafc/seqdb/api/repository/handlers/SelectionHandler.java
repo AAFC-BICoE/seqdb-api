@@ -86,7 +86,7 @@ public class SelectionHandler {
   
   public List<Selection<?>> getSelections(
       QuerySpec querySpec,
-      Root<?> root,
+      From<?,?> root,
       ResourceRegistry resourceRegistry
   ) {
 

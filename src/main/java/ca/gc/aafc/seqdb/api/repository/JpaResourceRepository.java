@@ -188,7 +188,7 @@ public class JpaResourceRepository<D, E extends UniqueObj>
    * @param tuple
    * @return map
    */
-  private static Map<String, Object> mapFromTuple(Tuple tuple) {
+  public static Map<String, Object> mapFromTuple(Tuple tuple) {
     Map<String, Object> map = new HashMap<>();
     for (TupleElement<?> element : tuple.getElements()) {
       Object value = tuple.get(element);

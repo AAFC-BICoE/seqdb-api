@@ -6,8 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
@@ -28,7 +28,7 @@ public class SimpleFilterHandler implements FilterHandler {
 
   @Override
   public Predicate getRestriction(QuerySpec querySpec, CriteriaBuilder criteriaBuilder,
-      Root<?> root) {
+      From<?,?> root) {
 
     List<FilterSpec> filterSpecs = querySpec.getFilters();
     List<Predicate> predicates = new ArrayList<>();

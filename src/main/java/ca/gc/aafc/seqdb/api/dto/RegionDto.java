@@ -10,11 +10,11 @@ public class RegionDto {
 
   @JsonApiId
   private Integer tagId;
-  
+
   private String name;
-  
+
   private String description;
-  
+
   private String symbol;
-  
+
 }

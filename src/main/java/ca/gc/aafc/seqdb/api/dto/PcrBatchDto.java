@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.util.List;
+
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -8,34 +10,30 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@JsonApiResource(type = "pcrPrimer")
-public class PcrPrimerDto {
+@JsonApiResource(type = "pcrBatch")
+public class PcrBatchDto {
 
   @RequiredArgsConstructor
-  public enum PrimerType {
-
-    PRIMER("PCR Primer"),
-    MID("454 Multiplex Identifier"),
-    FUSION_PRIMER("Fusion Primer"),
-    ILLUMINA_INDEX("Illumina Index");
+  public static enum PcrBatchType {
+    
+    SANGER("Sanger"),
+    NGS("Illumina (NGS)"),
+    ROUND2("Round 2"),
+    FRAGMENT("Fragment");
 
     @Getter
     private final String value;
-
+    
   }
-
+  
   @JsonApiId
-  private Integer pcrPrimerId;
-
+  private Integer pcrBatchId;
+  
   private String name;
-
-  private PrimerType type;
-
-  private String seq;
-
-  private Integer lotNumber;
-
+  
+  private PcrBatchType type;
+  
   @JsonApiRelation
-  private RegionDto region;
-
+  private List<PcrReactionDto> reactions;
+  
 }

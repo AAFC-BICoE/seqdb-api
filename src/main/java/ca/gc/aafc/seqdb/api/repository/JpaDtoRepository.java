@@ -21,6 +21,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,8 @@ import org.springframework.stereotype.Repository;
 import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
+import io.crnk.core.engine.information.resource.ResourceField;
+import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
@@ -40,6 +43,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Repository
+@Transactional
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class JpaDtoRepository {
 
@@ -133,8 +137,27 @@ public class JpaDtoRepository {
    * @param resource
    * @return the updated resource
    */
-  public <D> D save(D resource) {
-    throw new UnsupportedOperationException();
+  public <D> D save(D resource, ResourceRegistry resourceRegistry) {
+    // Get the entity of this DTO.
+    Object entity = entityManager.find(
+        dtoJpaMapper.getEntityClassForDto(resource.getClass()),
+        PropertyUtils.getProperty(
+            resource,
+            selectionHandler.getIdAttribute(resource.getClass(), resourceRegistry)
+        )
+    );
+    
+    // Apply the DTO's attribute values to the entity.
+    List<ResourceField> attributeFields = resourceRegistry.findEntry(resource.getClass())
+        .getResourceInformation()
+        .getAttributeFields();
+    for (ResourceField attributeField : attributeFields) {
+      String attributeName = attributeField.getUnderlyingName();
+      PropertyUtils.setProperty(entity, attributeName, PropertyUtils.getProperty(resource, attributeName));
+    }
+    
+    // Return the modified resource.
+    return resource;
   }
 
   /**

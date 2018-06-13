@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import com.google.common.collect.Iterables;
 
@@ -28,6 +28,7 @@ import lombok.Setter;
  *
  * @param <D> the JsonApi DTO class.
  */
+@Transactional
 @RequiredArgsConstructor
 public class JpaResourceRepository<D>
     implements ResourceRepositoryV2<D, Serializable>, ResourceRegistryAware {
@@ -38,9 +39,6 @@ public class JpaResourceRepository<D>
   @Getter
   private final Class<D> resourceClass;
 
-  @NonNull
-  private EntityManager entityManager;
-  
   @NonNull
   private final SelectionHandler selectionHandler;
   
@@ -110,7 +108,7 @@ public class JpaResourceRepository<D>
 
   @Override
   public <S extends D> S save(S resource) {
-    return this.dtoRepository.save(resource);
+    return this.dtoRepository.save(resource, this.resourceRegistry);
   }
 
   @Override

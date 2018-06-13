@@ -12,9 +12,9 @@ import org.junit.Test;
 import com.google.common.collect.Comparators;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
-import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto.PrimerType;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
@@ -286,6 +286,25 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     assertEquals(TEST_PRIMER_LOT_NUMBER, primerEntity.getLotNumber());
     assertEquals(ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType.PRIMER, primerEntity.getType());
     assertEquals(TEST_PRIMER_SEQ, primerEntity.getSeq());
+  }
+  
+  @Test
+  public void savePrimer_onSuccess_primerEntityIsModified() {
+    // Create the test primer.
+    PcrPrimer testPrimer = persistTestPrimer();
+    
+    // Get the test primer's DTO.
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(), querySpec);
+    
+    // Change the DTO's seq value.
+    testPrimerDto.setSeq("edited seq");
+    
+    // Save the DTO using the repository.
+    primerRepository.save(testPrimerDto);
+    
+    // Check that the primer entity has the new seq value.
+    assertEquals("edited seq", testPrimer.getSeq());
   }
 
   @Test

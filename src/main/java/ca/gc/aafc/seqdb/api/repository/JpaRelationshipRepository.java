@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
@@ -27,6 +28,7 @@ import lombok.Setter;
  * @param <S> the source resource
  * @param <T> the target resource
  */
+@Transactional
 @RequiredArgsConstructor
 public class JpaRelationshipRepository<S, T>
     implements RelationshipRepositoryV2<S, Serializable, T, Serializable>, ResourceRegistryAware {

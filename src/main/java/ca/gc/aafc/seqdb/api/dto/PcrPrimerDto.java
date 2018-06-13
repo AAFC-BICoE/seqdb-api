@@ -1,28 +1,14 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
 public class PcrPrimerDto {
-
-  @RequiredArgsConstructor
-  public enum PrimerType {
-
-    PRIMER("PCR Primer"),
-    MID("454 Multiplex Identifier"),
-    FUSION_PRIMER("Fusion Primer"),
-    ILLUMINA_INDEX("Illumina Index");
-
-    @Getter
-    private final String value;
-
-  }
 
   @JsonApiId
   private Integer pcrPrimerId;

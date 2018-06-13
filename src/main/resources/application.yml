@@ -13,6 +13,7 @@ spring:
         # Naming strategies specified to allow @Column/@Table name property.
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
 crnk:
   pathPrefix: /api
   domainName: ""

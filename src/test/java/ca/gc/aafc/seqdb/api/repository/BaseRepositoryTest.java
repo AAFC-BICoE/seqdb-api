@@ -78,10 +78,10 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
    * 
    * @return the persisted PCR batch.
    */
-  protected PcrBatch persistTestPcrBatchWith22Reactions() {
+  protected PcrBatch persistTestPcrBatchWith22Reactions(String batchName) {
     PcrBatch batch = new PcrBatch();
     batch.setType(PcrBatchType.SANGER);
-    batch.setName("test batch");
+    batch.setName(batchName);
     
     for (int i = 1; i <= 22; i++) {
       PcrReaction reaction = new PcrReaction();

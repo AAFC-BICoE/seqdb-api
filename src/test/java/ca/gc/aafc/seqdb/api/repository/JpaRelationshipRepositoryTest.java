@@ -75,7 +75,11 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
   
   @Test
   public void findManyTargetReactionsFromPcrBatch_whenNoParamsAreSet_allReactionsAreReturned() {
-    PcrBatch batch = persistTestPcrBatchWith22Reactions();
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("test batch");
+    
+    // Add a second batch to ensure that the repository does not fetch reactions from a different
+    // batch.
+    persistTestPcrBatchWith22Reactions("unrelated batch");
     
     QuerySpec querySpec = new QuerySpec(PcrReactionDto.class);
     

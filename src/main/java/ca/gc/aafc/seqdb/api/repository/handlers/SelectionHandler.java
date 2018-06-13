@@ -12,7 +12,6 @@ import javax.inject.Named;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
 import org.springframework.beans.BeanUtils;
@@ -152,7 +151,7 @@ public class SelectionHandler {
    * 
    * @return the JPA Expression of the Id attribute.
    */
-  public Expression<?> getIdExpression(Root<?> root, Class<?> resourceClass, ResourceRegistry resourceRegistry) {
+  public Expression<?> getIdExpression(From<?, ?> root, Class<?> resourceClass, ResourceRegistry resourceRegistry) {
     return root.get(this.getIdAttribute(resourceClass, resourceRegistry));
   }
   

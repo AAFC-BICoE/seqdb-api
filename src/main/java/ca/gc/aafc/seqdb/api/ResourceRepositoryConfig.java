@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
-import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
@@ -32,14 +30,9 @@ public class ResourceRepositoryConfig {
   @Inject
   private FilterHandler filterHandler;
 
-  @Inject
-  private SelectionHandler selectionHandler;
-
-  @Inject
-  private EntityManager entityManager;
-
   /**
    * Configures DTO-to-Entity mappings.
+   * 
    * @return the DtoJpaMapper
    */
   @Bean
@@ -56,48 +49,44 @@ public class ResourceRepositoryConfig {
 
   @Bean
   public JpaResourceRepository<PcrPrimerDto> pcrPrimerRepository(JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(PcrPrimerDto.class, selectionHandler, filterHandler,
-        dtoRepository);
+    return new JpaResourceRepository<>(PcrPrimerDto.class, dtoRepository, filterHandler);
   }
 
   @Bean
   public JpaResourceRepository<RegionDto> regionRepository(JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(RegionDto.class, selectionHandler, filterHandler,
-        dtoRepository);
+    return new JpaResourceRepository<>(RegionDto.class, dtoRepository, filterHandler);
   }
 
   @Bean
   public JpaResourceRepository<PcrBatchDto> pcrBatchRepository(JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(PcrBatchDto.class, selectionHandler, filterHandler,
-        dtoRepository);
+    return new JpaResourceRepository<>(PcrBatchDto.class, dtoRepository, filterHandler);
   }
 
   @Bean
   public JpaResourceRepository<PcrReactionDto> pcrReactionRepository(
       JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(PcrReactionDto.class, selectionHandler, filterHandler,
-        dtoRepository);
+    return new JpaResourceRepository<>(PcrReactionDto.class, dtoRepository, filterHandler);
   }
 
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
       DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(PcrPrimerDto.class, RegionDto.class, entityManager,
-        dtoJpaMapper, dtoRepository, filterHandler);
+    return new JpaRelationshipRepository<>(PcrPrimerDto.class, RegionDto.class, dtoRepository,
+        filterHandler);
   }
 
   @Bean
   public JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToPcrReactionRepository(
       DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(PcrBatchDto.class, PcrReactionDto.class, entityManager,
-        dtoJpaMapper, dtoRepository, filterHandler);
+    return new JpaRelationshipRepository<>(PcrBatchDto.class, PcrReactionDto.class, dtoRepository,
+        filterHandler);
   }
 
   @Bean
   public JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToPcrBatchRepository(
       DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(PcrReactionDto.class, PcrBatchDto.class, entityManager,
-        dtoJpaMapper, dtoRepository, filterHandler);
+    return new JpaRelationshipRepository<>(PcrReactionDto.class, PcrBatchDto.class, dtoRepository,
+        filterHandler);
   }
 
 }

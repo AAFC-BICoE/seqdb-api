@@ -48,9 +48,11 @@ import lombok.RequiredArgsConstructor;
 public class JpaDtoRepository {
 
   @NonNull
+  @Getter
   private final EntityManager entityManager;
 
   @NonNull
+  @Getter
   private final SelectionHandler selectionHandler;
 
   @NonNull

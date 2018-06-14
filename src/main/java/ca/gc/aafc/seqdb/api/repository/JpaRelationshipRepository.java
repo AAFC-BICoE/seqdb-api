@@ -42,12 +42,6 @@ public class JpaRelationshipRepository<S, T>
   private final Class<T> targetResourceClass;
   
   @NonNull
-  private final EntityManager entityManager;
-  
-  @NonNull
-  private final DtoJpaMapper dtoJpaMapper;
-  
-  @NonNull
   private final JpaDtoRepository dtoRepository;
   
   @NonNull
@@ -96,7 +90,8 @@ public class JpaRelationshipRepository<S, T>
       QuerySpec querySpec) {
     
     // The source entity has the to-many relationship.
-    Class<?> sourceEntityClass = dtoJpaMapper.getEntityClassForDto(sourceResourceClass);
+    Class<?> sourceEntityClass = dtoRepository.getDtoJpaMapper()
+        .getEntityClassForDto(sourceResourceClass);
     
     // Wrapper array to hold reference to the source entity's JPA path. Lambda scoping prevents this
     // from being a regular variable.
@@ -117,7 +112,8 @@ public class JpaRelationshipRepository<S, T>
           restrictions.add(
               cb.equal(
                   sourcePath.get(
-                      entityManager.getMetamodel()
+                      dtoRepository.getEntityManager()
+                          .getMetamodel()
                           .entity(sourceEntityClass)
                           .getId(Serializable.class)
                   ),

@@ -38,15 +38,12 @@ public class JpaResourceRepository<D>
    */
   @Getter
   private final Class<D> resourceClass;
-
-  @NonNull
-  private final SelectionHandler selectionHandler;
-  
-  @NonNull
-  private final FilterHandler filterHandler;
   
   @NonNull
   private final JpaDtoRepository dtoRepository;
+
+  @NonNull
+  private final FilterHandler filterHandler;
   
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -59,7 +56,8 @@ public class JpaResourceRepository<D>
         this.resourceClass, querySpec, this.resourceRegistry,
         // Filter by ID.
         (root, cb) -> cb.equal(
-            this.selectionHandler.getIdExpression(root, resourceClass, resourceRegistry),
+            this.dtoRepository.getSelectionHandler()
+                .getIdExpression(root, resourceClass, resourceRegistry),
             id
         ),
         // Not searching across a relationship, so no root change is required.
@@ -92,7 +90,8 @@ public class JpaResourceRepository<D>
           // If the list of IDs is given, filter by ID.
           if (ids != null) {
             restrictions.add(
-                this.selectionHandler.getIdExpression(root, resourceClass, resourceRegistry)
+                this.dtoRepository.getSelectionHandler()
+                    .getIdExpression(root, resourceClass, resourceRegistry)
                 .in(Iterables.toArray(ids, Object.class))
             );
           }

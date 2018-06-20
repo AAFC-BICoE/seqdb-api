@@ -14,7 +14,7 @@ public class PcrReactionDto {
 
   private String pcrName;
 
-  @JsonApiRelation
+  @JsonApiRelation(opposite = "reactions")
   private PcrBatchDto pcrBatch;
 
 }

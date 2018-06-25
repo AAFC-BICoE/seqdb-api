@@ -5,17 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
-import com.google.common.collect.Streams;
-
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
-import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
@@ -58,8 +53,8 @@ public class JpaRelationshipRepository<S, T>
 
   @Override
   public void setRelation(S source, Serializable targetId, String fieldName) {
-    this.modifyRelation(
-        source,
+    this.dtoRepository.modifyRelation(
+        this.findEntityFromDto(source),
         Collections.singletonList(targetId),
         fieldName,
         null,
@@ -68,14 +63,15 @@ public class JpaRelationshipRepository<S, T>
             targetEntity,
             oppositeFieldName,
             sourceEntity
-        )
+        ),
+        this.resourceRegistry
     );
   }
 
   @Override
   public void setRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
-    this.modifyRelation(
-        source,
+    this.dtoRepository.modifyRelation(
+        this.findEntityFromDto(source),
         targetIds,
         fieldName,
         (sourceCollection, targetEntities) -> {
@@ -87,14 +83,15 @@ public class JpaRelationshipRepository<S, T>
             targetEntity,
             oppositeFieldName,
             sourceEntity
-        )
+        ),
+        this.resourceRegistry
     );
   }
 
   @Override
   public void addRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
-    this.modifyRelation(
-        source,
+    this.dtoRepository.modifyRelation(
+        this.findEntityFromDto(source),
         targetIds,
         fieldName,
         Collection::addAll,
@@ -103,14 +100,15 @@ public class JpaRelationshipRepository<S, T>
             targetEntity,
             oppositeFieldName,
             sourceEntity
-        )
+        ),
+        this.resourceRegistry
     );
   }
 
   @Override
   public void removeRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
-    this.modifyRelation(
-        source,
+    this.dtoRepository.modifyRelation(
+        this.findEntityFromDto(source),
         targetIds,
         fieldName,
         Collection::removeAll,
@@ -119,7 +117,8 @@ public class JpaRelationshipRepository<S, T>
             targetEntity,
             oppositeFieldName,
             null
-        )
+        ),
+        this.resourceRegistry
     );
   }
 
@@ -152,7 +151,9 @@ public class JpaRelationshipRepository<S, T>
 
     @SuppressWarnings("unchecked")
     ResourceList<T> resultSet = (ResourceList<T>) dtoRepository.findAll(
-        sourceResourceClass, querySpec, resourceRegistry,
+        sourceResourceClass,
+        querySpec,
+        resourceRegistry,
         // Add the filters to the target entity's path.
         (targetPath, cb) -> {
           From<?, ?> sourcePath = sourcePathHolder[0];
@@ -189,116 +190,14 @@ public class JpaRelationshipRepository<S, T>
     return resultSet;
   }
 
-  private Object getEntityFromDto(Object dto) {
+  private Object findEntityFromDto(Object dto) {
     return this.dtoRepository.getEntityManager().find(
-        this.dtoRepository.getDtoJpaMapper().getEntityClassForDto(dto.getClass()),
-        this.resourceRegistry.findEntry(this.sourceResourceClass)
+        this.dtoRepository.getDtoJpaMapper()
+            .getEntityClassForDto(dto.getClass()),
+        this.resourceRegistry.findEntry(dto.getClass())
             .getResourceInformation()
             .getId(dto)
     );
   }
-
-  private List<Object> getEntitiesFromTargetIds(Iterable<Serializable> ids) {
-    return Streams.stream(ids).map(
-        id -> this.dtoRepository.getEntityManager().find(
-            this.dtoRepository.getDtoJpaMapper().getEntityClassForDto(this.targetResourceClass),
-            id
-        )
-    ).collect(Collectors.toList());
-  }
-
-  /**
-   * Contains common logic for relation-modifying methods.
-   * 
-   * @param sourceDto source DTO
-   * @param targetIds Target resource IDs
-   * @param fieldName relation field name
-   * @param handleSourceCollectionAndTargetEntities
-   * @param handleOppositeCollectionAndSourceEntity
-   * @param handleTargetEntityAndFieldNameAndSourceEntity
-   */
-  private void modifyRelation(
-      Object sourceDto,
-      Iterable<Serializable> targetIds,
-      String fieldName,
-      BiConsumer<Collection<Object>, Collection<Object>> handleSourceCollectionAndTargetEntities,
-      BiConsumer<Collection<Object>, Object>  handleOppositeCollectionAndSourceEntity,
-      TriConsumer<Object, String, Object> handleTargetEntityAndFieldNameAndSourceEntity
-  ) {
-    
-    // Get the source an target entities.
-    Object sourceEntity = this.getEntityFromDto(sourceDto);
-    Collection<Object> targetEntities = this.getEntitiesFromTargetIds(targetIds);
-
-    // Get the current value of the source object's relation field.
-    Object sourceFieldValue = PropertyUtils.getProperty(
-        sourceEntity,
-        fieldName
-    );
-
-    // Handle a to-many or to-one relation.
-    if (sourceFieldValue instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<Object> sourceCollection = (Collection<Object>) sourceFieldValue;
-      handleSourceCollectionAndTargetEntities.accept(
-          (Collection<Object>) sourceCollection,
-          targetEntities
-      );
-    } else {
-      handleTargetEntityAndFieldNameAndSourceEntity.accept(
-          sourceEntity,
-          fieldName,
-          targetEntities.iterator().next()
-      );
-    }
-
-    // In case of a bidirectional relation, get the opposite relation field name.
-    String oppositeFieldName = this.resourceRegistry.findEntry(this.sourceResourceClass)
-        .getResourceInformation()
-        .findFieldByName(fieldName)
-        .getOppositeName();
-
-    if (oppositeFieldName != null) {
-      ResourceField oppositeField = this.resourceRegistry.findEntry(this.targetResourceClass)
-          .getResourceInformation()
-          .findFieldByName(oppositeFieldName);
-
-      // Handle to-many or to-one relation from the opposite end of the bidirectional relation.
-      if (oppositeField.isCollection()) {
-        @SuppressWarnings("unchecked")
-        List<Collection<Object>> oppositeCollections = targetEntities.stream()
-            .map(targetEntity -> (Collection<Object>) PropertyUtils.getProperty(
-                targetEntity,
-                oppositeFieldName
-             ))
-            .collect(Collectors.toList());
-
-        for (Collection<Object> oppositeCollection : oppositeCollections) {
-          if (!oppositeCollection.contains(sourceEntity)) {
-            handleOppositeCollectionAndSourceEntity.accept(oppositeCollection, sourceEntity);
-          }
-        }
-      } else {
-        for (Object targetEntity : targetEntities) {
-          handleTargetEntityAndFieldNameAndSourceEntity.accept(
-              targetEntity,
-              oppositeFieldName,
-              sourceEntity
-          );
-        }
-      }
-    }
-  }
-
-  /**
-   * An operation that accepts three input arguments and returns no result.
-   *
-   * @param <K> type of the first argument
-   * @param <V> type of the second argument
-   * @param <S> type of the third argument
-   */
-  private interface TriConsumer<K, V, S> {
-    void accept(K k, V v, S s);
-  }
-
+  
 }

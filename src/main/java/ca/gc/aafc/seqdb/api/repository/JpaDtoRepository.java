@@ -1,11 +1,15 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,12 +28,16 @@ import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
+
+import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.information.resource.ResourceField;
+import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ResourceNotFoundException;
@@ -128,18 +136,18 @@ public class JpaDtoRepository {
             .map(JpaDtoRepository::mapFromTuple)
             .map(map -> this.mapper.map(map, targetDtoClass))
             .collect(Collectors.toList()),
-        new MetaInformation() {},
+        new MetaInformation() { },
         null
     );
   }
 
   /**
    * Update a JPA entity using a DTO.
-   * 
+   *
    * @param resource
-   * @return the updated resource
+   * @return the updated resource's ID
    */
-  public <D> D save(D resource, ResourceRegistry resourceRegistry) {
+  public Serializable save(Object resource, ResourceRegistry resourceRegistry) {
     // Get the entity of this DTO.
     Object entity = entityManager.find(
         dtoJpaMapper.getEntityClassForDto(resource.getClass()),
@@ -148,39 +156,31 @@ public class JpaDtoRepository {
             selectionHandler.getIdAttribute(resource.getClass(), resourceRegistry)
         )
     );
-    
-    // Apply the DTO's attribute values to the entity.
-    List<ResourceField> attributeFields = resourceRegistry.findEntry(resource.getClass())
-        .getResourceInformation()
-        .getAttributeFields();
-    for (ResourceField attributeField : attributeFields) {
-      String attributeName = attributeField.getUnderlyingName();
-      PropertyUtils.setProperty(entity, attributeName, PropertyUtils.getProperty(resource, attributeName));
-    }
-    
-    // Return the modified resource.
-    return resource;
+
+    this.applyDtoToEntity(resource, entity, resourceRegistry);
+
+    return (Serializable) entityManager.getEntityManagerFactory()
+        .getPersistenceUnitUtil()
+        .getIdentifier(entity);
   }
 
   /**
    * Persist a JPA entity using a DTO.
    * @param resource
-   * @return the created resource
+   * @return the created resource's ID
    */
-  public <D> D create(D resource) {
-    UniqueObj entity = (UniqueObj) mapper.map(
-        resource,
+  public Serializable create(Object resource, ResourceRegistry resourceRegistry) {
+    Object entity = (UniqueObj) BeanUtils.instantiate(
         this.dtoJpaMapper.getEntityClassForDto(resource.getClass())
     );
+
+    this.applyDtoToEntity(resource, entity, resourceRegistry);
+
     entityManager.persist(entity);
 
-    @SuppressWarnings("unchecked")
-    D result = (D) this.mapper.map(
-        entity,
-        resource.getClass()
-    );
-
-    return result;
+    return (Serializable) entityManager.getEntityManagerFactory()
+        .getPersistenceUnitUtil()
+        .getIdentifier(entity);
   }
 
   /**
@@ -199,6 +199,92 @@ public class JpaDtoRepository {
     entityManager.remove(entity);
   }
 
+  public void modifyRelation(
+      @NonNull Object sourceEntity,
+      @NonNull Iterable<Serializable> targetIds,
+      @NonNull String fieldName,
+      BiConsumer<Collection<Object>, Collection<Object>> handleSourceCollectionAndTargetEntities,
+      BiConsumer<Collection<Object>, Object>  handleOppositeCollectionAndSourceEntity,
+      TriConsumer<Object, String, Object> handleTargetEntityAndFieldNameAndSourceEntity,
+      ResourceRegistry resourceRegistry
+  ) {
+
+    Class<?> entityClass = sourceEntity.getClass();
+    Class<?> dtoClass = this.dtoJpaMapper.getDtoClassForEntity(entityClass);
+
+    // Get the target resource DTO class
+    Class<? extends Object> targetResourceClass = resourceRegistry.findEntry(dtoClass)
+        .getResourceInformation()
+        .findRelationshipFieldByName(fieldName)
+        .getElementType();
+
+    Collection<Object> targetEntities = Streams.stream(targetIds).map(
+        id -> this.entityManager.find(
+            this.dtoJpaMapper.getEntityClassForDto(targetResourceClass),
+            id
+        )
+    ).collect(Collectors.toList());
+
+    // Get the current value of the source object's relation field.
+    Object sourceFieldValue = PropertyUtils.getProperty(
+        sourceEntity,
+        fieldName
+    );
+
+    // Handle a to-many or to-one relation.
+    if (sourceFieldValue instanceof Collection) {
+      @SuppressWarnings("unchecked")
+      Collection<Object> sourceCollection = (Collection<Object>) sourceFieldValue;
+      handleSourceCollectionAndTargetEntities.accept(
+          (Collection<Object>) sourceCollection,
+          targetEntities
+      );
+    } else {
+      handleTargetEntityAndFieldNameAndSourceEntity.accept(
+          sourceEntity,
+          fieldName,
+          targetEntities.iterator().hasNext() ? targetEntities.iterator().next() : null
+      );
+    }
+
+    // In case of a bidirectional relation, get the opposite relation field name.
+    String oppositeFieldName = resourceRegistry.findEntry(dtoClass)
+        .getResourceInformation()
+        .findFieldByName(fieldName)
+        .getOppositeName();
+
+    if (oppositeFieldName != null) {
+      ResourceField oppositeField = resourceRegistry.findEntry(targetResourceClass)
+          .getResourceInformation()
+          .findFieldByName(oppositeFieldName);
+
+      // Handle to-many or to-one relation from the opposite end of the bidirectional relation.
+      if (oppositeField.isCollection()) {
+        @SuppressWarnings("unchecked")
+        List<Collection<Object>> oppositeCollections = targetEntities.stream()
+            .map(targetEntity -> (Collection<Object>) PropertyUtils.getProperty(
+                targetEntity,
+                oppositeFieldName
+             ))
+            .collect(Collectors.toList());
+
+        for (Collection<Object> oppositeCollection : oppositeCollections) {
+          if (!oppositeCollection.contains(sourceEntity)) {
+            handleOppositeCollectionAndSourceEntity.accept(oppositeCollection, sourceEntity);
+          }
+        }
+      } else {
+        for (Object targetEntity : targetEntities) {
+          handleTargetEntityAndFieldNameAndSourceEntity.accept(
+              targetEntity,
+              oppositeFieldName,
+              sourceEntity
+          );
+        }
+      }
+    }
+  }
+
   /**
    * Gets a Map<String, Object> from a JPA Tuple. This is used to convert JPA's data-fetching output
    * to an object-graph-like structure that can more easily be deserialized to DTOs
@@ -207,7 +293,7 @@ public class JpaDtoRepository {
    * @return map
    */
   @SuppressWarnings("unchecked")
-  public static Map<String, Object> mapFromTuple(Tuple tuple) {
+  private static Map<String, Object> mapFromTuple(Tuple tuple) {
     Map<String, Object> map = new HashMap<>();
     for (TupleElement<?> element : tuple.getElements()) {
       Object value = tuple.get(element);
@@ -226,6 +312,103 @@ public class JpaDtoRepository {
       currentNode.put(attributePath.get(attributePath.size() - 1), value);
     }
     return map;
+  }
+
+  /**
+   * Apply the changed data held in a DTO object to a JPA entity.
+   *
+   * @param dto
+   * @param entity
+   * @param resourceRegistry
+   */
+  private void applyDtoToEntity(Object dto, Object entity, ResourceRegistry resourceRegistry) {
+    ResourceInformation resourceInformation = resourceRegistry.findEntry(dto.getClass())
+        .getResourceInformation();
+
+    // Apply the DTO's attribute values to the entity.
+    List<ResourceField> attributeFields = resourceInformation.getAttributeFields();
+    for (ResourceField attributeField : attributeFields) {
+      String attributeName = attributeField.getUnderlyingName();
+      PropertyUtils.setProperty(
+          entity,
+          attributeName,
+          PropertyUtils.getProperty(dto, attributeName)
+      );
+    }
+
+    // Apply the DTO's relation values to the entity.
+    List<ResourceField> relationFields = resourceInformation.getRelationshipFields();
+    for (ResourceField relationField : relationFields) {
+      String relationName = relationField.getUnderlyingName();
+
+      // Get the ResourceInformation of the related element type.
+      ResourceInformation relatedResourceInformation = resourceRegistry
+          .findEntry(relationField.getElementType())
+          .getResourceInformation();
+
+      List<Serializable> targetIds = null;
+
+      // Handle a to-many relation field.
+      if (relationField.isCollection()) {
+        // Get the collection of DTOs that specify the new collection elements.
+        @SuppressWarnings("unchecked")
+        Collection<Object> relatedResourceDtos = (Collection<Object>) PropertyUtils
+            .getProperty(dto, relationName);
+
+        // If the DTO collection is not null, this means that a new collection has been specified by
+        // the client.
+        if (relatedResourceDtos != null) {
+          // Get the IDs of the collection elements.
+          targetIds = relatedResourceDtos.stream()
+              .map(relatedDto -> (Serializable) relatedResourceInformation.getId(relatedDto))
+              .collect(Collectors.toList());
+        }
+
+      // Handle a to-one relation field.
+      } else {
+        Object relatedResourceDto = PropertyUtils.getProperty(dto, relationName);
+        if (relatedResourceDto != null) {
+          targetIds = Collections
+              .singletonList((Serializable) relatedResourceInformation.getId(relatedResourceDto));
+        } else {
+          targetIds = new ArrayList<>();
+        }
+      }
+      
+      // Only modify relations if targetIds is specified. targetIds could be an empty list,
+      // which would set a to-one relation to null. targetIds being null means that no change is
+      // made.
+      if (targetIds != null) {
+        this.modifyRelation(
+            entity,
+            targetIds,
+            relationName,
+            (sourceCollection, targetEntities) -> {
+              sourceCollection.clear();
+              sourceCollection.addAll(targetEntities);
+            },
+            Collection::add,
+            (targetEntity, oppositeFieldName, sourceEntity) -> PropertyUtils.setProperty(
+                targetEntity,
+                oppositeFieldName,
+                sourceEntity
+                ),
+            resourceRegistry
+        );
+      }
+
+    }
+  }
+
+  /**
+   * An operation that accepts three input arguments and returns no result.
+   *
+   * @param <K> type of the first argument
+   * @param <V> type of the second argument
+   * @param <S> type of the third argument
+   */
+  public interface TriConsumer<K, V, S> {
+    void accept(K k, V v, S s);
   }
 
 }

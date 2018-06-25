@@ -41,7 +41,7 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
 
   @Test
   public void findOnePrimer_whenNoFieldsAreSelected_primerReturnedWithAllFields() {
-    PcrPrimer primer = persistTestPrimer();
+    PcrPrimer primer = persistTestPrimerWithRegion();
 
     PcrPrimerDto primerDto = primerRepository.findOne(
         primer.getId(),
@@ -56,7 +56,10 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     assertEquals(TEST_PRIMER_LOT_NUMBER, primerDto.getLotNumber());
     assertEquals(TEST_PRIMER_TYPE.getValue(), primerDto.getType().getValue());
     assertEquals(TEST_PRIMER_SEQ, primerDto.getSeq());
-
+    
+    // The region ID should be returned, but not the rest of the region's attributes.
+    assertNotNull(primerDto.getRegion().getTagId());
+    assertNull(primerDto.getRegion().getName());
   }
 
   @Test

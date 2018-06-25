@@ -14,9 +14,9 @@ import javax.persistence.criteria.From;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Selection;
 
-import org.springframework.beans.BeanUtils;
-
 import io.crnk.core.engine.information.resource.ResourceField;
+import io.crnk.core.engine.information.resource.ResourceInformation;
+import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
@@ -29,7 +29,7 @@ import io.crnk.core.queryspec.QuerySpec;
 public class SelectionHandler {
   
   /**
-   * Gets the selected fields as strings from the querySpec.
+   * Gets the selected fields as attribute paths from the querySpec.
    * 
    * @param querySpec
    * @param root
@@ -40,16 +40,40 @@ public class SelectionHandler {
     Map<Class<?>, List<List<String>>> selectedFields = new HashMap<>();
     
     List<List<String>> selectedFieldsOfThisClass = new ArrayList<>();
-
+    ResourceInformation resourceInformation = resourceRegistry
+        .getEntry(querySpec.getResourceClass())
+        .getResourceInformation();
+    
     // If no fields are specified, include all fields.
     if (querySpec.getIncludedFields().size() == 0) {
+      // Add the attribute fields
       selectedFieldsOfThisClass.addAll(
-          resourceRegistry.getEntry(querySpec.getResourceClass())
-              .getResourceInformation()
-              .getAttributeFields()
+          resourceInformation.getAttributeFields()
               .stream()
               .map(ResourceField::getUnderlyingName)
               .map(Collections::singletonList)
+              .collect(Collectors.toList())
+      );
+      // Add the ID fields for to-one relationships.
+      selectedFieldsOfThisClass.addAll(
+          resourceInformation.getRelationshipFields()
+              .stream()
+              // Map each ResourceField to the attribute path of the related resource's ID, e.g.
+              // ["region","id"].
+              .map(field -> {
+                List<String> relationIdPath = new ArrayList<>();
+                // Add the field name to the attribute path e.g. "region"
+                relationIdPath.add(field.getUnderlyingName());
+                // Add the ID field name tot he attribute path e.g. "id"
+                relationIdPath.add(
+                    resourceRegistry.findEntry(field.getElementType())
+                        .getResourceInformation()
+                        .getIdField()
+                        .getUnderlyingName()
+                );
+                // Return the attribute path, e.g. ["region","id"].
+                return relationIdPath;
+              })
               .collect(Collectors.toList())
       );
     } else {
@@ -73,7 +97,10 @@ public class SelectionHandler {
     
     // Add the selected fields for includes where fields are not selected for that type.
     for (IncludeRelationSpec rel : querySpec.getIncludedRelations()) {
-      Class<?> relationClass = this.getType(querySpec.getResourceClass(), rel.getAttributePath());
+      Class<?> relationClass = this.getPropertyClass(
+          querySpec.getResourceClass(),
+          rel.getAttributePath()
+      );
       if (!selectedFields.containsKey(relationClass)) {
         selectedFields
             .putAll(this.getSelectedFieldsPerClass(resourceRegistry, new QuerySpec(relationClass)));
@@ -96,9 +123,12 @@ public class SelectionHandler {
     
     // Get the selections from the root resource.
     for (List<String> selectedAttributePath : selectedFields.get(querySpec.getResourceClass())) {
+      // Each field selection is aliased by a period-separated path, e.g. "region.name".
+      String alias = String.join(".", selectedAttributePath);
+      
       selections.add(
           this.getExpression(root, selectedAttributePath)
-              .alias(String.join(".", selectedAttributePath))
+              .alias(alias)
       );
     }
     
@@ -106,7 +136,7 @@ public class SelectionHandler {
     for (IncludeRelationSpec rel : querySpec.getIncludedRelations()) {
       List<Selection<?>> includeSelections = new ArrayList<>();
       for (List<String> selectedField : selectedFields.get(
-          this.getType(querySpec.getResourceClass(), rel.getAttributePath())
+          this.getPropertyClass(querySpec.getResourceClass(), rel.getAttributePath())
       )) {
         List<String> fieldPath = Stream
             .concat(rel.getAttributePath().stream(), selectedField.stream())
@@ -123,6 +153,10 @@ public class SelectionHandler {
       
     }
 
+    // There may be duplicate selections, which would cause a JPA error when the criteria query is
+    // executed, so remove them here.
+    selections = this.uniquelyAliasedSelections(selections);
+    
     return selections;
   }
   
@@ -151,16 +185,48 @@ public class SelectionHandler {
    * 
    * @return the JPA Expression of the Id attribute.
    */
-  public Expression<?> getIdExpression(From<?, ?> root, Class<?> resourceClass, ResourceRegistry resourceRegistry) {
+  public Expression<?> getIdExpression(
+      From<?, ?> root,
+      Class<?> resourceClass,
+      ResourceRegistry resourceRegistry
+  ) {
     return root.get(this.getIdAttribute(resourceClass, resourceRegistry));
   }
   
-  private Class<?> getType(Class<?> baseType, List<String> attributePath) {
+  /**
+   * Get the class of a property that may be more than one element away.
+   * 
+   * @param baseType
+   * @param attributePath
+   * @return
+   */
+  private Class<?> getPropertyClass(Class<?> baseType, List<String> attributePath) {
     Class<?> type = baseType;
     for (String pathElement : attributePath) {
-      type = BeanUtils.getPropertyDescriptor(type, pathElement).getPropertyType();
+      type = PropertyUtils.getPropertyClass(type, pathElement);
     }
     return type;
+  }
+  
+  /**
+   * Get a unique list of Selections given a list that may include duplicates. Duplicates are found
+   * when multiple selections are using the same alias. Aliases are named after property paths, e.g.
+   * "name" or "region.id".
+   * 
+   * @param selections
+   * @return
+   */
+  private List<Selection<?>> uniquelyAliasedSelections(List<Selection<?>> selections) {
+    List<Selection<?>> uniqueSelections = new ArrayList<>();
+    for (Selection<?> selection : selections) {
+      if (
+          !uniqueSelections.stream()
+              .anyMatch(selection2 -> selection.getAlias().equals(selection2.getAlias()))
+      ) {
+        uniqueSelections.add(selection);
+      }
+    }
+    return uniqueSelections;
   }
   
 }

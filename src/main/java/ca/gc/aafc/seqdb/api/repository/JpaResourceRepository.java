@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import com.google.common.collect.Iterables;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
-import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
 import io.crnk.core.exception.ResourceNotFoundException;
@@ -107,14 +106,22 @@ public class JpaResourceRepository<D>
     
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public <S extends D> S save(S resource) {
-    return this.dtoRepository.save(resource, this.resourceRegistry);
+    return (S) this.findOne(
+        this.dtoRepository.save(resource, this.resourceRegistry),
+        new QuerySpec(this.resourceClass)
+    );
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public <S extends D> S create(S resource) {
-    return this.dtoRepository.create(resource);
+    return (S) this.findOne(
+        this.dtoRepository.create(resource, this.resourceRegistry),
+        new QuerySpec(this.resourceClass)
+    );
   }
 
   @Override

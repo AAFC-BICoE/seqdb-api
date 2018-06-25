@@ -309,6 +309,57 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     // Check that the primer entity has the new seq value.
     assertEquals("edited seq", testPrimer.getSeq());
   }
+  
+  @Test
+  public void savePrimerWithNewRegion_onSuccess_primerEntityIsModified() {
+    // Create the test primer.
+    PcrPrimer testPrimer = persistTestPrimer();
+    
+    Region testRegion = new Region();
+    testRegion.setName(TEST_REGION_NAME);
+    testRegion.setDescription(TEST_REGION_DESCRIPTION);
+    testRegion.setSymbol(TEST_REGION_SYMBOL);
+    entityManager.persist(testRegion);
+    
+    // Get the test primer's DTO.
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(), querySpec);
+    
+    // Change the test primer's region to the new region.
+    RegionDto newRegionDto = new RegionDto();
+    newRegionDto.setTagId(testRegion.getId());
+    testPrimerDto.setRegion(newRegionDto);
+    
+    // Save the DTO using the repository.
+    PcrPrimerDto updatedPrimerDto = primerRepository.save(testPrimerDto);
+    
+    // Check that the updated primer has the new region id.
+    assertNotNull(testPrimer.getRegion().getTagId());
+    assertEquals(testRegion.getTagId(), updatedPrimerDto.getRegion().getTagId());
+    assertEquals(testRegion.getTagId(), testPrimer.getRegion().getTagId());
+  }
+  
+  @Test
+  public void saveExistingPrimerAndRemoveLinkedRegion_onSuccess_primerEntityIsModified() {
+    PcrPrimer testPrimer = persistTestPrimerWithRegion();
+    assertNotNull(testPrimer.getRegion().getTagId());
+    
+    // Get the test primer's DTO.
+    QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
+    PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(), querySpec);
+    
+    // The primer's region id should not be null.
+    assertNotNull(testPrimerDto.getRegion().getTagId());
+    
+    testPrimerDto.setRegion(null);
+
+    // Save the DTO using the repository.
+    PcrPrimerDto updatedPrimerDto = primerRepository.save(testPrimerDto);
+    
+    // Check that the region is null in the dto and the entity.
+    assertNull(updatedPrimerDto.getRegion());
+    assertNull(testPrimer.getRegion());
+  }
 
   @Test
   public void deletePrimer_onPrimerLookup_primerNotFound() {

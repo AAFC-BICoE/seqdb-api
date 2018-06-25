@@ -16,7 +16,7 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
+import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
@@ -36,7 +36,7 @@ public class ResourceRepositoryConfig {
    * @return the DtoJpaMapper
    */
   @Bean
-  public DtoJpaMapper dtoJpaMapper() {
+  public JpaDtoMapper dtoJpaMapper() {
     Map<Class<?>, Class<?>> jpaEntities = new HashMap<>();
 
     jpaEntities.put(RegionDto.class, Region.class);
@@ -44,7 +44,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrBatchDto.class, PcrBatch.class);
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
 
-    return new DtoJpaMapper(jpaEntities);
+    return new JpaDtoMapper(jpaEntities);
   }
 
   @Bean
@@ -70,21 +70,21 @@ public class ResourceRepositoryConfig {
 
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
-      DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(PcrPrimerDto.class, RegionDto.class, dtoRepository,
         filterHandler);
   }
 
   @Bean
   public JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToPcrReactionRepository(
-      DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(PcrBatchDto.class, PcrReactionDto.class, dtoRepository,
         filterHandler);
   }
 
   @Bean
   public JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToPcrBatchRepository(
-      DtoJpaMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(PcrReactionDto.class, PcrBatchDto.class, dtoRepository,
         filterHandler);
   }

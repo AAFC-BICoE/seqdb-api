@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Streams;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.DtoJpaMapper;
+import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.information.resource.ResourceField;
@@ -65,7 +65,7 @@ public class JpaDtoRepository {
 
   @NonNull
   @Getter
-  private final DtoJpaMapper dtoJpaMapper;
+  private final JpaDtoMapper dtoJpaMapper;
 
   private ModelMapper mapper = new ModelMapper();
 

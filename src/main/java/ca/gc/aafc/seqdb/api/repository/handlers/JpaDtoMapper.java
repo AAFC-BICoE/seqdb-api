@@ -10,12 +10,12 @@ import lombok.NonNull;
 /**
  * Maps DTOs to JPA entities.
  */
-public class DtoJpaMapper {
+public class JpaDtoMapper {
   
   @NonNull
   private final BiMap<Class<?>, Class<?>> jpaEntities;
   
-  public DtoJpaMapper(Map<Class<?>, Class<?>> jpaEntities) {
+  public JpaDtoMapper(Map<Class<?>, Class<?>> jpaEntities) {
     this.jpaEntities = HashBiMap.create(jpaEntities);
   }
   

@@ -11,6 +11,8 @@ import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import ca.gc.aafc.seqdb.api.security.SeqdbDaoAuthenticationProvider;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -26,16 +28,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${spring.ldap.searchFilter:}")
   private String ldapSearchFilter;
   
+  @Inject
+  private SeqdbDaoAuthenticationProvider seqdbAuthenticationProvider;
+  
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth
+        .authenticationProvider(seqdbAuthenticationProvider);
+    
     // If an LDAP URL is specified then enable LDAP auth.
     if (ldapProperties.getUrls() != null) {
       // Set "referral" to "follow" to avoid PartialResultException.
       ((AbstractContextSource) contextSource).setReferral("follow");
       ((AbstractContextSource) contextSource).afterPropertiesSet();
       
-      auth.
-          ldapAuthentication()
+      auth
+          .ldapAuthentication()
               .userSearchBase(ldapSearchBase)
               .userSearchFilter(ldapSearchFilter)
               .contextSource((BaseLdapPathContextSource) contextSource);

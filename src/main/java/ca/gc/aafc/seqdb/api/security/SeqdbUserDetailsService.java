@@ -4,11 +4,6 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,20 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class SeqdbUserDetailsService implements UserDetailsService {
 
   @NonNull
-  private final EntityManager entityManager;
+  private final AccountRepository accountRepository;
   
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    // Do a JPA query for the account.
-    CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-    CriteriaQuery<Account> criteriaQuery = cb.createQuery(Account.class);
-    Root<Account> root = criteriaQuery.from(Account.class);
-    criteriaQuery.where(cb.equal(root.get("accountName"), username));
-    
-    Account databaseAccount;
-    try {
-      databaseAccount = this.entityManager.createQuery(criteriaQuery).getSingleResult();
-    } catch(NoResultException e) {
+    Account databaseAccount = accountRepository.findByAccountNameIgnoreCase(username);
+    if (databaseAccount == null) {
       throw new UsernameNotFoundException("User does not exist in database: " + username);
     }
     

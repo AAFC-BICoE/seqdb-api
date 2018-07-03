@@ -22,7 +22,8 @@ public class SeqdbUserDetailsServiceTest extends BaseIntegrationTest {
     testAccount.setAccountPw("TestPassword");
     entityManager.persist(testAccount);
 
-    UserDetails userDetails = userDetailsService.loadUserByUsername("Mat");
+    // This lookup should be case-insensitive.
+    UserDetails userDetails = userDetailsService.loadUserByUsername("mat");
 
     assertTrue(userDetails.isEnabled());
     assertTrue(userDetails.isAccountNonLocked());

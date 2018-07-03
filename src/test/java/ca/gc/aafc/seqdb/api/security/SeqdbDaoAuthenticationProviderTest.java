@@ -27,7 +27,8 @@ public class SeqdbDaoAuthenticationProviderTest extends BaseIntegrationTest {
     testAccount.setAccountPw(passwordEncoder.encode("mypassword"));
     entityManager.persist(testAccount);
     
-    Authentication authToken = new UsernamePasswordAuthenticationToken("Mat", "mypassword");
+    // This lookup should be case-insensitive
+    Authentication authToken = new UsernamePasswordAuthenticationToken("mat", "mypassword");
     authenticationProvider.authenticate(authToken);
   }
   

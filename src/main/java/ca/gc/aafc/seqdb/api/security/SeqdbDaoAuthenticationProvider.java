@@ -2,11 +2,6 @@ package ca.gc.aafc.seqdb.api.security;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -26,15 +21,15 @@ import lombok.NonNull;
 public class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
   @NonNull
-  private EntityManager entityManager;
+  private final AccountRepository accountRepository;
 
   @Inject
   public SeqdbDaoAuthenticationProvider(
-      EntityManager entityManager,
-      UserDetailsService userDetailsService
+      UserDetailsService userDetailsService,
+      AccountRepository accountRepository
   ) throws Exception {
     super();
-    this.entityManager = entityManager;
+    this.accountRepository = accountRepository;
     this.setUserDetailsService(userDetailsService);
     this.setPasswordEncoder(new BCryptPasswordEncoder());
     this.afterPropertiesSet();
@@ -42,16 +37,10 @@ public class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    // Do a JPA query for the account.
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Account> criteriaQuery = cb.createQuery(Account.class);
-    Root<Account> root = criteriaQuery.from(Account.class);
-    criteriaQuery.where(cb.equal(root.get("accountName"), authentication.getName()));
-    
-    Account databaseAccount;
-    try {
-      databaseAccount = entityManager.createQuery(criteriaQuery).getSingleResult();
-    } catch(NoResultException e) {
+    Account databaseAccount = accountRepository
+        .findByAccountNameIgnoreCase(authentication.getName());
+
+    if (databaseAccount == null) {
       // If the account is not found in the database, carry on as usual (Authenticate using the
       // credentials stored in the database).
       return super.authenticate(authentication);

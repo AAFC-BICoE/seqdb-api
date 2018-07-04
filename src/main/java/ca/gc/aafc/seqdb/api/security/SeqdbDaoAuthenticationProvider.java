@@ -7,9 +7,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
 import lombok.NonNull;
 
@@ -26,12 +27,13 @@ public class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
   @Inject
   public SeqdbDaoAuthenticationProvider(
       UserDetailsService userDetailsService,
-      AccountRepository accountRepository
+      AccountRepository accountRepository,
+      PasswordEncoder passwordEncoder
   ) throws Exception {
     super();
     this.accountRepository = accountRepository;
     this.setUserDetailsService(userDetailsService);
-    this.setPasswordEncoder(new BCryptPasswordEncoder());
+    this.setPasswordEncoder(passwordEncoder);
     this.afterPropertiesSet();
   }
 

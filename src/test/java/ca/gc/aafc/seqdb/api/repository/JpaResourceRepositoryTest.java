@@ -166,6 +166,12 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     querySpec.setLimit(Long.valueOf(10));
     ResourceList<PcrBatchDto> batchDtos = pcrBatchRepository.findAll(querySpec);
     
+    // Check that the IDs are in ascending sequence
+    Integer idIterator = batchDtos.get(0).getPcrBatchId();
+    for (PcrBatchDto batchDto : batchDtos) {
+      assertEquals(idIterator++, batchDto.getPcrBatchId());
+    }
+    
     assertEquals(
         IntStream.range(1, 11).boxed().collect(Collectors.toList()),
         batchDtos.stream().map(PcrBatchDto::getPcrBatchId).collect(Collectors.toList())

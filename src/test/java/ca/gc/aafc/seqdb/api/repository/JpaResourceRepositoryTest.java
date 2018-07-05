@@ -171,11 +171,6 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     for (PcrBatchDto batchDto : batchDtos) {
       assertEquals(idIterator++, batchDto.getPcrBatchId());
     }
-    
-    assertEquals(
-        IntStream.range(1, 11).boxed().collect(Collectors.toList()),
-        batchDtos.stream().map(PcrBatchDto::getPcrBatchId).collect(Collectors.toList())
-    );
   }
   
   @Test

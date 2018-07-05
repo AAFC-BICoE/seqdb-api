@@ -58,13 +58,14 @@ public class SelectionHandler {
       selectedFieldsOfThisClass.addAll(
           resourceInformation.getRelationshipFields()
               .stream()
+              .filter(field -> !field.isCollection())
               // Map each ResourceField to the attribute path of the related resource's ID, e.g.
               // ["region","id"].
               .map(field -> {
                 List<String> relationIdPath = new ArrayList<>();
                 // Add the field name to the attribute path e.g. "region"
                 relationIdPath.add(field.getUnderlyingName());
-                // Add the ID field name tot he attribute path e.g. "id"
+                // Add the ID field name to the attribute path e.g. "id"
                 relationIdPath.add(
                     resourceRegistry.findEntry(field.getElementType())
                         .getResourceInformation()
@@ -160,8 +161,17 @@ public class SelectionHandler {
     return selections;
   }
   
-  public Expression<?> getExpression(From<?, ?> root, List<String> attributePath) {
-    From<?,?> from = root;
+  /**
+   * Gets a JPA expression given a base path and an attributePath. Works as a short-hand method to
+   * get expressions that could require joins.
+   * This method could be rewritten later to map DTO fields to custom expressions.
+   * 
+   * @param basePath the base path
+   * @param attributePath the attribute path
+   * @return the expression
+   */
+  public Expression<?> getExpression(From<?, ?> basePath, List<String> attributePath) {
+    From<?, ?> from = basePath;
     for (String pathElement : attributePath.subList(0, attributePath.size() - 1)) {
       from = from.join(pathElement, JoinType.LEFT);
     }

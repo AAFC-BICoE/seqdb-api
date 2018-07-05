@@ -67,7 +67,7 @@ public class JpaDtoRepository {
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
 
-  private ModelMapper mapper = new ModelMapper();
+  private static final ModelMapper mapper = new ModelMapper();
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -134,7 +134,7 @@ public class JpaDtoRepository {
     return new DefaultResourceList<>(
         result.stream()
             .map(JpaDtoRepository::mapFromTuple)
-            .map(map -> this.mapper.map(map, targetDtoClass))
+            .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass))
             .collect(Collectors.toList()),
         new MetaInformation() { },
         null
@@ -199,6 +199,27 @@ public class JpaDtoRepository {
     entityManager.remove(entity);
   }
 
+  /**
+   * Modifies a relation
+   * 
+   * @param sourceEntity
+   *          The source entity in the relation.
+   * @param targetIds
+   *          The IDs of the target entities to add/remove to the relation.
+   * @param fieldName
+   *          The name of the relation field on the source entity.
+   * @param handleSourceCollectionAndTargetEntities
+   *          When the source entity's relation field is a collection, how to handle the target
+   *          entities (e.g. add or remove them to the collection).
+   * @param handleOppositeCollectionAndSourceEntity
+   *          When the target entity's relation field is a collection, how to handle the source
+   *          entity (e.g. add or remove it to the collection).
+   * @param handleTargetEntityAndFieldNameAndSourceEntity
+   *          When the target entity's relation field is a singular reference, how to handle the
+   *          source entity (e.g. set the target's field to reference the source entity).
+   * @param resourceRegistry
+   *          the Crnk ResourceRegistry
+   */
   public void modifyRelation(
       @NonNull Object sourceEntity,
       @NonNull Iterable<Serializable> targetIds,

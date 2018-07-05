@@ -15,10 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.ldap.ppolicy.PasswordPolicyControl;
-import org.springframework.security.ldap.ppolicy.PasswordPolicyResponseControl;
-import org.springframework.security.ldap.userdetails.LdapUserDetails;
-import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl.Essence;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsMapper;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +33,10 @@ import ca.gc.aafc.seqdb.entities.Province;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Maps LDAP user details to our own user entities. Creates new local DB records for an LDAP user
+ * when they log in for the first time.
+ */
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class SeqdbLdapUserDetailsMapper extends LdapUserDetailsMapper {

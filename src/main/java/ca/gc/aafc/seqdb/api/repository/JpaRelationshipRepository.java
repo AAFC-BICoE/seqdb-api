@@ -155,13 +155,13 @@ public class JpaRelationshipRepository<S, T>
         querySpec,
         resourceRegistry,
         // Add the filters to the target entity's path.
-        (targetPath, cb) -> {
+        (targetPath, query, cb) -> {
           From<?, ?> sourcePath = sourcePathHolder[0];
 
           List<Predicate> restrictions = new ArrayList<>();
 
           // Add the filter handler's restriction.
-          restrictions.add(this.filterHandler.getRestriction(querySpec, cb, targetPath));
+          restrictions.add(this.filterHandler.getRestriction(querySpec, targetPath, query, cb));
 
           // Restrict the source entity to the given sourceId.
           restrictions.add(

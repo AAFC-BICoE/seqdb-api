@@ -54,7 +54,7 @@ public class JpaResourceRepository<D>
     ResourceList<D> resultSet = dtoRepository.findAll(
         this.resourceClass, querySpec, this.resourceRegistry,
         // Filter by ID.
-        (root, cb) -> cb.equal(
+        (root, query, cb) -> cb.equal(
             this.dtoRepository.getSelectionHandler()
                 .getIdExpression(root, resourceClass, resourceRegistry),
             id
@@ -82,11 +82,11 @@ public class JpaResourceRepository<D>
     
     return dtoRepository.findAll(
         this.resourceClass, querySpec, this.resourceRegistry,
-        (root, cb) -> {
+        (root, query, cb) -> {
           List<Predicate> restrictions = new ArrayList<>();
           
           // Add the filter handler's restriction.
-          restrictions.add(this.filterHandler.getRestriction(querySpec, cb, root));
+          restrictions.add(this.filterHandler.getRestriction(querySpec, root, query, cb));
           
           // If the list of IDs is given, filter by ID.
           if (ids != null) {

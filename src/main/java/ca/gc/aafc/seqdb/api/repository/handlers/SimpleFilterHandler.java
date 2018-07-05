@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 
@@ -27,22 +28,26 @@ public class SimpleFilterHandler implements FilterHandler {
   private final SelectionHandler selectionHandler;
 
   @Override
-  public Predicate getRestriction(QuerySpec querySpec, CriteriaBuilder criteriaBuilder,
-      From<?,?> root) {
+  public Predicate getRestriction(
+      QuerySpec querySpec,
+      From<?, ?> root,
+      CriteriaQuery<?> query,
+      CriteriaBuilder cb
+  ) {
 
     List<FilterSpec> filterSpecs = querySpec.getFilters();
     List<Predicate> predicates = new ArrayList<>();
 
     for (FilterSpec filterSpec : filterSpecs) {
       predicates.add(
-          criteriaBuilder.equal(
+          cb.equal(
               this.selectionHandler.getExpression(root, filterSpec.getAttributePath()),
               (Object) filterSpec.getValue()
           )
       );
     }
 
-    return criteriaBuilder.and(predicates.stream().toArray(Predicate[]::new));
+    return cb.and(predicates.stream().toArray(Predicate[]::new));
   }
 
 }

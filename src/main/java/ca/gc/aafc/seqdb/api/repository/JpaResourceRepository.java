@@ -42,7 +42,7 @@ public class JpaResourceRepository<D>
   private final JpaDtoRepository dtoRepository;
 
   @NonNull
-  private final FilterHandler filterHandler;
+  private final List<FilterHandler> filterHandlers;
   
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -86,7 +86,9 @@ public class JpaResourceRepository<D>
           List<Predicate> restrictions = new ArrayList<>();
           
           // Add the filter handler's restriction.
-          restrictions.add(this.filterHandler.getRestriction(querySpec, root, query, cb));
+          for (FilterHandler filterHandler : this.filterHandlers) {
+            restrictions.add(filterHandler.getRestriction(querySpec, root, query, cb));
+          }
           
           // If the list of IDs is given, filter by ID.
           if (ids != null) {

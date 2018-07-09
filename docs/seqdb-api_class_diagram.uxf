@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>790</x>
+      <y>360</y>
+      <w>330</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>JpaResourceRepository&lt;D&gt;
+--
+- dtoRepository: JpaDtoRepository
+- filterHandler: FilterHandler
+- resourceRegistry : ResourceRegistry </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>710</x>
+      <y>50</y>
+      <w>490</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+io.crnk.core.repository.:ResourceRepositoryV2&lt;T,I&gt;
+
+--
++getResourceClass(): Class&lt;T&gt; 
++findOne(I, QuerySpec): T
++findAll(QuerySpec): ResourceList&lt;T&gt;
++findAll(Iterable&lt;I&gt;, QuerySpec): ResourceList&lt;T&gt;
++save(S): &lt;S extends T&gt;
++create(S): &lt;S extends T&gt;
++delete(I): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>940</x>
+      <y>230</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>590</y>
+      <w>350</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>JpaDtoRepository 
+--
+- entityManager: EntityManager
+- selectionHandler: SelectionHandler
+- dtoJpaMapper: JpaDtoMapper
+- mapper: ModelMapper
+--
++ findAll(...): &lt;D&gt; ResourceList&lt;D&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>440</y>
+      <w>330</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>310.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>50</y>
+      <w>490</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+io.crnk.core.repository:RelationshipRepositoryV2&lt;T, I, D, J&gt;
+
+--
++getSourceResourceClass(): Class&lt;T&gt;
++getTargetResourceClass(): Class&lt;D&gt;
++setRelation(T, J, fieldName:String): void
++setRelation(T, Iterable&lt;J&gt;, fieldName:String):void
++addRelations(T, Iterable&lt;J&gt;, fieldName:String):void
++removeRelations(T, Iterable&lt;J&gt;, fieldName:String):void
++findOneTarget(I, fieldName:String, QuerySpec): D
++findManyTargets(I, fieldName:String, QuerySpec); ResourceList&lt;D&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>170</x>
+      <y>350</y>
+      <w>330</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>JpaRelationshipRepository&lt;S, T&gt;
+--
+- dtoRepository: JpaDtoRepository
+- filterHandler: FilterHandler
+- resourceRegistry : ResourceRegistry </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>230</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>430</y>
+      <w>330</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;310.0;160.0</additional_attributes>
+  </element>
+</diagram>

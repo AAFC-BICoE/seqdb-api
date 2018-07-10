@@ -1,0 +1,16 @@
+# This file is an example of a Keycloak config.
+
+keycloak:
+  enabled: true
+  realm: seqdb-realm
+  auth-server-url: http://192.168.99.100:8080/auth
+  resource: seqdb
+  public-client: true
+  
+  # All endpoints require a logged-in user with the "user" role.
+  security-constraints:
+    - auth-roles:
+      - user
+      security-collections:
+        - patterns:
+          - /*

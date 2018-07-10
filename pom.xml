@@ -54,7 +54,7 @@
       <artifactId>javax.inject</artifactId>
       <version>1</version>
     </dependency>
-    
+
     <!-- crnk -->
     <dependency>
       <groupId>io.crnk</groupId>
@@ -91,7 +91,14 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
-    
+
+    <!-- Keycloak -->
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-spring-boot-starter</artifactId>
+      <version>4.1.0.Final</version>
+    </dependency>
+
 	<!-- util -->
 	<dependency>
       <groupId>org.projectlombok</groupId>

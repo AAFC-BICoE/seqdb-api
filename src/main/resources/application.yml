@@ -19,3 +19,7 @@ crnk:
   domainName: ""
   defaultPageLimit: 20
   maxPageLimit: 1000
+
+keycloak:
+  # Disable Keycloak by default.
+  enabled: false

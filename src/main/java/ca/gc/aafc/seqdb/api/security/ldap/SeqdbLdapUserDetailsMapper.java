@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.ldap;
 
 import java.sql.Timestamp;
 import java.util.Arrays;

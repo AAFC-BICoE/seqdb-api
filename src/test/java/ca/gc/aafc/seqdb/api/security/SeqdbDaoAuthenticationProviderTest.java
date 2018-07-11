@@ -37,5 +37,5 @@ public class SeqdbDaoAuthenticationProviderTest extends BaseIntegrationTest {
     Authentication authToken = new UsernamePasswordAuthenticationToken("Mat", "mypassword");
     authenticationProvider.authenticate(authToken);
   }
-  
+
 }

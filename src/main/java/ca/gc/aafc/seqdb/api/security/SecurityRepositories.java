@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.Repository;
 
 import ca.gc.aafc.seqdb.entities.Account;
@@ -10,6 +12,8 @@ import ca.gc.aafc.seqdb.entities.Province;
  * Repositories implemented automatically by default by Spring Data. Used by the Seqdb API's
  * security package.
  */
+@Configuration
+@EnableJpaRepositories(considerNestedRepositories = true)
 public class SecurityRepositories {
 
   public static interface AccountRepository extends Repository<Account, Integer> {

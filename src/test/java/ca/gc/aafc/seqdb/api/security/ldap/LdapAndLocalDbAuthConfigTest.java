@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 
 public class LdapAndLocalDbAuthConfigTest extends BaseIntegrationTest {
-  
+
   @Inject
   private WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
   

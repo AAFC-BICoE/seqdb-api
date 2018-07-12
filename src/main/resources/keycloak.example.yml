@@ -1,8 +1,9 @@
-# This file is an example of a connection config for a Keycloak instance that is easy to set up.
+# This file is an example of a connection config for an easily setup Keycloak instance.
 # For this example config to work, your Keycloak instance should:
 # - Have a "realm" called "seqdb-realm".
-# - Be available at the "auth-server-url" (You can change this).
+# - Be available at the "auth-server-url" (You can change this value).
 # - Have a public access "client" called "seqdb"
+# - Have an account with the "user" role to be able to log in to Seqdb.
 
 # More config options at:
 # https://www.keycloak.org/docs/latest/securing_apps/index.html#_java_adapter_config

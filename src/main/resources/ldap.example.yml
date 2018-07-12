@@ -1,0 +1,10 @@
+# Example LDAP config:
+
+spring:
+  ldap:
+    urls: ldap://agr.gc.ca:389/
+    base: dc=AGR,dc=GC,dc=CA
+    username: seqdb@agr.gc.ca
+    password: mypassword
+    searchBase: ou=AAFC
+    searchFilter: (&(sAMAccountName={0})(objectclass=person))

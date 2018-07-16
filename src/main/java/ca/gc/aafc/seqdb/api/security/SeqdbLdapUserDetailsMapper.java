@@ -98,18 +98,11 @@ public class SeqdbLdapUserDetailsMapper extends LdapUserDetailsMapper {
       newAddress.setLocality(ctx.getStringAttribute("l"));
 
       String country = ctx.getStringAttribute("co");
-      Country pC = countryRepository.findByNameIgnoreCase(country);
-      if (pC == null) {
-        pC = countryRepository.findByAbbrevIgnoreCase(country);
-      }
+      Country pC = countryRepository.findByNameIgnoreCaseOrAbbrevIgnoreCase(country, country);
       if (pC != null) {
         String prov = ctx.getStringAttribute("st");
         newAddress.setCountry(pC);
-        Province pP = provinceRepository.findByNameIgnoreCaseAndCountryId(prov, pC.getCountryId());
-        if (pP == null) {
-          pP = provinceRepository
-              .findByAbbreviationIgnoreCaseAndCountryId(prov, pC.getCountryId());
-        }
+        Province pP = provinceRepository.findByCountryIdAndNameOrAbbrev(pC.getCountryId(), prov);
         newAddress.setStateProvince(pP);
       }
       entityManager.persist(newAddress);

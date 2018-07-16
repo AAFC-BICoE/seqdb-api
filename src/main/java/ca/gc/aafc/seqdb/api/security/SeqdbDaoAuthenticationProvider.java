@@ -42,13 +42,7 @@ public class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
     Account databaseAccount = accountRepository
         .findByAccountNameIgnoreCase(authentication.getName());
 
-    if (databaseAccount == null) {
-      // If the account is not found in the database, carry on as usual (Authenticate using the
-      // credentials stored in the database).
-      return super.authenticate(authentication);
-    }
-    
-    if (StringUtils.isEmpty(databaseAccount.getLdapDn())){
+    if (databaseAccount == null || StringUtils.isEmpty(databaseAccount.getLdapDn())) {
       // If they are not an LDAP user, carry on as usual (Authenticate using the credentials stored
       // in the database).
       return super.authenticate(authentication);

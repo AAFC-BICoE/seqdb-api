@@ -58,13 +58,14 @@ public class SelectionHandler {
       selectedFieldsOfThisClass.addAll(
           resourceInformation.getRelationshipFields()
               .stream()
+              .filter(field -> !field.isCollection())
               // Map each ResourceField to the attribute path of the related resource's ID, e.g.
               // ["region","id"].
               .map(field -> {
                 List<String> relationIdPath = new ArrayList<>();
                 // Add the field name to the attribute path e.g. "region"
                 relationIdPath.add(field.getUnderlyingName());
-                // Add the ID field name tot he attribute path e.g. "id"
+                // Add the ID field name to the attribute path e.g. "id"
                 relationIdPath.add(
                     resourceRegistry.findEntry(field.getElementType())
                         .getResourceInformation()

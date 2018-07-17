@@ -15,6 +15,18 @@ seqdb-api is an implementation of the Sequence Module for the [DINA project](htt
 mvn clean spring-boot:run
 ```
 
+## To run test
+
+Unit tests:
+```
+mvn clean test
+```
+
+All tests (Integration + Unit):
+```
+mvn clean verify
+```
+
 ## Configuration
 
 This application is configured using Spring Boot, with default properties stored in src/main/resources/application.yml. It can be [configured externally using properties files, YAML files, environment variables, and command-line arguments](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html).

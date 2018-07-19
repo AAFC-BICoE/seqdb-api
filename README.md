@@ -1,4 +1,4 @@
-# seqdb-api
+# seqdb-api [![Build Status](https://travis-ci.org/AAFC-BICoE/seqdb-api.svg?branch=dev)](https://travis-ci.org/AAFC-BICoE/seqdb-api)
 
 Sequence management services managing laboratory workflows leading to DNA sequences.
 

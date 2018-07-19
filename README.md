@@ -5,7 +5,7 @@ Sequence management services managing laboratory workflows leading to DNA sequen
 seqdb-api is an implementation of the Sequence Module for the [DINA project](https://www.dina-project.net/).
 
 ## Status
-Currently under developement, see [Release Notes](RELEASE_NOTES.md) for details.
+Currently under development, see [Release Notes](RELEASE_NOTES.md) for details.
 
 ## Required
 

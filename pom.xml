@@ -4,7 +4,7 @@
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>seqdb.api</name>
@@ -18,6 +18,9 @@
     <javax.inject.version>1</javax.inject.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
     <seqdb.dbi.version>3.19-SNAPSHOT</seqdb.dbi.version>
+    
+    <!-- Temporary fix until https://github.com/h2database/h2database/pull/1070 is available (1.4.198 I would guess)  -->
+    <h2.version>1.4.196</h2.version>
     
     <spotbugs-maven-plugin.version>3.1.5</spotbugs-maven-plugin.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->

@@ -55,11 +55,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>${javax.inject.version}</version>
-    </dependency>
     
     <!-- crnk -->
     <dependency>
@@ -98,12 +93,12 @@
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
     
-	<!-- util -->
-	<dependency>
+	  <!-- util -->
+	  <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-	</dependency>
-	<dependency>
+	  </dependency>
+	  <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
@@ -116,6 +111,18 @@
     <dependency>
       <groupId>com.jayway.jsonpath</groupId>
       <artifactId>json-path</artifactId>
+    </dependency>
+    
+     <!--  Required for Java >= 9 -->
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${javax.inject.version}</version>
     </dependency>
     
     <!-- Seqdb -->

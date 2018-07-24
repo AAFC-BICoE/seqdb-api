@@ -12,8 +12,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
 import ca.gc.aafc.seqdb.entities.Account;
@@ -47,7 +47,7 @@ public class ReadableGroupFilterHandler implements FilterHandler {
     // Get the current username, or null if none is found.
     String currentUsername = Optional
         .ofNullable(SecurityContextHolder.getContext().getAuthentication())
-        .map(authentication -> ((UserDetails) authentication.getPrincipal()).getUsername())
+        .map(Authentication::getName)
         .orElse(null);
 
     // Query for the current Account making the request.

@@ -6,11 +6,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Path;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
@@ -21,6 +23,7 @@ import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.security.ReadableGroupFilterHandler;
+import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
@@ -49,6 +52,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrPrimerDto.class, PcrPrimer.class);
     jpaEntities.put(PcrBatchDto.class, PcrBatch.class);
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
+    jpaEntities.put(GroupDto.class, Group.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -101,6 +105,19 @@ public class ResourceRepositoryConfig {
         )
     );
   }
+  
+  @Bean
+  public JpaResourceRepository<GroupDto> groupRepository(
+      JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        GroupDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            new ReadableGroupFilterHandler(entityManager, root -> (Path<Group>) root)
+        )
+    );
+  }
 
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
@@ -128,6 +145,20 @@ public class ResourceRepositoryConfig {
             new ReadableGroupFilterHandler(entityManager, root -> root.get("pcrBatch").get("group"))
         )
     );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<PcrBatchDto, GroupDto> pcrBatchToGroupRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        PcrBatchDto.class,
+        GroupDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            new ReadableGroupFilterHandler(entityManager, root -> (Path<Group>) root)
+            )
+        );
   }
 
   @Bean

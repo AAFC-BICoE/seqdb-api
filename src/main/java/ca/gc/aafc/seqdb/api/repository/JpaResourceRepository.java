@@ -44,6 +44,7 @@ public class JpaResourceRepository<D>
   @NonNull
   private final List<FilterHandler> filterHandlers;
   
+  @Getter
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
 

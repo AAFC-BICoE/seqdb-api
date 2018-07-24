@@ -16,6 +16,7 @@
     <modelmapper.version>1.1.3</modelmapper.version>
     <guava.version>24.0-jre</guava.version>
     <javax.inject.version>1</javax.inject.version>
+    <javax.activation.version>1.1.1</javax.activation.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
     <seqdb.dbi.version>3.19-SNAPSHOT</seqdb.dbi.version>
     
@@ -127,6 +128,11 @@
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
       <version>${javax-jaxb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <version>${javax.activation.version}</version>
     </dependency>
     
     <dependency>

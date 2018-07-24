@@ -4,7 +4,6 @@ import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +16,7 @@ import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
+import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
@@ -41,8 +41,8 @@ public class WritableGroupAuthorizationAspectTest extends BaseRepositoryTest {
     this.testCreate("1001");
   }
   
-  @Test(expected = PermissionDeniedDataAccessException.class)
-  public void createPcrBatch_whenUserIsNotAuthorized_throwPermissionDeniedException() {
+  @Test(expected = UnauthorizedException.class)
+  public void createPcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
     this.testCreate("1000");
   }
   
@@ -51,8 +51,8 @@ public class WritableGroupAuthorizationAspectTest extends BaseRepositoryTest {
     this.testSave("1100");
   }
   
-  @Test(expected = PermissionDeniedDataAccessException.class)
-  public void savePcrBatch_whenUserIsNotAuthorized_throwPermissionDeniedException() {
+  @Test(expected = UnauthorizedException.class)
+  public void savePcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
     this.testSave("1000");
   }
   
@@ -61,8 +61,8 @@ public class WritableGroupAuthorizationAspectTest extends BaseRepositoryTest {
     this.testDelete("1010");
   }
   
-  @Test(expected = PermissionDeniedDataAccessException.class)
-  public void deletePcrBatch_whenUserIsNotAuthorized_throwPermissionDeniedException() {
+  @Test(expected = UnauthorizedException.class)
+  public void deletePcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
     this.testDelete("0000");
   }
   

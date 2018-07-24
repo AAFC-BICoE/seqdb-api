@@ -55,9 +55,13 @@ public class WritableGroupAuthorizationAspect {
   private final JpaDtoMapper jpaDtoMapper;
   
   /**
-   * Intercepts the create "operation" to apply Group-based authorization.
+   * Intercepts the create operation to apply Group-based authorization.
+   * 
    * @param joinPoint
+   *          Provides reflective access to both the state available at a join point and static
+   *          information about it.
    * @param result
+   *          The result of the create operation.
    */
   @AfterReturning(
       pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.create(..))",
@@ -80,11 +84,22 @@ public class WritableGroupAuthorizationAspect {
     );
   }
   
+  /**
+   * Intercepts the "save" operation to apply Group-based authorization.
+   * 
+   * @param joinPoint
+   *          Provides reflective access to both the state available at a join point and static
+   *          information about it.
+   * @param inputDto
+   *          The input DTO to be saved.
+   * @return The saved DTO.
+   * @throws Throwable
+   */
   @Around(
       "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.save(..))"
       + " && args(inputDto)"
   )
-  public void saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
+  public Object saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
     JpaResourceRepository<?> repository = (JpaResourceRepository<?>) joinPoint.getThis();
     
     Consumer<AccountsGroup> handleSavePermissions = ag -> {
@@ -112,8 +127,20 @@ public class WritableGroupAuthorizationAspect {
         handleSavePermissions,
         repository.getResourceRegistry()
     );
+    
+    // Return the DTO that the intercepted save method returned.
+    return resultDto;
   }
   
+  /**
+   * Intercepts the "save" operation to apply Group-based authorization.
+   * 
+   * @param joinPoint
+   *          Provides reflective access to both the state available at a join point and static
+   *          information about it.
+   * @param id
+   *          The id of the resource to delete.
+   */
   @Before(
       "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.delete(..))"
       + " && args(id)"
@@ -135,6 +162,16 @@ public class WritableGroupAuthorizationAspect {
     );
   }
   
+  /**
+   * Throws an exception if the current user is not authorized.
+   * 
+   * @param dto
+   *          The dto to require Group access on.
+   * @param handlePermissions
+   *          How an AccountsGroup is used to authorize the operation.
+   * @param resourceRegistry
+   *          Crnk's ResourceRegistry
+   */
   private void requireGroupAccess(
       Object dto,
       Consumer<AccountsGroup> handlePermissions,

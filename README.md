@@ -30,6 +30,26 @@ All tests (Integration + Unit):
 mvn clean verify
 ```
 
+## To package
+
+```
+mvn clean install
+```
+
+This will create an executable jar.
+
+## To run the packaged application (using an embedded Tomcat instance)
+
+```
+java -jar seqdb.api.jar
+```
+
+You can also include configuration from an external file:
+
+```
+java -jar seqdb.api.jar --spring.config.additional-location=./myconfig.yml
+```
+
 ## Generate reports
 
 ```

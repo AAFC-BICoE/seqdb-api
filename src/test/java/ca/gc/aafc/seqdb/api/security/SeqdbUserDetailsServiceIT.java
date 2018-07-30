@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
 
-public class SeqdbUserDetailsServiceTest extends BaseIntegrationTest {
+public class SeqdbUserDetailsServiceIT extends BaseIntegrationTest {
 
   @Inject
   private SeqdbUserDetailsService userDetailsService;

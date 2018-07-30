@@ -23,7 +23,7 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.People;
 import ca.gc.aafc.seqdb.entities.PeopleAddress;
 
-public class SeqdbLdapUserDetailsMapperTest extends BaseIntegrationTest {
+public class SeqdbLdapUserDetailsMapperIT extends BaseIntegrationTest {
 
   @Inject
   private SeqdbLdapUserDetailsMapper seqdbLdapUserDetailsMapper;

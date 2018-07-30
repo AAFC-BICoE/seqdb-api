@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Comparators;
 
+import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
@@ -27,6 +29,7 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
 
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
   private ResourceRepositoryV2<RegionDto, Serializable> regionRepository;
+  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
 
   /**
    * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
@@ -36,6 +39,8 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
     this.primerRepository = this.resourceRegistry.getEntry(PcrPrimerDto.class)
         .getResourceRepositoryFacade();
     this.regionRepository = this.resourceRegistry.getEntry(RegionDto.class)
+        .getResourceRepositoryFacade();
+    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
         .getResourceRepositoryFacade();
   }
 
@@ -149,6 +154,23 @@ public class JpaResourceRepositoryTest extends BaseRepositoryTest {
   @Test(expected = ResourceNotFoundException.class)
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
     primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));
+  }
+  
+  @Test
+  public void findAll_whenNoSortSpecified_resultsAreUniqueAndSortedByAscendingId() {
+    for (int i = 1; i <= 10; i++) {
+      this.persistTestPcrBatchWith22Reactions("test batch " + i);
+    }
+    
+    QuerySpec querySpec = new QuerySpec(PcrBatchDto.class);
+    querySpec.setLimit(Long.valueOf(10));
+    ResourceList<PcrBatchDto> batchDtos = pcrBatchRepository.findAll(querySpec);
+    
+    // Check that the IDs are in ascending sequence
+    Integer idIterator = batchDtos.get(0).getPcrBatchId();
+    for (PcrBatchDto batchDto : batchDtos) {
+      assertEquals(idIterator++, batchDto.getPcrBatchId());
+    }
   }
   
   @Test

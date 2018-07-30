@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
     properties = "server.port=8080"
 )
-public class AppStartsTest extends BaseIntegrationTest {
+public class AppStartsIT extends BaseIntegrationTest {
 
   /**
    * Tests that the application with embedded Tomcat starts up successfully.

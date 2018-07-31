@@ -16,7 +16,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Loads a Spring UserDetails object from the SeqDB database given a username String.
+ * Loads a Spring UserDetails object from the SeqDB database given a username String. Used by Spring
+ * Security to perform password authentication.
  */
 @Named
 @RequiredArgsConstructor(onConstructor_ = @Inject)

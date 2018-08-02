@@ -83,22 +83,22 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
     <coordinates>
       <x>928</x>
       <y>296</y>
-      <w>192</w>
+      <w>216</w>
       <h>304</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>220.0;10.0;10.0;360.0</additional_attributes>
+    <additional_attributes>10.0;360.0;250.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>448</x>
+      <x>464</x>
       <y>296</y>
-      <w>152</w>
+      <w>136</w>
       <h>304</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;360.0</additional_attributes>
+    <additional_attributes>150.0;360.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -109,18 +109,18 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
       <h>168</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>408</x>
+      <x>424</x>
       <y>296</y>
-      <w>32</w>
+      <w>24</w>
       <h>424</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;20.0;510.0</additional_attributes>
+    <additional_attributes>10.0;510.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -140,12 +140,12 @@ loadUserByUsername(username: String): UserDetails</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>272</x>
+      <x>288</x>
       <y>296</y>
       <w>136</w>
       <h>248</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;290.0</additional_attributes>
+    <additional_attributes>10.0;290.0;150.0;10.0</additional_attributes>
   </element>
 </diagram>

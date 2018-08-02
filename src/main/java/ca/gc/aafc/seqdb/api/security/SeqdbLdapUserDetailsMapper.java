@@ -30,6 +30,7 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.People;
 import ca.gc.aafc.seqdb.entities.PeopleAddress;
 import ca.gc.aafc.seqdb.entities.Province;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,7 @@ import lombok.RequiredArgsConstructor;
  * when they log in for the first time.
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Inject)
+@RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
 public class SeqdbLdapUserDetailsMapper extends LdapUserDetailsMapper {
 
   @NonNull

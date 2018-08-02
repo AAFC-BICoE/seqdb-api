@@ -19,7 +19,7 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 
-public class ReadableGroupFilterHandlerTest extends BaseRepositoryTest {
+public class ReadableGroupFilterHandlerIT extends BaseRepositoryTest {
   
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
 

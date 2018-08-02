@@ -20,7 +20,7 @@ import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-public class WritableGroupAuthorizationAspectTest extends BaseRepositoryTest {
+public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
 
   private ResourceRepositoryV2<PcrBatchDto, Integer> pcrBatchRepository;
   private ResourceRepositoryV2<GroupDto, Integer> groupRepository;

@@ -2,9 +2,9 @@
 
 spring:
   ldap:
-    urls: ldap://agr.gc.ca:389/
-    base: dc=AGR,dc=GC,dc=CA
-    username: seqdb@agr.gc.ca
+    urls: ldap://host.url:port/
+    base: dc=host,dc=url
+    username: username
     password: mypassword
-    searchBase: ou=AAFC
+    searchBase: ou=ou
     searchFilter: (&(sAMAccountName={0})(objectclass=person))

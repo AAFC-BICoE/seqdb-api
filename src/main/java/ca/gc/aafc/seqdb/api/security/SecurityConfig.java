@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api;
+package ca.gc.aafc.seqdb.api.security;
 
 import javax.inject.Inject;
 
@@ -14,9 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import ca.gc.aafc.seqdb.api.security.SeqdbDaoAuthenticationProvider;
-import ca.gc.aafc.seqdb.api.security.SeqdbLdapUserDetailsMapper;
 
 @Configuration
 @EnableJpaRepositories(considerNestedRepositories = true)

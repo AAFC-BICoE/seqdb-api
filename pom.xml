@@ -56,6 +56,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-ldap</artifactId>
+    </dependency>
     
     <!-- crnk -->
     <dependency>
@@ -94,12 +98,12 @@
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
     
-	  <!-- util -->
-	  <dependency>
+	<!-- util -->
+	<dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-	  </dependency>
-	  <dependency>
+	</dependency>
+	<dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>

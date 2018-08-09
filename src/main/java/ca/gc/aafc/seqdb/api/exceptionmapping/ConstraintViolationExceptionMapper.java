@@ -23,6 +23,8 @@ public class ConstraintViolationExceptionMapper
         exception.getConstraintViolations()
             .stream()
             .map(cv -> ErrorData.builder()
+                .setStatus("400")
+                .setTitle("Constraint violation")
                 .setDetail(String.join(" ", cv.getPropertyPath().toString(), cv.getMessage()))
                 .build())
             .collect(Collectors.toList()),

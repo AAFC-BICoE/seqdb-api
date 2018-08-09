@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
@@ -82,6 +83,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     PcrBatch batch = new PcrBatch();
     batch.setType(PcrBatchType.SANGER);
     batch.setName(batchName);
+    batch.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     
     for (int i = 1; i <= 22; i++) {
       PcrReaction reaction = new PcrReaction();

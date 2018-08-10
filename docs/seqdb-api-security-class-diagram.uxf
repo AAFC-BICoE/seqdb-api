@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>8</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>392</x>
-      <y>240</y>
-      <w>360</w>
-      <h>64</h>
+      <x>644</x>
+      <y>238</y>
+      <w>315</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 SecurityRepositories.AccountRepository
@@ -18,10 +18,10 @@ SecurityRepositories.AccountRepository
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>768</x>
-      <y>240</y>
-      <w>432</w>
-      <h>64</h>
+      <x>973</x>
+      <y>238</y>
+      <w>378</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 SecurityRepositories.CountryRepository
@@ -32,10 +32,10 @@ SecurityRepositories.CountryRepository
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>320</y>
-      <w>408</w>
-      <h>64</h>
+      <x>791</x>
+      <y>308</y>
+      <w>357</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 SecurityRepositories.ProvinceRepository
@@ -46,10 +46,10 @@ SecurityRepositories.ProvinceRepository
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>248</x>
-      <y>704</y>
-      <w>408</w>
-      <h>64</h>
+      <x>518</x>
+      <y>644</y>
+      <w>357</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>SeqDbDaoAuthenticationProvider
 --
@@ -61,10 +61,10 @@ SecurityRepositories.ProvinceRepository
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>584</x>
-      <y>528</y>
-      <w>352</w>
-      <h>128</h>
+      <x>812</x>
+      <y>490</y>
+      <w>308</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>SeqdbLdapUserDetailsMapper
 --
@@ -74,17 +74,17 @@ SecurityRepositories.ProvinceRepository
 -countryRepository: CountryRepository
 -provinceRepository: ProvinceRepository
 --
-mapUserFromContext(ctx: DirContextOperations, username: String,
++mapUserFromContext(ctx: DirContextOperations, username: String,
       authorities: Collection&lt;? extends GrantedAuthority&gt;)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>928</x>
-      <y>296</y>
-      <w>216</w>
-      <h>304</h>
+      <x>1113</x>
+      <y>287</y>
+      <w>189</w>
+      <h>266</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;360.0;250.0;10.0</additional_attributes>
@@ -92,10 +92,10 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>464</x>
-      <y>296</y>
-      <w>136</w>
-      <h>304</h>
+      <x>707</x>
+      <y>287</y>
+      <w>119</w>
+      <h>266</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>150.0;360.0;10.0;10.0</additional_attributes>
@@ -103,10 +103,10 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>752</x>
-      <y>376</y>
-      <w>24</w>
-      <h>168</h>
+      <x>959</x>
+      <y>357</y>
+      <w>21</w>
+      <h>147</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
@@ -114,10 +114,10 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>424</x>
-      <y>296</y>
-      <w>24</w>
-      <h>424</h>
+      <x>672</x>
+      <y>287</y>
+      <w>21</w>
+      <h>371</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;510.0;10.0;10.0</additional_attributes>
@@ -125,27 +125,83 @@ mapUserFromContext(ctx: DirContextOperations, username: String,
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>528</y>
-      <w>288</w>
-      <h>64</h>
+      <x>378</x>
+      <y>490</y>
+      <w>252</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>SeqdbUserDetailsService
 --
 -accountRepository: AccountRepository
 --
-loadUserByUsername(username: String): UserDetails</panel_attributes>
++loadUserByUsername(username: String): UserDetails</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
-      <y>296</y>
-      <w>136</w>
-      <h>248</h>
+      <x>553</x>
+      <y>287</y>
+      <w>119</w>
+      <h>217</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;290.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>126</x>
+      <y>343</y>
+      <w>350</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>WritableGroupAuthorizationAspect
+--
+-entityManager: EntityManager
+-accountRepository: AccountRepository
+-accountsGroupRepository: AccountsGroupRepository
+-jpaDtoMapper: JpaDtoMapper
+--
++createInterceptor(joinPoint: JoinPoint, result: Object): void
++saveInterceptor(joinPoint: ProceedingJoinPoint, inputDto: Object): Object
++deleteInterceptor(joinPoint: JoinPoint, id: Serializable): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>266</x>
+      <y>238</y>
+      <w>343</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+AccountsGroupRepository
+--
++findByAccountAndGroup(account: Acount, group: Group): AccountsGroup</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>287</y>
+      <w>56</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>469</x>
+      <y>280</y>
+      <w>189</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;170.0;250.0;10.0</additional_attributes>
   </element>
 </diagram>

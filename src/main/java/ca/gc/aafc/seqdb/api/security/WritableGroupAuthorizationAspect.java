@@ -29,6 +29,7 @@ import ca.gc.aafc.seqdb.interfaces.RestrictedByGroup;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Named
 @Transactional
-@RequiredArgsConstructor(onConstructor_ = @Inject)
+@RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
 @Aspect
 public class WritableGroupAuthorizationAspect {
 

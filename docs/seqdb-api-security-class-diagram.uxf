@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>240</y>
+      <w>360</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+SecurityRepositories.AccountRepository
+--
++findByAccountNameIgnoreCase(accountName: String): Account</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>768</x>
+      <y>240</y>
+      <w>432</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+SecurityRepositories.CountryRepository
+--
++findByNameIgnoreCaseOrAbbrevIgnoreCase(name: String, abbrev: String): Country</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>320</y>
+      <w>408</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+SecurityRepositories.ProvinceRepository
+--
++findByCountryIdAndNameOrAbbrev(countryId: Integer, name: String): Province</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>248</x>
+      <y>704</y>
+      <w>408</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>SeqDbDaoAuthenticationProvider
+--
+-accountRepository: AccountRepository
+--
++authenticate(authentication: Authentication): Authentication</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>584</x>
+      <y>528</y>
+      <w>352</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>SeqdbLdapUserDetailsMapper
+--
+-passwordEncoder: PasswordEncoder
+-entityManager: EntityManager
+-accountRepository: AccountRepository
+-countryRepository: CountryRepository
+-provinceRepository: ProvinceRepository
+--
+mapUserFromContext(ctx: DirContextOperations, username: String,
+      authorities: Collection&lt;? extends GrantedAuthority&gt;)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>928</x>
+      <y>296</y>
+      <w>216</w>
+      <h>304</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;360.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>296</y>
+      <w>136</w>
+      <h>304</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>150.0;360.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>752</x>
+      <y>376</y>
+      <w>24</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>424</x>
+      <y>296</y>
+      <w>24</w>
+      <h>424</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;510.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>88</x>
+      <y>528</y>
+      <w>288</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>SeqdbUserDetailsService
+--
+-accountRepository: AccountRepository
+--
+loadUserByUsername(username: String): UserDetails</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>296</y>
+      <w>136</w>
+      <h>248</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;290.0;150.0;10.0</additional_attributes>
+  </element>
+</diagram>

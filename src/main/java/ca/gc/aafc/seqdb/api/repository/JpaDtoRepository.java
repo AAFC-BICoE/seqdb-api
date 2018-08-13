@@ -90,7 +90,7 @@ public class JpaDtoRepository {
       @NonNull Class<D> sourceDtoClass,
       @NonNull QuerySpec querySpec,
       @NonNull ResourceRegistry resourceRegistry,
-      @Nullable BiFunction<From<?, ?>, CriteriaBuilder, Predicate> customFilter,
+      @Nullable TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter,
       @Nullable Function<From<?, ?>, From<?, ?>> customRoot
   ) {
     @SuppressWarnings("unchecked")
@@ -118,7 +118,7 @@ public class JpaDtoRepository {
 
     // Add the custom filter to the criteria query.
     if (customFilter != null) {
-      criteriaQuery.where(customFilter.apply(targetPath, cb));
+      criteriaQuery.where(customFilter.apply(targetPath, criteriaQuery, cb));
     }
 
     List<Tuple> result = entityManager
@@ -424,12 +424,24 @@ public class JpaDtoRepository {
   /**
    * An operation that accepts three input arguments and returns no result.
    *
-   * @param <K> type of the first argument
-   * @param <V> type of the second argument
-   * @param <S> type of the third argument
+   * @param <K> first argument type
+   * @param <V> second argument type
+   * @param <S> third argument type
    */
-  public interface TriConsumer<K, V, S> {
-    void accept(K k, V v, S s);
+  public interface TriConsumer<A, B, C> {
+    public void accept(A a, B b, C c);
+  }
+  
+  /**
+   * A function that accepts three input arguments and returns a result.
+   * 
+   * @param <A> first argument type
+   * @param <B> second argument type
+   * @param <C> third argument type
+   * @param <R> return type
+   */
+  public interface TriFunction<A, B, C, R> {
+    public R apply(A a, B b, C c);
   }
 
 }

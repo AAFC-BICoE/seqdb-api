@@ -46,7 +46,7 @@ public class JpaRelationshipRepository<S, T>
   private final JpaDtoRepository dtoRepository;
 
   @NonNull
-  private final FilterHandler filterHandler;
+  private final List<FilterHandler> filterHandlers;
 
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -155,13 +155,15 @@ public class JpaRelationshipRepository<S, T>
         querySpec,
         resourceRegistry,
         // Add the filters to the target entity's path.
-        (targetPath, cb) -> {
+        (targetPath, query, cb) -> {
           From<?, ?> sourcePath = sourcePathHolder[0];
 
           List<Predicate> restrictions = new ArrayList<>();
 
           // Add the filter handler's restriction.
-          restrictions.add(this.filterHandler.getRestriction(querySpec, cb, targetPath));
+          for (FilterHandler filterHandler : this.filterHandlers) {
+            restrictions.add(filterHandler.getRestriction(querySpec, targetPath, query, cb));
+          }
 
           // Restrict the source entity to the given sourceId.
           restrictions.add(

@@ -34,7 +34,7 @@ public class ConstraintViolationExceptionMapperIT extends BaseRepositoryTest {
   }
   
   @Test
-  public void persistPcrBatchWithTooLongNameAndNullPlateSize_whenConstraintViolationExceptionIsThrown_mapperCreatesReadableErrorMessages() {
+  public void persistPcrBatch_whenNameIsTooLongAndPlateSizeIsNull_mapperCreatesReadableErrorMessages() {
     // Make a String with over 50 characters (pcr batch name length limit is 50).
     String stringWith51Chars = "01234567890123456789012345678901234567890123456789a";
     assertEquals(51, stringWith51Chars.length());

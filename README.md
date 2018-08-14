@@ -64,6 +64,7 @@ This application is configured using Spring Boot, with default properties stored
 * [Common Spring properties](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html)
 * [Crnk properties](http://www.crnk.io/releases/stable/documentation/#_integration_with_spring_and_string_boot)
 
+* Importing Sample Accounts: When running the application locally with an in-memory or MySQL database it may be useful to have 2 existing Accounts that you can log into. To import the Admin (username=Admin, password=Admin) and User (username=User, password=User) accounts, add the configuration property "import-sample-accounts=true".
 
 ## Examples
 

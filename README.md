@@ -64,6 +64,18 @@ This application is configured using Spring Boot, with default properties stored
 * [Common Spring properties](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html)
 * [Crnk properties](http://www.crnk.io/releases/stable/documentation/#_integration_with_spring_and_string_boot)
 
+## Database migration with Liquibase
+
+This application uses Liquibase to generate the database and migrate to new versions of the database. Changelogs are source xml files that describe schema changes to the database. Liquibase maintains a "DATABASECHANGELOG" table in the same database to keep track of any changelogs that have not yet been executed. When the application starts, any changelogs that have not been executed are executed.
+
+Our changelogs are kept in src/main/resources/db/changelog.
+
+When adding a new migration changelog, put the new file in src/main/resources/db/changelog/migrations, and name the file after the issue, e.g. db.changelog-Feature\_15\_Add\_Sample\_Table.xml". Then add the new file's path to src/main/resources/db/changelog/db.changelog-master.xml in an "include" tag.
+
+ * [Liquibase home](http://www.liquibase.org/index.html)
+ * [Liquibase Best Practices](http://www.liquibase.org/bestpractices.html)
+ * [Change example: addColumn](https://www.liquibase.org/documentation/changes/add_column.html)
+ * [Adding Liquibase support to an existing database](https://www.liquibase.org/documentation/generating_changelogs.html)
 
 ## Examples
 

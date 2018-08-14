@@ -50,11 +50,15 @@ You can also include configuration from an external file:
 java -jar seqdb.api.jar --spring.config.additional-location=./myconfig.yml
 ```
 
-## Generate reports
+## Generate Maven reports
+
+* Checkstyle
+* SpotBugs
+* OWASP dependency-check
+* Jacoco
 
 ```
-mvn clean compile
-mvn site
+mvn clean verify site
 ```
 
 ## Configuration

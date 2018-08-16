@@ -40,7 +40,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
-public class SeqdbLdapUserDetailsMapper extends LdapUserDetailsMapper {
+class SeqdbLdapUserDetailsMapper extends LdapUserDetailsMapper {
 
   @NonNull
   private final PasswordEncoder passwordEncoder;

@@ -19,7 +19,7 @@ import lombok.NonNull;
  * authenticates with a local account record otherwise.
  */
 @Named
-public class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
+class SeqdbDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
   @NonNull
   private final AccountRepository accountRepository;

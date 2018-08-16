@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Named
 @RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
-public class SeqdbUserDetailsService implements UserDetailsService {
+class SeqdbUserDetailsService implements UserDetailsService {
 
   @NonNull
   private final AccountRepository accountRepository;

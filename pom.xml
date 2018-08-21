@@ -28,6 +28,7 @@
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency-check-maven.version>3.2.1</dependency-check-maven.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     <checkstyle.version>8.8</checkstyle.version>
   </properties>
 
@@ -186,6 +187,71 @@
             <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>pre-unit-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>pre-integration-test</id>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-integration-test</id>
+            <goals>
+              <goal>report-integration</goal>
+            </goals>
+          </execution>
+          <!-- Merge jacoco.exec from unit and integrations tests -->
+          <execution>
+            <id>merge-results</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>merge</goal>
+            </goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <directory>${project.build.directory}</directory>
+                  <includes>
+                    <include>*.exec</include>
+                  </includes>
+                  <excludes>
+                    <exclude>aggregate.exec</exclude>
+                  </excludes>
+                </fileSet>
+              </fileSets>
+              <destFile>${project.build.directory}/aggregate.exec</destFile>
+            </configuration>
+          </execution>
+          <!-- Create the aggregated report from aggregate.exec -->
+          <execution>
+            <id>aggregate-report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>${project.build.directory}/aggregate.exec</dataFile>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

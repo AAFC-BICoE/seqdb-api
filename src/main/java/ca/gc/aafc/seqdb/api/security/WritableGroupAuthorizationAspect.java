@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.security;
 
 import java.io.Serializable;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -73,11 +73,11 @@ public class WritableGroupAuthorizationAspect {
     
     this.requireGroupAccess(
         result,
-        ag -> {
+        (ag, group) -> {
           if (ag == null || !ag.hasCreateAccess()) {
             throw new UnauthorizedException(
                 "Create access denied to " + repository.getResourceClass().getSimpleName()
-                    + " belonging to Group " + ag.getGroup().getGroupName()
+                    + " belonging to Group " + group.getGroupName()
             );
           }
         },
@@ -103,11 +103,11 @@ public class WritableGroupAuthorizationAspect {
   public Object saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
     JpaResourceRepository<?> repository = (JpaResourceRepository<?>) joinPoint.getThis();
     
-    Consumer<AccountsGroup> handleSavePermissions = ag -> {
+    BiConsumer<AccountsGroup, Group> handleSavePermissions = (ag, group) -> {
       if (ag == null || !ag.hasWriteAccess()) {
         throw new UnauthorizedException(
             "Write access denied to " + inputDto.getClass().getSimpleName()
-                + " belonging to Group " + ag.getGroup().getGroupName()
+                + " belonging to Group " + group.getGroupName()
         );
       }
     };
@@ -151,11 +151,11 @@ public class WritableGroupAuthorizationAspect {
     
     this.requireGroupAccess(
         repository.findOne(id, new QuerySpec(repository.getResourceClass())),
-        ag -> {
+        (ag, group) -> {
           if (ag == null || !ag.hasDeleteAccess()) {
             throw new UnauthorizedException(
                 "Delete access denied to " + repository.getResourceClass().getSimpleName()
-                    + " belonging to Group " + ag.getGroup().getGroupName()
+                    + " belonging to Group " + group.getGroupName()
             );
           }
         },
@@ -175,7 +175,7 @@ public class WritableGroupAuthorizationAspect {
    */
   private void requireGroupAccess(
       Object dto,
-      Consumer<AccountsGroup> handlePermissions,
+      BiConsumer<AccountsGroup, Group> handlePermissions,
       ResourceRegistry resourceRegistry
   ) {
     String currentUsername = Optional
@@ -218,7 +218,7 @@ public class WritableGroupAuthorizationAspect {
     AccountsGroup ag = accountsGroupRepository.findByAccountAndGroup(account, group);
 
     // Check for the access right required for the current attempted operation.
-    handlePermissions.accept(ag);
+    handlePermissions.accept(ag, group);
   }
   
 }

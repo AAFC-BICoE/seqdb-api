@@ -86,6 +86,24 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
     pcrBatchRepository.create(batchDto);
   }
   
+  @Test(expected = UnauthorizedException.class)
+  public void createPcrBatch_whenUserHasNullAccountsGroup_throwUnauthorizedException() {
+    AccountsGroup ag = setupAccountAndGroupAndAccountsGroup("1111");
+    
+    // Setup a batch dto for the new group.
+    PcrBatchDto batchDto = new PcrBatchDto();
+    batchDto.setName("testBatch");
+    batchDto.setType(PcrBatchType.SANGER);
+    batchDto.setGroup(
+        groupRepository.findOne(ag.getGroup().getGroupId(), new QuerySpec(GroupDto.class))
+    );
+    
+    entityManager.remove(ag);
+    
+    // Try to persist the batch as an admin without explicit permissions on the group.
+    pcrBatchRepository.create(batchDto);
+  }
+  
   @Test
   public void savePcrBatch_whenUserIsAuthorized_executeSaveWithNoException() {
     this.testSave("1100");
@@ -96,6 +114,48 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testSave("1000");
   }
   
+  @Test(expected = UnauthorizedException.class)
+  public void savePcrBatch_whenUserHasNullAccountsGroup_throwUnauthorizedException() {
+    //Give the user full permissions; this permission is removed later.
+    AccountsGroup permission = setupAccountAndGroupAndAccountsGroup("1111");
+    
+    // Test batch belonging to the testGroup
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("testBatch");
+    batch.setGroup(permission.getGroup());
+    
+    PcrBatchDto batchDto = pcrBatchRepository.findOne(
+        batch.getPcrBatchId(),
+        new QuerySpec(PcrBatchDto.class)
+    );
+    
+    batchDto.setName("editedName");
+    
+    // Remove the user's permission on this group
+    entityManager.remove(permission);
+    
+    this.pcrBatchRepository.save(batchDto);
+  }
+  
+  @Test
+  public void savePcrBatch_whenThePcrBatchHasNoGroup_executeSaveWithNoException() {
+    AccountsGroup permission = setupAccountAndGroupAndAccountsGroup("1111");
+    
+    // Test batch belonging to no group
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("testBatch");
+    
+    PcrBatchDto batchDto = pcrBatchRepository.findOne(
+        batch.getPcrBatchId(),
+        new QuerySpec(PcrBatchDto.class)
+    );
+    
+    batchDto.setName("editedName");
+    
+    // Remove the user's permission on this group
+    entityManager.remove(permission);
+    
+    this.pcrBatchRepository.save(batchDto);
+  }
+  
   @Test
   public void deletePcrBatch_whenUserIsAuthorized_executeDeleteWithNoException() {
     this.testDelete("1010");
@@ -104,6 +164,21 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
   @Test(expected = UnauthorizedException.class)
   public void deletePcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
     this.testDelete("0000");
+  }
+  
+  @Test(expected = UnauthorizedException.class)
+  public void deletePcrBatch_whenUserHasNullAccountsGroup_throwUnauthorizedException() {
+    // Give the user full permissions; this permission is removed later.
+    AccountsGroup permission = setupAccountAndGroupAndAccountsGroup("1111");
+    
+    // Test batch belonging to the testGroup
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("testBatch");
+    batch.setGroup(permission.getGroup());
+    
+    // Remove the user's permission on this group
+    entityManager.remove(permission);
+    
+    pcrBatchRepository.delete(batch.getId());
   }
   
   /**

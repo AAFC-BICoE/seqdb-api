@@ -10,8 +10,10 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Province;
 
 /**
- * Repositories implemented automatically by default by Spring Data. Used by the Seqdb API's
- * security package.
+ * Repositories used by the Seqdb API's security package.
+ * 
+ * Implemented automatically by default by Spring Data:
+ * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-creation
  */
 class SecurityRepositories {
 

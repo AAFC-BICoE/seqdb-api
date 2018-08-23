@@ -21,7 +21,7 @@ import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.security.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;

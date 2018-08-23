@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.authorization;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -203,7 +203,7 @@ public class WritableGroupAuthorizationAspect {
 
     // Check the user's permission and throw the UnauthorizedException if the user does not have the
     // required permission.
-    if (ag == null || !permissionChecker.apply(ag)) {
+    if (Optional.ofNullable(ag).map(it -> !permissionChecker.apply(it)).orElse(true)) {
       throw new UnauthorizedException(
           operationName + " access denied to " + restrictedObject.getClass().getSimpleName()
               + " belonging to Group " + group.getGroupName()

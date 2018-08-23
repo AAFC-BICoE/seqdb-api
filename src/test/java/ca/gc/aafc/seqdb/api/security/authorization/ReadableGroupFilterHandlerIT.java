@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.authorization;
 
 import java.io.Serializable;
 import java.util.Collections;

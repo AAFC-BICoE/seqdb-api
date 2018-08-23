@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.authorization;
 
 import java.util.function.Function;
 
@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Path;
 
+import ca.gc.aafc.seqdb.api.security.SecurityRepositories;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Group;
 import lombok.NonNull;

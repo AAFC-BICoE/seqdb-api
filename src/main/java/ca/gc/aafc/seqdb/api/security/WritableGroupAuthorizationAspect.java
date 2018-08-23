@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.security;
 
 import java.io.Serializable;
 import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -73,14 +73,8 @@ public class WritableGroupAuthorizationAspect {
     
     this.requireGroupAccess(
         result,
-        (ag, group) -> {
-          if (ag == null || !ag.hasCreateAccess()) {
-            throw new UnauthorizedException(
-                "Create access denied to " + repository.getResourceClass().getSimpleName()
-                    + " belonging to Group " + group.getGroupName()
-            );
-          }
-        },
+        "Create",
+        AccountsGroup::hasCreateAccess,
         repository.getResourceRegistry()
     );
   }
@@ -103,19 +97,11 @@ public class WritableGroupAuthorizationAspect {
   public Object saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
     JpaResourceRepository<?> repository = (JpaResourceRepository<?>) joinPoint.getThis();
     
-    BiConsumer<AccountsGroup, Group> handleSavePermissions = (ag, group) -> {
-      if (ag == null || !ag.hasWriteAccess()) {
-        throw new UnauthorizedException(
-            "Write access denied to " + inputDto.getClass().getSimpleName()
-                + " belonging to Group " + group.getGroupName()
-        );
-      }
-    };
-    
     // Require group access before the edit.
     this.requireGroupAccess(
         inputDto,
-        handleSavePermissions,
+        "Write",
+        AccountsGroup::hasWriteAccess,
         repository.getResourceRegistry()
     );
     
@@ -125,7 +111,8 @@ public class WritableGroupAuthorizationAspect {
     // Require group access after the edit, in case the object's group was changed.
     this.requireGroupAccess(
         resultDto,
-        handleSavePermissions,
+        "Write",
+        AccountsGroup::hasWriteAccess,
         repository.getResourceRegistry()
     );
     
@@ -151,14 +138,8 @@ public class WritableGroupAuthorizationAspect {
     
     this.requireGroupAccess(
         repository.findOne(id, new QuerySpec(repository.getResourceClass())),
-        (ag, group) -> {
-          if (ag == null || !ag.hasDeleteAccess()) {
-            throw new UnauthorizedException(
-                "Delete access denied to " + repository.getResourceClass().getSimpleName()
-                    + " belonging to Group " + group.getGroupName()
-            );
-          }
-        },
+        "Delete",
+        AccountsGroup::hasDeleteAccess,
         repository.getResourceRegistry()
     );
   }
@@ -168,14 +149,17 @@ public class WritableGroupAuthorizationAspect {
    * 
    * @param dto
    *          The dto to require Group access on.
-   * @param handlePermissions
-   *          How an AccountsGroup is used to authorize the operation.
+   * @param operationName
+   *          The name of the CRUD operation.
+   * @param permissionChecker
+   *          The accountsgroup method that checks permission for this operation.
    * @param resourceRegistry
    *          Crnk's ResourceRegistry
    */
   private void requireGroupAccess(
       Object dto,
-      BiConsumer<AccountsGroup, Group> handlePermissions,
+      String operationName,
+      Function<AccountsGroup, Boolean> permissionChecker,
       ResourceRegistry resourceRegistry
   ) {
     String currentUsername = Optional
@@ -217,8 +201,14 @@ public class WritableGroupAuthorizationAspect {
     // Get the permissions object for the current user and the entity's access group.
     AccountsGroup ag = accountsGroupRepository.findByAccountAndGroup(account, group);
 
-    // Check for the access right required for the current attempted operation.
-    handlePermissions.accept(ag, group);
+    // Check the user's permission and throw the UnauthorizedException if the user does not have the
+    // required permission.
+    if (ag == null || !permissionChecker.apply(ag)) {
+      throw new UnauthorizedException(
+          operationName + " access denied to " + restrictedObject.getClass().getSimpleName()
+              + " belonging to Group " + group.getGroupName()
+      );
+    }
   }
   
 }

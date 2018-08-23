@@ -15,6 +15,7 @@ import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
+import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
@@ -79,4 +80,85 @@ public class ReadableGroupFilterHandlerIT extends BaseRepositoryTest {
     assertEquals(batch3.getPcrBatchId(), batchDtos.get(1).getPcrBatchId());
   }
   
+  @Test
+  public void findAll_whenUserisAdminAndNoFilterIsSpecified_returnAllResults() {
+    // Admin account
+    Account testAccount = new Account();
+    testAccount.setAccountName("testAccount");
+    testAccount.setAccountType("Admin");
+    entityManager.persist(testAccount);
+    SecurityContextHolder.getContext().setAuthentication(
+        new TestingAuthenticationToken(new User("testAccount", "", Collections.emptyList()), "")
+    );
+    
+    // Readable group
+    Group testGroup1 = new Group();
+    testGroup1.setGroupName("testGroup1");
+    entityManager.persist(testGroup1);
+    
+    // Non-readable group
+    Group testGroup2 = new Group();
+    testGroup2.setGroupName("testGroup2");
+    entityManager.persist(testGroup2);
+    
+    AccountsGroup group1ReadPermission = new AccountsGroup();
+    group1ReadPermission.setAccount(testAccount);
+    group1ReadPermission.setGroup(testGroup1);
+    group1ReadPermission.setRights("1000");
+    group1ReadPermission.setAdmin(false);
+    entityManager.persist(group1ReadPermission);
+    
+    PcrBatch batch1 = persistTestPcrBatchWith22Reactions("batch1");
+    PcrBatch batch2 = persistTestPcrBatchWith22Reactions("batch2");
+    PcrBatch batch3 = persistTestPcrBatchWith22Reactions("batch3");
+    
+    // The user has read permission on group1.
+    batch1.setGroup(testGroup1);
+    // The user does not have read permission on group2.
+    batch2.setGroup(testGroup2);
+    // The batch does not belong to a group.
+    batch3.setGroup(null);
+    
+    QuerySpec querySpec = new QuerySpec(PcrBatchDto.class);
+    ResourceList<PcrBatchDto> batchDtos = this.pcrBatchRepository.findAll(querySpec);
+    
+    // All 3 batches should be found.
+    assertEquals(3, batchDtos.size());
+    assertEquals(batch1.getPcrBatchId(), batchDtos.get(0).getPcrBatchId());
+    assertEquals(batch2.getPcrBatchId(), batchDtos.get(1).getPcrBatchId());
+    assertEquals(batch3.getPcrBatchId(), batchDtos.get(2).getPcrBatchId());
+  }
+
+  @Test(expected = ResourceNotFoundException.class)
+  public void findOne_whenResourceExistsButUserDoesNotHaveReadAccess_throwResourceNotFoundException() {
+    // User account
+    Account testAccount = new Account();
+    testAccount.setAccountName("testAccount");
+    testAccount.setAccountType("User");
+    entityManager.persist(testAccount);
+    SecurityContextHolder.getContext().setAuthentication(
+        new TestingAuthenticationToken(new User("testAccount", "", Collections.emptyList()), "")
+    );
+    
+    // Readable group
+    Group testGroup = new Group();
+    testGroup.setGroupName("testGroup1");
+    entityManager.persist(testGroup);
+    
+    // Write-only permission
+    AccountsGroup group1ReadPermission = new AccountsGroup();
+    group1ReadPermission.setAccount(testAccount);
+    group1ReadPermission.setGroup(testGroup);
+    group1ReadPermission.setRights("0100");
+    group1ReadPermission.setAdmin(false);
+    entityManager.persist(group1ReadPermission);
+    
+    // Persist batch belonging to the group.
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("batch1");
+    batch.setGroup(testGroup);
+    
+    QuerySpec querySpec = new QuerySpec(PcrBatchDto.class);
+    this.pcrBatchRepository.findOne(batch.getPcrBatchId(), querySpec);
+  }
+
 }

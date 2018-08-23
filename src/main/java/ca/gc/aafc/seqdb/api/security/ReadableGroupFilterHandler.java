@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
+import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -31,10 +32,13 @@ public class ReadableGroupFilterHandler implements FilterHandler {
 
   @NonNull
   private final EntityManager entityManager;
+  
+  @NonNull
+  private final AccountRepository accountRepository;
 
   @NonNull
   private final Function<From<?, ?>, Path<Group>> pathToGroup;
-
+  
   @Override
   public Predicate getRestriction(
       QuerySpec querySpec,
@@ -50,24 +54,32 @@ public class ReadableGroupFilterHandler implements FilterHandler {
         .map(Authentication::getName)
         .orElse(null);
 
-    // Query for the current Account making the request.
-    Subquery<Account> accountQuery = query.subquery(Account.class);
-    Root<Account> accountRoot = accountQuery.from(Account.class);
-    accountQuery.select(accountRoot);
-    accountQuery.where(cb.equal(accountRoot.get("accountName"), currentUsername));
+    Account currentAccount = this.accountRepository.findByAccountNameIgnoreCase(currentUsername);
+    
+    // If the user is admin, do not restrict results by group.
+    if (
+        Optional.ofNullable(currentAccount)
+            .map(Account::getAccountType)
+            .orElse("")
+            .equalsIgnoreCase("admin")
+    ) {
+      // Empty restriction.
+      return cb.and();
+    }
 
     // Query for the Groups where this Account has READ access.
     Subquery<AccountsGroup> readableGroupsQuery = query.subquery(AccountsGroup.class);
     Root<AccountsGroup> accountsGroupRoot = readableGroupsQuery.from(AccountsGroup.class);
     readableGroupsQuery.select(accountsGroupRoot.get("group"));
     readableGroupsQuery.where(
-        cb.equal(accountsGroupRoot.get("account"), accountQuery),
+        cb.equal(accountsGroupRoot.get("account"), currentAccount),
         cb.like(accountsGroupRoot.get("rights"), "1___")
     );
 
-    // Restrict the results to those belonging to readable Groups or no Group.
     return cb.or(
+        // Allow results belonging to readable Groups.
         groupPath.in(readableGroupsQuery),
+        // Allow results belonging to no Group.
         cb.isNull(groupPath)
     );
   }

@@ -27,6 +27,7 @@ import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.interfaces.RestrictedByGroup;
 import io.crnk.core.engine.registry.ResourceRegistry;
+import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.AccessLevel;
@@ -34,14 +35,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Intercepts calls to the "create", "save" and "delete" methods of JpaResourceRepository to apply
- * authorization permission checks.
+ * Intercepts calls to the "findOne", "create", "save" and "delete" methods of JpaResourceRepository
+ * to apply authorization permission checks.
  */
 @Named
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
 @Aspect
-public class WritableGroupAuthorizationAspect {
+public class GroupAuthorizationAspect {
 
   @NonNull
   private final EntityManager entityManager;
@@ -54,6 +55,30 @@ public class WritableGroupAuthorizationAspect {
   
   @NonNull
   private final JpaDtoMapper jpaDtoMapper;
+  
+  /**
+   * Intercepts the findOne operation to apply Group-based authorization.
+   * 
+   * @param joinPoint
+   *          Provides reflective access to both the state available at a join point and static
+   *          information about it.
+   * @param result
+   *          The result of the findOne operation.
+   */
+  @AfterReturning(
+      pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.findOne(..))",
+      returning = "result"
+  )
+  public void findOneInterceptor(JoinPoint joinPoint, Object result) {
+    JpaResourceRepository<?> repository = (JpaResourceRepository<?>) joinPoint.getThis();
+    
+    this.requireGroupAccess(
+        result,
+        "Read",
+        AccountsGroup::hasReadAccess,
+        repository.getResourceRegistry()
+    );
+  }
   
   /**
    * Intercepts the create operation to apply Group-based authorization.
@@ -201,10 +226,10 @@ public class WritableGroupAuthorizationAspect {
     // Get the permissions object for the current user and the entity's access group.
     AccountsGroup ag = accountsGroupRepository.findByAccountAndGroup(account, group);
 
-    // Check the user's permission and throw the UnauthorizedException if the user does not have the
+    // Check the user's permission and throw the ForbiddenException if the user does not have the
     // required permission.
     if (Optional.ofNullable(ag).map(it -> !permissionChecker.apply(it)).orElse(true)) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
           operationName + " access denied to " + restrictedObject.getClass().getSimpleName()
               + " belonging to Group " + group.getGroupName()
       );

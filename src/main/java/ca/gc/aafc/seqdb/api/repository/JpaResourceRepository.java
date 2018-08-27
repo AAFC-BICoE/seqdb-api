@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -53,11 +52,23 @@ public class JpaResourceRepository<D>
   public D findOne(Serializable id, QuerySpec querySpec) {
     // Use the findAll method, but limit the result size to 1.
     querySpec.setLimit(Long.valueOf(1));
-    ResourceList<D> resultSet = this.findAll(Collections.singletonList(id), querySpec);
+    ResourceList<D> resultSet = dtoRepository.findAll(
+        this.resourceClass, querySpec, this.resourceRegistry,
+        // Filter by ID.
+        (root, query, cb) -> cb.equal(
+            this.dtoRepository.getSelectionHandler()
+                .getIdExpression(root, resourceClass, resourceRegistry),
+            id
+        ),
+        // Not searching across a relationship, so no root change is required.
+        null
+    );
     
     // Throw the 404 exception if the resource is not found.
     if (resultSet.size() == 0) {
-      throw new ResourceNotFoundException(this.resourceClass.getSimpleName() + " with ID " + id + " Not Found.");
+      throw new ResourceNotFoundException(
+          this.resourceClass.getSimpleName() + " with ID " + id + " Not Found."
+      );
     }
     
     // There should only be one result element in the list.

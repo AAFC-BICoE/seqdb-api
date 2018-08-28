@@ -10,29 +10,33 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Province;
 
 /**
- * Repositories implemented automatically by default by Spring Data. Used by the Seqdb API's
- * security package.
+ * Repositories used by the Seqdb API's security package.
+ *
+ * Implemented automatically by default by Spring Data:
+ * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-creation
  */
-class SecurityRepositories {
+public final class SecurityRepositories {
 
-  public static interface AccountRepository extends Repository<Account, Integer> {
-    public Account findByAccountNameIgnoreCase(String accountName);
+  private SecurityRepositories() { }
+
+  public interface AccountRepository extends Repository<Account, Integer> {
+    Account findByAccountNameIgnoreCase(String accountName);
   }
 
-  public static interface CountryRepository extends Repository<Country, Integer> {
-    public Country findByNameIgnoreCaseOrAbbrevIgnoreCase(String name, String abbrev);
+  public interface CountryRepository extends Repository<Country, Integer> {
+    Country findByNameIgnoreCaseOrAbbrevIgnoreCase(String name, String abbrev);
   }
 
-  public static interface ProvinceRepository extends Repository<Province, Integer> {
+  public interface ProvinceRepository extends Repository<Province, Integer> {
     @Query(
         "select p from Province p where p.countryId = :countryId and "
         + "( lower(p.name) = lower(:name) or lower(p.abbreviation) = lower(:abbrev) ) "
     )
-    public Province findByCountryIdAndNameOrAbbrev(Integer countryId, String name);
+    Province findByCountryIdAndNameOrAbbrev(Integer countryId, String name);
   }
-  
-  public static interface AccountsGroupRepository extends Repository<AccountsGroup, Integer> {
-    public AccountsGroup findByAccountAndGroup(Account account, Group group);
+
+  public interface AccountsGroupRepository extends Repository<AccountsGroup, Integer> {
+    AccountsGroup findByAccountAndGroup(Account account, Group group);
   }
   
 }

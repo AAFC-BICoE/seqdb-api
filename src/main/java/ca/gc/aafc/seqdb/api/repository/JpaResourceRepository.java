@@ -66,7 +66,9 @@ public class JpaResourceRepository<D>
     
     // Throw the 404 exception if the resource is not found.
     if (resultSet.size() == 0) {
-      throw new ResourceNotFoundException("");
+      throw new ResourceNotFoundException(
+          this.resourceClass.getSimpleName() + " with ID " + id + " Not Found."
+      );
     }
     
     // There should only be one result element in the list.

@@ -50,11 +50,15 @@ You can also include configuration from an external file:
 java -jar seqdb.api.jar --spring.config.additional-location=./myconfig.yml
 ```
 
-## Generate reports
+## Generate Maven reports
+
+* Checkstyle
+* SpotBugs
+* OWASP dependency-check
+* Jacoco
 
 ```
-mvn clean compile
-mvn site
+mvn clean verify site
 ```
 
 ## Configuration
@@ -64,6 +68,7 @@ This application is configured using Spring Boot, with default properties stored
 * [Common Spring properties](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html)
 * [Crnk properties](http://www.crnk.io/releases/stable/documentation/#_integration_with_spring_and_string_boot)
 
+* Importing Sample Accounts: When running the application locally with an in-memory or MySQL database it may be useful to have 2 existing Accounts that you can log into. To import the Admin (username=Admin, password=Admin) and User (username=User, password=User) accounts, set the configuration property "import-sample-accounts" to true. **Warning:** This is a dangerous argument to run on production because it will import an admin account with an easy password. You should only pass this argument from the command line or from an external configuration file that is only used on a local dev instance, instead of src/resources/application.yml.
 
 ## Examples
 

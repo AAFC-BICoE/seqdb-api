@@ -6,17 +6,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.ldap.LdapProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.support.AbstractContextSource;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableJpaRepositories(considerNestedRepositories = true)
+@EnableAspectJAutoProxy
 public class SecurityConfig {
 
   @Bean
@@ -63,6 +66,12 @@ public class SecurityConfig {
             .userDetailsContextMapper(seqdbLdapUserDetailsMapper)
             .contextSource((BaseLdapPathContextSource) contextSource);
       }
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+      super.configure(http);
+      http.csrf().disable();
     }
     
   }

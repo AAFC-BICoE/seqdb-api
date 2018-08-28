@@ -22,4 +22,7 @@ public class PcrBatchDto {
   @JsonApiRelation(opposite = "pcrBatch")
   private List<PcrReactionDto> reactions;
   
+  @JsonApiRelation
+  private GroupDto group;
+  
 }

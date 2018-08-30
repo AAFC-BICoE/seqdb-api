@@ -18,20 +18,20 @@ import io.crnk.core.engine.http.HttpStatus;
 @Named
 public class DataIntegrityViolationExceptionMapper
     implements ExceptionMapper<DataIntegrityViolationException> {
+  
+  private static final Integer STATUS_ON_ERROR = HttpStatus.UNPROCESSABLE_ENTITY_422;
 
   @Override
   public ErrorResponse toErrorResponse(DataIntegrityViolationException exception) {
-    Integer status = HttpStatus.UNPROCESSABLE_ENTITY_422;
-    
     return new ErrorResponse(
         Collections.singletonList(
             ErrorData.builder()
-                .setStatus(status.toString())
+                .setStatus(STATUS_ON_ERROR.toString())
                 .setTitle("Data integrity violation")
                 .setDetail(exception.getMessage())
                 .build()
         ),
-        status
+        STATUS_ON_ERROR
     );
   }
 
@@ -44,5 +44,4 @@ public class DataIntegrityViolationExceptionMapper
   public boolean accepts(ErrorResponse errorResponse) {
     throw new UnsupportedOperationException("Crnk client not supported");
   }
-  
 }

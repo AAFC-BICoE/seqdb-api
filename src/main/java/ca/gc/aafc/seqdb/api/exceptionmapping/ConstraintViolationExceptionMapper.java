@@ -17,21 +17,21 @@ import io.crnk.core.engine.http.HttpStatus;
 @Named
 public class ConstraintViolationExceptionMapper
     implements ExceptionMapper<ConstraintViolationException> {
-
+  
+  private static final Integer STATUS_ON_ERROR = HttpStatus.UNPROCESSABLE_ENTITY_422;
+  
   @Override
   public ErrorResponse toErrorResponse(ConstraintViolationException exception) {
-    Integer status = HttpStatus.UNPROCESSABLE_ENTITY_422;
-    
     return new ErrorResponse(
         exception.getConstraintViolations()
             .stream()
             .map(cv -> ErrorData.builder()
-                .setStatus(status.toString())
+                .setStatus(STATUS_ON_ERROR.toString())
                 .setTitle("Constraint violation")
                 .setDetail(String.join(" ", cv.getPropertyPath().toString(), cv.getMessage()))
                 .build())
             .collect(Collectors.toList()),
-        status
+            STATUS_ON_ERROR
     );
   }
 

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
@@ -22,16 +21,8 @@ public class ConstraintViolationExceptionMapperIT extends BaseRepositoryTest {
   @Inject
   private ConstraintViolationExceptionMapper constraintViolationExceptionMapper;
   
+  @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
-
-  /**
-   * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
-   */
-  @Before
-  public void initRepositories() {
-    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
-        .getResourceRepositoryFacade();
-  }
   
   @Test
   public void persistPcrBatch_whenNameIsTooLongAndPlateSizeIsNull_mapperCreatesReadableErrorMessages() {

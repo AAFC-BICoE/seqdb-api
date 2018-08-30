@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -26,19 +25,11 @@ public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest 
   @Inject
   private DataIntegrityViolationExceptionMapper exceptionMapper;
   
+  @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  
+  @Inject
   private ResourceRepositoryV2<GroupDto, Serializable> groupRepository;
-
-  /**
-   * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
-   */
-  @Before
-  public void initRepositories() {
-    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
-        .getResourceRepositoryFacade();
-    this.groupRepository = this.resourceRegistry.getEntry(GroupDto.class)
-        .getResourceRepositoryFacade();
-  }
   
   @Test
   public void createPcrBatch_whenUniqueConstraintIsViolated_mapperCreatesReadableErrorMessages() {

@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.authorization;
 
 import java.util.Collections;
 
@@ -17,11 +17,12 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
+import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
+public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
 
   private ResourceRepositoryV2<PcrBatchDto, Integer> pcrBatchRepository;
   private ResourceRepositoryV2<GroupDto, Integer> groupRepository;
@@ -37,13 +38,45 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
         .getResourceRepositoryFacade();
   }
   
+  @Test(expected = ForbiddenException.class)
+  public void findOne_whenResourceExistsButUserDoesNotHaveReadAccess_throwForbiddenException() {
+    // User account
+    Account testAccount = new Account();
+    testAccount.setAccountName("testAccount");
+    testAccount.setAccountType("User");
+    entityManager.persist(testAccount);
+    SecurityContextHolder.getContext().setAuthentication(
+        new TestingAuthenticationToken(new User("testAccount", "", Collections.emptyList()), "")
+    );
+    
+    // Readable group
+    Group testGroup = new Group();
+    testGroup.setGroupName("testGroup1");
+    entityManager.persist(testGroup);
+    
+    // Write-only permission
+    AccountsGroup group1ReadPermission = new AccountsGroup();
+    group1ReadPermission.setAccount(testAccount);
+    group1ReadPermission.setGroup(testGroup);
+    group1ReadPermission.setRights("0100");
+    group1ReadPermission.setAdmin(false);
+    entityManager.persist(group1ReadPermission);
+    
+    // Persist batch belonging to the group.
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("batch1");
+    batch.setGroup(testGroup);
+    
+    QuerySpec querySpec = new QuerySpec(PcrBatchDto.class);
+    this.pcrBatchRepository.findOne(batch.getPcrBatchId(), querySpec);
+  }
+  
   @Test
   public void createPcrBatch_whenUserIsAuthorized_executeCreateWithNoException() {
     this.testCreate("1001");
   }
   
-  @Test(expected = UnauthorizedException.class)
-  public void createPcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
+  @Test(expected = ForbiddenException.class)
+  public void createPcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
     this.testCreate("1000");
   }
   
@@ -88,9 +121,29 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testSave("1100");
   }
   
-  @Test(expected = UnauthorizedException.class)
-  public void savePcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
+  @Test(expected = ForbiddenException.class)
+  public void savePcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
     this.testSave("1000");
+  }
+  
+  @Test
+  public void savePcrBatch_whenThePcrBatchHasNoGroup_executeSaveWithNoException() {
+    AccountsGroup permission = setupAccountAndGroupAndAccountsGroup("0000");
+    
+    // Test batch belonging to no group
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("testBatch");
+    
+    PcrBatchDto batchDto = pcrBatchRepository.findOne(
+        batch.getPcrBatchId(),
+        new QuerySpec(PcrBatchDto.class)
+    );
+    
+    batchDto.setName("editedName");
+    
+    // Remove the user's permission on this group
+    entityManager.remove(permission);
+    
+    this.pcrBatchRepository.save(batchDto);
   }
   
   @Test
@@ -98,9 +151,9 @@ public class WritableGroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testDelete("1010");
   }
   
-  @Test(expected = UnauthorizedException.class)
-  public void deletePcrBatch_whenUserIsNotAuthorized_throwUnauthorizedException() {
-    this.testDelete("0000");
+  @Test(expected = ForbiddenException.class)
+  public void deletePcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
+    this.testDelete("1000");
   }
   
   /**

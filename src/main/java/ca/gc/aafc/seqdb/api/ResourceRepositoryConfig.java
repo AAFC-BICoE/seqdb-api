@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -22,7 +21,7 @@ import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.security.ReadableGroupFilterHandler;
+import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
@@ -37,7 +36,7 @@ public class ResourceRepositoryConfig {
   private SimpleFilterHandler simpleFilterHandler;
   
   @Inject
-  private EntityManager entityManager;
+  private ReadableGroupFilterHandlerFactory groupFilterFactory;
 
   /**
    * Configures DTO-to-Entity mappings.
@@ -64,7 +63,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("group"))
         )
     );
   }
@@ -76,7 +75,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("group"))
         )
     );
   }
@@ -88,7 +87,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("group"))
         )
     );
   }
@@ -101,7 +100,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("pcrBatch").get("group"))
+            groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         )
     );
   }
@@ -114,7 +113,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> (Path<Group>) root)
+            groupFilterFactory.create(root -> (Path<Group>) root)
         )
     );
   }
@@ -128,7 +127,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("group"))
         )
     );
   }
@@ -142,7 +141,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("pcrBatch").get("group"))
+            groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         )
     );
   }
@@ -156,7 +155,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> (Path<Group>) root)
+            groupFilterFactory.create(root -> (Path<Group>) root)
             )
         );
   }
@@ -170,7 +169,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            new ReadableGroupFilterHandler(entityManager, root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("group"))
         )
     );
   }

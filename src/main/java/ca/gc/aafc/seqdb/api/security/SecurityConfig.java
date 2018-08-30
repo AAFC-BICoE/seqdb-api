@@ -67,7 +67,7 @@ public class SecurityConfig {
             .contextSource((BaseLdapPathContextSource) contextSource);
       }
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       super.configure(http);

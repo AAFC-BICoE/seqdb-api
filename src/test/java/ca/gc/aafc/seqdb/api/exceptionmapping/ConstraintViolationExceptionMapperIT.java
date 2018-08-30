@@ -52,23 +52,27 @@ public class ConstraintViolationExceptionMapperIT extends BaseRepositoryTest {
       // This test expects the ConstraintViolationException to be thrown, it will fail otherwise.
       // Generate the error response here:
       ErrorResponse errorResponse = constraintViolationExceptionMapper.toErrorResponse(exception);
+      
+      // Assert correct http status.
+      assertEquals(422, errorResponse.getHttpStatus());
+      
       // Get the errors sorted by detail. The default error order is not consistent.
       List<ErrorData> errors = errorResponse.getErrors()
           .stream()
           .sorted((a, b) -> a.getDetail().compareTo(b.getDetail()))
           .collect(Collectors.toList());
-
+      
       // 2 errors should be given.
       assertEquals(2, errors.size());
       
       // Assert correct error message, status and title (@Size name length error)
       assertEquals("name size must be between 0 and 50", errors.get(0).getDetail());
-      assertEquals("400", errors.get(0).getStatus());
+      assertEquals("422", errors.get(0).getStatus());
       assertEquals("Constraint violation", errors.get(0).getTitle());
       
       // Assert correct error message, status and title (@NotNull plateSize error)
       assertEquals("plateSize must not be null", errors.get(1).getDetail());
-      assertEquals("400", errors.get(1).getStatus());
+      assertEquals("422", errors.get(1).getStatus());
       assertEquals("Constraint violation", errors.get(1).getTitle());
       return;
     }

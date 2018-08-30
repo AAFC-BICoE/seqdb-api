@@ -70,6 +70,10 @@ public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest 
       this.pcrBatchRepository.create(batch2);
     } catch(DataIntegrityViolationException exception) {
       ErrorResponse errorResponse = this.exceptionMapper.toErrorResponse(exception);
+      
+      // Assert correct http status.
+      assertEquals(422, errorResponse.getHttpStatus());
+      
       List<ErrorData> errors = errorResponse.getErrors().stream().collect(Collectors.toList());
       
       // 1 error should be given.
@@ -77,7 +81,7 @@ public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest 
       
       // Assert correct error message, status and title (@Size name length error)
       assertEquals("could not execute statement; SQL", errors.get(0).getDetail().substring(0, 32));
-      assertEquals("400", errors.get(0).getStatus());
+      assertEquals("422", errors.get(0).getStatus());
       assertEquals("Data integrity violation", errors.get(0).getTitle());
       
       return;

@@ -9,25 +9,29 @@ import org.springframework.dao.DataIntegrityViolationException;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.error.ErrorResponse;
 import io.crnk.core.engine.error.ExceptionMapper;
+import io.crnk.core.engine.http.HttpStatus;
 
 /**
  * Maps org.springframework.dao.DataIntegrityViolationException to user-friendly errors to be
  * displayed in JSONAPI.
  */
 @Named
-public class DataIntegrityViolationExceptionMapper implements ExceptionMapper<DataIntegrityViolationException> {
+public class DataIntegrityViolationExceptionMapper
+    implements ExceptionMapper<DataIntegrityViolationException> {
+  
+  private static final Integer STATUS_ON_ERROR = HttpStatus.UNPROCESSABLE_ENTITY_422;
 
   @Override
   public ErrorResponse toErrorResponse(DataIntegrityViolationException exception) {
     return new ErrorResponse(
         Collections.singletonList(
             ErrorData.builder()
-                .setStatus("400")
+                .setStatus(STATUS_ON_ERROR.toString())
                 .setTitle("Data integrity violation")
                 .setDetail(exception.getMessage())
                 .build()
         ),
-        400
+        STATUS_ON_ERROR
     );
   }
 
@@ -40,5 +44,4 @@ public class DataIntegrityViolationExceptionMapper implements ExceptionMapper<Da
   public boolean accepts(ErrorResponse errorResponse) {
     throw new UnsupportedOperationException("Crnk client not supported");
   }
-  
 }

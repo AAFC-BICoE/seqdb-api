@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolationException;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.error.ErrorResponse;
 import io.crnk.core.engine.error.ExceptionMapper;
+import io.crnk.core.engine.http.HttpStatus;
 
 /**
  * Maps javax.validation.ConstraintViolationException to user-friendly errors to be displayed in
@@ -19,16 +20,18 @@ public class ConstraintViolationExceptionMapper
 
   @Override
   public ErrorResponse toErrorResponse(ConstraintViolationException exception) {
+    Integer status = HttpStatus.UNPROCESSABLE_ENTITY_422;
+    
     return new ErrorResponse(
         exception.getConstraintViolations()
             .stream()
             .map(cv -> ErrorData.builder()
-                .setStatus("400")
+                .setStatus(status.toString())
                 .setTitle("Constraint violation")
                 .setDetail(String.join(" ", cv.getPropertyPath().toString(), cv.getMessage()))
                 .build())
             .collect(Collectors.toList()),
-        400
+        status
     );
   }
 

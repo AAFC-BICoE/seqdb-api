@@ -15,6 +15,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
@@ -143,6 +144,7 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
     PcrBatch batch2 = new PcrBatch();
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
+    batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     entityManager.persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
@@ -175,6 +177,7 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
     PcrBatch batch2 = new PcrBatch();
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
+    batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     entityManager.persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.

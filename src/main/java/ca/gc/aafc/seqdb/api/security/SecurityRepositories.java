@@ -38,5 +38,5 @@ public final class SecurityRepositories {
   public interface AccountsGroupRepository extends Repository<AccountsGroup, Integer> {
     AccountsGroup findByAccountAndGroup(Account account, Group group);
   }
-
+  
 }

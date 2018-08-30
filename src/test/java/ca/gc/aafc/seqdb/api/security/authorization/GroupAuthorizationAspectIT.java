@@ -15,6 +15,7 @@ import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
@@ -91,6 +92,7 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     PcrBatchDto batchDto = new PcrBatchDto();
     batchDto.setName("testBatch");
     batchDto.setType(PcrBatchType.SANGER);
+    batchDto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     
     // Try to persist the batch dto without being authenticated as a persisted Account.
     pcrBatchRepository.create(batchDto);
@@ -105,6 +107,7 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     PcrBatchDto batchDto = new PcrBatchDto();
     batchDto.setName("testBatch");
     batchDto.setType(PcrBatchType.SANGER);
+    batchDto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     batchDto.setGroup(
         groupRepository.findOne(ag.getGroup().getGroupId(), new QuerySpec(GroupDto.class))
     );
@@ -194,6 +197,7 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     PcrBatchDto batchDto = new PcrBatchDto();
     batchDto.setName("testBatch");
     batchDto.setType(PcrBatchType.SANGER);
+    batchDto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     batchDto.setGroup(
         this.groupRepository.findOne(
             permission.getGroup().getGroupId(),

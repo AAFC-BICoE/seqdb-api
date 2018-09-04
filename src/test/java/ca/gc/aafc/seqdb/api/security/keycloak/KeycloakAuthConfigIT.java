@@ -9,7 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 
 @TestPropertySource(properties= {"keycloak.enabled: true"})
-public class KeycloakAuthConfigTest extends BaseIntegrationTest{
+public class KeycloakAuthConfigIT extends BaseIntegrationTest{
 
   @Inject
   private WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;

@@ -6,9 +6,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -19,6 +17,7 @@ import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
 
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
@@ -28,13 +27,14 @@ import ca.gc.aafc.seqdb.entities.People;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+
 /**
  * Creates new local Account and Group DB records a Keycloak-authenticated user when they log in for
  * the first time. This filter should be set to run after KeycloakAuthenticationProcessingFilter,
  * which sets the required authentication in the SecurityContext.
  */
 @RequiredArgsConstructor(onConstructor_ = @Inject)
-public class KeycloakAccountRegistrationFilter implements Filter {
+public class KeycloakAccountRegistrationFilter extends GenericFilterBean {
 
   @NonNull
   private final AccountRepository accountRepository;
@@ -46,7 +46,7 @@ public class KeycloakAccountRegistrationFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-
+    
     Authentication authentication = SecurityContextHolder
         .getContext()
         .getAuthentication();
@@ -70,8 +70,9 @@ public class KeycloakAccountRegistrationFilter implements Filter {
         People newPerson = new People();
         newPerson.setNameGiven(accessToken.getGivenName());
         newPerson.setNameFamily(accessToken.getFamilyName());
-        newPerson
-            .setNote("Auto-generated Keycloak user for " + accountName + " on " + new Date().toString());
+        newPerson.setNote(
+            "Auto-generated Keycloak user for " + accountName + " on " + new Date().toString()
+        );
         entityManager.persist(newPerson);
 
         // Create the Account
@@ -101,11 +102,5 @@ public class KeycloakAccountRegistrationFilter implements Filter {
 
     chain.doFilter(request, response);
   }
-
-  @Override
-  public void init(FilterConfig filterConfig) throws ServletException { }
-
-  @Override
-  public void destroy() { }
 
 }

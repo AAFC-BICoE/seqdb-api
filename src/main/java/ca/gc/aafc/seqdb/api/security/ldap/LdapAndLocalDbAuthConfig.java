@@ -11,11 +11,13 @@ import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.support.AbstractContextSource;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ca.gc.aafc.seqdb.api.security.SeqdbDaoAuthenticationProvider;
+
 
 /**
  * Configures authentication with LDAP, with fallback to local Accounts stored in the database when
@@ -62,6 +64,12 @@ public class LdapAndLocalDbAuthConfig extends WebSecurityConfigurerAdapter {
           .userDetailsContextMapper(seqdbLdapUserDetailsMapper)
           .contextSource((BaseLdapPathContextSource) contextSource);
     }
+  }
+  
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    super.configure(http);
+    http.csrf().disable();
   }
   
   /**

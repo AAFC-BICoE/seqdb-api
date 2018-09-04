@@ -1,0 +1,10 @@
+# Example LDAP config:
+
+spring:
+  ldap:
+    urls: ldap://host.url:port/
+    base: dc=host,dc=url
+    username: username
+    password: mypassword
+    searchBase: ou=ou
+    searchFilter: (&(sAMAccountName={0})(objectclass=person))

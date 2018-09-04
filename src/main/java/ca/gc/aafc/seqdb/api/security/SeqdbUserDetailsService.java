@@ -12,15 +12,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Loads a Spring UserDetails object from the SeqDB database given a username String.
+ * Loads a Spring UserDetails object from the SeqDB database given a username String. Used by Spring
+ * Security to perform password authentication.
  */
 @Named
-@RequiredArgsConstructor(onConstructor_ = @Inject)
-public class SeqdbUserDetailsService implements UserDetailsService {
+@RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
+class SeqdbUserDetailsService implements UserDetailsService {
 
   @NonNull
   private final AccountRepository accountRepository;

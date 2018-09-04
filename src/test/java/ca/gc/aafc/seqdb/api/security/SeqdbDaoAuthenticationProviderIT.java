@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
 
-public class SeqdbDaoAuthenticationProviderTest extends BaseIntegrationTest {
+public class SeqdbDaoAuthenticationProviderIT extends BaseIntegrationTest {
 
   @Inject
   private SeqdbDaoAuthenticationProvider authenticationProvider;
@@ -37,5 +37,5 @@ public class SeqdbDaoAuthenticationProviderTest extends BaseIntegrationTest {
     Authentication authToken = new UsernamePasswordAuthenticationToken("Mat", "mypassword");
     authenticationProvider.authenticate(authToken);
   }
-
+  
 }

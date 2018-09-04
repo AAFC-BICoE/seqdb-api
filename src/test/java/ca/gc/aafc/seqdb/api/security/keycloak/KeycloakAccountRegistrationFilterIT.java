@@ -28,7 +28,7 @@ import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.People;
 
-public class KeycloakAccountRegistrationFilterTest extends BaseIntegrationTest {
+public class KeycloakAccountRegistrationFilterIT extends BaseIntegrationTest {
 
   @Inject
   private AutowireCapableBeanFactory beanFactory;

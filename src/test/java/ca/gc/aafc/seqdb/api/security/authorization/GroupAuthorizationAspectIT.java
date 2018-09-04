@@ -1,8 +1,10 @@
 package ca.gc.aafc.seqdb.api.security.authorization;
 
+import java.io.Serializable;
 import java.util.Collections;
 
-import org.junit.Before;
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,19 +26,11 @@ import io.crnk.core.repository.ResourceRepositoryV2;
 
 public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
 
-  private ResourceRepositoryV2<PcrBatchDto, Integer> pcrBatchRepository;
-  private ResourceRepositoryV2<GroupDto, Integer> groupRepository;
+  @Inject
+  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
   
-  /**
-   * Get the repository facades from crnk, which will invoke all filters, decorators, etc.
-   */
-  @Before
-  public void initRepositories() {
-    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
-        .getResourceRepositoryFacade();
-    this.groupRepository = this.resourceRegistry.getEntry(GroupDto.class)
-        .getResourceRepositoryFacade();
-  }
+  @Inject
+  private ResourceRepositoryV2<GroupDto, Serializable> groupRepository;
   
   @Test(expected = ForbiddenException.class)
   public void findOne_whenResourceExistsButUserDoesNotHaveReadAccess_throwForbiddenException() {

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
@@ -37,19 +36,6 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
   
   @Inject
   private JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToReactionRepository;
-  
-  /**
-   * ResourceRegistry is normally injected into the repository on each request by the Crnk
-   * framework. I can't find the equivalent to ResourceRepositoryFacade for relationship
-   * repositories, so I will just set its ResourceRegistry here.
-   */
-  @Before
-  public void initRepository() {
-    this.primerRepository.setResourceRegistry(this.resourceRegistry);
-    this.pcrBatchRepository.setResourceRegistry(this.resourceRegistry);
-    this.primerToRegionRepository.setResourceRegistry(this.resourceRegistry);
-    this.pcrBatchToReactionRepository.setResourceRegistry(this.resourceRegistry);
-  }
   
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {

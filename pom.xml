@@ -17,6 +17,7 @@
     <guava.version>24.0-jre</guava.version>
     <javax.inject.version>1</javax.inject.version>
     <javax.activation.version>1.1.1</javax.activation.version>
+    <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
     <seqdb.dbi.version>3.23-SNAPSHOT</seqdb.dbi.version>
     
@@ -115,7 +116,7 @@
     <dependency>
       <groupId>org.keycloak</groupId>
       <artifactId>keycloak-spring-boot-starter</artifactId>
-      <version>4.1.0.Final</version>
+      <version>${keycloak-spring-boot-starter.version}</version>
     </dependency>
 
 	<!-- util -->

@@ -10,13 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.support.AbstractContextSource;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import ca.gc.aafc.seqdb.api.security.SeqdbDaoAuthenticationProvider;
 
 
 /**
@@ -41,7 +40,7 @@ public class LdapAndLocalDbAuthConfig extends WebSecurityConfigurerAdapter {
   private String ldapSearchFilter;
 
   @Inject
-  private SeqdbDaoAuthenticationProvider seqdbAuthenticationProvider;
+  private AuthenticationProvider authenticationProvider;
 
   @Inject
   private SeqdbLdapUserDetailsMapper seqdbLdapUserDetailsMapper;
@@ -49,7 +48,7 @@ public class LdapAndLocalDbAuthConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth
-        .authenticationProvider(seqdbAuthenticationProvider);
+        .authenticationProvider(authenticationProvider);
 
     // If an LDAP URL is specified then enable LDAP auth.
     if (ldapProperties.getUrls() != null) {

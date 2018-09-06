@@ -3,7 +3,8 @@ package ca.gc.aafc.seqdb.api.security.authorization;
 import java.io.Serializable;
 import java.util.Collections;
 
-import org.junit.Before;
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,16 +22,8 @@ import io.crnk.core.resource.list.ResourceList;
 
 public class ReadableGroupFilterHandlerIT extends BaseRepositoryTest {
   
+  @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
-
-  /**
-   * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
-   */
-  @Before
-  public void initRepositories() {
-    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
-        .getResourceRepositoryFacade();
-  }
   
   @Test
   public void findAll_whenNoFilterIsSpecified_filterByReadableGroups() {

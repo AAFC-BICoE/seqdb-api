@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.ldap;
 
 import java.util.Collections;
 
@@ -23,7 +23,7 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.People;
 import ca.gc.aafc.seqdb.entities.PeopleAddress;
 
-public class SeqdbLdapUserDetailsMapperIT extends BaseIntegrationTest {
+public class SeqdbLdapUserDetailsMapperTest extends BaseIntegrationTest {
 
   @Inject
   private SeqdbLdapUserDetailsMapper seqdbLdapUserDetailsMapper;

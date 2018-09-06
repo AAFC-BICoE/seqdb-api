@@ -2,7 +2,7 @@
 # For this example config to work, your Keycloak instance should:
 # - Have a "realm" called "seqdb-realm".
 # - Be available at the "auth-server-url" (You can change this value).
-# - Have a public access "client" called "seqdb"
+# - Have a public access "client" called "seqdb" with a proper "Valid Redirect URIs"
 # - Have an account with the "user" role to be able to log in to Seqdb.
 
 # More config options at:

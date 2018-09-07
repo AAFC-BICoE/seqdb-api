@@ -25,7 +25,7 @@ import io.crnk.core.queryspec.SortSpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 
-public class JpaResourceRepositoryTest extends BaseRepositoryTest {
+public class JpaResourceRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;

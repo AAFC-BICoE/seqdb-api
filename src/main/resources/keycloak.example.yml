@@ -1,0 +1,26 @@
+# This file is an example of a connection config for an easily setup Keycloak instance.
+# For this example config to work, your Keycloak instance should:
+# - Have a "realm" called "seqdb-realm".
+# - Be available at the "auth-server-url" (You can change this value).
+# - Have a public access "client" called "seqdb" with a proper "Valid Redirect URIs"
+# - Have an account with the "user" role to be able to log in to Seqdb.
+
+# More config options at:
+# https://www.keycloak.org/docs/latest/securing_apps/index.html#_java_adapter_config
+# (This yml file uses the same properties as the JSON config.)
+
+keycloak:
+  enabled: true
+  realm: seqdb-realm
+  auth-server-url: http://192.168.99.100:8080/auth
+  resource: seqdb
+  public-client: true
+  principal-attribute: preferred_username
+  
+  # All endpoints require a logged-in user with the "user" role.
+  security-constraints:
+    - auth-roles:
+      - user
+      security-collections:
+        - patterns:
+          - /*

@@ -16,7 +16,7 @@ import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-public class SimpleFilterHandlerTest extends BaseRepositoryTest {
+public class SimpleFilterHandlerIT extends BaseRepositoryTest {
 
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;

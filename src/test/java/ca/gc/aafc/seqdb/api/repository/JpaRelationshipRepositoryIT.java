@@ -23,7 +23,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 
-public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
+public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private JpaResourceRepository<PcrPrimerDto> primerRepository;

@@ -4,7 +4,7 @@
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>seqdb.api</name>

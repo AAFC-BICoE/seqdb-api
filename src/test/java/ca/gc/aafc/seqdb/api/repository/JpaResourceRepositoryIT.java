@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import org.junit.Before;
+import javax.inject.Inject;
+
 import org.junit.Test;
 
 import com.google.common.collect.Comparators;
@@ -25,24 +25,16 @@ import io.crnk.core.queryspec.SortSpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 
-public class JpaResourceRepositoryTest extends BaseRepositoryTest {
+public class JpaResourceRepositoryIT extends BaseRepositoryTest {
 
+  @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  
+  @Inject
   private ResourceRepositoryV2<RegionDto, Serializable> regionRepository;
+  
+  @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
-
-  /**
-   * Get the repository facade from crnk, which will invoke all filters, decorators, etc.
-   */
-  @Before
-  public void initRepositories() {
-    this.primerRepository = this.resourceRegistry.getEntry(PcrPrimerDto.class)
-        .getResourceRepositoryFacade();
-    this.regionRepository = this.resourceRegistry.getEntry(RegionDto.class)
-        .getResourceRepositoryFacade();
-    this.pcrBatchRepository = this.resourceRegistry.getEntry(PcrBatchDto.class)
-        .getResourceRepositoryFacade();
-  }
 
   @Test
   public void findOnePrimer_whenNoFieldsAreSelected_primerReturnedWithAllFields() {

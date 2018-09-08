@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
+import javax.inject.Inject;
+
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
@@ -15,14 +16,10 @@ import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-public class SimpleFilterHandlerTest extends BaseRepositoryTest {
+public class SimpleFilterHandlerIT extends BaseRepositoryTest {
 
+  @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
-  
-  @Before
-  public void initRepository() {
-    this.primerRepository = this.resourceRegistry.findEntry(PcrPrimerDto.class).getResourceRepositoryFacade();
-  }
   
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {

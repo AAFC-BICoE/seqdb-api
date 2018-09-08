@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
@@ -15,6 +14,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
@@ -23,7 +23,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 
-public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
+public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private JpaResourceRepository<PcrPrimerDto> primerRepository;
@@ -36,19 +36,6 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
   
   @Inject
   private JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToReactionRepository;
-  
-  /**
-   * ResourceRegistry is normally injected into the repository on each request by the Crnk
-   * framework. I can't find the equivalent to ResourceRepositoryFacade for relationship
-   * repositories, so I will just set its ResourceRegistry here.
-   */
-  @Before
-  public void initRepository() {
-    this.primerRepository.setResourceRegistry(this.resourceRegistry);
-    this.pcrBatchRepository.setResourceRegistry(this.resourceRegistry);
-    this.primerToRegionRepository.setResourceRegistry(this.resourceRegistry);
-    this.pcrBatchToReactionRepository.setResourceRegistry(this.resourceRegistry);
-  }
   
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {
@@ -143,6 +130,7 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
     PcrBatch batch2 = new PcrBatch();
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
+    batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     entityManager.persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
@@ -175,6 +163,7 @@ public class JpaRelationshipRepositoryTest extends BaseRepositoryTest {
     PcrBatch batch2 = new PcrBatch();
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
+    batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     entityManager.persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.

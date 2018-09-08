@@ -14,8 +14,14 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
 crnk:
   pathPrefix: /api
   domainName: ""
   defaultPageLimit: 20
   maxPageLimit: 1000
+
+keycloak:
+  # Disable Keycloak by default.
+  enabled: false

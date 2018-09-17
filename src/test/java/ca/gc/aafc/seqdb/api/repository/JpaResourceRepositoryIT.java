@@ -14,9 +14,14 @@ import com.google.common.collect.Comparators;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
+import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
@@ -35,7 +40,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
-
+  
   @Test
   public void findOnePrimer_whenNoFieldsAreSelected_primerReturnedWithAllFields() {
     PcrPrimer primer = persistTestPrimerWithRegion();
@@ -306,6 +311,37 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   }
   
   @Test
+  public void createPcrBatch_whenAllReactionsOfADifferentBatchAreLinked_allReactionEntitiesAreReLinked() {
+    PcrBatch batch1Entity = persistTestPcrBatchWith22Reactions("batch1");
+    
+    List<PcrReaction> reactions = batch1Entity.getReactions();
+    
+    // Set up a PcrBatchDto that will take all of the reactions from batch1.
+    PcrBatchDto batch2Dto = new PcrBatchDto();
+    batch2Dto.setName("batch2");
+    batch2Dto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
+    batch2Dto.setType(PcrBatchType.SANGER);
+    batch2Dto.setReactions(
+        // Set the reactions as PcrReactionDtos holding only the ID attribute required for linking.
+        reactions.stream()
+            .map(PcrReaction::getPcrReactionId)
+            .map(reactionId -> {
+              PcrReactionDto reactionDto = new PcrReactionDto();
+              reactionDto.setPcrReactionId(reactionId);
+              return reactionDto;
+            })
+            .collect(Collectors.toList())
+    );
+    
+    PcrBatchDto savedBatch2Dto = pcrBatchRepository.create(batch2Dto);
+    
+    PcrBatch batch2Entity = entityManager.find(PcrBatch.class, savedBatch2Dto.getPcrBatchId());
+    
+    // Check that the reacitons were moved to batch2.
+    reactions.forEach(reaction -> assertEquals(batch2Entity, reaction.getPcrBatch()));
+  }
+  
+  @Test
   public void savePrimer_onSuccess_primerEntityIsModified() {
     // Create the test primer.
     PcrPrimer testPrimer = persistTestPrimer();
@@ -374,7 +410,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNull(updatedPrimerDto.getRegion());
     assertNull(testPrimer.getRegion());
   }
-
+  
   @Test
   public void deletePrimer_onPrimerLookup_primerNotFound() {
     PcrPrimer primer = persistTestPrimer();

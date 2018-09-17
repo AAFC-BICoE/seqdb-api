@@ -30,12 +30,18 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   
   @Inject
   private JpaResourceRepository<PcrBatchDto> pcrBatchRepository;
+  
+  @Inject
+  private JpaResourceRepository<PcrReactionDto> pcrReactionRepository;
 
   @Inject
   private JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository;
   
   @Inject
   private JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToReactionRepository;
+  
+  @Inject
+  private JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToBatchRepository;
   
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {
@@ -119,6 +125,41 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     primerToRegionRepository.setRelation(testPrimerDto, newRegion.getId(), "region");
     
     assertEquals(newRegion.getId(), testPrimer.getRegion().getId());
+  }
+  
+  @Test
+  public void setRelation_whenPcrReactionIsMovedToDifferentBatch_reactionEntiityRelatedBatchIsChanged() {
+    // Create 2 batches. We will move a reaction from batch1 to batch2.
+    PcrBatch batch1 = persistTestPcrBatchWith22Reactions("batch1");
+    PcrBatch batch2 = persistTestPcrBatchWith22Reactions("batch2");
+    
+    PcrReaction reactionEntityToMove = batch1.getReactions().get(0);
+    
+    PcrReactionDto reactionDtoToMove = pcrReactionRepository.findOne(
+        reactionEntityToMove.getPcrReactionId(),
+        new QuerySpec(PcrReactionDto.class)
+    );
+
+    // Move the reaction.
+    pcrReactionToBatchRepository.setRelation(reactionDtoToMove, batch2.getPcrBatchId(), "pcrBatch");
+    
+    assertEquals(batch2, reactionEntityToMove.getPcrBatch());
+  }
+  
+  @Test
+  public void setRelationPcrReactionToPcrBatch_whenReactionAlreadyLinkedToBatch_relationDoesNotChange() {
+    PcrBatch batch = persistTestPcrBatchWith22Reactions("batch");
+    PcrReaction reaction = batch.getReactions().get(0);
+    PcrReactionDto reactionDto = pcrReactionRepository.findOne(
+        reaction.getPcrReactionId(),
+        new QuerySpec(PcrReactionDto.class)
+    );
+    
+    // Do the redundant setRelation.
+    pcrReactionToBatchRepository.setRelation(reactionDto, batch.getPcrBatchId(), "pcrBatch");
+    
+    // Check that the reaction is still linked to the same batch.
+    assertEquals(batch, reaction.getPcrBatch());
   }
   
   @Test

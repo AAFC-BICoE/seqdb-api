@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,6 @@ import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
-import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.DefaultResourceList;
@@ -184,18 +182,16 @@ public class JpaDtoRepository {
   }
 
   /**
-   * Delete a JPA entity.
-   * @param dtoClass the JPA entity's DTO class
-   * @param id the entity's ID
+   * Deletes a JPA entity given a DTO.
+   * 
+   * @param resource the resource DTO to be deleted.
+   * @param resourceRegistry the Crnk ResourceRegistry.
    */
-  public void delete(Class<?> dtoClass, Serializable id) {
+  public void delete(Object resource, ResourceRegistry resourceRegistry) {
     Object entity = entityManager.find(
-        this.dtoJpaMapper.getEntityClassForDto(dtoClass),
-        id
+        this.dtoJpaMapper.getEntityClassForDto(resource.getClass()),
+        resourceRegistry.findEntry(resource.getClass()).getResourceInformation().getId(resource)
     );
-    if (entity == null) {
-      throw new ResourceNotFoundException("Resource not found");
-    }
     entityManager.remove(entity);
   }
 

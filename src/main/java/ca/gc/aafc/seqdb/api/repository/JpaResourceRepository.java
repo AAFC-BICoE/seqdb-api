@@ -131,7 +131,10 @@ public class JpaResourceRepository<D>
 
   @Override
   public void delete(Serializable id) {
-    this.dtoRepository.delete(this.resourceClass, id);
+    this.dtoRepository.delete(
+        this.findOne(id, new QuerySpec(this.resourceClass)),
+        this.resourceRegistry
+    );
   }
 
 }

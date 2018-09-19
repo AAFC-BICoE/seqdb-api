@@ -20,7 +20,7 @@ public class SeqdbDaoAuthenticationProviderIT extends BaseIntegrationTest {
   private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
   
   @Test
-  public void localAuth_whenCorrectCredentialsAreGiven_noExceptionThrown() {
+  public void localAuth_whenCorrectCredentialsAreGiven_returnsAuthentication() {
     Account testAccount = new Account();
     testAccount.setAccountName("Mat");
     testAccount.setAccountType("User");
@@ -29,7 +29,21 @@ public class SeqdbDaoAuthenticationProviderIT extends BaseIntegrationTest {
     
     // This lookup should be case-insensitive
     Authentication authToken = new UsernamePasswordAuthenticationToken("mat", "mypassword");
-    authenticationProvider.authenticate(authToken);
+    assertTrue(authenticationProvider.authenticate(authToken) instanceof Authentication);
+  }
+  
+  @Test
+  public void ldapAuth_whenCorrectCredentialsAreGivenWithLdapDn_returnsNull() {
+    Account testAccount = new Account();
+    testAccount.setAccountName("Mat");
+    testAccount.setAccountType("User");
+    testAccount.setAccountPw(passwordEncoder.encode("mypassword"));
+    testAccount.setLdapDn("testLdapDn");
+    entityManager.persist(testAccount);
+    
+    // This lookup should be case-insensitive
+    Authentication authToken = new UsernamePasswordAuthenticationToken("mat", "mypassword");
+    assertNull(authenticationProvider.authenticate(authToken));
   }
   
   @Test(expected = BadCredentialsException.class)

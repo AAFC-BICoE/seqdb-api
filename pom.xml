@@ -19,7 +19,7 @@
     <javax.activation.version>1.1.1</javax.activation.version>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
-    <seqdb.dbi.version>3.23-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.24</seqdb.dbi.version>
     
     <!-- Temporary fix until https://github.com/h2database/h2database/pull/1070 is available (1.4.198 I would guess)  -->
     <h2.version>1.4.196</h2.version>
@@ -96,6 +96,10 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-ehcache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-spatial</artifactId>
     </dependency>
     
     <!-- Database -->

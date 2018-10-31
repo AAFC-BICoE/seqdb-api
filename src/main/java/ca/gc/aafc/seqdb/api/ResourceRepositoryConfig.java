@@ -21,6 +21,7 @@ import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
@@ -36,8 +37,11 @@ public class ResourceRepositoryConfig {
   private SimpleFilterHandler simpleFilterHandler;
   
   @Inject
+  private JpaTotalMetaInformationProvider metaInformationProvider;
+  
+  @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-
+  
   /**
    * Configures DTO-to-Entity mappings.
    * 
@@ -64,7 +68,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -76,7 +81,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -88,7 +94,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -101,7 +108,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -114,7 +122,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -128,7 +137,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -142,7 +152,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -156,8 +167,9 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
-            )
-        );
+        ),
+        metaInformationProvider
+    );
   }
 
   @Bean
@@ -170,7 +182,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 

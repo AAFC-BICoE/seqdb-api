@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.security;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,17 +27,19 @@ public class TrustedServiceAuthenticationProviderIT {
   /**
    * Run tests with TrustedServiceAuthenticationProvider enabled by providing the launch property.
    */
-  @TestPropertySource(properties = "seqdb.trusted-service-api-keys=testApiKey")
+  @TestPropertySource(
+      properties = "seqdb.trusted-service-api-keys = test-api-key, another-test-api-key"
+  )
   public static class TrustedServiceApiKeysEnabled extends BaseIntegrationTest {
     
     @Inject
     private TrustedServiceAuthenticationProvider authProvider;
     
-    @Inject
-    private EntityManager entityManager;
-    
     private Account testAccount;
     
+    /**
+     * Add a test account.
+     */
     @Before
     public void initTestAccount() {
       testAccount = new Account();
@@ -48,6 +49,10 @@ public class TrustedServiceAuthenticationProviderIT {
       entityManager.persist(testAccount);
     }
     
+    /**
+     * Clean up the RequestContextHolder, which may be holding test request attributes after a test
+     * in this class.
+     */
     @After
     public void cleanUpRequestContextHolder() {
       RequestContextHolder.resetRequestAttributes();
@@ -90,7 +95,7 @@ public class TrustedServiceAuthenticationProviderIT {
     @Test
     public void authenticate_whenApiKeyIsCorrect_returnAuthentication() {
       MockHttpServletRequest request = new MockHttpServletRequest();
-      request.addHeader(TrustedServiceAuthenticationProvider.API_KEY_HEADER, "testApiKey");
+      request.addHeader(TrustedServiceAuthenticationProvider.API_KEY_HEADER, "test-api-key");
       RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
       
       Authentication authentication = new TestingAuthenticationToken(

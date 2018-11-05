@@ -83,6 +83,28 @@ When adding a new migration changelog, put the new file in src/main/resources/db
  * [Change example: addColumn](https://www.liquibase.org/documentation/changes/add_column.html)
  * [Adding Liquibase support to an existing database](https://www.liquibase.org/documentation/generating_changelogs.html)
 
+## Trusted service authentication
+
+Security can be configured so an external trusted service can authenticate as any user for an HTTP request by including an "api-key" HTTP header. 
+
+To enable this feature, launch this application with the Spring launch property "seqdb.trusted-service-api-keys".
+ 
+   YAML example:
+
+   ```
+   seqdb.trusted-service-api-keys: secret-key, another-secret-key
+   ```
+   
+When the trusted service makes a request:
+   * Include the "api-key" header with one of the configured api-key values.
+   * Include the username using HTTP Basic authentication. You do not need to include a password.
+   
+   curl example:
+   
+   ```
+   curl -i -H"api-key: secret-key" -uMatPoff: localhost:8080/api/region
+   ```
+
 ## Examples
 
 Create a new Region:

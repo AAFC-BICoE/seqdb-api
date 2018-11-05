@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
@@ -30,10 +31,10 @@ public class TrustedServiceAuthenticationProvider implements AuthenticationProvi
 
   public TrustedServiceAuthenticationProvider(
       @Value("${seqdb.trusted-service-api-keys}")
-      List<String> trustedServiceApiKeys,
+      String[] trustedServiceApiKeys,
       UserDetailsService userDetailsService
   ) {
-    this.trustedServiceApiKeys = trustedServiceApiKeys;
+    this.trustedServiceApiKeys = Arrays.asList(trustedServiceApiKeys);
     this.userDetailsService = userDetailsService;
   }
   

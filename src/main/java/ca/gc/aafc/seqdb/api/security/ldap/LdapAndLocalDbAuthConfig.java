@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.security.ldap;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +12,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.support.AbstractContextSource;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import ca.gc.aafc.seqdb.api.security.SeqdbDaoAuthenticationProvider;
+import ca.gc.aafc.seqdb.api.security.TrustedServiceAuthenticationProvider;
 
 
 /**
@@ -40,15 +44,22 @@ public class LdapAndLocalDbAuthConfig extends WebSecurityConfigurerAdapter {
   private String ldapSearchFilter;
 
   @Inject
-  private AuthenticationProvider authenticationProvider;
+  private SeqdbDaoAuthenticationProvider daoAuthProvider;
+  
+  @Inject
+  private Optional<TrustedServiceAuthenticationProvider> trustedServiceAuthProvider;
 
   @Inject
   private SeqdbLdapUserDetailsMapper seqdbLdapUserDetailsMapper;
-
+  
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-        .authenticationProvider(authenticationProvider);
+    
+    // Add trusted service auth as the first AuthenticationProvider if enabled.
+    trustedServiceAuthProvider.ifPresent(auth::authenticationProvider);
+    
+    // Add authentication against database as the second AuthenticationProvider.
+    auth.authenticationProvider(daoAuthProvider);
 
     // If an LDAP URL is specified then enable LDAP auth.
     if (ldapProperties.getUrls() != null) {

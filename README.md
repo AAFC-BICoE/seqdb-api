@@ -85,7 +85,7 @@ When adding a new migration changelog, put the new file in src/main/resources/db
 
 ## Trusted service authentication
 
-Security can be configured so an external trusted service can authenticate as any user for an HTTP request by including an "api-key" HTTP header. 
+Security can be configured so an external trusted service can authenticate as any user for an HTTP request by including an "Authorization" HTTP header. 
 
 To enable this feature, launch this application with the Spring launch property "seqdb.trusted-service-api-keys".
  
@@ -96,13 +96,19 @@ To enable this feature, launch this application with the Spring launch property 
    ```
    
 When the trusted service makes a request:
-   * Include the "api-key" header with one of the configured api-key values.
-   * Include the username using HTTP Basic authentication. You do not need to include a password.
+   * Include the "Authorization" header with the value of "TrustedService <username> <api-key>"
+   * Note: Usernames and api-keys with spaces must have spaces escaped by backslashes.
    
    curl example:
    
    ```
-   curl -i -H"api-key: secret-key" -uMatPoff: localhost:8080/api/region
+   curl -i -H"Authorization: MatPoff secret-key" localhost:8080/api/region
+   ```
+   
+   curl example where the username has a space:
+   
+   ```
+   curl -i -H"Authorization: Mat\ Poff secret-key" localhost:8080/api/region
    ```
 
 ## Examples

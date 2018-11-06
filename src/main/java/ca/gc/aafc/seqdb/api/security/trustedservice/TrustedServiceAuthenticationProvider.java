@@ -1,37 +1,37 @@
-package ca.gc.aafc.seqdb.api.security;
+package ca.gc.aafc.seqdb.api.security.trustedservice;
 
 import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Named
-@ConditionalOnProperty("seqdb.trusted-service-api-keys")
+import lombok.NonNull;
+
+/**
+ * AuthenticationProvider implementation to allow authorization as any user by including the
+ * username and API key in an HTTP header.
+ * 
+ * Example curl request;
+ *   curl -i -H"Authorization: MatPoff secret-key" localhost:8080/api/region
+ */
 public class TrustedServiceAuthenticationProvider implements AuthenticationProvider {
-  
-  public static final String API_KEY_HEADER = "api-key";
   
   private final List<String> trustedServiceApiKeys;
   
   private final UserDetailsService userDetailsService;
 
   public TrustedServiceAuthenticationProvider(
+      @NonNull
       @Value("${seqdb.trusted-service-api-keys}")
       String[] trustedServiceApiKeys,
+      @NonNull
       UserDetailsService userDetailsService
   ) {
     this.trustedServiceApiKeys = Arrays.asList(trustedServiceApiKeys);
@@ -40,12 +40,8 @@ public class TrustedServiceAuthenticationProvider implements AuthenticationProvi
   
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-    
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-        .getRequestAttributes()).getRequest();
-    
-    String apiKey = request.getHeader(API_KEY_HEADER);
-    String username = authentication.getPrincipal().toString();
+    String username = Objects.toString(authentication.getPrincipal(), null);
+    String apiKey = Objects.toString(authentication.getCredentials(), null);
     
     if (StringUtils.isEmpty(apiKey)) {
       return null;
@@ -56,19 +52,20 @@ public class TrustedServiceAuthenticationProvider implements AuthenticationProvi
           String.format("Unknown service api key: %s", apiKey));
     }
     
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    userDetailsService.loadUserByUsername(username);
 
-    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-        userDetails.getUsername(),
-        "trusted-service-auth" // Password not needed.
-    );
+    TrustedServiceAuthenticationToken token = new TrustedServiceAuthenticationToken(username,
+        apiKey);
+    
+    token.setAuthenticated(true);
     
     return token;
   }
 
   @Override
   public boolean supports(Class<?> authentication) {
-    return authentication != null && Authentication.class.isAssignableFrom(authentication);
+    return authentication != null
+        && TrustedServiceAuthenticationToken.class.isAssignableFrom(authentication);
   }
   
 }

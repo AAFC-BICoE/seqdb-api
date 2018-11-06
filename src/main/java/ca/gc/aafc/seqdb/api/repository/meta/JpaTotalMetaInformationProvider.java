@@ -27,26 +27,21 @@ public class JpaTotalMetaInformationProvider implements JpaMetaInformationProvid
       CriteriaQuery<?> resourceQuery,
       CriteriaBuilder cb
   ) {
-    // Only do the count query when pagination is requested.
-    if (querySpec.getPaging() != null) {
-      // Create the total count query.
-      CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-      from = countQuery.from(from.getJavaType());
-      countQuery.select(cb.count(from));
+    // Create the total count query.
+    CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+    from = countQuery.from(from.getJavaType());
+    countQuery.select(cb.count(from));
 
-      // Use the same restrictions as the existing entity query.
-      countQuery.where(resourceQuery.getRestriction());
+    // Use the same restrictions as the existing entity query.
+    countQuery.where(resourceQuery.getRestriction());
 
-      // Get the total.
-      Long total = this.entityManager.createQuery(countQuery).getSingleResult();
+    // Get the total.
+    Long total = this.entityManager.createQuery(countQuery).getSingleResult();
 
-      // Return the DefaultPagedMetaInformation with the total.
-      DefaultPagedMetaInformation metaInformation = new DefaultPagedMetaInformation();
-      metaInformation.setTotalResourceCount(total);
-      return metaInformation;
-    } else {
-      return new DefaultPagedMetaInformation();
-    }
+    // Return the DefaultPagedMetaInformation with the total.
+    DefaultPagedMetaInformation metaInformation = new DefaultPagedMetaInformation();
+    metaInformation.setTotalResourceCount(total);
+    return metaInformation;
   }
 
 }

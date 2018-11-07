@@ -1,12 +1,13 @@
 package ca.gc.aafc.seqdb.api.repository.meta;
 
-import javax.inject.Named;
+import java.util.function.Function;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 
-import io.crnk.core.queryspec.QuerySpec;
+import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import io.crnk.core.resource.meta.DefaultPagedMetaInformation;
 import lombok.RequiredArgsConstructor;
 
@@ -14,26 +15,32 @@ import lombok.RequiredArgsConstructor;
  * Uses an existing JPA criteria query to provide a DefaultPagedMetaInformation containing the total
  * count of resources that match the existing query's restrictions.
  */
-@Named
 @RequiredArgsConstructor
 public class JpaTotalMetaInformationProvider implements JpaMetaInformationProvider {
 
   private final EntityManager entityManager;
+  
+  private final JpaDtoMapper jpaDtoMapper;
 
   @Override
-  public DefaultPagedMetaInformation getMetaInformation(
-      QuerySpec querySpec,
-      From<?, ?> from,
-      CriteriaQuery<?> resourceQuery,
-      CriteriaBuilder cb
-  ) {
+  public DefaultPagedMetaInformation getMetaInformation(JpaMetaInformationParams params) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    
     // Create the total count query.
     CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-    from = countQuery.from(from.getJavaType());
-    countQuery.select(cb.count(from));
+    From<?, ?> sourcePath = countQuery.from(
+        jpaDtoMapper.getEntityClassForDto(params.getSourceResourceClass())
+    );
+    
+    Function<From<?, ?>, From<?, ?>> customRoot = params.getCustomRoot();
+    From<?, ?> targetPath = customRoot != null ? customRoot.apply(sourcePath) : sourcePath;
+    
+    countQuery.select(cb.count(targetPath));
 
     // Use the same restrictions as the existing entity query.
-    countQuery.where(resourceQuery.getRestriction());
+    if (params.getCustomFilter() != null) {
+      countQuery.where(params.getCustomFilter().apply(targetPath, countQuery, cb));
+    }
 
     // Get the total.
     Long total = this.entityManager.createQuery(countQuery).getSingleResult();

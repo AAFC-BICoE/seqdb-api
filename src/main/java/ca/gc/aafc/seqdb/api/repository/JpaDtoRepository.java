@@ -35,6 +35,7 @@ import com.google.common.collect.Streams;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceInformation;
@@ -135,7 +136,13 @@ public class JpaDtoRepository {
             .map(JpaDtoRepository::mapFromTuple)
             .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass))
             .collect(Collectors.toList()),
-            metaInformationProvider.getMetaInformation(querySpec, targetPath, criteriaQuery, cb),
+        metaInformationProvider.getMetaInformation(
+            JpaMetaInformationParams.builder()
+                .sourceResourceClass(sourceDtoClass)
+                .customRoot(customRoot)
+                .customFilter(customFilter)
+                .build()
+        ),
         null
     );
   }

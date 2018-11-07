@@ -1,11 +1,18 @@
 package ca.gc.aafc.seqdb.api.repository.meta;
 
+import java.util.function.Function;
+
+import javax.annotation.Nullable;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
+import javax.persistence.criteria.Predicate;
 
-import io.crnk.core.queryspec.QuerySpec;
+import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository.TriFunction;
 import io.crnk.core.resource.meta.MetaInformation;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * Interface for providing JSONAPI response meta information given a JPA Criteria Query.
@@ -13,19 +20,35 @@ import io.crnk.core.resource.meta.MetaInformation;
 public interface JpaMetaInformationProvider {
 
   /**
-   * Provides JSONAPI MetaInformation given a JPA Criteria Query.
+   * Gets the MetaInformation of a JPA/DTO resource query.
    * 
-   * @param querySpec The Crnk QuerySpec.
-   * @param from The path for the query's target entity.
-   * @param query The existing criteria query.
-   * @param cb The JPA CriteriaBuilder.
-   * @return The JSONAPI MetaInformation.
+   * @param params The parameters for creating this MetaInformation.
+   * @return the query's MetaInformation
    */
-  public MetaInformation getMetaInformation(
-      QuerySpec querySpec,
-      From<?, ?> from,
-      CriteriaQuery<?> query,
-      CriteriaBuilder cb
-  );
+  public MetaInformation getMetaInformation(JpaMetaInformationParams params);
+  
+  @Builder
+  @Getter
+  public static class JpaMetaInformationParams {
+    
+    /**
+     * The source resource class used when querying across a relationship.
+     */
+    @NonNull
+    private Class<?> sourceResourceClass;
+    
+    /**
+     * The custom root function used when querying across a relationship.
+     */
+    @Nullable
+    private Function<From<?, ?>, From<?, ?>> customRoot;
+    
+    /**
+     * The custom filter used by the query.
+     */
+    @Nullable
+    private TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter;
+    
+  }
   
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -58,6 +59,11 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(GroupDto.class, Group.class);
 
     return new JpaDtoMapper(jpaEntities);
+  }
+  
+  @Bean
+  public JpaTotalMetaInformationProvider metaInformationProvider(EntityManager entityManager) {
+    return new JpaTotalMetaInformationProvider(entityManager, dtoJpaMapper());
   }
 
   @Bean

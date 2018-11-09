@@ -87,6 +87,11 @@
       <artifactId>crnk-meta</artifactId>
       <version>${crnk.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.crnk</groupId>
+      <artifactId>crnk-operations</artifactId>
+      <version>${crnk.version}</version>
+    </dependency>
     
     <!-- Hibernate -->
     <dependency>

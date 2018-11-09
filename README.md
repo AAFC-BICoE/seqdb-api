@@ -91,3 +91,90 @@ curl -XPOST -H "Content-Type: application/vnd.api+json" \
 --data '{"data":{"type": "region", "attributes": {"name":"My Region", "description":"My Description", "symbol":"My Symbol"}}}' \
 http://localhost:8080/api/region
 ```
+
+## Bulk operations
+
+Bulk operations are supported using the unofficial
+[jsonpatch](https://github.com/json-api/json-api/blob/9c7a03dbc37f80f6ca81b16d444c960e96dd7a57/extensions/jsonpatch/index.md)
+extension to JSONAPI implemented by the Crnk Operations Module.
+
+Example request:
+
+HTTP Method: PATCH
+
+URL: (API path prefix)/operations
+
+Headers:
+  - Content-Type: application/json-patch+json
+  - Accept: application/json-patch+json
+
+Body:
+
+```
+[{
+	"op": "POST",
+	"path": "region",
+	"value": {
+		"id": 1000,
+		"type": "region",
+		"attributes": {
+			"name": "region-1",
+			"description": "desc",
+			"symbol": "symbol"
+		}
+	}
+}, {
+	"op": "POST",
+	"path": "region",
+	"value": {
+		"id": 2000,
+		"type": "region",
+		"attributes": {
+			"name": "region-2",
+			"description": "desc",
+			"symbol": "symbol"
+		}
+	}
+}]
+```
+
+Reponse:
+
+```
+[
+    {
+        "data": {
+            "id": "4",
+            "type": "region",
+            "attributes": {
+                "symbol": "symbol",
+                "name": "region-1",
+                "description": "desc"
+            },
+            "links": {
+                "self": "/api/region/4"
+            }
+        },
+        "status": 201
+    },
+    {
+        "data": {
+            "id": "5",
+            "type": "region",
+            "attributes": {
+                "symbol": "symbol",
+                "name": "region-2",
+                "description": "desc"
+            },
+            "links": {
+                "self": "/api/region/5"
+            }
+        },
+        "status": 201
+    }
+]
+```
+
+Note: The "id" field in a POST request to create a resource will not become the persisted
+resource's ID, but it is mandatory for the request. In the future this value could be used to
+submit multiple resources linking to each other.

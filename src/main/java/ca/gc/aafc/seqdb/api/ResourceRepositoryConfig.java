@@ -19,8 +19,9 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
+import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
-import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
@@ -36,8 +37,11 @@ public class ResourceRepositoryConfig {
   private SimpleFilterHandler simpleFilterHandler;
   
   @Inject
+  private RsqlFilterHandler rsqlFilterHandler;
+  
+  @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-
+  
   /**
    * Configures DTO-to-Entity mappings.
    * 
@@ -63,6 +67,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         )
     );
@@ -75,6 +80,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         )
     );
@@ -87,6 +93,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         )
     );
@@ -100,6 +107,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         )
     );
@@ -113,6 +121,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         )
     );
@@ -127,6 +136,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         )
     );
@@ -141,6 +151,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         )
     );
@@ -155,6 +166,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
             )
         );
@@ -169,6 +181,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         )
     );

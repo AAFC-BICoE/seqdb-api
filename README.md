@@ -91,3 +91,86 @@ curl -XPOST -H "Content-Type: application/vnd.api+json" \
 --data '{"data":{"type": "region", "attributes": {"name":"My Region", "description":"My Description", "symbol":"My Symbol"}}}' \
 http://localhost:8080/api/region
 ```
+
+## Resource Query Filtering
+
+**Simple key-value filter:**
+
+```
+localhost:8080/api/region?filter%5Bname%5D=ITS&filter%5Bdescription%5D=Internal%20Transcribed%20Spacer
+```
+
+returns:
+
+```
+{
+    "data": [
+        {
+            "id": "43",
+            "type": "region",
+            "attributes": {
+                "symbol": "ITS",
+                "name": "ITS",
+                "description": "Internal Transcribed Spacer"
+            },
+            "links": {
+                "self": "/api/region/43"
+            }
+        }
+    ]
+}
+```
+
+
+**RSQL**:
+
+seqdb-api supports [RSQL (REST query language)](https://github.com/jirutka/rsql-parser) for more complex filter queries.
+
+```
+localhost:8080/api/region?filter%5Brsql%5D=( name=='12S' or name=='142' )
+```
+
+returns
+
+```
+{
+    "data": [
+        {
+            "id": "142",
+            "type": "region",
+            "attributes": {
+                "symbol": "142",
+                "name": "142",
+                "description": ""
+            },
+            "links": {
+                "self": "/api/region/142"
+            }
+        },
+        {
+            "id": "284",
+            "type": "region",
+            "attributes": {
+                "symbol": "12S",
+                "name": "12S",
+                "description": "mitochondrial"
+            },
+            "links": {
+                "self": "/api/region/284"
+            }
+        },
+        {
+            "id": "366",
+            "type": "region",
+            "attributes": {
+                "symbol": "12S",
+                "name": "12S",
+                "description": null
+            },
+            "links": {
+                "self": "/api/region/366"
+            }
+        }
+    ]
+}
+```

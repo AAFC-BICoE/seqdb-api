@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository;
+package ca.gc.aafc.seqdb.api.repository.filter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;

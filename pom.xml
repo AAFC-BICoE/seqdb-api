@@ -18,6 +18,7 @@
     <javax.inject.version>1</javax.inject.version>
     <javax.activation.version>1.1.1</javax.activation.version>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
+    <rsql-jpa.version>2.0.2</rsql-jpa.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
     <seqdb.dbi.version>3.24</seqdb.dbi.version>
     
@@ -46,8 +47,8 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.0.4.RELEASE</version>
   </parent>
-
-  <dependencies>
+  
+    <dependencies>
   
     <!-- Spring -->
     <dependency>
@@ -86,6 +87,13 @@
       <groupId>io.crnk</groupId>
       <artifactId>crnk-meta</artifactId>
       <version>${crnk.version}</version>
+    </dependency>
+    
+    <!-- RSQL -->
+    <dependency>
+      <groupId>com.github.tennaito</groupId>
+      <artifactId>rsql-jpa</artifactId>
+      <version>${rsql-jpa.version}</version>
     </dependency>
     
     <!-- Hibernate -->

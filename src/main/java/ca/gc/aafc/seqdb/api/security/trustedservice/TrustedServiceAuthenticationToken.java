@@ -10,15 +10,32 @@ public class TrustedServiceAuthenticationToken extends AbstractAuthenticationTok
 
   @Getter(onMethod_ = @Override)
   private final Object principal;
-  
+
   @Getter(onMethod_ = @Override)
   private final Object credentials;
-  
-  public TrustedServiceAuthenticationToken(Object principal, Object credentials) {
+
+  public TrustedServiceAuthenticationToken(
+      Object principal,
+      Object credentials,
+      boolean authenticated
+  ) {
     super(null);
     this.principal = principal;
     this.credentials = credentials;
-    this.setAuthenticated(false);
+    super.setAuthenticated(authenticated);
   }
-  
+
+  public TrustedServiceAuthenticationToken(Object principal, Object credentials) {
+    this(principal, credentials, false);
+  }
+
+  @Override
+  public void setAuthenticated(boolean authenticated) {
+    if (authenticated) {
+      throw new IllegalArgumentException(
+          "Cannot set this token to trusted - use constructor which takes a boolean instead");
+    }
+    super.setAuthenticated(false);
+  }
+
 }

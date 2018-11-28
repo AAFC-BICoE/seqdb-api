@@ -55,9 +55,7 @@ public class TrustedServiceAuthenticationProvider implements AuthenticationProvi
     userDetailsService.loadUserByUsername(username);
 
     TrustedServiceAuthenticationToken token = new TrustedServiceAuthenticationToken(username,
-        apiKey);
-    
-    token.setAuthenticated(true);
+        apiKey, true);
     
     return token;
   }

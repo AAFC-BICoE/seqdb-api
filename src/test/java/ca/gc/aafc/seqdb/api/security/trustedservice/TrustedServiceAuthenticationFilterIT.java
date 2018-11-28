@@ -120,7 +120,7 @@ public class TrustedServiceAuthenticationFilterIT extends BaseIntegrationTest {
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain filterChain = new MockFilterChain();
     
-    request.addHeader("Authorization", "TrustedService Mat\\ Poff test-api-key");
+    request.addHeader("Authorization", "TrustedService Mat%20Poff test-api-key");
     
     filter.doFilter(request, response, filterChain);
     

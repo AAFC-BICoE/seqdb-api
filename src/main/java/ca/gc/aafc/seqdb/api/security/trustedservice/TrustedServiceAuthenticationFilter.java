@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
 import java.io.IOException;
-import java.util.stream.Stream;
+import java.net.URLDecoder;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,13 +20,14 @@ import lombok.RequiredArgsConstructor;
 /**
  * Processes a HTTP request's "TrustedService" authorization header, putting the result into the
  * SecurityContextHolder. This allows authorization as any user by including the username and API
- * key in an HTTP header. Spaces in the username or api-key must be escaped with a backslash.
+ * key in an HTTP header. Usernames and api-keys must be url-encoded to avoid issues with usernames
+ * that have spaces.
  * 
  * Example curl request:
- *   curl -i -H"Authorization: MatPoff secret-key" localhost:8080/api/region
+ *   curl -i -H"Authorization: TrustedService MatPoff secret-key" localhost:8080/api/region
  *   
  * Example curl request where the username has a space:
- *   curl -i -H"Authorization: Mat\ Poff secret-key" localhost:8080/api/region
+ *   curl -i -H"Authorization: TrustedService Mat%20Poff secret-key" localhost:8080/api/region
  */
 @RequiredArgsConstructor
 public class TrustedServiceAuthenticationFilter extends OncePerRequestFilter {
@@ -44,19 +45,16 @@ public class TrustedServiceAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     
-    // Split on unescaped spaces
-    String[] authParts = Stream.of(authorizationHeader.split("(?<!\\\\)\\s+"))
-        // Then unescape the escaped spaces to get the intended username
-        .map(part -> part.replaceAll("\\\\ ", " "))
-        .toArray(String[]::new);
+    // Split on spaces
+    String[] authParts = authorizationHeader.split(" ");
     
     if (authParts.length != 3) {
       throw new BadCredentialsException("TrustedService authorization header must match "
           + "\"TrustedService <username> <api-key>\"");
     }
     
-    String username = authParts[1];
-    String apiKey = authParts[2];
+    String username = URLDecoder.decode(authParts[1], "UTF-8");
+    String apiKey = URLDecoder.decode(authParts[2], "UTF-8");
     
     TrustedServiceAuthenticationToken authRequest = new TrustedServiceAuthenticationToken(username,
         apiKey);

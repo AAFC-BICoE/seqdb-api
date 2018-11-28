@@ -97,7 +97,7 @@ To enable this feature, launch this application with the Spring launch property 
    
 When the trusted service makes a request:
    * Include the "Authorization" header with the value of "TrustedService <username> <api-key>"
-   * Note: Usernames and api-keys with spaces must have spaces escaped by backslashes.
+   * Note: Usernames and api-keys must be url-encoded to avoid issues with values that have spaces.
    
    curl example:
    
@@ -108,7 +108,7 @@ When the trusted service makes a request:
    curl example where the username has a space:
    
    ```
-   curl -i -H"Authorization: Mat\ Poff secret-key" localhost:8080/api/region
+   curl -i -H"Authorization: Mat%20Poff secret-key" localhost:8080/api/region
    ```
 
 ## Examples

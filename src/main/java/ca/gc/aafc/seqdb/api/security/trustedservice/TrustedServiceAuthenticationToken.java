@@ -4,6 +4,9 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 import lombok.Getter;
 
+/**
+ * Authentication token for a trusted service to authenticate as a user by using an api-key.
+ */
 public class TrustedServiceAuthenticationToken extends AbstractAuthenticationToken {
 
   private static final long serialVersionUID = -1689000801224458018L;

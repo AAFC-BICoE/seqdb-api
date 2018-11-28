@@ -19,7 +19,7 @@ import lombok.NonNull;
  * username and API key in an HTTP header.
  * 
  * Example curl request;
- *   curl -i -H"Authorization: MatPoff secret-key" localhost:8080/api/region
+ *   curl -i -H"Authorization: TrustedService MatPoff secret-key" localhost:8080/api/region
  */
 public class TrustedServiceAuthenticationProvider implements AuthenticationProvider {
   

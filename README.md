@@ -83,6 +83,10 @@ When adding a new migration changelog, put the new file in src/main/resources/db
  * [Change example: addColumn](https://www.liquibase.org/documentation/changes/add_column.html)
  * [Adding Liquibase support to an existing database](https://www.liquibase.org/documentation/generating_changelogs.html)
 
+## IDE Setup
+
+This project uses [Lombok](https://projectlombok.org/), which may require additional setup in your IDE: [IDE setup guides](https://projectlombok.org/setup/overview)
+
 ## Examples
 
 Create a new Region:

@@ -3,16 +3,17 @@
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+  objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
   <changeSet id="Feature_8532_Track_pooled_PCR_primers" author="poffm">
     <addColumn tableName="PcrPrimers">
-      <column name="PooledPrimerID" type="int(11)" />
+      <column name="PooledPrimerID" type="int" />
     </addColumn>
     <addForeignKeyConstraint constraintName="FK_gkgdsum1o21h1sdtib9nwecd5"
       baseTableName="PcrPrimers" baseColumnNames="PooledPrimerID"
-      referencedTableName="PcrPrimers" referencedColumnNames="PcrPrimerID" />
+      referencedTableName="PcrPrimers" referencedColumnNames="PCRPrimerID" />
     <addColumn tableName="PcrPrimers_AUD">
-      <column name="PooledPrimerID" type="int(11)" />
+      <column name="PooledPrimerID" type="int" />
     </addColumn>
   </changeSet>
 </databaseChangeLog>

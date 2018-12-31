@@ -1,11 +1,16 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
     <changeSet author="mat (generated)" id="1534191846802-1">
         <createTable tableName="AccountPreferences">
             <column autoIncrement="true" name="PreferenceID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="PreferenceName" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -23,7 +28,7 @@
             <column name="BarcodeableEntity" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="AccountProfileID" type="INT"/>
             <column name="LabelTemplateID" type="INT"/>
             <column name="PrinterID" type="INT"/>
@@ -34,7 +39,7 @@
             <column autoIncrement="true" name="AccountProfileID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="AccountID" type="INT"/>
         </createTable>
     </changeSet>
@@ -43,7 +48,7 @@
             <column autoIncrement="true" name="AccountUsageID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="AccountID" type="INT"/>
             <column name="UsageID" type="INT"/>
         </createTable>
@@ -65,9 +70,9 @@
             <column name="ApiKey" type="VARCHAR(100)">
                 <constraints unique="true"/>
             </column>
-            <column name="LastLogin" type="datetime"/>
+            <column name="LastLogin" type="DATETIME(6)"/>
             <column name="LastLoginFrom" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LdapDn" type="VARCHAR(200)">
                 <constraints unique="true"/>
             </column>
@@ -79,10 +84,10 @@
             <column autoIncrement="true" name="AccountGroupID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="Admin" type="BIT(1)">
+            <column name="Admin" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Rights" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
@@ -96,7 +101,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="AddressNote" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Locality" type="VARCHAR(64)"/>
             <column name="OrganisationName" type="VARCHAR(256)"/>
             <column name="OrganisationUnit" type="VARCHAR(256)"/>
@@ -161,7 +166,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(10)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -173,7 +178,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -184,13 +189,13 @@
             <column autoIncrement="true" name="AnnotationID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="AnnotationDefault" type="BIT(1)">
+            <column name="AnnotationDefault" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="DateCreated" type="datetime">
+            <column name="DateCreated" type="DATETIME(6)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Value" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -207,7 +212,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -236,7 +241,7 @@
             <column name="BarcodeableMapName" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="MapFile" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -250,7 +255,7 @@
             <column name="DatePublished" type="date"/>
             <column name="Description" type="LONGTEXT"/>
             <column name="Language" type="VARCHAR(20)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LongName" type="VARCHAR(512)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -290,7 +295,7 @@
             <column name="HitBits" type="INT"/>
             <column name="HitDescription" type="LONGTEXT"/>
             <column name="HitEnd" type="INT"/>
-            <column name="HitFoundagain" type="BIT(1)"/>
+            <column name="HitFoundagain" type="BOOLEAN"/>
             <column name="HitLength" type="INT"/>
             <column name="HitName" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -301,7 +306,7 @@
             <column name="HitScore" type="INT"/>
             <column name="HitSignif" type="DOUBLE"/>
             <column name="HitStart" type="INT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="NumHSP" type="INT"/>
             <column name="BlastResultID" type="INT"/>
         </createTable>
@@ -341,7 +346,7 @@
             <column name="HSPQueryStart" type="INT"/>
             <column name="HSPRank" type="INT"/>
             <column name="HSPScore" type="FLOAT(12)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="BlastHitID" type="INT"/>
         </createTable>
     </changeSet>
@@ -350,11 +355,11 @@
             <column autoIncrement="true" name="BlastProjectID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="DateCreated" type="datetime">
+            <column name="DateCreated" type="DATETIME(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -376,7 +381,7 @@
             <column autoIncrement="true" name="BlastResultID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="OutputDir" type="VARCHAR(255)"/>
             <column name="OutputFile" type="VARCHAR(255)"/>
             <column name="BlastProjectID" type="INT"/>
@@ -388,7 +393,7 @@
             <column autoIncrement="true" name="CloneID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints unique="true"/>
             </column>
@@ -424,12 +429,10 @@
             <column name="Assembly" type="VARCHAR(100)"/>
             <column name="AssemblyName" type="VARCHAR(50)"/>
             <column name="ChimeraCheck" type="VARCHAR(50)"/>
-            <column name="DateCreated" type="datetime">
-                <constraints nullable="false"/>
-            </column>
+            <column name="DateCreated" type="DATETIME(6)"/>
             <column name="Description" type="LONGTEXT"/>
             <column name="FinishingStrategy" type="VARCHAR(100)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -449,7 +452,7 @@
             </column>
             <column name="AlignedEnd" type="INT"/>
             <column name="AlignedStart" type="INT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)"/>
             <column name="Seq" type="LONGTEXT"/>
             <column name="Start" type="INT"/>
@@ -489,7 +492,7 @@
             <column name="GeoreferencedDate" type="date"/>
             <column name="GPSSource" type="VARCHAR(50)"/>
             <column name="Habitat" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Latitude" type="VARCHAR(100)"/>
             <column name="Longitude" type="VARCHAR(100)"/>
             <column name="Month" type="VARCHAR(10)"/>
@@ -577,7 +580,7 @@
             <column name="BaseType" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -601,10 +604,10 @@
             <column name="ContainerNumber" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FillByRow" type="BIT(1)">
+            <column name="FillByRow" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="ContainerTypeID" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -619,7 +622,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Abbrev" type="VARCHAR(100)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
@@ -638,7 +641,7 @@
             <column name="Directory" type="VARCHAR(255)"/>
             <column name="Filename" type="VARCHAR(50)"/>
             <column name="FilterProgramFile" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -657,8 +660,8 @@
             <column name="EmailType" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
-            <column name="PrimaryEmail" type="BIT(1)">
+            <column name="LastModified" type="DATETIME(6)"/>
+            <column name="PrimaryEmail" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="PeopleID" type="INT"/>
@@ -694,7 +697,7 @@
             <column name="Frame" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Start" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -726,14 +729,14 @@
             <column autoIncrement="true" name="FeatureID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="DateCreated" type="datetime">
+            <column name="DateCreated" type="DATETIME(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="FeatureDefault" type="BIT(1)">
+            <column name="FeatureDefault" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -751,9 +754,9 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="TINYINT(3)"/>
-            <column name="DateCreated" type="datetime"/>
+            <column name="DateCreated" type="DATETIME(6)"/>
             <column name="Description" type="LONGTEXT"/>
-            <column name="FeatureDefault" type="BIT(1)"/>
+            <column name="FeatureDefault" type="BOOLEAN"/>
             <column name="Name" type="VARCHAR(255)"/>
             <column name="Link2FeatureID" type="INT"/>
             <column name="RegionID" type="INT"/>
@@ -765,7 +768,7 @@
             <column autoIncrement="true" name="FileSystemWatcherEntryID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="AutoLink" type="BIT(1)">
+            <column name="AutoLink" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="AutoLinkingRegex" type="VARCHAR(255)"/>
@@ -774,11 +777,11 @@
             </column>
             <column name="FieldToLink" type="VARCHAR(255)"/>
             <column name="FileNameFilter" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Path" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="Recursive" type="BIT(1)">
+            <column name="Recursive" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -788,10 +791,10 @@
             <column autoIncrement="true" name="FragmentID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="CreationDate" type="datetime"/>
+            <column name="CreationDate" type="DATETIME(6)"/>
             <column name="FileDir" type="VARCHAR(255)"/>
             <column name="FileName" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -816,7 +819,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="TINYINT(3)"/>
-            <column name="CreationDate" type="datetime"/>
+            <column name="CreationDate" type="DATETIME(6)"/>
             <column name="FileDir" type="VARCHAR(255)"/>
             <column name="FileName" type="VARCHAR(255)"/>
             <column name="Name" type="VARCHAR(255)"/>
@@ -840,12 +843,12 @@
             <column name="CCFCNumber" type="VARCHAR(50)"/>
             <column name="DAOMGroup" type="VARCHAR(50)"/>
             <column name="DAOMNumber" type="VARCHAR(50)"/>
-            <column name="Culture" type="BIT(1)"/>
+            <column name="Culture" type="BOOLEAN"/>
             <column name="CultureType" type="VARCHAR(50)"/>
             <column name="IsolateNumber" type="VARCHAR(50)"/>
             <column name="IsolatedBy" type="VARCHAR(50)"/>
             <column name="IsolationDate" type="date"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Notes" type="VARCHAR(1024)"/>
             <column name="ReceivedFrom" type="VARCHAR(255)"/>
             <column name="SavedAs" type="VARCHAR(50)"/>
@@ -865,7 +868,7 @@
             <column name="CCFCNumber" type="VARCHAR(50)"/>
             <column name="DAOMGroup" type="VARCHAR(50)"/>
             <column name="DAOMNumber" type="VARCHAR(50)"/>
-            <column name="Culture" type="BIT(1)"/>
+            <column name="Culture" type="BOOLEAN"/>
             <column name="CultureType" type="VARCHAR(50)"/>
             <column name="IsolateNumber" type="VARCHAR(50)"/>
             <column name="IsolatedBy" type="VARCHAR(50)"/>
@@ -934,21 +937,21 @@
             <column autoIncrement="true" name="GoHitID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="GoBiologicalProc" type="BIT(1)">
+            <column name="GoBiologicalProc" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="GoCellularComp" type="BIT(1)">
+            <column name="GoCellularComp" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="GoDefinition" type="LONGTEXT"/>
             <column name="GoHitNumber" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="GoMolecularFunc" type="BIT(1)">
+            <column name="GoMolecularFunc" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="GoTerm" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="GoProjectID" type="INT"/>
         </createTable>
     </changeSet>
@@ -957,11 +960,11 @@
             <column autoIncrement="true" name="GoProjectID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="DateCreated" type="datetime">
+            <column name="DateCreated" type="DATETIME(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="ProjectName" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -978,7 +981,7 @@
             <column name="GroupName" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
         </createTable>
     </changeSet>
     <changeSet author="mat (generated)" id="1534191846802-49">
@@ -989,7 +992,7 @@
             <column name="Description" type="VARCHAR(512)"/>
             <column name="Habitat" type="VARCHAR(512)"/>
             <column name="HostETC" type="VARCHAR(225)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Part" type="VARCHAR(50)"/>
             <column name="TaxonID" type="INT"/>
             <column name="TaxonomyID" type="INT"/>
@@ -1018,7 +1021,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -1038,11 +1041,11 @@
             <column autoIncrement="true" name="HybridizationID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="Date" type="datetime">
+            <column name="Date" type="DATETIME(6)">
                 <constraints nullable="false"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="Duplicate" type="BIT(1)">
+            <column name="Duplicate" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="ExpositionTime" type="time">
@@ -1050,7 +1053,7 @@
             </column>
             <column name="ImageDir" type="VARCHAR(255)"/>
             <column name="ImageFileName" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="ArrayTypeID" type="INT"/>
             <column name="HyProjectID" type="INT"/>
         </createTable>
@@ -1060,7 +1063,7 @@
             <column autoIncrement="true" name="IdentificationID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="Accepted" type="BIT(1)">
+            <column name="Accepted" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="Day" type="VARCHAR(10)"/>
@@ -1068,11 +1071,11 @@
             <column name="EvidenceNotes" type="VARCHAR(1024)"/>
             <column name="IdentifiedBy" type="VARCHAR(200)"/>
             <column name="IdentifierEmail" type="VARCHAR(200)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LifeCycle" type="VARCHAR(20)"/>
             <column name="Month" type="VARCHAR(10)"/>
             <column name="NCBITaxonID" type="VARCHAR(12)"/>
-            <column name="Representative" type="BIT(1)"/>
+            <column name="Representative" type="BOOLEAN"/>
             <column name="Result" type="VARCHAR(50)"/>
             <column name="Year" type="VARCHAR(10)"/>
             <column name="SequenceID" type="INT"/>
@@ -1090,7 +1093,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="TINYINT(3)"/>
-            <column name="Accepted" type="BIT(1)"/>
+            <column name="Accepted" type="BOOLEAN"/>
             <column name="Day" type="VARCHAR(10)"/>
             <column name="Error" type="VARCHAR(50)"/>
             <column name="EvidenceNotes" type="VARCHAR(1024)"/>
@@ -1099,7 +1102,7 @@
             <column name="LifeCycle" type="VARCHAR(20)"/>
             <column name="Month" type="VARCHAR(10)"/>
             <column name="NCBITaxonID" type="VARCHAR(12)"/>
-            <column name="Representative" type="BIT(1)"/>
+            <column name="Representative" type="BOOLEAN"/>
             <column name="Result" type="VARCHAR(50)"/>
             <column name="Year" type="VARCHAR(10)"/>
             <column name="SequenceID" type="INT"/>
@@ -1139,7 +1142,7 @@
             </column>
             <column name="ImportationDate" type="date"/>
             <column name="ImportedBy" type="VARCHAR(200)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="NumberOfSamples" type="VARCHAR(50)"/>
             <column name="ImportPermitID" type="INT"/>
         </createTable>
@@ -1168,7 +1171,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="Country" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="GroupID" type="INT"/>
         </createTable>
     </changeSet>
@@ -1197,7 +1200,7 @@
             <column name="LabelFormatName" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="RibbonType" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -1213,7 +1216,7 @@
             <column name="LabelTemplateName" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="BarcodeableMapID" type="INT"/>
             <column name="LabelFormatID" type="INT"/>
         </createTable>
@@ -1223,7 +1226,7 @@
             <column autoIncrement="true" name="LexiconID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LastModifiedBy" type="VARCHAR(80)">
                 <constraints nullable="false"/>
             </column>
@@ -1240,7 +1243,7 @@
             <column autoIncrement="true" name="LexiconUsageID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LexiconID" type="INT"/>
             <column name="UsageID" type="INT"/>
         </createTable>
@@ -1251,7 +1254,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -1275,7 +1278,7 @@
             <column name="ActContent" type="VARCHAR(512)"/>
             <column name="ActType" type="VARCHAR(255)"/>
             <column name="DateEntered" type="date"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="CareOf" type="INT"/>
             <column name="LoanFormId" type="INT">
                 <constraints nullable="false"/>
@@ -1315,7 +1318,7 @@
             <column name="InvoiceId" type="VARCHAR(20)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LoanRemarks" type="VARCHAR(512)"/>
             <column name="MaterialSent" type="VARCHAR(10000)"/>
             <column name="NumberOfParcels" type="INT"/>
@@ -1337,8 +1340,8 @@
             <column autoIncrement="true" name="LocationID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="DateMoved" type="datetime"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="DateMoved" type="DATETIME(6)"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="WellColumn" type="INT"/>
             <column name="WellRow" type="VARCHAR(2)"/>
             <column name="CloneID" type="INT"/>
@@ -1389,7 +1392,7 @@
             <column name="ExperimentalReplicate" type="VARCHAR(5)"/>
             <column name="FungiIsolated" type="VARCHAR(50)"/>
             <column name="LabAnalysisReport" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="MixedSpecimenNumber" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -1522,7 +1525,7 @@
             <column name="DominantHand" type="VARCHAR(50)"/>
             <column name="DominantLandUse" type="VARCHAR(100)"/>
             <column name="DominantStreamsideVegetation" type="VARCHAR(100)"/>
-            <column name="Douche" type="datetime"/>
+            <column name="Douche" type="DATETIME(6)"/>
             <column name="DownPar" type="VARCHAR(50)"/>
             <column name="DrainageClass" type="VARCHAR(50)"/>
             <column name="DrugUsage" type="VARCHAR(50)"/>
@@ -1534,15 +1537,15 @@
             <column name="EstimatedSize" type="VARCHAR(50)"/>
             <column name="ExperimentalFactor" type="VARCHAR(50)"/>
             <column name="ExtrachromElements" type="VARCHAR(50)"/>
-            <column name="ExtremeEvent" type="datetime"/>
+            <column name="ExtremeEvent" type="DATETIME(6)"/>
             <column name="ExtremeSalinity" type="VARCHAR(100)"/>
             <column name="FaoClass" type="VARCHAR(50)"/>
             <column name="Feature" type="VARCHAR(50)"/>
             <column name="FertilizerRegm" type="VARCHAR(50)"/>
             <column name="FilterType" type="VARCHAR(50)"/>
-            <column name="Fire" type="datetime"/>
+            <column name="Fire" type="DATETIME(6)"/>
             <column name="FishKillEventInfo" type="VARCHAR(100)"/>
-            <column name="Flooding" type="datetime"/>
+            <column name="Flooding" type="DATETIME(6)"/>
             <column name="Fluor" type="VARCHAR(50)"/>
             <column name="FoetalHealthStat" type="VARCHAR(50)"/>
             <column name="FungicideRegm" type="VARCHAR(50)"/>
@@ -1596,10 +1599,10 @@
             <column name="HostTaxid" type="INT"/>
             <column name="HostTotMass" type="VARCHAR(50)"/>
             <column name="HostWetMass" type="VARCHAR(50)"/>
-            <column name="Hrt" type="datetime"/>
+            <column name="Hrt" type="DATETIME(6)"/>
             <column name="Humidity" type="VARCHAR(50)"/>
             <column name="HumidityRegm" type="VARCHAR(50)"/>
-            <column name="Hysterectomy" type="BIT(1)"/>
+            <column name="Hysterectomy" type="BOOLEAN"/>
             <column name="IhmcEthnicity" type="VARCHAR(50)"/>
             <column name="IhmcMedicationCode" type="INT"/>
             <column name="IndoorSpace" type="VARCHAR(50)"/>
@@ -1624,9 +1627,9 @@
             <column name="MeanFrictVel" type="VARCHAR(50)"/>
             <column name="MeanPeakFrictVel" type="VARCHAR(50)"/>
             <column name="MechanicalDamage" type="VARCHAR(50)"/>
-            <column name="MedicHistPerform" type="BIT(1)"/>
-            <column name="Menarche" type="datetime"/>
-            <column name="Menopause" type="datetime"/>
+            <column name="MedicHistPerform" type="BOOLEAN"/>
+            <column name="Menarche" type="DATETIME(6)"/>
+            <column name="Menopause" type="DATETIME(6)"/>
             <column name="Methane" type="VARCHAR(50)"/>
             <column name="MicrobialBiomass" type="VARCHAR(50)"/>
             <column name="MicrobialBiomassMeth" type="VARCHAR(50)"/>
@@ -1673,7 +1676,7 @@
             <column name="Porosity" type="VARCHAR(50)"/>
             <column name="Potassium" type="VARCHAR(50)"/>
             <column name="PreTreatment" type="VARCHAR(50)"/>
-            <column name="Pregnancy" type="datetime"/>
+            <column name="Pregnancy" type="DATETIME(6)"/>
             <column name="Pressure" type="VARCHAR(50)"/>
             <column name="PreviousLandUse" type="VARCHAR(50)"/>
             <column name="PreviousLandUseMeth" type="VARCHAR(50)"/>
@@ -1713,7 +1716,7 @@
             <column name="SlopeAspect" type="VARCHAR(50)"/>
             <column name="SlopeGradient" type="VARCHAR(50)"/>
             <column name="SludgeRetentTime" type="VARCHAR(50)"/>
-            <column name="Smoker" type="BIT(1)"/>
+            <column name="Smoker" type="BOOLEAN"/>
             <column name="Sodium" type="VARCHAR(50)"/>
             <column name="SoilType" type="VARCHAR(50)"/>
             <column name="SoilTypeMeth" type="VARCHAR(50)"/>
@@ -1746,8 +1749,8 @@
             <column name="TextureMeth" type="VARCHAR(50)"/>
             <column name="TidalStage" type="VARCHAR(50)"/>
             <column name="Tillage" type="VARCHAR(50)"/>
-            <column name="TimeLastToothbrush" type="datetime"/>
-            <column name="TimeSinceLastWash" type="datetime"/>
+            <column name="TimeLastToothbrush" type="DATETIME(6)"/>
+            <column name="TimeSinceLastWash" type="DATETIME(6)"/>
             <column name="TissCultGrowthMed" type="VARCHAR(50)"/>
             <column name="TotCarb" type="VARCHAR(50)"/>
             <column name="TotDepthWaterCol" type="VARCHAR(50)"/>
@@ -1765,7 +1768,7 @@
             <column name="TravelOutSixMonth" type="VARCHAR(50)"/>
             <column name="TrophicLevel" type="VARCHAR(50)"/>
             <column name="Turbidity" type="VARCHAR(50)"/>
-            <column name="TwinSibling" type="BIT(1)"/>
+            <column name="TwinSibling" type="BOOLEAN"/>
             <column name="TypOccupantDens" type="FLOAT(12)"/>
             <column name="UrineCollectMeth" type="VARCHAR(50)"/>
             <column name="UrogenitDisord" type="VARCHAR(50)"/>
@@ -1857,7 +1860,7 @@
             <column name="DominantHand" type="VARCHAR(50)"/>
             <column name="DominantLandUse" type="VARCHAR(100)"/>
             <column name="DominantStreamsideVegetation" type="VARCHAR(100)"/>
-            <column name="Douche" type="datetime"/>
+            <column name="Douche" type="DATETIME(6)"/>
             <column name="DownPar" type="VARCHAR(50)"/>
             <column name="DrainageClass" type="VARCHAR(50)"/>
             <column name="DrugUsage" type="VARCHAR(50)"/>
@@ -1869,15 +1872,15 @@
             <column name="EstimatedSize" type="VARCHAR(50)"/>
             <column name="ExperimentalFactor" type="VARCHAR(50)"/>
             <column name="ExtrachromElements" type="VARCHAR(50)"/>
-            <column name="ExtremeEvent" type="datetime"/>
+            <column name="ExtremeEvent" type="DATETIME(6)"/>
             <column name="ExtremeSalinity" type="VARCHAR(100)"/>
             <column name="FaoClass" type="VARCHAR(50)"/>
             <column name="Feature" type="VARCHAR(50)"/>
             <column name="FertilizerRegm" type="VARCHAR(50)"/>
             <column name="FilterType" type="VARCHAR(50)"/>
-            <column name="Fire" type="datetime"/>
+            <column name="Fire" type="DATETIME(6)"/>
             <column name="FishKillEventInfo" type="VARCHAR(100)"/>
-            <column name="Flooding" type="datetime"/>
+            <column name="Flooding" type="DATETIME(6)"/>
             <column name="Fluor" type="VARCHAR(50)"/>
             <column name="FoetalHealthStat" type="VARCHAR(50)"/>
             <column name="FungicideRegm" type="VARCHAR(50)"/>
@@ -1931,10 +1934,10 @@
             <column name="HostTaxid" type="INT"/>
             <column name="HostTotMass" type="VARCHAR(50)"/>
             <column name="HostWetMass" type="VARCHAR(50)"/>
-            <column name="Hrt" type="datetime"/>
+            <column name="Hrt" type="DATETIME(6)"/>
             <column name="Humidity" type="VARCHAR(50)"/>
             <column name="HumidityRegm" type="VARCHAR(50)"/>
-            <column name="Hysterectomy" type="BIT(1)"/>
+            <column name="Hysterectomy" type="BOOLEAN"/>
             <column name="IhmcEthnicity" type="VARCHAR(50)"/>
             <column name="IhmcMedicationCode" type="INT"/>
             <column name="IndoorSpace" type="VARCHAR(50)"/>
@@ -1959,9 +1962,9 @@
             <column name="MeanFrictVel" type="VARCHAR(50)"/>
             <column name="MeanPeakFrictVel" type="VARCHAR(50)"/>
             <column name="MechanicalDamage" type="VARCHAR(50)"/>
-            <column name="MedicHistPerform" type="BIT(1)"/>
-            <column name="Menarche" type="datetime"/>
-            <column name="Menopause" type="datetime"/>
+            <column name="MedicHistPerform" type="BOOLEAN"/>
+            <column name="Menarche" type="DATETIME(6)"/>
+            <column name="Menopause" type="DATETIME(6)"/>
             <column name="Methane" type="VARCHAR(50)"/>
             <column name="MicrobialBiomass" type="VARCHAR(50)"/>
             <column name="MicrobialBiomassMeth" type="VARCHAR(50)"/>
@@ -2008,7 +2011,7 @@
             <column name="Porosity" type="VARCHAR(50)"/>
             <column name="Potassium" type="VARCHAR(50)"/>
             <column name="PreTreatment" type="VARCHAR(50)"/>
-            <column name="Pregnancy" type="datetime"/>
+            <column name="Pregnancy" type="DATETIME(6)"/>
             <column name="Pressure" type="VARCHAR(50)"/>
             <column name="PreviousLandUse" type="VARCHAR(50)"/>
             <column name="PreviousLandUseMeth" type="VARCHAR(50)"/>
@@ -2048,7 +2051,7 @@
             <column name="SlopeAspect" type="VARCHAR(50)"/>
             <column name="SlopeGradient" type="VARCHAR(50)"/>
             <column name="SludgeRetentTime" type="VARCHAR(50)"/>
-            <column name="Smoker" type="BIT(1)"/>
+            <column name="Smoker" type="BOOLEAN"/>
             <column name="Sodium" type="VARCHAR(50)"/>
             <column name="SoilType" type="VARCHAR(50)"/>
             <column name="SoilTypeMeth" type="VARCHAR(50)"/>
@@ -2081,8 +2084,8 @@
             <column name="TextureMeth" type="VARCHAR(50)"/>
             <column name="TidalStage" type="VARCHAR(50)"/>
             <column name="Tillage" type="VARCHAR(50)"/>
-            <column name="TimeLastToothbrush" type="datetime"/>
-            <column name="TimeSinceLastWash" type="datetime"/>
+            <column name="TimeLastToothbrush" type="DATETIME(6)"/>
+            <column name="TimeSinceLastWash" type="DATETIME(6)"/>
             <column name="TissCultGrowthMed" type="VARCHAR(50)"/>
             <column name="TotCarb" type="VARCHAR(50)"/>
             <column name="TotDepthWaterCol" type="VARCHAR(50)"/>
@@ -2100,7 +2103,7 @@
             <column name="TravelOutSixMonth" type="VARCHAR(50)"/>
             <column name="TrophicLevel" type="VARCHAR(50)"/>
             <column name="Turbidity" type="VARCHAR(50)"/>
-            <column name="TwinSibling" type="BIT(1)"/>
+            <column name="TwinSibling" type="BOOLEAN"/>
             <column name="TypOccupantDens" type="FLOAT(12)"/>
             <column name="UrineCollectMeth" type="VARCHAR(50)"/>
             <column name="UrogenitDisord" type="VARCHAR(50)"/>
@@ -2154,7 +2157,7 @@
             <column name="CleanUpPlateId" type="VARCHAR(50)"/>
             <column name="DnaDilution" type="VARCHAR(50)"/>
             <column name="Experimenter" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2168,7 +2171,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="Polymerase" type="VARCHAR(50)"/>
-            <column name="Pooled" type="BIT(1)"/>
+            <column name="Pooled" type="BOOLEAN"/>
             <column name="PositiveControl" type="VARCHAR(50)"/>
             <column name="Project" type="VARCHAR(50)"/>
             <column name="Purification" type="VARCHAR(50)"/>
@@ -2214,7 +2217,7 @@
             <column name="PcrPoolingNumber" type="VARCHAR(50)"/>
             <column name="PlateSize" type="VARCHAR(255)"/>
             <column name="Polymerase" type="VARCHAR(50)"/>
-            <column name="Pooled" type="BIT(1)"/>
+            <column name="Pooled" type="BOOLEAN"/>
             <column name="PositiveControl" type="VARCHAR(50)"/>
             <column name="Project" type="VARCHAR(50)"/>
             <column name="Purification" type="VARCHAR(50)"/>
@@ -2246,7 +2249,7 @@
             <column name="DesignDate" type="date"/>
             <column name="DesignedBy" type="VARCHAR(50)"/>
             <column name="Direction" type="VARCHAR(1)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LitReference" type="VARCHAR(512)"/>
             <column name="LotNumber" type="INT">
                 <constraints nullable="false"/>
@@ -2275,12 +2278,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="URLLink" type="LONGTEXT"/>
-            <column name="Used4Cloning" type="BIT(1)"/>
-            <column name="Used4Genotyping" type="BIT(1)"/>
-            <column name="Used4NestedPCR" type="BIT(1)"/>
-            <column name="Used4QRTPCR" type="BIT(1)"/>
-            <column name="Used4Sequencing" type="BIT(1)"/>
-            <column name="Used4StdPCR" type="BIT(1)"/>
+            <column name="Used4Cloning" type="BOOLEAN"/>
+            <column name="Used4Genotyping" type="BOOLEAN"/>
+            <column name="Used4NestedPCR" type="BOOLEAN"/>
+            <column name="Used4QRTPCR" type="BOOLEAN"/>
+            <column name="Used4Sequencing" type="BOOLEAN"/>
+            <column name="Used4StdPCR" type="BOOLEAN"/>
             <column name="Version" type="INT"/>
             <column name="GroupID" type="INT"/>
             <column name="DesignedByID" type="INT"/>
@@ -2323,12 +2326,12 @@
             <column name="TmPE" type="INT"/>
             <column name="Type" type="VARCHAR(255)"/>
             <column name="URLLink" type="LONGTEXT"/>
-            <column name="Used4Cloning" type="BIT(1)"/>
-            <column name="Used4Genotyping" type="BIT(1)"/>
-            <column name="Used4NestedPCR" type="BIT(1)"/>
-            <column name="Used4QRTPCR" type="BIT(1)"/>
-            <column name="Used4Sequencing" type="BIT(1)"/>
-            <column name="Used4StdPCR" type="BIT(1)"/>
+            <column name="Used4Cloning" type="BOOLEAN"/>
+            <column name="Used4Genotyping" type="BOOLEAN"/>
+            <column name="Used4NestedPCR" type="BOOLEAN"/>
+            <column name="Used4QRTPCR" type="BOOLEAN"/>
+            <column name="Used4Sequencing" type="BOOLEAN"/>
+            <column name="Used4StdPCR" type="BOOLEAN"/>
             <column name="Version" type="INT"/>
             <column name="GroupID" type="INT"/>
             <column name="DesignedByID" type="INT"/>
@@ -2343,7 +2346,7 @@
             </column>
             <column name="Application" type="VARCHAR(50)"/>
             <column name="Cycles" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2408,7 +2411,7 @@
             <column name="ImageDir" type="VARCHAR(255)"/>
             <column name="ImageName" type="VARCHAR(50)"/>
             <column name="IndexSet" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LocEnd" type="INT"/>
             <column name="LocStart" type="INT"/>
             <column name="NormalizationCoordinates" type="VARCHAR(5)"/>
@@ -2465,7 +2468,7 @@
             <column autoIncrement="true" name="PeopleID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="NameFamily" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2484,7 +2487,7 @@
             <column name="AddrType" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PrimaryAddr" type="BIT(1)">
+            <column name="PrimaryAddr" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="TelCell" type="VARCHAR(40)"/>
@@ -2501,7 +2504,7 @@
             <column autoIncrement="true" name="PeopleGroupID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="GroupID" type="INT"/>
             <column name="PeopleID" type="INT"/>
         </createTable>
@@ -2516,7 +2519,7 @@
             </column>
             <column name="AssetTag" type="VARCHAR(255)"/>
             <column name="IpAddress" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Location" type="VARCHAR(255)"/>
             <column name="Path" type="VARCHAR(255)"/>
             <column name="PrinterName" type="VARCHAR(50)">
@@ -2531,7 +2534,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="VARCHAR(200)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2562,7 +2565,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="lft" type="INT"/>
             <column name="Name" type="VARCHAR(30)">
                 <constraints nullable="false" unique="true"/>
@@ -2599,7 +2602,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -2651,7 +2654,7 @@
             <column name="Description" type="VARCHAR(200)"/>
             <column name="Equipment" type="VARCHAR(50)"/>
             <column name="ForwardPrimerConcentration" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2701,8 +2704,8 @@
             <column autoIncrement="true" name="ProviderChainID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="DateReceived" type="datetime"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="DateReceived" type="DATETIME(6)"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="SpecimenIdent" type="VARCHAR(50)"/>
             <column name="SpecimenNumber" type="INT"/>
             <column name="ProviderID" type="INT"/>
@@ -2719,7 +2722,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="REVTYPE" type="TINYINT(3)"/>
-            <column name="DateReceived" type="datetime"/>
+            <column name="DateReceived" type="DATETIME(6)"/>
             <column name="SpecimenIdent" type="VARCHAR(50)"/>
             <column name="SpecimenNumber" type="INT"/>
             <column name="ProviderID" type="INT"/>
@@ -2733,7 +2736,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Abbreviation" type="VARCHAR(512)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
@@ -2747,7 +2750,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Concentration" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)"/>
             <column name="Quantity" type="VARCHAR(50)"/>
             <column name="ProtocolID" type="INT">
@@ -2763,7 +2766,7 @@
             <column name="AttachFile" type="VARCHAR(100)"/>
             <column name="Author" type="VARCHAR(500)"/>
             <column name="Date" type="VARCHAR(100)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="OrigId" type="VARCHAR(100)"/>
             <column name="Source" type="VARCHAR(500)"/>
             <column name="Title" type="VARCHAR(500)"/>
@@ -2779,7 +2782,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="lft" type="INT"/>
             <column name="Name" type="VARCHAR(30)">
                 <constraints nullable="false" unique="true"/>
@@ -2855,7 +2858,7 @@
             <column name="DnaNotes" type="LONGTEXT"/>
             <column name="Experimenter" type="VARCHAR(50)"/>
             <column name="ExtractionBatch" type="VARCHAR(100)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LysisBufferVolume" type="DOUBLE"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -2871,7 +2874,7 @@
             <column name="Source" type="VARCHAR(200)"/>
             <column name="Treatment" type="LONGTEXT"/>
             <column name="TubeId" type="VARCHAR(50)"/>
-            <column name="UnusableDna" type="BIT(1)"/>
+            <column name="UnusableDna" type="BOOLEAN"/>
             <column defaultValue="" name="Version" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2912,7 +2915,7 @@
             <column name="Source" type="VARCHAR(200)"/>
             <column name="Treatment" type="LONGTEXT"/>
             <column name="TubeId" type="VARCHAR(50)"/>
-            <column name="UnusableDna" type="BIT(1)"/>
+            <column name="UnusableDna" type="BOOLEAN"/>
             <column defaultValue="" name="Version" type="VARCHAR(50)"/>
             <column name="VersionDescription" type="VARCHAR(512)"/>
             <column name="GroupID" type="INT"/>
@@ -2930,7 +2933,7 @@
             <column name="Date" type="date"/>
             <column name="Experimenter" type="VARCHAR(50)"/>
             <column name="FragmentType" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -2975,7 +2978,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -2987,7 +2990,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Description" type="LONGTEXT"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -3022,7 +3025,7 @@
             </column>
             <column name="AmpliconSize" type="VARCHAR(50)"/>
             <column name="DNAConcentration" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Notes" type="VARCHAR(1024)"/>
             <column name="PrimerConcentration" type="VARCHAR(50)"/>
             <column name="SeqCode" type="VARCHAR(255)">
@@ -3114,7 +3117,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="BatchType" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
@@ -3152,7 +3155,7 @@
             </column>
             <column name="Date" type="date"/>
             <column name="Email" type="VARCHAR(255)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
@@ -3221,7 +3224,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Accession" type="VARCHAR(10)"/>
-            <column name="CreationDate" type="datetime"/>
+            <column name="CreationDate" type="DATETIME(6)"/>
             <column name="Direction" type="SMALLINT"/>
             <column name="FileDir" type="VARCHAR(255)"/>
             <column name="FileName" type="VARCHAR(255)"/>
@@ -3232,7 +3235,7 @@
             <column name="GenBankVersion" type="VARCHAR(25)">
                 <constraints unique="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -3246,7 +3249,7 @@
             <column name="SeqType" type="VARCHAR(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SubmittedToInsdc" type="BIT(1)"/>
+            <column name="SubmittedToInsdc" type="BOOLEAN"/>
             <column name="SubmittedToInsdcDate" type="date"/>
             <column name="CloneID" type="INT"/>
             <column name="GoHitID" type="INT"/>
@@ -3268,7 +3271,7 @@
             </column>
             <column name="REVTYPE" type="TINYINT(3)"/>
             <column name="Accession" type="VARCHAR(10)"/>
-            <column name="CreationDate" type="datetime"/>
+            <column name="CreationDate" type="DATETIME(6)"/>
             <column name="Direction" type="SMALLINT"/>
             <column name="FileDir" type="VARCHAR(255)"/>
             <column name="FileName" type="VARCHAR(255)"/>
@@ -3282,7 +3285,7 @@
             <column name="SeqMeth" type="VARCHAR(50)"/>
             <column name="SeqQualityCheck" type="VARCHAR(50)"/>
             <column name="SeqType" type="VARCHAR(1)"/>
-            <column name="SubmittedToInsdc" type="BIT(1)"/>
+            <column name="SubmittedToInsdc" type="BOOLEAN"/>
             <column name="SubmittedToInsdcDate" type="date"/>
             <column name="CloneID" type="INT"/>
             <column name="GoHitID" type="INT"/>
@@ -3328,7 +3331,7 @@
             </column>
             <column name="CurrentState" type="VARCHAR(100)"/>
             <column name="CurrentStep" type="INT"/>
-            <column name="Finished" type="BIT(1)">
+            <column name="Finished" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="MaxSteps" type="INT"/>
@@ -3341,8 +3344,8 @@
             <column name="RangeMin" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="TimeFinished" type="datetime"/>
-            <column name="TimeStarted" type="datetime"/>
+            <column name="TimeFinished" type="DATETIME(6)"/>
+            <column name="TimeStarted" type="DATETIME(6)"/>
         </createTable>
     </changeSet>
     <changeSet author="mat (generated)" id="1534191846802-128">
@@ -3352,7 +3355,7 @@
             </column>
             <column name="Contents" type="VARCHAR(100)"/>
             <column name="DateDestroyed" type="date"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)"/>
             <column name="Notes" type="VARCHAR(1024)"/>
             <column name="RevivalDate" type="date"/>
@@ -3402,7 +3405,7 @@
             <column name="PPCLevel" type="VARCHAR(20)"/>
             <column name="AnimalRGLevel" type="VARCHAR(6)"/>
             <column name="AnnotatedBy" type="VARCHAR(200)"/>
-            <column name="AssociatedSequenceTargetsSameRegion" type="BIT(1)"/>
+            <column name="AssociatedSequenceTargetsSameRegion" type="BOOLEAN"/>
             <column name="AssociatedSequences" type="VARCHAR(250)"/>
             <column name="CatalogNumber" type="VARCHAR(100)"/>
             <column name="CellType" type="VARCHAR(50)"/>
@@ -3413,7 +3416,7 @@
             <column name="FieldIdentifier" type="VARCHAR(100)"/>
             <column name="HumanRGLevel" type="VARCHAR(6)"/>
             <column name="InstitutionCode" type="VARCHAR(200)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LifeStage" type="VARCHAR(20)"/>
             <column name="Notes" type="VARCHAR(1024)"/>
             <column name="Number" type="INT">
@@ -3426,7 +3429,7 @@
             <column name="Owner" type="VARCHAR(50)"/>
             <column name="ProcessId" type="VARCHAR(50)"/>
             <column name="ProjectName" type="VARCHAR(50)"/>
-            <column name="Restricted" type="BIT(1)"/>
+            <column name="Restricted" type="BOOLEAN"/>
             <column name="RestrictedNotes" type="VARCHAR(1024)"/>
             <column name="Sex" type="VARCHAR(10)"/>
             <column defaultValue="" name="SubId" type="VARCHAR(10)">
@@ -3462,7 +3465,7 @@
             <column name="PPCLevel" type="VARCHAR(20)"/>
             <column name="AnimalRGLevel" type="VARCHAR(6)"/>
             <column name="AnnotatedBy" type="VARCHAR(200)"/>
-            <column name="AssociatedSequenceTargetsSameRegion" type="BIT(1)"/>
+            <column name="AssociatedSequenceTargetsSameRegion" type="BOOLEAN"/>
             <column name="AssociatedSequences" type="VARCHAR(250)"/>
             <column name="CatalogNumber" type="VARCHAR(100)"/>
             <column name="CellType" type="VARCHAR(50)"/>
@@ -3481,7 +3484,7 @@
             <column name="Owner" type="VARCHAR(50)"/>
             <column name="ProcessId" type="VARCHAR(50)"/>
             <column name="ProjectName" type="VARCHAR(50)"/>
-            <column name="Restricted" type="BIT(1)"/>
+            <column name="Restricted" type="BOOLEAN"/>
             <column name="RestrictedNotes" type="VARCHAR(1024)"/>
             <column name="Sex" type="VARCHAR(10)"/>
             <column defaultValue="" name="SubId" type="VARCHAR(10)"/>
@@ -3507,11 +3510,11 @@
             <column name="Background" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="NormVol" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="Present" type="BIT(1)">
+            <column name="Present" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="Quality" type="VARCHAR(5)"/>
@@ -3569,7 +3572,7 @@
             </column>
             <column name="CompartmentType" type="VARCHAR(50)"/>
             <column name="Description" type="VARCHAR(200)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -3584,7 +3587,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Contact" type="VARCHAR(1024)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -3693,7 +3696,7 @@
             <column name="GenderEnding" type="VARCHAR(10)"/>
             <column name="Identity" type="VARCHAR(200)"/>
             <column name="Keywords" type="VARCHAR(512)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LastModifiedBy" type="VARCHAR(512)"/>
             <column name="Name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
@@ -3807,10 +3810,10 @@
             <column name="ContentType" type="VARCHAR(100)"/>
             <column name="Info" type="VARCHAR(500)"/>
             <column name="InfoType" type="VARCHAR(100)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="lastModifiedBy" type="VARCHAR(255)"/>
             <column name="Page" type="VARCHAR(100)"/>
-            <column name="Published" type="BIT(1)"/>
+            <column name="Published" type="BOOLEAN"/>
             <column name="Field" type="INT"/>
             <column name="ReferenceID" type="INT"/>
             <column name="TaxonId" type="INT">
@@ -3823,7 +3826,7 @@
             <column autoIncrement="true" name="TaxonLinkID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Source" type="VARCHAR(20)"/>
             <column name="SourceId" type="VARCHAR(20)">
                 <constraints nullable="false"/>
@@ -3839,7 +3842,7 @@
             <column autoIncrement="true" name="TaxonRankID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(60)"/>
             <column name="Note" type="VARCHAR(512)"/>
             <column name="RankLevel" type="INT"/>
@@ -3870,7 +3873,7 @@
             <column name="Family" type="VARCHAR(50)"/>
             <column name="Genus" type="VARCHAR(50)"/>
             <column name="Kingdom" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Notes" type="VARCHAR(1024)"/>
             <column name="Phylum" type="VARCHAR(50)"/>
             <column name="Species" type="VARCHAR(50)"/>
@@ -3922,7 +3925,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="Compartment" type="VARCHAR(50)"/>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="RackNumber" type="INT"/>
             <column name="ShelfNumber" type="INT"/>
             <column name="StorageID" type="INT">
@@ -3935,7 +3938,7 @@
             <column autoIncrement="true" name="UsageKeysID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="LastModifiedBy" type="VARCHAR(80)">
                 <constraints nullable="false"/>
             </column>
@@ -3976,7 +3979,7 @@
             <column autoIncrement="true" name="VectorID" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="LastModified" type="datetime"/>
+            <column name="LastModified" type="DATETIME(6)"/>
             <column name="Name" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>

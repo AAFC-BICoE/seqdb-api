@@ -11,11 +11,16 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ca.gc.aafc.seqdb.api.dto.ChainDto;
+import ca.gc.aafc.seqdb.api.dto.ChainStepTemplateDto;
+import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.StepResourceDto;
+import ca.gc.aafc.seqdb.api.dto.StepTemplateDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
@@ -117,6 +122,62 @@ public class ResourceRepositoryConfig {
         )
     );
   }
+  
+  @Bean
+  public JpaResourceRepository<ChainTemplateDto> chainTemplateRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ChainTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<StepTemplateDto> stepTemplateRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        StepTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<ChainStepTemplateDto> chainStepTemplateRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ChainStepTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<ChainDto> chainRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ChainDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
+        )
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<StepResourceDto> stepResourceRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        StepResourceDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
 
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
@@ -170,6 +231,97 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<ChainDto, ChainTemplateDto> chainToChainTemplateRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ChainDto.class,
+        ChainTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<ChainStepTemplateDto, ChainTemplateDto> chainStepTemplateToChainTemplateRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ChainStepTemplateDto.class,
+        ChainTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<ChainStepTemplateDto, StepTemplateDto> chainStepTemplateToStepTemplateRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ChainStepTemplateDto.class,
+        StepTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, ChainStepTemplateDto> stepResourceToChainStepTemplateRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        ChainStepTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, ChainDto> stepResourceToChainRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        ChainDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, RegionDto> stepResourceToRegionRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        RegionDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        )
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, PcrPrimerDto> stepResourceToPcrPrimerRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        PcrPrimerDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
         )
     );
   }

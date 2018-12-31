@@ -1,0 +1,261 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+  objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+  <changeSet id="Support_13739-insert-initial-data"
+    author="poffm">
+    <!-- BarcodeableMaps -->
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="SpecimenReplicate" />
+      <column name="BarcodeableMapName" value="Specimen Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for Specimen" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="Sample" />
+      <column name="BarcodeableMapName" value="Sample Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for Sample" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="Container" />
+      <column name="BarcodeableMapName" value="Container Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for Container" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="MixedSpecimen" />
+      <column name="BarcodeableMapName"
+        value="Mixed Specimen Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for MixedSpecimen" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="Product" />
+      <column name="BarcodeableMapName" value="Product Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for Product" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="Storage" />
+      <column name="BarcodeableMapName" value="Storage Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for Storage" />
+    </insert>
+    <insert tableName="BarcodeableMaps">
+      <column name="BarcodeableEntity" value="PcrPrimer" />
+      <column name="BarcodeableMapName" value="PcrPrimer Map" />
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="MapFile" value="Map file for PcrPrimer" />
+    </insert>
+
+    <!-- ProjectTags -->
+    <!-- Root project tag -->
+    <insert tableName="ProjectTags">
+      <column name="Name" value="root" />
+      <column name="lft" value="1" />
+      <column name="rgt" value="2" />
+      <column name="LastModified"
+        value="2017-09-26 12:50:41.749000" />
+    </insert>
+
+    <!-- Regions -->
+    <!-- Root region -->
+    <insert tableName="Regions">
+      <column name="Description"
+        value="System root node that every region inherits from. Should not be displayed in the UI." />
+      <column name="LastModified"
+        value="2017-06-09 00:00:00.000000" />
+      <column name="lft" value="1" />
+      <column name="rgt" value="2" />
+      <column name="Symbol" value="root" />
+      <column name="Name" value="root" />
+    </insert>
+
+    <!-- TaxonRank -->
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Superkingdom" />
+      <column name="RankLevel" value="10" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Kingdom" />
+      <column name="RankLevel" value="20" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subkingdom" />
+      <column name="RankLevel" value="30" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Superphylum" />
+      <column name="RankLevel" value="35" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Phylum" />
+      <column name="RankLevel" value="40" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subphylum" />
+      <column name="RankLevel" value="45" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Superclass" />
+      <column name="RankLevel" value="50" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Class" />
+      <column name="RankLevel" value="60" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subclass" />
+      <column name="RankLevel" value="70" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Infraclass" />
+      <column name="RankLevel" value="75" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Superorder" />
+      <column name="RankLevel" value="77" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Order" />
+      <column name="RankLevel" value="80" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Suborder" />
+      <column name="RankLevel" value="85" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Infraorder" />
+      <column name="RankLevel" value="90" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Parvorder" />
+      <column name="RankLevel" value="91" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Superfamily" />
+      <column name="RankLevel" value="95" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Family" />
+      <column name="RankLevel" value="100" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subfamily" />
+      <column name="RankLevel" value="105" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Tribe" />
+      <column name="RankLevel" value="120" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subtribe" />
+      <column name="RankLevel" value="125" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Genus" />
+      <column name="RankLevel" value="140" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subgenus" />
+      <column name="RankLevel" value="145" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Species" />
+      <column name="RankLevel" value="150" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Subspecies" />
+      <column name="RankLevel" value="152" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="SpeciesGroup" />
+      <column name="RankLevel" value="155" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="SpeciesSubgroup" />
+      <column name="RankLevel" value="157" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Varietas" />
+      <column name="RankLevel" value="160" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="Forma" />
+      <column name="RankLevel" value="170" />
+    </insert>
+    <insert tableName="TaxonRank">
+      <column name="LastModified"
+        value="2013-03-19 00:00:00.000000" />
+      <column name="Name" value="NoRank" />
+      <column name="RankLevel" value="1" />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

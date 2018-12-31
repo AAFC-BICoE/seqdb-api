@@ -1,6 +1,9 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-  <include file="classpath:db/changelog/db.changelog-init.xml"/>
-  <include file="classpath:db/changelog/migrations/db.changelog-Feature_8532_Track_pooled_PCR_primers.xml"/>
-  <include file="classpath:db/changelog/migrations/db.changelog-Bug_12458_Proxy_Error_When_Linking_Taxonomic_Records.xml"/>
+  <include file="db/changelog/db.changelog-init.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Support_13739_Enable_liquibase_for_seqdb.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Feature_8532_Track_pooled_PCR_primers.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Bug_12458_Proxy_Error_When_Linking_Taxonomic_Records.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Feature_10972_Add_Growth_Media_to_Sample_table.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Feature_14105_Implement_new_workflow_entities.xml"/>
 </databaseChangeLog>

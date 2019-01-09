@@ -1,0 +1,8 @@
+= seqdb-api image:https://travis-ci.org/AAFC-BICoE/seqdb-api.svg?branch=master["Build Status", link="https://travis-ci.org/AAFC-BICoE/seqdb-api"]
+
+Sequence management services managing laboratory workflows leading to DNA sequences.
+
+seqdb-api is an implementation of the Sequence Module for the link:https://www.dina-project.net/[DINA project].
+
+== Status
+Currently under development, see link:RELEASE_NOTES.adoc[Release Notes] for details.

@@ -1,4 +1,4 @@
-# Version 1.1
+== Version 1.1
 
 2018-09-07
 
@@ -8,7 +8,7 @@
 * Liquibase support (database migration)
 * Initial data validation
 
-# Version 1.0
+== Version 1.0
 
 2018-07-17
 

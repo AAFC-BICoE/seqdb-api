@@ -7,7 +7,7 @@ Crnk provides a ResourceRepositoryV2 interface with method signatures that can b
 expose CRUD operations to the client with any underlying data store on the backend. JpaResourceRepository
 is our implementation, which performs read and write operations using JPA.
 
-== Adding a JPA DTO repository
+== Adding a JPA resource repository
 
 We create new repositories for JPA entities in ResourceRepositoryConfig.java.
 Adding a new JpaResourceRepository requires some setup:

@@ -1,0 +1,58 @@
+= Group-based Authorization
+
+This application performs authorization using a Group system.
+
+== Entities
+
+These are the JPA entities involved in authorization:
+
+=== Accounts
+
+The user account with account name, API key, account expiration date, last login, etc.
+
+A new Account is created for a user the first time they log in using LDAP or Keycloak.
+
+=== People
+
+More detail about specific people (First/Last/Middle name). An Account links to a People record
+(The owner of the Account).
+
+=== Groups
+
+A group of users who share data. Many of the records in SeqDB link to a Group, meaning that record
+belongs to that Group. A user must have read permission on a group in order to see the data
+belonging to that group. Same with write/create/delete permissions, the user must have the correct
+permission on a Group to perform that operation on a Group's data.
+
+An Account has an "AccountType”, it is either "User" or "Admin", which is the user's role for the
+entire application. Admin accounts are treated as if they have all permissions on every group, so
+certain listing pages will show you all records, even from Groups you're not a member of.
+
+=== AccountsGroup
+
+aka "User Permissions". These are linking records between Accounts and Groups. Each AccountsGroups
+record states a user's set of permissions for the linked Group. A user can have separate permissions
+for read, write, delete, create. A user can be an "admin" of a group, meaning they are allowed to
+add/remove/edit other users' permissions for that group.
+
+Admin status on a group is separate from admin status on the entire application.
+
+== API authorization behavior
+
+The REST API implements group-based authorization for read and write operations:
+
+=== Requesting one resource by ID
+
+When requesting a resource by ID, the API will return a 403 forbidden error when the user does not
+have read access to that resource's Group.
+
+=== Listing resources
+
+When listing resources, the API will automatically filter teh data to only show records belonging
+to Groups where the user has read permission.
+
+=== Creating, updating or deleting resources
+
+To perform any of these write operations, the user must have the appropriate create, update or
+delete permission for that resource's Group. WHen the user does not have the appropriate permission,
+they will get a 403 Forbidden error.

@@ -1,0 +1,21 @@
+:sectnums:
+
+= seqdb-api docs
+
+:leveloffset: 1
+
+include::ide_setup.adoc[]
+
+include::running.adoc[]
+
+include::configuration.adoc[]
+
+include::authentication_strategies.adoc[]
+
+include::group_based_authorization.adoc[]
+
+include::using_the_rest_api.adoc[]
+
+include::jpa_resource_repositories.adoc[]
+
+include::uxf_files.adoc[]

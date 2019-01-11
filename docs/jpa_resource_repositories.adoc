@@ -1,0 +1,81 @@
+= JPA resource repositories
+
+This application uses https://www.crnk.io/releases/stable/documentation/[Crnk] to provide a
+https://jsonapi.org/[JSONAPI]-compliant REST API.
+
+Crnk provides a ResourceRepositoryV2 interface with method signatures that can be implemented to
+expose CRUD operations to the client with any underlying data store on the backend. JpaResourceRepository
+is our implementation, which performs read and write operations using JPA.
+
+== Adding a JPA resource repository
+
+We create new repositories for JPA entities in ResourceRepositoryConfig.java.
+Adding a new JpaResourceRepository requires some setup:
+
+=== DTO
+
+The JpaResourceRepository requires a DTO class.
+
+A DTO (data transfer object) class is a https://www.crnk.io/releases/stable/documentation/#_resource[Crnk Resource]
+that specifies what attributes and relationships should be exposed by the REST API.
+
+Example JPA entity:
+
+[source,java]
+----
+@Entity
+@Data
+public class Person {
+  
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  private long id;
+  
+  private String firstName;
+  
+  private String lastName;
+  
+  @ManyToOne(cascade=CascadeType.ALL)
+  private Department department;
+  
+}
+----
+
+Example DTO that only exposes the firstName attribute and department relationship:
+
+[source,java]
+----
+@JsonApiResource(type = "person")
+@Data
+public class Person {
+  
+  @JsonApiId
+  private long id;
+  
+  private String firstName;
+  
+  @JsonApiRelation(opposite = "people")
+  private DepartmentDto department;
+  
+}
+----
+
+=== JpaDtoMapper
+
+The JpaDtoMapper class keeps track of which entity each DTO is mapped to, so adding a new
+JpaResourceRepository requires a new mapping.
+This application's JpaDtoMapper instance is configured in ResourceRepositoryConfig.java.
+
+Example mapping:
+----
+  @Bean
+  public JpaDtoMapper dtoJpaMapper() {
+    Map<Class<?>, Class<?>> jpaEntities = new HashMap<>();
+    
+    ...
+    jpaEntities.put(PersonDto.class, Person.class);
+    ...
+    
+    return new JpaDtoMapper(jpaEntities);
+  }
+----

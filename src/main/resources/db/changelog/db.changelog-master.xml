@@ -5,5 +5,7 @@
   <include file="db/changelog/migrations/db.changelog-Feature_8532_Track_pooled_PCR_primers.xml"/>
   <include file="db/changelog/migrations/db.changelog-Bug_12458_Proxy_Error_When_Linking_Taxonomic_Records.xml"/>
   <include file="db/changelog/migrations/db.changelog-Feature_10972_Add_Growth_Media_to_Sample_table.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Support_13844_Remove_Vector_Clone_and_Spot_classes.xml"/>
+  <include file="db/changelog/migrations/db.changelog-Bug_14427_Thermocycler_Profile_Details_Application_field_too_many_characters.xml"/>
   <include file="db/changelog/migrations/db.changelog-Feature_14105_Implement_new_workflow_entities.xml"/>
 </databaseChangeLog>

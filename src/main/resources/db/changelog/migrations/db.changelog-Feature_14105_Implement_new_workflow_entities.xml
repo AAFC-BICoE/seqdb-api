@@ -54,6 +54,9 @@
     </createTable>
     
     <createTable tableName="ChainStepTemplates">
+    	<column name="ChainStepTemplateID" type="integer" autoIncrement="true">
+    		<constraints primaryKey="true"/>
+    	</column>
     	<column name="ChainTemplateID" type="integer">
     		<constraints foreignKeyName="fk_chain_template_id" references="ChainTemplates(ChainTemplateID)"/>
     	</column>
@@ -65,7 +68,8 @@
     	</column>
     </createTable>
     
-    <addPrimaryKey tableName="ChainStepTemplates" columnNames="ChainTemplateID, StepTemplateID"/>
+    <addUniqueConstraint tableName="ChainStepTemplates" columnNames="ChainTemplateID, StepTemplateID"/>
+    <addUniqueConstraint tableName="ChainStepTemplates" columnNames="ChainTemplateID, StepNumber"/>
     
     <createTable tableName="Chains">
     	<column name="ChainID" type="integer" autoIncrement="true">
@@ -85,7 +89,7 @@
     	</column>
     </createTable>
     
-    <addUniqueConstraint columnNames="ChainID,ChainTemplateID" tableName="Chains"/>
+    <addUniqueConstraint tableName="Chains" columnNames="ChainID,ChainTemplateID"/>
     
     <createTable tableName="StepResources">
     	<column name="StepResourceID" type="integer" autoIncrement="true">
@@ -103,8 +107,8 @@
     	<column name="ChainTemplateID" type="integer">
     		<constraints nullable="false"/>
     	</column>
-    	<column name="StepTemplateID" type="integer">
-    		<constraints nullable="false"/>
+    	<column name="ChainStepTemplateID" type="integer">
+    		<constraints foreignKeyName="fk_chain_step_template_id" references="ChainStepTemplates(ChainStepTemplateID)" nullable="false"/>
     	</column>
     	<column name="SpecimenID" type="integer">
     		<constraints foreignKeyName="fk_specimen_id" references="Specimens(SpecimenID)"/>
@@ -143,17 +147,12 @@
     		<constraints foreignKeyName="fk_protocol_id" references="Protocols(ProtocolID)"/>
     	</column>
     </createTable>
-    
-    <addForeignKeyConstraint constraintName="fk_chain_step_template_id" 
-    	baseTableName="StepResources" 
-    	baseColumnNames="ChainTemplateID,StepTemplateID" 
-    	referencedTableName="ChainStepTemplates" 
-    	referencedColumnNames="ChainTemplateID,StepTemplateID"/>
     	
     <addForeignKeyConstraint constraintName="fk_chain_id" 
     	baseTableName="StepResources" 
     	baseColumnNames="ChainID,ChainTemplateID" 
     	referencedTableName="Chains" 
     	referencedColumnNames="ChainID,ChainTemplateID"/>
+    
   </changeSet>
 </databaseChangeLog>

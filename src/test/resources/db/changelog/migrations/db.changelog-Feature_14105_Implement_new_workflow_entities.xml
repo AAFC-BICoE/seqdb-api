@@ -7,6 +7,9 @@
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
   <changeSet id="Feature_14105_Implement_new_workflow_entities" author="elkayssin">
   
+  <!-- This file overrides the database migration script in the dbi jar to be compatible with H2.  -->
+  <!-- Columns in StepTemplates of type "step_resource_value []" have been changed to type "array". -->
+  
   	<sql>CREATE TYPE step_resource_type AS ENUM (
     	'input',
     	'output',
@@ -44,13 +47,13 @@
     	<column name="Name" type="varchar(50)">
     		<constraints nullable="false"/>
     	</column>
-    	<column name="Inputs" type="step_resource_value []">
+    	<column name="Inputs" type="array">
     		<constraints nullable="false"/>
     	</column>
-    	<column name="Outputs" type="step_resource_value []">
+    	<column name="Outputs" type="array">
     		<constraints nullable="false"/>
     	</column>
-    	<column name="Supports" type="step_resource_value []"/>
+    	<column name="Supports" type="array"/>
     </createTable>
     
     <createTable tableName="ChainStepTemplates">
@@ -58,10 +61,10 @@
     		<constraints primaryKey="true"/>
     	</column>
     	<column name="ChainTemplateID" type="integer">
-    		<constraints foreignKeyName="fk_chain_template_id" references="ChainTemplates(ChainTemplateID)"/>
+    		<constraints foreignKeyName="fk_chain_step_template_to_chain_template_id" references="ChainTemplates(ChainTemplateID)"/>
     	</column>
     	<column name="StepTemplateID" type="integer">
-    		<constraints foreignKeyName="fk_step_template_id" references="StepTemplates(StepTemplateID)"/>
+    		<constraints foreignKeyName="fk_chain_step_template_to_step_template_id" references="StepTemplates(StepTemplateID)"/>
     	</column>
     	<column name="StepNumber" type="integer">
     		<constraints nullable="false"/>
@@ -82,10 +85,10 @@
     		<constraints nullable="false"/>
     	</column>
     	<column name="ChainTemplateID" type="integer">
-    		<constraints foreignKeyName="fk_chain_template_id" references="ChainTemplates(ChainTemplateID)" nullable="false"/>
+    		<constraints foreignKeyName="fk_chain_to_chain_template_id" references="ChainTemplates(ChainTemplateID)" nullable="false"/>
     	</column>
     	<column name="GroupID" type="integer">
-    		<constraints foreignKeyName="fk_group_id" references="Groups(GroupID)" nullable="false"/>
+    		<constraints foreignKeyName="fk_chain_to_group_id" references="Groups(GroupID)" nullable="false"/>
     	</column>
     </createTable>
     
@@ -108,47 +111,47 @@
     		<constraints nullable="false"/>
     	</column>
     	<column name="ChainStepTemplateID" type="integer">
-    		<constraints foreignKeyName="fk_chain_step_template_id" references="ChainStepTemplates(ChainStepTemplateID)" nullable="false"/>
+    		<constraints foreignKeyName="fk_step_resource_to_chain_step_template_id" references="ChainStepTemplates(ChainStepTemplateID)" nullable="false"/>
     	</column>
     	<column name="SpecimenID" type="integer">
-    		<constraints foreignKeyName="fk_specimen_id" references="Specimens(SpecimenID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_specimen_id" references="Specimens(SpecimenID)"/>
     	</column>
     	<column name="SpecimenReplicateID" type="integer">
-    		<constraints foreignKeyName="fk_specimen_replicate_id" references="SpecimenReplicates(SpecimenReplicateID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_specimen_replicate_id" references="SpecimenReplicates(SpecimenReplicateID)"/>
     	</column>
     	<column name="MixedSpecimenID" type="integer">
-    		<constraints foreignKeyName="fk_mixed_specimen_id" references="MixedSpecimens(MixedSpecimenID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_mixed_specimen_id" references="MixedSpecimens(MixedSpecimenID)"/>
     	</column>
     	<column name="SampleID" type="integer">
-    		<constraints foreignKeyName="fk_sample_id" references="Samples(SampleID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_sample_id" references="Samples(SampleID)"/>
     	</column>
     	<column name="PcrBatchID" type="integer">
-    		<constraints foreignKeyName="fk_pcr_batch_id" references="PcrBatchs(PcrBatchID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_pcr_batch_id" references="PcrBatchs(PcrBatchID)"/>
     	</column>
     	<column name="SeqBatchID" type="integer">
-    		<constraints foreignKeyName="fk_seq_batch_id" references="SeqBatchs(SeqBatchID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_seq_batch_id" references="SeqBatchs(SeqBatchID)"/>
     	</column>
     	<column name="SeqSubmissionID" type="integer">
-    		<constraints foreignKeyName="fk_seq_submission_id" references="SeqSubmissions(SeqSubmissionID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_seq_submission_id" references="SeqSubmissions(SeqSubmissionID)"/>
     	</column>
     	<column name="ProductID" type="integer">
-    		<constraints foreignKeyName="fk_product_id" references="Products(ProductID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_product_id" references="Products(ProductID)"/>
     	</column>
     	<column name="RegionID" type="integer">
-    		<constraints foreignKeyName="fk_region_id" references="Regions(TagID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_region_id" references="Regions(TagID)"/>
     	</column>
     	<column name="PrimerID" type="integer">
-    		<constraints foreignKeyName="fk_primer_id" references="PcrPrimers(PcrPrimerID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_primer_id" references="PcrPrimers(PcrPrimerID)"/>
     	</column>
     	<column name="PcrProfileID" type="integer">
-    		<constraints foreignKeyName="fk_pcr_profile_id" references="PcrProfiles(PcrProfileID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_pcr_profile_id" references="PcrProfiles(PcrProfileID)"/>
     	</column>
     	<column name="ProtocolID" type="integer">
-    		<constraints foreignKeyName="fk_protocol_id" references="Protocols(ProtocolID)"/>
+    		<constraints foreignKeyName="fk_step_resource_to_protocol_id" references="Protocols(ProtocolID)"/>
     	</column>
     </createTable>
     	
-    <addForeignKeyConstraint constraintName="fk_chain_id" 
+    <addForeignKeyConstraint constraintName="fk_step_resource_to_chain_id" 
     	baseTableName="StepResources" 
     	baseColumnNames="ChainID,ChainTemplateID" 
     	referencedTableName="Chains" 

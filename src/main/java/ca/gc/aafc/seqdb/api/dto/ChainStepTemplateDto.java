@@ -10,10 +10,10 @@ import lombok.Data;
 public class ChainStepTemplateDto {
   
   @JsonApiId
-  private Integer getChainStepTemplateId;
+  private Integer chainStepTemplateId;
   
   @JsonApiRelation
-  private ChainStepTemplateDto chainTemplate;
+  private ChainTemplateDto chainTemplate;
   
   @JsonApiRelation
   private StepTemplateDto stepTemplate;

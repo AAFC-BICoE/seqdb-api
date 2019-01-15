@@ -27,11 +27,16 @@ import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.entities.Chain;
+import ca.gc.aafc.seqdb.entities.ChainStepTemplate;
+import ca.gc.aafc.seqdb.entities.ChainTemplate;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.entities.StepResource;
+import ca.gc.aafc.seqdb.entities.StepTemplate;
 
 @Configuration
 @EntityScan("ca.gc.aafc.seqdb.entities")
@@ -57,6 +62,11 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrBatchDto.class, PcrBatch.class);
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
     jpaEntities.put(GroupDto.class, Group.class);
+    jpaEntities.put(ChainTemplateDto.class, ChainTemplate.class);
+    jpaEntities.put(StepTemplateDto.class, StepTemplate.class);
+    jpaEntities.put(ChainStepTemplateDto.class, ChainStepTemplate.class);
+    jpaEntities.put(ChainDto.class, Chain.class);
+    jpaEntities.put(StepResourceDto.class, StepResource.class);
 
     return new JpaDtoMapper(jpaEntities);
   }

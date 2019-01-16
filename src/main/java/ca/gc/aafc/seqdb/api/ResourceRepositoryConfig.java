@@ -285,19 +285,6 @@ public class ResourceRepositoryConfig {
   }
   
   @Bean
-  public JpaRelationshipRepository<StepResourceDto, ChainStepTemplateDto> stepResourceToChainStepTemplateRepository(
-      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(
-        StepResourceDto.class,
-        ChainStepTemplateDto.class,
-        dtoRepository,
-        Arrays.asList(
-            simpleFilterHandler
-        )
-    );
-  }
-  
-  @Bean
   public JpaRelationshipRepository<StepResourceDto, ChainDto> stepResourceToChainRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(

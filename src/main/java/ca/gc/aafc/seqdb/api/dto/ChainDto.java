@@ -19,7 +19,7 @@ public class ChainDto {
   private Date dateCreated;
   
   @JsonApiRelation
-  private ChainStepTemplateDto chainTemplate;
+  private ChainTemplateDto chainTemplate;
   
   @JsonApiRelation
   private GroupDto group;

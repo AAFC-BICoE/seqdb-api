@@ -18,8 +18,15 @@ public class StepResourceDto {
   
   private StepResourceValue value;
   
-  @JsonApiRelation
-  private ChainStepTemplateDto chainStepTemplate;
+  /**
+   * In the future, this should be set automatically from the chain.
+   */
+  private Integer chainTemplateId;
+  
+  /**
+   * In the future, this should be replaced with a relation to ChainStepTemplateDto.
+   */
+  private Integer stepTemplateId;
   
   @JsonApiRelation
   private ChainDto chain;

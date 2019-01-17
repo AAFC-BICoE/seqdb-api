@@ -308,10 +308,7 @@
 		<artifactId>liquibase-maven-plugin</artifactId>
 		<version>${liquibase-maven-plugin.version}</version>
 		<configuration>
-			<url>${url}</url>
-			<username>${username}</username>
-			<password>${password}</password>
-			<changeLogFile>/src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+			<propertyFile>src/main/resources/liquibase.properties</propertyFile>
 		</configuration>
 		<executions>
 			<execution>
@@ -321,7 +318,6 @@
 			</execution>
 		</executions>
 	</plugin> 
-	      
     </plugins>
   </build>
 

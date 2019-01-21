@@ -16,12 +16,14 @@ https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquib
 
 == Run Liquibase exclusively
 
-* Make sure the liquibase.properties file has the required parameter/value pairs for the target environment, an example is provided in the project folder under /src/main/resources
-* Make sure seqdb.api.jar file is available at classpath
-* At project folder, such as seqdb-api, run mvn liquibase:update, this should regenerate the database based on the changelogs provided in above jar file
+Make sure the liquibase.properties file has the required parameter/value pairs for the target environment, an example is provided in the project folder under /src/main/resources.
+
+At project root folder:
  
 [source,bash]
 ----
-cd seqdb-api
+mvn liquibase:status
+----
+----
 mvn liquibase:update
 ----

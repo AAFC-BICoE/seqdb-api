@@ -32,6 +32,7 @@
     <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     <checkstyle.version>8.8</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
+    <liquibase-maven-plugin.version>3.5.0</liquibase-maven-plugin.version>
   </properties>
 
   <repositories>
@@ -302,6 +303,21 @@
           </execution>
         </executions>
       </plugin>
+	<plugin>
+		<groupId>org.liquibase</groupId>
+		<artifactId>liquibase-maven-plugin</artifactId>
+		<version>${liquibase-maven-plugin.version}</version>
+		<configuration>
+			<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+		</configuration>
+		<executions>
+			<execution>
+				<goals>
+					<goal>update</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin> 
     </plugins>
   </build>
 
@@ -336,5 +352,7 @@
       </plugin>
     </plugins>
   </reporting>
+  
+	
 
 </project>

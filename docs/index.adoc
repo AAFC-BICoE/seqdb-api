@@ -10,6 +10,8 @@ include::running.adoc[]
 
 include::configuration.adoc[]
 
+include::liquibase.adoc[]
+
 include::authentication_strategies.adoc[]
 
 include::group_based_authorization.adoc[]

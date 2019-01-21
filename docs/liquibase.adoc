@@ -1,0 +1,29 @@
+= Database migration with Liquibase
+
+* This application uses Liquibase to generate the database and migrate to new versions of the database. 
+* Changelogs are source xml files that describe schema changes to the database. Liquibase maintains a "DATABASECHANGELOG" table in the same database to keep track of which changelogs have been executed. 
+* When the application starts, any changelogs that have not been executed are executed.
+*Our changelogs are kept in src/main/resources/db/changelog.
+* When adding a new migration changelog, put the new file in src/main/resources/db/changelog/migrations, and name the file after the issue, e.g. db.changelog-Feature_15_Add_Sample_Table.xml". Then add the new file's path to src/main/resources/db/changelog/db.changelog-master.xml in an "include" tag.
+
+http://www.liquibase.org/index.html[Liquibase home]
+
+http://www.liquibase.org/bestpractices.html[Liquibase Best Practices]
+
+https://www.liquibase.org/documentation/changes/add_column.html[Change example: addColumn]
+
+https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquibase support to an existing database]
+
+== Run Liquibase exclusively
+
+Make sure the liquibase.properties file has the required parameter/value pairs for the target environment, an example is provided in the project folder under /src/main/resources.
+
+At project root folder:
+ 
+[source,bash]
+----
+mvn liquibase:status
+----
+----
+mvn liquibase:update
+----

@@ -1,14 +1,14 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.security.core.Authentication;
 
-import junit.framework.TestCase;
-
 @RunWith(JUnit4.class)
-public class TrustedServiceAuthenticationTokenTest extends TestCase {
+public class TrustedServiceAuthenticationTokenTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void setAuthenticated_whenTrue_throwIllegalArgumentException() {

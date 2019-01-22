@@ -34,35 +34,35 @@ public class TrustedServiceAuthenticationFilter extends OncePerRequestFilter {
 
   @NonNull
   private final AuthenticationManager authenticationManager;
-  
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain) throws ServletException, IOException {
+    
     String authorizationHeader = request.getHeader("Authorization");
-
     if (authorizationHeader == null || !authorizationHeader.startsWith("TrustedService ")) {
       chain.doFilter(request, response);
       return;
     }
-    
+
     // Split on spaces
     String[] authParts = authorizationHeader.split(" ");
-    
+
     if (authParts.length != 3) {
       throw new BadCredentialsException("TrustedService authorization header must match "
           + "\"TrustedService <username> <api-key>\"");
     }
-    
+
     String username = URLDecoder.decode(authParts[1], "UTF-8");
     String apiKey = URLDecoder.decode(authParts[2], "UTF-8");
-    
+
     TrustedServiceAuthenticationToken authRequest = new TrustedServiceAuthenticationToken(username,
         apiKey);
-    
+
     Authentication authResult = authenticationManager.authenticate(authRequest);
-    
+
     SecurityContextHolder.getContext().setAuthentication(authResult);
-    
+
     chain.doFilter(request, response);
   }
 

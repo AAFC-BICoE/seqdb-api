@@ -22,41 +22,37 @@ import lombok.NonNull;
  *   curl -i -H"Authorization: TrustedService MatPoff secret-key" localhost:8080/api/region
  */
 public class TrustedServiceAuthenticationProvider implements AuthenticationProvider {
-  
+
   private final List<String> trustedServiceApiKeys;
-  
+
   private final UserDetailsService userDetailsService;
 
   public TrustedServiceAuthenticationProvider(
-      @NonNull
-      @Value("${seqdb.trusted-service-api-keys}")
-      String[] trustedServiceApiKeys,
-      @NonNull
-      UserDetailsService userDetailsService
-  ) {
+      @NonNull @Value("${seqdb.trusted-service-api-keys}") String[] trustedServiceApiKeys,
+      @NonNull UserDetailsService userDetailsService) {
     this.trustedServiceApiKeys = Arrays.asList(trustedServiceApiKeys);
     this.userDetailsService = userDetailsService;
   }
-  
+
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     String username = Objects.toString(authentication.getPrincipal(), null);
     String apiKey = Objects.toString(authentication.getCredentials(), null);
-    
+
     if (StringUtils.isEmpty(apiKey)) {
       return null;
     }
-    
+
     if (!this.trustedServiceApiKeys.contains(apiKey)) {
       throw new AuthenticationServiceException(
           String.format("Unknown service api key: %s", apiKey));
     }
-    
+
     userDetailsService.loadUserByUsername(username);
 
     TrustedServiceAuthenticationToken token = new TrustedServiceAuthenticationToken(username,
         apiKey, true);
-    
+
     return token;
   }
 
@@ -65,5 +61,5 @@ public class TrustedServiceAuthenticationProvider implements AuthenticationProvi
     return authentication != null
         && TrustedServiceAuthenticationToken.class.isAssignableFrom(authentication);
   }
-  
+
 }

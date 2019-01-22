@@ -1,52 +1,58 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
-import javax.inject.Inject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.TestPropertySource;
-
-import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.security.trustedservice.TrustedServiceAuthenticationProvider;
 import ca.gc.aafc.seqdb.api.security.trustedservice.TrustedServiceAuthenticationToken;
 import ca.gc.aafc.seqdb.entities.Account;
 
-@TestPropertySource(
-    properties = "seqdb.trusted-service-api-keys = test-api-key, another-test-api-key"
-)
-public class TrustedServiceAuthenticationProviderIT extends BaseIntegrationTest {
+/**
+ * Unit tests related to {@link TrustedServiceAuthenticationProvider}
+ *
+ */
+public class TrustedServiceAuthenticationProviderTest {
 
-  @Value("${seqdb.trusted-service-api-keys}")
-  private String[] trustedServiceApiKeys;
+  private static final String API_KEY_1 = "test-api-key";
+  private static final String[] TRUSTED_SERVICE_API_KEYS = {API_KEY_1, "another-test-api-key"};
   
-  @Inject
-  private UserDetailsService userDetailsService;
+  // userDetailsService stub for testing purpose
+  private UserDetailsService userDetailsService = (u) -> {
+    if ("trustedServiceUser".equals(u)) {
+      return new org.springframework.security.core.userdetails.User(u, "", 
+          Arrays.asList(() -> "User"));
+    }
+    throw new UsernameNotFoundException("User does not exist in database: " + u);
+  };
   
   private TrustedServiceAuthenticationProvider authProvider;
   
   private Account testAccount;
   
-  /**
-   * Add a test account.
-   */
   @Before
   public void init() {
     authProvider = new TrustedServiceAuthenticationProvider(
-        trustedServiceApiKeys,
+        TRUSTED_SERVICE_API_KEYS,
         userDetailsService
     );
     
+    // change to test data provider when available for Account
     testAccount = new Account();
     testAccount.setAccountName("trustedServiceUser");
     testAccount.setAccountPw("unknownPassword");
     testAccount.setAccountType("User");
-    entityManager.persist(testAccount);
   }
   
   @Test
@@ -63,14 +69,14 @@ public class TrustedServiceAuthenticationProviderIT extends BaseIntegrationTest 
   public void authenticate_whenApiKeyIsCorrect_returnAuthenticatedToken() {
     Authentication authentication = new TrustedServiceAuthenticationToken(
         testAccount.getAccountName(),
-        "test-api-key"
+        API_KEY_1
     );
     
     Authentication authResult = authProvider.authenticate(authentication);
     
     assertTrue(authResult.isAuthenticated());
     assertEquals(testAccount.getAccountName(), authResult.getName());
-    assertEquals("test-api-key", authResult.getCredentials().toString());
+    assertEquals(API_KEY_1, authResult.getCredentials().toString());
   }
   
   @Test
@@ -92,11 +98,8 @@ public class TrustedServiceAuthenticationProviderIT extends BaseIntegrationTest 
   
   @Test(expected = UsernameNotFoundException.class)
   public void authenticate_whenApiKeyIsCorrectAndUserDoesNotExist_throwUsernameNotFoundException() {
-    Authentication authentication = new TrustedServiceAuthenticationToken(
-        "thisUserDoesntExist",
-        "test-api-key"
-    );
-    
+    Authentication authentication = new TrustedServiceAuthenticationToken("thisUserDoesntExist",
+        API_KEY_1);
     authProvider.authenticate(authentication);
   }
   

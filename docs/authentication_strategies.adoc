@@ -1,0 +1,40 @@
+= Authentication Strategies
+
+This application supports different authentication strategies:
+
+== Ldap and Local DB authentication strategy
+
+Implemented in LdapAndLocalDbAuthConfig.java.
+
+=== Behavior
+
+Authenticates the user via Ldap by default. If the username is not associated to an LDAP account,
+they are authenticated against a username and password stored in the relational database.
+
+=== To enable
+
+This is the default authentication strategy and is enabled when Keycloak authentication is disabled.
+
+You must provide a Spring Boot LDAP config:
+
+Example:
+----
+include::../src/main/resources/ldap.example.yml[]
+----
+
+== Keycloak authentication strategy
+
+Implemented in KeycloakAuthConfig.java.
+
+=== Behavior
+
+Authenticates the user against an external Keycloak instance.
+
+=== To enable
+
+You must provide a Spring Boot Keycloak client config:
+
+Example:
+----
+include::../src/main/resources/keycloak.example.yml[]
+----

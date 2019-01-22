@@ -6,3 +6,4 @@ seqdb-api is an implementation of the Sequence Module for the [DINA project](htt
 
 ## Status
 Currently under development, see [Release Notes](RELEASE_NOTES.md) for details.
+

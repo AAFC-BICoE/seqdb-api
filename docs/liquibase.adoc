@@ -18,6 +18,11 @@ https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquib
 
 Make sure the liquibase.properties file has the required parameter/value pairs for the target environment, an example is provided in the project folder under /src/main/resources.
 
+Example:
+----
+include::../src/main/resources/liquibase.example.properties[]
+----
+
 At project root folder:
  
 [source,bash]

@@ -34,6 +34,8 @@ import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceInformation;
@@ -43,7 +45,6 @@ import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
-import io.crnk.core.resource.meta.MetaInformation;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -88,6 +89,7 @@ public class JpaDtoRepository {
       @NonNull Class<D> sourceDtoClass,
       @NonNull QuerySpec querySpec,
       @NonNull ResourceRegistry resourceRegistry,
+      @Nullable JpaMetaInformationProvider metaInformationProvider,
       @Nullable TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter,
       @Nullable Function<From<?, ?>, From<?, ?>> customRoot
   ) {
@@ -134,7 +136,13 @@ public class JpaDtoRepository {
             .map(JpaDtoRepository::mapFromTuple)
             .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass))
             .collect(Collectors.toList()),
-        new MetaInformation() { },
+        metaInformationProvider.getMetaInformation(
+            JpaMetaInformationParams.builder()
+                .sourceResourceClass(sourceDtoClass)
+                .customRoot(customRoot)
+                .customFilter(customFilter)
+                .build()
+        ),
         null
     );
   }

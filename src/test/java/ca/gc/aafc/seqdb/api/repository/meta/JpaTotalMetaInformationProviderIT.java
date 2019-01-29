@@ -29,12 +29,15 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
   @Inject
   private JpaRelationshipRepository<PcrBatchDto, PcrReactionDto> pcrBatchToReactionRepository;
   
+  private static final int NUMBER_OF_REGION_TO_CREATE = 11; 
+  private static final int EXPECTED_NUMBER_OF_REGION = NUMBER_OF_REGION_TO_CREATE + 1; //+ 1 since the root is added by Liquibase 
+  
   /**
    * Persist example data for these tests.
    */
   @Before
   public void persistTestRegions() {
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= NUMBER_OF_REGION_TO_CREATE; i++) {
       Region region = new Region();
       region.setName("test region " + i);
       region.setDescription("desc");
@@ -47,7 +50,7 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
   public void jpaResourceRepositoryFindAll_noAdditionalOptions_fullTotalIsIncluded() {
     ResourceList<RegionDto> regions = regionRepository.findAll(new QuerySpec(RegionDto.class));
     DefaultPagedMetaInformation meta = (DefaultPagedMetaInformation) regions.getMeta();
-    assertEquals(10, meta.getTotalResourceCount().longValue());
+    assertEquals(EXPECTED_NUMBER_OF_REGION, meta.getTotalResourceCount().longValue());
   }
   
   @Test
@@ -79,11 +82,11 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
   public void jpaResourceRepositoryFindAll_whenPageLimitIsSpecified_fullTotalIsIncluded() {
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
     querySpec.setLimit(1L);
-    
+
     ResourceList<RegionDto> regions = regionRepository.findAll(querySpec);
     DefaultPagedMetaInformation meta = (DefaultPagedMetaInformation) regions.getMeta();
     assertEquals(1, regions.size());
-    assertEquals(10, meta.getTotalResourceCount().longValue());
+    assertEquals(EXPECTED_NUMBER_OF_REGION, meta.getTotalResourceCount().longValue());
   }
   
 }

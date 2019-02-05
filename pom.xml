@@ -22,6 +22,7 @@
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <!-- seqdb.dbi is pulled from lib/ folder -->
     <seqdb.dbi.version>3.27.1</seqdb.dbi.version>
+    <seqdb.testjar.version>3.28</seqdb.testjar.version>
     
     <!-- Temporary fix until https://github.com/h2database/h2database/pull/1070 is available (1.4.198 I would guess)  -->
     <h2.version>1.4.196</h2.version>
@@ -180,6 +181,15 @@
       <version>${seqdb.dbi.version}</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}.jar</systemPath>
+    </dependency>
+    
+    <!-- SeqDBfactory test jar -->
+    <dependency>
+      <groupId>ca.gc.aafc</groupId>
+      <artifactId>seqdb.dbi-test-support</artifactId>
+      <version>${seqdb.testjar.version}</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.testjar.version}-test-support.jar</systemPath>
     </dependency>
     
     <!-- TEST Scope -->

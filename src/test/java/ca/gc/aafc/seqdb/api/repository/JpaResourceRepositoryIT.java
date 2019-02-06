@@ -23,6 +23,7 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
@@ -173,19 +174,23 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findAll_whenSortingByName_resultsAreSorted() {
     
-    Region region1 = new Region();
-    region1.setName("Internal Transcribed Spacer");
-    region1.setSymbol("ITS");
+    Region region1 = 
+        RegionFactory.newRegion()
+        .name("Internal Transcribed Spacer")
+        .symbol("ITS")
+        .build();    
     entityManager.persist(region1);
     
-    Region region2 = new Region();
-    region2.setName("Cytochrome c oxidase subunit I");
-    region2.setSymbol("COI");
+    Region region2 = 
+        RegionFactory.newRegion()
+        .name("Cytochrome c oxidase subunit I")
+        .symbol("COI").build();
     entityManager.persist(region2);
     
-    Region region3 = new Region();
-    region3.setName("ACA");
-    region3.setSymbol("ACA");
+    Region region3 = 
+        RegionFactory.newRegion()
+        .name("ACA")
+        .symbol("ACA").build();
     entityManager.persist(region3);
     
     QuerySpec querySpecAscending = new QuerySpec(RegionDto.class);
@@ -226,9 +231,10 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     final long pageLimit = 9;
     
     for (int i = 1; i <= 100; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i).build();
       entityManager.persist(region);
     }
     
@@ -242,9 +248,11 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   public void findAll_whenPageOffsetIsSet_pageStartsAfterOffset() {
     List<Region> newRegions = new ArrayList<>();
     for (int i = 1; i <= 100; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i)
+          .build();
       newRegions.add(region);
       entityManager.persist(region);
     }
@@ -264,9 +272,11 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   public void findAll_whenIdsArgumentIsSet_resultsAreFilteredById() {
     List<Region> newRegions = new ArrayList<>();
     for (int i = 1; i <= 10; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i)
+          .build();
       newRegions.add(region);
       entityManager.persist(region);
     }
@@ -365,10 +375,11 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     // Create the test primer.
     PcrPrimer testPrimer = persistTestPrimer();
     
-    Region testRegion = new Region();
-    testRegion.setName(TEST_REGION_NAME);
-    testRegion.setDescription(TEST_REGION_DESCRIPTION);
-    testRegion.setSymbol(TEST_REGION_SYMBOL);
+    Region testRegion = 
+        RegionFactory.newRegion()
+        .name(TEST_REGION_NAME)
+        .description(TEST_REGION_DESCRIPTION)
+        .symbol(TEST_REGION_SYMBOL).build();
     entityManager.persist(testRegion);
     
     // Get the test primer's DTO.

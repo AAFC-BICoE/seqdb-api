@@ -21,6 +21,9 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
+import ca.gc.aafc.seqdb.factories.RegionFactory;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
@@ -66,11 +69,12 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
    * @return the persisted primer
    */
   protected PcrPrimer persistTestPrimer() {
-    PcrPrimer primer = new PcrPrimer();
-    primer.setName(TEST_PRIMER_NAME);
-    primer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
-    primer.setType(TEST_PRIMER_TYPE);
-    primer.setSeq(TEST_PRIMER_SEQ);
+    
+    PcrPrimer primer = 
+        PcrPrimerFactory.newPcrPrimer().name(TEST_PRIMER_NAME)
+        .lotNumber(TEST_PRIMER_LOT_NUMBER).type(TEST_PRIMER_TYPE)
+        .seq(TEST_PRIMER_SEQ).build();
+    
 
     assertNull(primer.getId());
     entityManager.persist(primer);
@@ -86,12 +90,15 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
    * @return the persisted primer
    */
   protected PcrPrimer persistTestPrimerWithRegion() {
+    
+    
     PcrPrimer primer = this.persistTestPrimer();
     
-    Region region = new Region();
-    region.setName(TEST_REGION_NAME);
-    region.setDescription(TEST_REGION_DESCRIPTION);
-    region.setSymbol(TEST_REGION_SYMBOL);
+    
+    Region region = 
+        RegionFactory.newRegion().name(TEST_REGION_NAME)
+        .description(TEST_REGION_DESCRIPTION)
+        .symbol(TEST_REGION_SYMBOL).build();
     
     assertNull(region.getId());
     entityManager.persist(region);

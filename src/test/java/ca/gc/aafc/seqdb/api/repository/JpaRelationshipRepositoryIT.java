@@ -48,23 +48,13 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Inject
   private JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToBatchRepository;
   
-  private static final String TEST_REGION_DESCRIPTION = "test description";
-  private static final String TEST_REGION_SYMBOL = "test symbol";
-  
-  private Region createTestRegion() {
-    Region region = RegionFactory.newRegion()
-        .description(TEST_REGION_DESCRIPTION)
-        .symbol(TEST_REGION_SYMBOL).build();
-    return region;
-  }
-  
   
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {
 
     PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
     persistTestPrimer(primer);
-    persistTestPrimerWithRegion(primer, createTestRegion());
+    persistTestPrimerWithRegion(primer, RegionFactory.newRegion().description("test Description+").build());
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
     
@@ -81,7 +71,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
 
     PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
     persistTestPrimer(primer);
-    persistTestPrimerWithRegion(primer, createTestRegion());
+    persistTestPrimerWithRegion(primer, RegionFactory.newRegion().description("Test Description").build());
     
     QuerySpec targetQuerySpec = new QuerySpec(RegionDto.class);
     targetQuerySpec.setIncludedFields(includeFieldSpecs("name", "description"));
@@ -135,10 +125,9 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
 
     PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
     persistTestPrimer(testPrimer);
-    persistTestPrimerWithRegion(testPrimer, createTestRegion());
+    persistTestPrimerWithRegion(testPrimer, RegionFactory.newRegion().build());
     
-    Region newRegion = createTestRegion();
-    newRegion.setName("new region");
+    Region newRegion = RegionFactory.newRegion().name("new region").build();
     entityManager.persist(newRegion);
     
     PcrPrimerDto testPrimerDto = primerRepository.findOne(
@@ -265,7 +254,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     // Create a test primer with a linked region.
     PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
     persistTestPrimer(testPrimer);
-    persistTestPrimerWithRegion(testPrimer, createTestRegion());
+    persistTestPrimerWithRegion(testPrimer, RegionFactory.newRegion().build());
     
     // The primer should be linked to a region.
     assertNotNull(testPrimer.getRegion());

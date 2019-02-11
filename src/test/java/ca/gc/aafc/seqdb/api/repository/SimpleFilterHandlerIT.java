@@ -25,13 +25,6 @@ public class SimpleFilterHandlerIT extends BaseRepositoryTest {
   private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
   private static final String TEST_PRIMER_SEQ = "test seq";
   
-  private static PcrPrimerBuilder ITPcrPrimerFactory() {
-    return PcrPrimerFactory.newPcrPrimer()
-        .lotNumber(TEST_PRIMER_LOT_NUMBER)
-        .type(TEST_PRIMER_TYPE)
-        .seq(TEST_PRIMER_SEQ);
-  }
-
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
   
@@ -40,13 +33,13 @@ public class SimpleFilterHandlerIT extends BaseRepositoryTest {
     
     final String expectedPrimerName = "primer2";
     
-    PcrPrimer primer1 = ITPcrPrimerFactory().build(); //name is a random string each call to build();
+    PcrPrimer primer1 = PcrPrimerFactory.newPcrPrimer().build(); //name is a random string each call to build();
     
-    PcrPrimer primer2 = ITPcrPrimerFactory().name(expectedPrimerName).build();
+    PcrPrimer primer2 = PcrPrimerFactory.newPcrPrimer().name(expectedPrimerName).build();
     
-    PcrPrimer primer3 = ITPcrPrimerFactory().build();
+    PcrPrimer primer3 = PcrPrimerFactory.newPcrPrimer().build();
     
-    PcrPrimer primer20 = ITPcrPrimerFactory().build();
+    PcrPrimer primer20 = PcrPrimerFactory.newPcrPrimer().build();
     
     for (PcrPrimer newPrimer : Arrays.asList(primer1, primer2, primer3, primer20)) {
       System.out.println(newPrimer.getName());

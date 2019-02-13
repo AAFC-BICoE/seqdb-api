@@ -11,8 +11,6 @@ import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PcrPrimerBuilder;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
@@ -20,10 +18,6 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
 public class SimpleFilterHandlerIT extends BaseRepositoryTest {
-  
-  private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
-  private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
-  private static final String TEST_PRIMER_SEQ = "test seq";
   
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
@@ -35,7 +29,7 @@ public class SimpleFilterHandlerIT extends BaseRepositoryTest {
     
     PcrPrimer primer1 = PcrPrimerFactory.newPcrPrimer().build(); //name is a random string each call to build();
     
-    PcrPrimer primer2 = PcrPrimerFactory.newPcrPrimer().name(expectedPrimerName).build();
+    PcrPrimer primer2 = PcrPrimerFactory.newPcrPrimer().name(expectedPrimerName).build();// so we need to set a name to query
     
     PcrPrimer primer3 = PcrPrimerFactory.newPcrPrimer().build();
     

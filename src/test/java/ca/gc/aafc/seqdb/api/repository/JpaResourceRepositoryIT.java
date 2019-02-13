@@ -20,11 +20,9 @@ import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PcrPrimerBuilder;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.entities.Region.RegionBuilder;
 import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import ca.gc.aafc.seqdb.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
@@ -53,7 +51,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   private static final String TEST_REGION_DESCRIPTION = "test description";
   
-  
+//using factory methods from dbi to create a primer and region and persist them in the repository together
   private PcrPrimer createPersistedPcrPrimerWithRegion() {
     
     PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().name(TEST_PRIMER_NAME).build();
@@ -211,13 +209,15 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     Region region2 = 
         RegionFactory.newRegion()
         .name("Cytochrome c oxidase subunit I")
-        .symbol("COI").build();
+        .symbol("COI")
+        .build();
     entityManager.persist(region2);
     
     Region region3 = 
         RegionFactory.newRegion()
         .name("ACA")
-        .symbol("ACA").build();
+        .symbol("ACA")
+        .build();
     entityManager.persist(region3);
     
     QuerySpec querySpecAscending = new QuerySpec(RegionDto.class);
@@ -261,7 +261,8 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
       Region region = 
           RegionFactory.newRegion()
           .name("test region" + i)
-          .symbol("test symbol" + i).build();
+          .symbol("test symbol" + i)
+          .build();
       entityManager.persist(region);
     }
     

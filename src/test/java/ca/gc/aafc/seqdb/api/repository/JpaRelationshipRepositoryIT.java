@@ -16,9 +16,6 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PcrPrimerBuilder;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
-import ca.gc.aafc.seqdb.entities.Region.RegionBuilder;
 import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import ca.gc.aafc.seqdb.factories.RegionFactory;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
@@ -48,6 +45,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Inject
   private JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToBatchRepository;
   
+  //using factory methods from dbi to create a primer and region and persist them in the repository together
   private PcrPrimer createPersistedPcrPrimerWithRegionAttached(boolean withRegionDescription) {
     PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
     persistTestPrimer(primer);

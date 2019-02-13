@@ -51,7 +51,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   }
   
   /**
-   * Persists a PcrPrimer with the required fields set.
+   * Persists a PcrPrimer.
    * 
    * @param the primerToPersist
    */
@@ -65,7 +65,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   }
   
   /**
-   * Persists a persisted test PcrPrimer with an associated Region.
+   * Persists a Region and associated it with a primer.
    * 
    * @param primer - The persisted primer to be attached to
    * @param region - Non-persisted region to be attached

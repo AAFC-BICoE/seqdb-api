@@ -48,14 +48,26 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Inject
   private JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToBatchRepository;
   
+  private PcrPrimer createPersistedPcrPrimerWithRegionAttached(boolean withRegionDescription) {
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
+    persistTestPrimer(primer);
+
+    if(withRegionDescription) {
+
+      persistTestPrimerWithRegion(primer, RegionFactory.newRegion().description("test Description").build());
+    }
+    else {
+
+      persistTestPrimerWithRegion(primer, RegionFactory.newRegion().build());
+    }
+    return primer;
+  }
+  
   
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {
 
-    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
-    persistTestPrimer(primer);
-    persistTestPrimerWithRegion(primer, RegionFactory.newRegion().description("test Description+").build());
-    
+    PcrPrimer primer = createPersistedPcrPrimerWithRegionAttached(true);
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
     
     RegionDto region = primerToRegionRepository.findOneTarget(primer.getId(), "region", querySpec);
@@ -69,9 +81,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenFieldsAreSelected_regionReturnedWithSelectedFields() {
 
-    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
-    persistTestPrimer(primer);
-    persistTestPrimerWithRegion(primer, RegionFactory.newRegion().description("Test Description").build());
+    PcrPrimer primer = createPersistedPcrPrimerWithRegionAttached(true);
     
     QuerySpec targetQuerySpec = new QuerySpec(RegionDto.class);
     targetQuerySpec.setIncludedFields(includeFieldSpecs("name", "description"));
@@ -123,9 +133,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Test
   public void setRelation_whenDtoPrimerRegionIsChanged_primerEntityRelatedRegionIsChanged() {
 
-    PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
-    persistTestPrimer(testPrimer);
-    persistTestPrimerWithRegion(testPrimer, RegionFactory.newRegion().build());
+    PcrPrimer testPrimer = createPersistedPcrPrimerWithRegionAttached(false);
     
     Region newRegion = RegionFactory.newRegion().name("new region").build();
     entityManager.persist(newRegion);
@@ -252,9 +260,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Test
   public void removeRelations_whenDtoPrimerRegionRelationIsRemoved_entityRelationIsRemoved() {
     // Create a test primer with a linked region.
-    PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
-    persistTestPrimer(testPrimer);
-    persistTestPrimerWithRegion(testPrimer, RegionFactory.newRegion().build());
+    PcrPrimer testPrimer = createPersistedPcrPrimerWithRegionAttached(false);
     
     // The primer should be linked to a region.
     assertNotNull(testPrimer.getRegion());

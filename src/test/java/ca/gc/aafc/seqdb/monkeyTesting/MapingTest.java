@@ -166,7 +166,7 @@ public class MapingTest {
     applyPcrThermocyclerProfileMapping();
     
     //Create a new pcrProfile entity
-    PcrProfile p = PcrProfileFactory.newPcrProfile()
+    PcrProfile pcrProfile = PcrProfileFactory.newPcrProfile()
         .step1("Problems")
         .step2("worthy")
         .step3("of")
@@ -182,7 +182,7 @@ public class MapingTest {
         .step15("last").build();
     
     //Create a Dto using the just made pcrProfile entity 
-    ThermocyclerProfileDto sahdoods = modelMapper.map(p, ThermocyclerProfileDto.class);
+    ThermocyclerProfileDto thermoProfileDto = modelMapper.map(pcrProfile, ThermocyclerProfileDto.class);
     
     Map<Integer, String> expectedMap = new HashMap<Integer, String>();
     expectedMap.put(1,"Problems" );
@@ -202,10 +202,10 @@ public class MapingTest {
     expectedMap.put(15, "last");
     
     //Test that the values were mapped as expected
-    assertEquals(sahdoods.getSteps(), expectedMap);
+    assertEquals(thermoProfileDto.getSteps(), expectedMap);
     
     //Same thing but reversed.
-    PcrProfile profileFromDto = modelMapper.map(sahdoods, PcrProfile.class);
+    PcrProfile profileFromDto = modelMapper.map(thermoProfileDto, PcrProfile.class);
     
     validateCreatedPcrProfileSteps(profileFromDto);
     

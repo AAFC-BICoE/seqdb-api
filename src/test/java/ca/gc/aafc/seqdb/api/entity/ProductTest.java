@@ -51,7 +51,7 @@ public class ProductTest extends TestCase {
   
   @Before
   public void setup() {
-    endPoint = "http://localhost:8080/api";
+    endPoint = "/api";
  
   }
   
@@ -64,7 +64,7 @@ public class ProductTest extends TestCase {
   }
 
   @Test
-  public void createProduct_whenRequestIsExecuted_thenResponseIsCreated()
+  public void createProduct_whenRequestIsExecuted_then200IsReceived()
       throws ClientProtocolException, IOException, URISyntaxException, JSONException {
     Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
         .put("name", "myName").put("type", "type").put("description", "desc").build();
@@ -81,12 +81,10 @@ public class ProductTest extends TestCase {
   public void givenRequestWithNoAcceptHeader_whenRequestIsExecuted_thenDefaultResponseContentTypeIsJson()
       throws ClientProtocolException, IOException {
 
-    String jsonMimeType = "application/json";
-    HttpUriRequest request = new HttpGet(endPoint + "/products/1");
-
-    HttpResponse response = HttpClientBuilder.create().build().execute(request);
-
-    String mimeType = ContentType.getOrDefault(response.getEntity()).getMimeType();
+    String jsonMimeType = "application/json;charset=UTF-8";
+    final Response response = givenAuth().get(endPoint + "/products/1");
+    
+    String mimeType = response.getContentType();
     assertEquals(jsonMimeType, mimeType);
   }
   
@@ -99,7 +97,7 @@ public class ProductTest extends TestCase {
   }
   
   @Test
-  public void updateProduct_whenRequestIsExecuted_thenResponseIsOK() {
+  public void updateProduct_whenRequestIsExecuted_then201IsReceived() {
    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
         .put("description", "desc1").build();
 

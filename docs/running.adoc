@@ -1,0 +1,59 @@
+= Running the application
+
+== To launch
+
+[source,bash]
+----
+mvn clean spring-boot:run
+----
+
+== To run test
+
+Unit tests:
+
+[source,bash]
+----
+mvn clean test
+----
+
+All tests (Integration + Unit):
+
+[source,bash]
+----
+mvn clean verify
+----
+
+== To package
+
+[source,bash]
+----
+mvn clean install
+----
+
+This will create an executable jar.
+
+== To run the packaged application (using an embedded Tomcat instance)
+
+[source,bash]
+----
+java -jar seqdb.api.jar
+----
+
+You can also include configuration from an external file:
+
+[source,bash]
+----
+java -jar seqdb.api.jar --spring.config.additional-location=./myconfig.yml
+----
+
+== Generate Maven reports
+
+* Checkstyle
+* SpotBugs
+* OWASP dependency-check
+* Jacoco
+
+[source,bash]
+----
+mvn clean verify site
+----

@@ -254,7 +254,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(expectedRegionId);
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
-    querySpec.setOffset(offset);
+    querySpec.setOffset(offset + 1); // + 1 since the root node is inserted by liquibase
     List<RegionDto> regionDtos = regionRepository.findAll(querySpec);
     
     assertEquals(expectedRegionId, regionDtos.get(0).getTagId());

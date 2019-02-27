@@ -114,18 +114,11 @@ public class ProductTest extends TestCase {
   }
   
   @Test
-  public void deleteProduct_whenRequestIsExecuted_then200IsReceived() throws ClientProtocolException, IOException {
+  public void deleteProduct_whenRequestIsExecuted_then0IsValueofHeaderExpires() throws ClientProtocolException, IOException {
     givenProductDoesExist_whenProductIsRetrieved_then201IsReceived();
     assertNotEquals(0, testProductID);
-    
-    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-        .put("name", "myName").build();
 
-    @SuppressWarnings("rawtypes")
-    Map dataMap = ImmutableMap.of("data", ImmutableMap.of("type", "product", "id", testProductID, "attributes", attributeMap));
-
-    givenAuth().contentType("application/vnd.api+json").body(dataMap).when().patch(endPoint + "/product/" + testProductID).then()
-              .statusCode(HttpStatus.SC_OK);
+    givenAuth().when().delete(endPoint + testProductID).then().header("Expires", "0"); 
   }
   
   public void createTestProduct()

@@ -16,7 +16,6 @@ spring:
       use-new-id-generator-mappings: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
-    enabled: false
 crnk:
   pathPrefix: /api
   domainName: ""
@@ -26,4 +25,3 @@ crnk:
 keycloak:
   # Disable Keycloak by default.
   enabled: false
-import-sample-accounts: true

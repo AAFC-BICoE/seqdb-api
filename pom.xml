@@ -188,21 +188,7 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    
-	<dependency>
-	    <groupId>io.crnk</groupId>
-	    <artifactId>crnk-client</artifactId>
-	    <version>2.6.20180522184741</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.jayway.restassured</groupId>
-		<artifactId>rest-assured</artifactId>
-		<version>2.9.0</version>
-		<scope>test</scope>
-	</dependency>	
-	    
+		    
   </dependencies>
 
   <build>

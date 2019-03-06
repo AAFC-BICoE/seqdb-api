@@ -20,8 +20,8 @@
     <local-javax-jaxb.version>2.3.0.1</local-javax-jaxb.version>
     <javax.activation.version>1.1.1</javax.activation.version>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
-    <!-- seqdb.dbi is pulled from lib/ folder -->
-    <seqdb.dbi.version>3.27.1</seqdb.dbi.version>
+    <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
+    <seqdb.dbi.version>3.28-SNAPSHOT</seqdb.dbi.version>
     
     <!-- Temporary fix until https://github.com/h2database/h2database/pull/1070 is available (1.4.198 I would guess)  -->
     <h2.version>1.4.196</h2.version>
@@ -178,6 +178,11 @@
       <version>${javax.inject.version}</version>
     </dependency>
     
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    
     <!-- Seqdb -->
     <dependency>
       <groupId>ca.gc.aafc</groupId>
@@ -185,6 +190,15 @@
       <version>${seqdb.dbi.version}</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}.jar</systemPath>
+    </dependency>
+    
+    <!-- SeqDBfactory test jar -->
+    <dependency>
+      <groupId>ca.gc.aafc</groupId>
+      <artifactId>seqdb.dbi-test-support</artifactId>
+      <version>${seqdb.dbi.version}</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>
     </dependency>
     
     <!-- TEST Scope -->

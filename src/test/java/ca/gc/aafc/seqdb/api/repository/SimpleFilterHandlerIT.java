@@ -11,38 +11,32 @@ import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
 public class SimpleFilterHandlerIT extends BaseRepositoryTest {
-
+  
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
   
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {
     
-    final String expectedPrimerName = "primer2";
+    String expectedPrimerName = "primer2";
     
-    PcrPrimer primer1 = new PcrPrimer();
-    primer1.setName("primer1");
+    PcrPrimer primer1 = PcrPrimerFactory.newPcrPrimer().build(); //name is a random string each call to build();
     
-    PcrPrimer primer2 = new PcrPrimer();
-    primer2.setName(expectedPrimerName);
+    PcrPrimer primer2 = PcrPrimerFactory.newPcrPrimer().name(expectedPrimerName).build();// so we need to set a name to query
     
-    PcrPrimer primer3 = new PcrPrimer();
-    primer3.setName("primer3");
+    PcrPrimer primer3 = PcrPrimerFactory.newPcrPrimer().build();
     
-    PcrPrimer primer20 = new PcrPrimer();
-    primer20.setName("primer20");
+    PcrPrimer primer20 = PcrPrimerFactory.newPcrPrimer().build();
     
     for (PcrPrimer newPrimer : Arrays.asList(primer1, primer2, primer3, primer20)) {
-      newPrimer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
-      newPrimer.setType(TEST_PRIMER_TYPE);
-      newPrimer.setSeq(TEST_PRIMER_SEQ);
-      entityManager.persist(newPrimer);
+      persist(newPrimer);
     }
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);

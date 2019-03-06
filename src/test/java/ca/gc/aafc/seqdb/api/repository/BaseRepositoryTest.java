@@ -17,9 +17,8 @@ import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
@@ -51,35 +50,17 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   }
   
   /**
-   * Persists a PcrPrimer.
+   * Persists an entity.
    * 
-   * @param the primerToPersist
+   * @param the entity to persist
    */
-  protected void persistTestPrimer(PcrPrimer primerToPersist) {
-
-    assertNull(primerToPersist.getId());
-    entityManager.persist(primerToPersist);
+  protected void persist(UniqueObj objectToPersist) {
+    assertNull(objectToPersist.getId());
+    entityManager.persist(objectToPersist);
     // New primer must have an ID.
-    assertNotNull(primerToPersist.getId());
+    assertNotNull(objectToPersist.getId());
+  }
 
-  }
-  
-  /**
-   * Persists a Region and associated it with a primer.
-   * 
-   * @param primer - The persisted primer to be attached to
-   * @param region - Non-persisted region to be attached
-   */
-  protected void persistTestPrimerWithRegion(PcrPrimer primer, Region region) {
-    
-    assertNotNull(primer.getId());
-    
-    assertNull(region.getId());
-    entityManager.persist(region);
-    assertNotNull(region.getId());
-    
-    primer.setRegion(region);
-  }
   
   /**
    * Persists a test PCR batch with 22 reactions.

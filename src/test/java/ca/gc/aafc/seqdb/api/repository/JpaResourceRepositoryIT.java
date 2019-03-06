@@ -23,6 +23,8 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
@@ -31,7 +33,7 @@ import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 
 public class JpaResourceRepositoryIT extends BaseRepositoryTest {
-
+  
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
   
@@ -41,9 +43,37 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   @Inject
   private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
   
+  //Assertion values, entity values are defined by the factory unless explicitly set.
+  private static final String TEST_PRIMER_NAME = "test primer";
+  private static final Integer TEST_PRIMER_LOT_NUMBER = 1;
+  private static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
+  private static final String TEST_PRIMER_SEQ = "CTTGGTCATTTAGAGGAAGTAA";
+  
+  private static final String TEST_REGION_DESCRIPTION = "test description";
+  
+  // using factory methods from dbi to create a primer and region and persist them in the repository
+  // together
+  private PcrPrimer createPersistedPcrPrimerWithRegion() {
+
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer()
+        .name(TEST_PRIMER_NAME)
+        .type(TEST_PRIMER_TYPE)
+        .lotNumber(TEST_PRIMER_LOT_NUMBER)
+        .seq(TEST_PRIMER_SEQ)
+        .build();
+    Region region = RegionFactory.newRegion().description(TEST_REGION_DESCRIPTION).build();
+    persist(primer);
+    persist(region);
+    primer.setRegion(region);
+
+    return primer;
+  }
+  
+
   @Test
   public void findOnePrimer_whenNoFieldsAreSelected_primerReturnedWithAllFields() {
-    PcrPrimer primer = persistTestPrimerWithRegion();
+    
+    PcrPrimer primer = createPersistedPcrPrimerWithRegion();
 
     PcrPrimerDto primerDto = primerRepository.findOne(
         primer.getId(),
@@ -54,7 +84,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     // fields were specified in the QuerySpec
     assertNotNull(primerDto);
     assertEquals(primer.getId(), primerDto.getPcrPrimerId());
-    assertEquals(TEST_PRIMER_NAME, primerDto.getName());
+    assertEquals(TEST_PRIMER_NAME, primerDto.getName());  
     assertEquals(TEST_PRIMER_LOT_NUMBER, primerDto.getLotNumber());
     assertEquals(TEST_PRIMER_TYPE.getValue(), primerDto.getType().getValue());
     assertEquals(TEST_PRIMER_SEQ, primerDto.getSeq());
@@ -66,7 +96,12 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void findOnePrimer_whenFieldsAreSelected_primerReturnedWithSelectedFieldsOnly() {
-    PcrPrimer primer = persistTestPrimer();
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer()
+        .name(TEST_PRIMER_NAME)
+        .lotNumber(TEST_PRIMER_LOT_NUMBER)
+        .seq(TEST_PRIMER_SEQ)
+        .build();
+    persist(primer);
 
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "lotNumber"));
@@ -85,7 +120,8 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findOnePrimer_whenRegionIsIncludedAndFieldsAreSelected_primerWithRegionReturnedWithSelectedFieldsOnly() {
-    PcrPrimer primer = persistTestPrimerWithRegion();
+    
+    PcrPrimer primer = createPersistedPcrPrimerWithRegion();
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "lotNumber"));
@@ -114,10 +150,10 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findOnePrimer_whenRegionIsIncludedAndNoFieldsAreSelected_primerAndRegionReturnedWithAllFields() {
-    PcrPrimer primer = persistTestPrimerWithRegion();
+    
+    PcrPrimer primer = createPersistedPcrPrimerWithRegion();
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
-    
     querySpec.setIncludedRelations(includeRelationSpecs("region"));
     
     PcrPrimerDto primerDto = primerRepository.findOne(primer.getId(), querySpec);
@@ -136,7 +172,9 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findOnePrimer_whenRegionIsIncludedButDoesNotExist_primerReturnedWithNullRegion() {
-    PcrPrimer primer = persistTestPrimer();
+    
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
+    persist(primer);
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
     querySpec.setIncludedRelations(includeRelationSpecs("region"));
@@ -173,20 +211,26 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findAll_whenSortingByName_resultsAreSorted() {
     
-    Region region1 = new Region();
-    region1.setName("Internal Transcribed Spacer");
-    region1.setSymbol("ITS");
-    entityManager.persist(region1);
+    Region region1 = 
+        RegionFactory.newRegion()
+        .name("Internal Transcribed Spacer")
+        .symbol("ITS")
+        .build();    
+    persist(region1);
     
-    Region region2 = new Region();
-    region2.setName("Cytochrome c oxidase subunit I");
-    region2.setSymbol("COI");
-    entityManager.persist(region2);
+    Region region2 = 
+        RegionFactory.newRegion()
+        .name("Cytochrome c oxidase subunit I")
+        .symbol("COI")
+        .build();
+    persist(region2);
     
-    Region region3 = new Region();
-    region3.setName("ACA");
-    region3.setSymbol("ACA");
-    entityManager.persist(region3);
+    Region region3 = 
+        RegionFactory.newRegion()
+        .name("ACA")
+        .symbol("ACA")
+        .build();
+    persist(region3);
     
     QuerySpec querySpecAscending = new QuerySpec(RegionDto.class);
     querySpecAscending.setSort(Arrays.asList(
@@ -226,10 +270,12 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     final long pageLimit = 9;
     
     for (int i = 1; i <= 100; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
-      entityManager.persist(region);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i)
+          .build();
+      persist(region);
     }
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
@@ -241,34 +287,40 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findAll_whenPageOffsetIsSet_pageStartsAfterOffset() {
     List<Region> newRegions = new ArrayList<>();
+    
     for (int i = 1; i <= 100; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i)
+          .build();
       newRegions.add(region);
-      entityManager.persist(region);
+      persist(region);
     }
     
     final int offset = 15;
     final Integer expectedRegionId = newRegions.get(offset).getId();
     assertNotNull(expectedRegionId);
+
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
     querySpec.setOffset(offset + 1); // + 1 since the root node is inserted by liquibase
     List<RegionDto> regionDtos = regionRepository.findAll(querySpec);
-    
     assertEquals(expectedRegionId, regionDtos.get(0).getTagId());
   }
   
   @Test
   public void findAll_whenIdsArgumentIsSet_resultsAreFilteredById() {
     List<Region> newRegions = new ArrayList<>();
+    
     for (int i = 1; i <= 10; i++) {
-      Region region = new Region();
-      region.setName("test region" + i);
-      region.setSymbol("test symbol" + i);
+      Region region = 
+          RegionFactory.newRegion()
+          .name("test region" + i)
+          .symbol("test symbol" + i)
+          .build();
       newRegions.add(region);
-      entityManager.persist(region);
+      persist(region);
     }
     
     Iterable<Serializable> expectedIds = Arrays.asList(
@@ -337,14 +389,15 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     PcrBatch batch2Entity = entityManager.find(PcrBatch.class, savedBatch2Dto.getPcrBatchId());
     
-    // Check that the reacitons were moved to batch2.
+    // Check that the reactions were moved to batch2.
     reactions.forEach(reaction -> assertEquals(batch2Entity, reaction.getPcrBatch()));
   }
   
   @Test
   public void savePrimer_onSuccess_primerEntityIsModified() {
     // Create the test primer.
-    PcrPrimer testPrimer = persistTestPrimer();
+    PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
+    persist(testPrimer);
     
     // Get the test primer's DTO.
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
@@ -363,13 +416,11 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void savePrimerWithNewRegion_onSuccess_primerEntityIsModified() {
     // Create the test primer.
-    PcrPrimer testPrimer = persistTestPrimer();
+    PcrPrimer testPrimer = PcrPrimerFactory.newPcrPrimer().build();
+    persist(testPrimer);
     
-    Region testRegion = new Region();
-    testRegion.setName(TEST_REGION_NAME);
-    testRegion.setDescription(TEST_REGION_DESCRIPTION);
-    testRegion.setSymbol(TEST_REGION_SYMBOL);
-    entityManager.persist(testRegion);
+    Region testRegion = RegionFactory.newRegion().build();
+    persist(testRegion);
     
     // Get the test primer's DTO.
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
@@ -391,7 +442,8 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void saveExistingPrimerAndRemoveLinkedRegion_onSuccess_primerEntityIsModified() {
-    PcrPrimer testPrimer = persistTestPrimerWithRegion();
+    PcrPrimer testPrimer = createPersistedPcrPrimerWithRegion();
+    
     assertNotNull(testPrimer.getRegion().getTagId());
     
     // Get the test primer's DTO.
@@ -413,7 +465,8 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deletePrimer_onPrimerLookup_primerNotFound() {
-    PcrPrimer primer = persistTestPrimer();
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
+    persist(primer);
     primerRepository.delete(primer.getId());
     assertNull(entityManager.find(PcrPrimer.class, primer.getId()));
   }

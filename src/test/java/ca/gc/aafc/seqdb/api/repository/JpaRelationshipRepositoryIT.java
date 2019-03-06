@@ -16,6 +16,8 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
+import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.factories.RegionFactory;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
@@ -43,23 +45,39 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Inject
   private JpaRelationshipRepository<PcrReactionDto, PcrBatchDto> pcrReactionToBatchRepository;
   
+  /**
+   * Persists a PCRPrimer and a Region and associated them.
+   * 
+   * @param primer
+   * @param region
+   */
+  protected PcrPrimer persistPrimerWithRegion(PcrPrimer primer, Region region) {
+    persist(primer);
+    persist(region);
+    primer.setRegion(region);
+    return primer;
+  }
+
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenNoFieldsAreSelected_regionReturnedWithAllFields() {
-    PcrPrimer primer = persistTestPrimerWithRegion();
-    
+
+    PcrPrimer primer = persistPrimerWithRegion(PcrPrimerFactory.newPcrPrimer().build(),
+        RegionFactory.newRegion().description("test Description").build());
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
-    
+
     RegionDto region = primerToRegionRepository.findOneTarget(primer.getId(), "region", querySpec);
-    
+
     assertNotNull(region.getTagId());
     assertNotNull(region.getName());
     assertNotNull(region.getDescription());
     assertNotNull(region.getSymbol());
   }
-  
+
   @Test
   public void findOneTargetRegionFromSourcePrimer_whenFieldsAreSelected_regionReturnedWithSelectedFields() {
-    PcrPrimer primer = persistTestPrimerWithRegion();
+
+    PcrPrimer primer = persistPrimerWithRegion(PcrPrimerFactory.newPcrPrimer().build(),
+        RegionFactory.newRegion().description("test Description").build());
     
     QuerySpec targetQuerySpec = new QuerySpec(RegionDto.class);
     targetQuerySpec.setIncludedFields(includeFieldSpecs("name", "description"));
@@ -74,7 +92,8 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   
   @Test(expected = ResourceNotFoundException.class)
   public void findOneTargetRegionFromSourcePrimer_whenPrimerExistsAndRegionDoesNotExist_throwResourceNotFoundException() {
-    PcrPrimer primer = persistTestPrimer();
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
+    persist(primer);
     
     QuerySpec targetQuerySpec = new QuerySpec(RegionDto.class);
     primerToRegionRepository.findOneTarget(primer.getId(), "region", targetQuerySpec);
@@ -109,21 +128,18 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void setRelation_whenDtoPrimerRegionIsChanged_primerEntityRelatedRegionIsChanged() {
-    PcrPrimer testPrimer = persistTestPrimerWithRegion();
-    
-    Region newRegion = new Region();
-    newRegion.setName("new region");
-    newRegion.setDescription(TEST_REGION_DESCRIPTION);
-    newRegion.setSymbol(TEST_REGION_SYMBOL);
-    entityManager.persist(newRegion);
-    
-    PcrPrimerDto testPrimerDto = primerRepository.findOne(
-        testPrimer.getId(),
-        new QuerySpec(PcrPrimerDto.class)
-    );
-    
+
+    PcrPrimer testPrimer = persistPrimerWithRegion(PcrPrimerFactory.newPcrPrimer().build(),
+        RegionFactory.newRegion().build());
+
+    Region newRegion = RegionFactory.newRegion().name("new region").build();
+    persist(newRegion);
+
+    PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(),
+        new QuerySpec(PcrPrimerDto.class));
+
     primerToRegionRepository.setRelation(testPrimerDto, newRegion.getId(), "region");
-    
+
     assertEquals(newRegion.getId(), testPrimer.getRegion().getId());
   }
   
@@ -172,7 +188,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
     batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
-    entityManager.persist(batch2);
+    persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
     assertEquals(22, batch1.getReactions().size());
@@ -205,7 +221,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
     batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
-    entityManager.persist(batch2);
+    persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
     assertEquals(22, batch1.getReactions().size());
@@ -239,7 +255,9 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
   @Test
   public void removeRelations_whenDtoPrimerRegionRelationIsRemoved_entityRelationIsRemoved() {
     // Create a test primer with a linked region.
-    PcrPrimer testPrimer = persistTestPrimerWithRegion();
+    PcrPrimer testPrimer = persistPrimerWithRegion(
+        PcrPrimerFactory.newPcrPrimer().build(),
+        RegionFactory.newRegion().build());
     
     // The primer should be linked to a region.
     assertNotNull(testPrimer.getRegion());

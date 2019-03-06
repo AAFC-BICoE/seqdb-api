@@ -1,9 +1,11 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.crnk.core.resource.annotations.JsonApiId;
+import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
@@ -14,10 +16,19 @@ public class ThermocyclerProfileDto {
   @JsonApiId
   private Integer pcrProfileId;
   
+  private String name;
+  
+  private String cycles;
   
   private Map<Integer, String> steps = new HashMap<Integer, String>();
   
+  private Timestamp lastModified;
   
+  @JsonApiRelation
+  private RegionDto region;
+
+  @JsonApiRelation
+  private GroupDto group;
   
   /**
    * EDSL method to access the steps Map
@@ -25,7 +36,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep1(String value) {
+  public void putInStep1(String value) {
     this.steps.put(1, value);
   }
   
@@ -35,7 +46,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep2(String value) {
+  public void putInStep2(String value) {
     this.steps.put(2 , value);
   }
   
@@ -45,7 +56,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep3(String value) {
+  public void putInStep3(String value) {
     this.steps.put(3 , value);
   }
   
@@ -55,7 +66,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep4(String value) {
+  public void putInStep4(String value) {
     this.steps.put(4 , value);
   }
   
@@ -65,7 +76,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep5(String value) {
+  public void putInStep5(String value) {
     this.steps.put(5 , value);
   }
   
@@ -75,7 +86,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep6(String value) {
+  public void putInStep6(String value) {
     this.steps.put(6 , value);
   }
   
@@ -85,7 +96,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep7(String value) {
+  public void putInStep7(String value) {
     this.steps.put(7 , value);
   }
   
@@ -95,7 +106,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep8(String value) {
+  public void putInStep8(String value) {
     this.steps.put(8 , value);
   }
   
@@ -105,7 +116,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep9(String value) {
+  public void putInStep9(String value) {
     this.steps.put(9 , value);
   }
   
@@ -115,7 +126,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep10(String value) {
+  public void putInStep10(String value) {
     this.steps.put(10 , value);
   }
   
@@ -125,7 +136,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep11(String value) {
+  public void putInStep11(String value) {
     this.steps.put(11 , value);
   }
   
@@ -135,7 +146,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep12(String value) {
+  public void putInStep12(String value) {
     this.steps.put(12, value);
   }
   
@@ -145,7 +156,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep13(String value) {
+  public void putInStep13(String value) {
     this.steps.put(13, value);
   }
   
@@ -155,7 +166,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep14(String value) {
+  public void putInStep14(String value) {
     this.steps.put(14, value);
   }
   
@@ -165,7 +176,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @param The value string you want to place with predefined key
    */
-  public void setStep15(String value) {
+  public void putInStep15(String value) {
     this.steps.put(15, value);
   }
   
@@ -176,7 +187,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep1() {
+  public String returnStep1() {
     return this.steps.get(1);
   }
   
@@ -186,7 +197,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep2() {
+  public String returnStep2() {
     return this.steps.get(2);
   }
   
@@ -196,7 +207,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep3() {
+  public String returnStep3() {
     return this.steps.get(3);
   }
   
@@ -206,7 +217,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep4() {
+  public String returnStep4() {
     return this.steps.get(4);
   }
   
@@ -216,7 +227,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep5() {
+  public String returnStep5() {
     return this.steps.get(5);
   }
   
@@ -226,7 +237,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep6() {
+  public String returnStep6() {
     return this.steps.get(6);
   }
   
@@ -236,7 +247,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep7() {
+  public String returnStep7() {
     return this.steps.get(7);
   }
   
@@ -246,7 +257,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep8() {
+  public String returnStep8() {
     return this.steps.get(8);
   }
   
@@ -256,7 +267,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep9() {
+  public String returnStep9() {
     return this.steps.get(9);
   }
   
@@ -266,7 +277,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep10() {
+  public String returnStep10() {
     return this.steps.get(10);
   }
   
@@ -276,7 +287,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep11() {
+  public String returnStep11() {
     return this.steps.get(11);
   }
   
@@ -286,7 +297,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep12() {
+  public String returnStep12() {
     return this.steps.get(12);
   }
   
@@ -296,7 +307,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */ 
-  public String getStep13() {
+  public String returnStep13() {
     return this.steps.get(13);
   }
   
@@ -306,7 +317,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep14() {
+  public String returnStep14() {
     return this.steps.get(14);
   }
   
@@ -316,7 +327,7 @@ public class ThermocyclerProfileDto {
    * to interact with Map<Integer, String> steps 
    * @return String value of predefined key
    */
-  public String getStep15() {
+  public String returnStep15() {
     return this.steps.get(15);
   }
   

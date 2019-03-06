@@ -154,7 +154,6 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     PcrPrimer primer = createPersistedPcrPrimerWithRegion();
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);
-    
     querySpec.setIncludedRelations(includeRelationSpecs("region"));
     
     PcrPrimerDto primerDto = primerRepository.findOne(primer.getId(), querySpec);
@@ -217,21 +216,21 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
         .name("Internal Transcribed Spacer")
         .symbol("ITS")
         .build();    
-    entityManager.persist(region1);
+    persist(region1);
     
     Region region2 = 
         RegionFactory.newRegion()
         .name("Cytochrome c oxidase subunit I")
         .symbol("COI")
         .build();
-    entityManager.persist(region2);
+    persist(region2);
     
     Region region3 = 
         RegionFactory.newRegion()
         .name("ACA")
         .symbol("ACA")
         .build();
-    entityManager.persist(region3);
+    persist(region3);
     
     QuerySpec querySpecAscending = new QuerySpec(RegionDto.class);
     querySpecAscending.setSort(Arrays.asList(
@@ -276,7 +275,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
           .name("test region" + i)
           .symbol("test symbol" + i)
           .build();
-      entityManager.persist(region);
+      persist(region);
     }
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
@@ -296,7 +295,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
           .symbol("test symbol" + i)
           .build();
       newRegions.add(region);
-      entityManager.persist(region);
+      persist(region);
     }
     
     final int offset = 15;
@@ -321,7 +320,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
           .symbol("test symbol" + i)
           .build();
       newRegions.add(region);
-      entityManager.persist(region);
+      persist(region);
     }
     
     Iterable<Serializable> expectedIds = Arrays.asList(
@@ -390,7 +389,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     PcrBatch batch2Entity = entityManager.find(PcrBatch.class, savedBatch2Dto.getPcrBatchId());
     
-    // Check that the reacitons were moved to batch2.
+    // Check that the reactions were moved to batch2.
     reactions.forEach(reaction -> assertEquals(batch2Entity, reaction.getPcrBatch()));
   }
   
@@ -421,7 +420,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     persist(testPrimer);
     
     Region testRegion = RegionFactory.newRegion().build();
-    entityManager.persist(testRegion);
+    persist(testRegion);
     
     // Get the test primer's DTO.
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);

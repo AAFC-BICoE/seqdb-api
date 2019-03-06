@@ -133,7 +133,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
         RegionFactory.newRegion().build());
 
     Region newRegion = RegionFactory.newRegion().name("new region").build();
-    entityManager.persist(newRegion);
+    persist(newRegion);
 
     PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(),
         new QuerySpec(PcrPrimerDto.class));
@@ -188,7 +188,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
     batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
-    entityManager.persist(batch2);
+    persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
     assertEquals(22, batch1.getReactions().size());
@@ -221,7 +221,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     batch2.setName("batch2");
     batch2.setType(PcrBatchType.SANGER);
     batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
-    entityManager.persist(batch2);
+    persist(batch2);
     
     // Batch 1 should have 22 reactions and batch2 should have no reactions.
     assertEquals(22, batch1.getReactions().size());

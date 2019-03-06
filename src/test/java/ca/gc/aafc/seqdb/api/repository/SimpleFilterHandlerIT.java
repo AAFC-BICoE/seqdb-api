@@ -25,7 +25,7 @@ public class SimpleFilterHandlerIT extends BaseRepositoryTest {
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {
     
-    final String expectedPrimerName = "primer2";
+    String expectedPrimerName = "primer2";
     
     PcrPrimer primer1 = PcrPrimerFactory.newPcrPrimer().build(); //name is a random string each call to build();
     
@@ -36,8 +36,7 @@ public class SimpleFilterHandlerIT extends BaseRepositoryTest {
     PcrPrimer primer20 = PcrPrimerFactory.newPcrPrimer().build();
     
     for (PcrPrimer newPrimer : Arrays.asList(primer1, primer2, primer3, primer20)) {
-      System.out.println(newPrimer.getName());
-      entityManager.persist(newPrimer);
+      persist(newPrimer);
     }
     
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);

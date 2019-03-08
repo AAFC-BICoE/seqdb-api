@@ -21,7 +21,7 @@
     <javax.activation.version>1.1.1</javax.activation.version>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.28-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.30-SNAPSHOT</seqdb.dbi.version>
     
     <!-- Temporary fix until https://github.com/h2database/h2database/pull/1070 is available (1.4.198 I would guess)  -->
     <h2.version>1.4.196</h2.version>

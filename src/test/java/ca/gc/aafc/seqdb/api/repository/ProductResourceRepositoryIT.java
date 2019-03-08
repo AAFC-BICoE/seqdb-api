@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.Product;
+import ca.gc.aafc.seqdb.factories.ProductFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
@@ -30,7 +30,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   private Product testProduct;
   
   private Product createTestProduct() {
-    testProduct = new Product();
+    testProduct = ProductFactory.newProduct().build();
     testProduct.setDescription(TEST_PRODUCT_DESCRIPTION);
     testProduct.setName(TEST_PRODUCT_NAME);
     testProduct.setType(TEST_PRODUCT_TYPE);
@@ -63,7 +63,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ProductDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "type"));
 
-    // Returned primer DTO must have correct values: selected fields are present, non-selected
+    // Returned DTO must have correct values: selected fields are present, non-selected
     // fields are null.
     ProductDto productDto = productRepository.findOne(
         testProduct.getId(),querySpec
@@ -84,7 +84,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     newProduct.setType(TEST_PRODUCT_TYPE_CREATE);
     
     ProductDto createdProduct = productRepository.create(newProduct);
-    //dto has the set value
+    //DTO has the set value
     assertNotNull(createdProduct.getProductId());
     assertEquals(TEST_PRODUCT_NAME_CREATE, createdProduct.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION_CREATE, createdProduct.getDescription());
@@ -99,7 +99,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   
   @Test
   public void updateProduct_whenSomeFieldsAreUpdated_productReturnedWithSelectedFieldsUpdated() {
-     // Get the test primer's DTO.
+     // Get the test product's DTO.
     QuerySpec querySpec = new QuerySpec(ProductDto.class);
 
     ProductDto productDto = productRepository.findOne(
@@ -111,7 +111,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     // Save the DTO using the repository.
     productRepository.save(productDto);
     
-    // Check that the primer entity has the new seq value.
+    // Check that the entity has the new seq value.
     assertEquals("new desc", testProduct.getDescription());
   }  
   

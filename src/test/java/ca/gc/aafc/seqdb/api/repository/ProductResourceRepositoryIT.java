@@ -30,13 +30,12 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   private Product testProduct;
   
   private Product createTestProduct() {
-    testProduct = ProductFactory.newProduct().build();
-    testProduct.setDescription(TEST_PRODUCT_DESCRIPTION);
-    testProduct.setName(TEST_PRODUCT_NAME);
-    testProduct.setType(TEST_PRODUCT_TYPE);
-    assertNull(testProduct.getId());
-    entityManager.persist(testProduct);    
-    assertNotNull(testProduct.getId());
+    testProduct = ProductFactory.newProduct()
+        .name(TEST_PRODUCT_NAME)
+        .description(TEST_PRODUCT_DESCRIPTION)
+        .type(TEST_PRODUCT_TYPE)
+        .build();
+    persist(testProduct);
     return testProduct;
   }
   
@@ -105,13 +104,13 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     ProductDto productDto = productRepository.findOne(
         testProduct.getId(),querySpec);
     
-    // Change the DTO's seq value.
+    // Change the DTO's desc value.
     productDto.setDescription("new desc");
     
     // Save the DTO using the repository.
     productRepository.save(productDto);
     
-    // Check that the entity has the new seq value.
+    // Check that the entity has the new desc value.
     assertEquals("new desc", testProduct.getDescription());
   }  
   

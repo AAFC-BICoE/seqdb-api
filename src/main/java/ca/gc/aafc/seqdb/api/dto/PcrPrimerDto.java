@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import io.crnk.core.resource.annotations.JsonApiId;

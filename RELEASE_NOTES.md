@@ -1,3 +1,13 @@
+# Version 1.2
+
+2019-02-04
+
+* Complete support for PCRPrimer
+* API responses now include total count
+* Added support for Service-to-Service authentication
+* Updated documentation
+* Updated dbi module
+
 # Version 1.1
 
 2018-09-07

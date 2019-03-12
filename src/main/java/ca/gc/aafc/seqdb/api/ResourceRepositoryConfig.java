@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -26,6 +27,7 @@ import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Chain;
 import ca.gc.aafc.seqdb.entities.ChainStepTemplate;
@@ -46,8 +48,11 @@ public class ResourceRepositoryConfig {
   private SimpleFilterHandler simpleFilterHandler;
   
   @Inject
+  private JpaTotalMetaInformationProvider metaInformationProvider;
+  
+  @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-
+  
   /**
    * Configures DTO-to-Entity mappings.
    * 
@@ -70,6 +75,11 @@ public class ResourceRepositoryConfig {
 
     return new JpaDtoMapper(jpaEntities);
   }
+  
+  @Bean
+  public JpaTotalMetaInformationProvider metaInformationProvider(EntityManager entityManager) {
+    return new JpaTotalMetaInformationProvider(entityManager, dtoJpaMapper());
+  }
 
   @Bean
   public JpaResourceRepository<PcrPrimerDto> pcrPrimerRepository(JpaDtoRepository dtoRepository) {
@@ -79,7 +89,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -91,7 +102,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -103,7 +115,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -116,7 +129,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -129,7 +143,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -140,7 +155,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -151,7 +167,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -162,7 +179,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -174,7 +192,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -185,7 +204,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -199,7 +219,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
 
@@ -213,7 +234,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -227,8 +249,9 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
-            )
-        );
+        ),
+        metaInformationProvider
+    );
   }
 
   @Bean
@@ -241,7 +264,8 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -254,7 +278,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -267,7 +292,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -280,7 +306,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -293,7 +320,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -306,7 +334,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
   
@@ -319,7 +348,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler
-        )
+        ),
+        metaInformationProvider
     );
   }
 

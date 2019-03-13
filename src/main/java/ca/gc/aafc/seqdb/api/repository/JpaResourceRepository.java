@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import com.google.common.collect.Iterables;
 
 import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
 import io.crnk.core.exception.ResourceNotFoundException;
@@ -44,6 +45,9 @@ public class JpaResourceRepository<D>
   @NonNull
   private final List<FilterHandler> filterHandlers;
   
+  @Nullable
+  private final JpaMetaInformationProvider metaInformationProvider;
+  
   @Getter
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
@@ -53,7 +57,7 @@ public class JpaResourceRepository<D>
     // Use the findAll method, but limit the result size to 1.
     querySpec.setLimit(Long.valueOf(1));
     ResourceList<D> resultSet = dtoRepository.findAll(
-        this.resourceClass, querySpec, this.resourceRegistry,
+        this.resourceClass, querySpec, this.resourceRegistry, this.metaInformationProvider,
         // Filter by ID.
         (root, query, cb) -> cb.equal(
             this.dtoRepository.getSelectionHandler()
@@ -84,7 +88,7 @@ public class JpaResourceRepository<D>
   public ResourceList<D> findAll(@Nullable Iterable<Serializable> ids, QuerySpec querySpec) {
     
     return dtoRepository.findAll(
-        this.resourceClass, querySpec, this.resourceRegistry,
+        this.resourceClass, querySpec, this.resourceRegistry, this.metaInformationProvider,
         (root, query, cb) -> {
           List<Predicate> restrictions = new ArrayList<>();
           

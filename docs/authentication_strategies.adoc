@@ -1,0 +1,70 @@
+= Authentication Strategies
+
+This application supports different authentication strategies:
+
+== Ldap and Local DB authentication strategy
+
+Implemented in LdapAndLocalDbAuthConfig.java.
+
+=== Behavior
+
+Authenticates the user via Ldap by default. If the username is not associated to an LDAP account,
+they are authenticated against a username and password stored in the relational database.
+
+=== To enable
+
+This is the default authentication strategy and is enabled when Keycloak authentication is disabled.
+
+You must provide a Spring Boot LDAP config:
+
+Example:
+----
+include::../src/main/resources/ldap.example.yml[]
+----
+
+== Keycloak authentication strategy
+
+Implemented in KeycloakAuthConfig.java.
+
+=== Behavior
+
+Authenticates the user against an external Keycloak instance.
+
+=== To enable
+
+You must provide a Spring Boot Keycloak client config:
+
+Example:
+----
+include::../src/main/resources/keycloak.example.yml[]
+----
+
+== Trusted service authentication strategy
+
+Security can be configured to allow an external trusted service to contact the seqdb-api as any user using an HTTP request with the correct "Authorization" HTTP header. *Since keys are secret, always use that feature on HTTPS or on localhost only.*
+
+To enable this feature, launch this application with the Spring launch property "seqdb.trusted-service-api-keys".
+ 
+YAML example:
+
+[source]
+----
+seqdb.trusted-service-api-keys: secret-key, another-secret-key
+----
+   
+When the trusted service makes a request:
+
+* Include the "Authorization" header with the value of "TrustedService <username> <api-key>"
+* Note: Usernames and api-keys must be url-encoded to avoid issues with values that have spaces.
+
+curl example:
+[source,bash]
+----
+curl -i -H"Authorization: MatPoff secret-key" localhost:8080/api/region
+----
+   
+curl example where the username has a space:
+[source,bash]
+----
+curl -i -H"Authorization: Mat%20Poff secret-key" localhost:8080/api/region
+----

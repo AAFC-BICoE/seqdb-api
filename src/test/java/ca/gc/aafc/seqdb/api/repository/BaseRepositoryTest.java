@@ -17,24 +17,13 @@ import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
 
 public abstract class BaseRepositoryTest extends BaseIntegrationTest {
-
-  protected static final String TEST_PRIMER_NAME = "test primer";
-  protected static final Integer TEST_PRIMER_LOT_NUMBER = 1;
-  protected static final PrimerType TEST_PRIMER_TYPE = PrimerType.PRIMER;
-  protected static final String TEST_PRIMER_SEQ = "test seq";
-  
-  protected static final String TEST_REGION_NAME = "test region";
-  protected static final String TEST_REGION_DESCRIPTION = "test description";
-  protected static final String TEST_REGION_SYMBOL = "test symbol";
   
   @Inject
   protected ResourceRegistry resourceRegistry;
@@ -61,46 +50,17 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   }
   
   /**
-   * Persists a PcrPrimer with the required fields set.
-   *
-   * @return the persisted primer
-   */
-  protected PcrPrimer persistTestPrimer() {
-    PcrPrimer primer = new PcrPrimer();
-    primer.setName(TEST_PRIMER_NAME);
-    primer.setLotNumber(TEST_PRIMER_LOT_NUMBER);
-    primer.setType(TEST_PRIMER_TYPE);
-    primer.setSeq(TEST_PRIMER_SEQ);
-
-    assertNull(primer.getId());
-    entityManager.persist(primer);
-    // New primer must have an ID.
-    assertNotNull(primer.getId());
-
-    return primer;
-  }
-  
-  /**
-   * Persists a test PcrPrimer with an associated Region.
+   * Persists an entity.
    * 
-   * @return the persisted primer
+   * @param the entity to persist
    */
-  protected PcrPrimer persistTestPrimerWithRegion() {
-    PcrPrimer primer = this.persistTestPrimer();
-    
-    Region region = new Region();
-    region.setName(TEST_REGION_NAME);
-    region.setDescription(TEST_REGION_DESCRIPTION);
-    region.setSymbol(TEST_REGION_SYMBOL);
-    
-    assertNull(region.getId());
-    entityManager.persist(region);
-    assertNotNull(region.getId());
-    
-    primer.setRegion(region);
-    
-    return primer;
+  protected void persist(UniqueObj objectToPersist) {
+    assertNull(objectToPersist.getId());
+    entityManager.persist(objectToPersist);
+    // New primer must have an ID.
+    assertNotNull(objectToPersist.getId());
   }
+
   
   /**
    * Persists a test PCR batch with 22 reactions.

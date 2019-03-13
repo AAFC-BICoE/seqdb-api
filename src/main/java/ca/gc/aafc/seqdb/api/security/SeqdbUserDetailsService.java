@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.security;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,7 +37,7 @@ class SeqdbUserDetailsService implements UserDetailsService {
     
     return new User(
         databaseAccount.getAccountName(),
-        databaseAccount.getAccountPw(),
+        Optional.ofNullable(databaseAccount.getAccountPw()).orElse(""),
         Arrays.asList(() -> databaseAccount.getAccountType().toString().toLowerCase())
     );
   }

@@ -23,10 +23,85 @@ Listing regions with "name" and "description" as the only included fields:
 
 == Filtering
 
-Listing pcrPrimers where the name is "101F":
+=== Simple key-value filter
 
 ----
-/api/pcrPrimer?filter[name]=101F
+localhost:8080/api/region?filter[name]=ITS&filter[description]=Internal%20Transcribed%20Spacer
+----
+
+returns:
+
+----
+{
+    "data": [
+        {
+            "id": "43",
+            "type": "region",
+            "attributes": {
+                "symbol": "ITS",
+                "name": "ITS",
+                "description": "Internal Transcribed Spacer"
+            },
+            "links": {
+                "self": "/api/region/43"
+            }
+        }
+    ]
+}
+----
+
+
+=== RSQL
+
+seqdb-api supports https://github.com/jirutka/rsql-parser[RSQL (REST query language)] for more complex filter queries.
+
+----
+localhost:8080/api/region?filter[rsql]=( name=='12S' or name=='142' )
+----
+
+returns
+
+----
+{
+    "data": [
+        {
+            "id": "142",
+            "type": "region",
+            "attributes": {
+                "symbol": "142",
+                "name": "142",
+                "description": ""
+            },
+            "links": {
+                "self": "/api/region/142"
+            }
+        },
+        {
+            "id": "284",
+            "type": "region",
+            "attributes": {
+                "symbol": "12S",
+                "name": "12S",
+                "description": "mitochondrial"
+            },
+            "links": {
+                "self": "/api/region/284"
+            }
+        },
+        {
+            "id": "366",
+            "type": "region",
+            "attributes": {
+                "symbol": "12S",
+                "name": "12S",
+                "description": null
+            },
+            "links": {
+                "self": "/api/region/366"
+            }
+        }
+    ]
+}
 ----
 
 == Pagination

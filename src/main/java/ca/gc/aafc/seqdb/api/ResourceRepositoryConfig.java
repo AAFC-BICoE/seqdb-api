@@ -21,8 +21,9 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
+import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
-import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -38,6 +39,9 @@ public class ResourceRepositoryConfig {
 
   @Inject
   private SimpleFilterHandler simpleFilterHandler;
+  
+  @Inject
+  private RsqlFilterHandler rsqlFilterHandler;
   
   @Inject
   private JpaTotalMetaInformationProvider metaInformationProvider;
@@ -76,6 +80,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -89,6 +94,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -102,6 +108,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -116,6 +123,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         ),
         metaInformationProvider
@@ -130,6 +138,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
@@ -158,6 +167,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -173,6 +183,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         ),
         metaInformationProvider
@@ -188,6 +199,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
@@ -203,6 +215,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider

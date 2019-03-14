@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository.handlers;
+package ca.gc.aafc.seqdb.api.repository.filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

@@ -8,7 +8,7 @@ import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 
 public class ExpressionMapper {
 
-  private final static List<Class<?>> listOfDtoWithMaps = new ArrayList<Class<?>>() {
+  public final static List<Class<?>> listOfDtoWithMaps = new ArrayList<Class<?>>() {
 
     private static final long serialVersionUID = 2657957841070148686L;
 

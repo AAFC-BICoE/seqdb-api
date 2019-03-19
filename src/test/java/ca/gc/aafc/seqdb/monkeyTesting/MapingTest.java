@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.modelMapper.SeqdbModelMapper;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
@@ -15,88 +16,8 @@ import org.junit.Test;
 
 public class MapingTest {
   
-  private static final ModelMapper modelMapper = new ModelMapper();
-  
-  private static void applyPcrThermocyclerProfileMapping() {
-
-    modelMapper.addMappings(new PropertyMap<ThermocyclerProfileDto, PcrProfile>(){
-
-      @Override
-      protected void configure() {
-        map().setStep1(source.getStep1());
-
-        map().setStep2(source.getStep2());
-
-        map().setStep3(source.getStep3());
-
-        map().setStep4(source.getStep4());
-
-        map().setStep5(source.getStep5());
-
-        map().setStep6(source.getStep6());
-
-        map().setStep7(source.getStep7());
-
-        map().setStep8(source.getStep8());
-
-        map().setStep9(source.getStep9());
-
-        map().setStep10(source.getStep10());
-
-        map().setStep11(source.getStep11());
-
-        map().setStep12(source.getStep12());
-
-        map().setStep13(source.getStep13());
-
-        map().setStep14(source.getStep14());
-
-        map().setStep15(source.getStep15());
-        
-      }
+  private static final ModelMapper modelMapper = SeqdbModelMapper.getConfiguredMapper();
       
-    });
-    
-    modelMapper.addMappings(new PropertyMap<PcrProfile, ThermocyclerProfileDto>(){
-
-      @Override
-      protected void configure() {
-        map().setStep1( source.getStep1());
-
-        map().setStep2( source.getStep2());
-
-        map().setStep3(  source.getStep3());
-
-        map().setStep4( source.getStep4());
-
-        map().setStep5( source.getStep5());
-
-        map().setStep6( source.getStep6());
-
-        map().setStep7( source.getStep7());
-
-        map().setStep8( source.getStep8());
-
-        map().setStep9( source.getStep9());
-
-        map().setStep10( source.getStep10());
-
-        map().setStep11( source.getStep11());
-
-        map().setStep12( source.getStep12());
-
-        map().setStep13( source.getStep13());
-
-        map().setStep14( source.getStep14());
-
-        map().setStep15(source.getStep15());
-        
-        
-      }
-      
-    });
-  }
-  
   /**
    * Compares the given PcrProfile with it's expected values.
    * @param profileFromDto
@@ -162,8 +83,6 @@ public class MapingTest {
   
   @Test
   public void configuredMappingTest() {
-    //Configure mapper with our own defined mapping.
-    applyPcrThermocyclerProfileMapping();
     
     //Create a new pcrProfile entity
     PcrProfile pcrProfile = PcrProfileFactory.newPcrProfile()

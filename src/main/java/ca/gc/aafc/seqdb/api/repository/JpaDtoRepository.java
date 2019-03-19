@@ -32,8 +32,10 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Streams;
 
+import ca.gc.aafc.seqdb.api.modelMapper.SeqdbModelMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
+import ca.gc.aafc.seqdb.api.repository.handlers.ExpressionMappers.ExpressionMapper;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
@@ -66,7 +68,7 @@ public class JpaDtoRepository {
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
 
-  private static final ModelMapper mapper = new ModelMapper();
+  private static final ModelMapper mapper = SeqdbModelMapper.getConfiguredMapper();
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -98,7 +100,9 @@ public class JpaDtoRepository {
 
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
-    From<?, ?> sourcePath = criteriaQuery.from(dtoJpaMapper.getEntityClassForDto(sourceDtoClass));
+    
+    Class<?> entityClassForDto = dtoJpaMapper.getEntityClassForDto(sourceDtoClass);
+    From<?, ?> sourcePath = criteriaQuery.from(entityClassForDto);
 
     From<?, ?> targetPath = customRoot != null ? customRoot.apply(sourcePath) : sourcePath;
 
@@ -130,11 +134,21 @@ public class JpaDtoRepository {
             Optional.ofNullable(querySpec.getLimit()).orElse(Long.valueOf(100)).intValue()
         )
         .getResultList();
-
+    
+    
     return new DefaultResourceList<>(
         result.stream()
             .map(JpaDtoRepository::mapFromTuple)
-            .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass))
+            .map(map -> {
+              
+              //Check if additional mapping needs to be done between Dto and entity.
+              if(ExpressionMapper.listOfDtoWithMaps.contains(targetDtoClass) ) {
+                Object entity = JpaDtoRepository.mapper.map(map, entityClassForDto);
+                return JpaDtoRepository.mapper.map(entity, targetDtoClass);
+              }else {
+                return JpaDtoRepository.mapper.map(map, targetDtoClass);
+              }
+            })
             .collect(Collectors.toList()),
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder()
@@ -145,6 +159,8 @@ public class JpaDtoRepository {
         ),
         null
     );
+
+    
   }
 
   /**

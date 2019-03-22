@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository.filter;
 
+import java.util.HashSet;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -7,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.github.tennaito.rsql.jpa.JpaPredicateVisitor;
 
@@ -34,12 +38,22 @@ public class RsqlFilterHandler implements FilterHandler {
   public Predicate getRestriction(QuerySpec querySpec, From<?, ?> root, CriteriaQuery<?> query,
       CriteriaBuilder cb) {
     FilterSpec rsqlFilterSpec = querySpec.getFilter("rsql");
-    if (rsqlFilterSpec == null) {
+    if (rsqlFilterSpec == null || StringUtils.isBlank(rsqlFilterSpec.getValue().toString())) {
       // Return a blank predicate if there is no requested RSQL filter.
       return cb.and();
     }
     
-    return rsqlParser.parse(rsqlFilterSpec.getValue())
+    // Crnk provides a filter value which could be a string or a HashSet.
+    Object crnkRsqlValue = rsqlFilterSpec.getValue();
+    
+    String rsqlString = crnkRsqlValue instanceof String ? (String) crnkRsqlValue
+        // Crnk may provide a HashSet if an RSQL filter containing a comma was requested.
+        // e.g. filter[rsql]=name==101f,group.groupName==poffm
+        // Commas in RSQL should be treated as "OR" operators, but Crnk splits these queries into multiple strings.
+        // We want the comma-containing filters to remain intact, so we re-join the RSQL strings here.
+        : StringUtils.joinWith(",", ((HashSet<String>) crnkRsqlValue).toArray());
+    
+    return rsqlParser.parse(rsqlString)
         .accept(new JpaPredicateVisitor<>().defineRoot(root), entityManager);
   }
 

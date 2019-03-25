@@ -2,15 +2,17 @@ package ca.gc.aafc.seqdb.monkeyTesting;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.modelMapper.SeqdbModelMapper;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
+import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
-
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -82,6 +84,25 @@ public class MapingTest {
   }
   
   @Test
+  public void updateDtoTest() {
+    GroupDto groupDto = new GroupDto();
+    groupDto.setDescription("Monkeys");
+    groupDto.setGroupName("Pan");
+    
+    PcrPrimerDto primerDto = new PcrPrimerDto();
+    primerDto.setGroup(groupDto);
+    
+    Group group = new Group("baseName");
+    PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().group(group).build();
+    System.out.println(primer);
+    modelMapper.map(primerDto, primer);
+    
+    System.out.println(primer);
+    
+    
+  }
+  
+  @Test
   public void configuredMappingTest() {
     
     //Create a new pcrProfile entity
@@ -129,5 +150,6 @@ public class MapingTest {
     validateCreatedPcrProfileSteps(profileFromDto);
     
   }
+  
 
 }

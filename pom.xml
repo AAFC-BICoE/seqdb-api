@@ -23,7 +23,7 @@
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.29-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.30-SNAPSHOT</seqdb.dbi.version>
     
     <!-- We need to skip 1.4.197 (currently provided by SpringBoot 2.1)  -->
     <h2.version>1.4.198</h2.version>

@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.modelMapper;
 
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -87,8 +88,10 @@ public class SeqdbModelMapper {
         
       }
       
+      
     });
     
+    mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
     return mapper;
     
   }

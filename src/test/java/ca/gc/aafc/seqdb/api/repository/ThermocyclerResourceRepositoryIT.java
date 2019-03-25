@@ -11,6 +11,7 @@ import org.junit.Test;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
+import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
@@ -123,7 +124,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   }
   
   @Test
-  public void createPcrProfile_onSucess_allFieldsHavePersistedValues() {
+  public void createAndPersistPcrProfile_onSucess_allFieldsHavePersistedValues() {
     //set a base DTO
     ThermocyclerProfileDto baseDto = new ThermocyclerProfileDto();
     baseDto.setName(TEST_PROFILE_NAME);
@@ -148,5 +149,31 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     
     
   }
+  
+  @Test
+  public void updatePcrProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields() {
+    
+    QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
+    
+    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getId(), querySpec);
+    
+    thermoDto.setCycles("new cycles");
+    
+    thermoRepository.save(thermoDto);
+    
+    assertEquals("new cycles", testPcrProfile.getCycles());
+    
+  }
 
+  @Test
+  public void deletePcrProfile_callRepositoryDeleteOnID_profileNotFound() {
+    thermoRepository.delete(testPcrProfile.getId());
+    assertNull(entityManager.find(PcrProfile.class, testPcrProfile.getId()));
+    
+  }
+  
+  @Test(expected = ResourceNotFoundException.class)
+  public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
+    thermoRepository.delete(42);
+  }
 }

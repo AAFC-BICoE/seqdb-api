@@ -143,6 +143,7 @@ public class JpaDtoRepository {
               
               //Check if additional mapping needs to be done between Dto and entity.
               if(ExpressionMapper.listOfDtoWithMaps.contains(targetDtoClass) ) {
+                //Need to instance the base entity when doing custom mapping.
                 Object entity = JpaDtoRepository.mapper.map(map, entityClassForDto);
                 return JpaDtoRepository.mapper.map(entity, targetDtoClass);
               }else {
@@ -366,18 +367,8 @@ public class JpaDtoRepository {
     ResourceInformation resourceInformation = resourceRegistry.findEntry(dto.getClass())
         .getResourceInformation();
 
-    // Apply the DTO's attribute values to the entity.
-    List<ResourceField> attributeFields = resourceInformation.getAttributeFields();
-    for (ResourceField attributeField : attributeFields) {
-      String attributeName = attributeField.getUnderlyingName();
-      PropertyUtils.setProperty(
-          entity,
-          attributeName,
-          PropertyUtils.getProperty(dto, attributeName)
-      );
-    }
-
-    // Apply the DTO's relation values to the entity.
+    mapper.map(dto, entity);
+     //Apply the DTO's relation values to the entity.
     List<ResourceField> relationFields = resourceInformation.getRelationshipFields();
     for (ResourceField relationField : relationFields) {
       String relationName = relationField.getUnderlyingName();

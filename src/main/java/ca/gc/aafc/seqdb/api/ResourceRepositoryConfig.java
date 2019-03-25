@@ -16,13 +16,15 @@ import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
+import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
+import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
-import ca.gc.aafc.seqdb.api.repository.handlers.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -30,6 +32,7 @@ import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
+import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
 
 @Configuration
@@ -38,6 +41,9 @@ public class ResourceRepositoryConfig {
 
   @Inject
   private SimpleFilterHandler simpleFilterHandler;
+  
+  @Inject
+  private RsqlFilterHandler rsqlFilterHandler;
   
   @Inject
   private JpaTotalMetaInformationProvider metaInformationProvider;
@@ -60,6 +66,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
     jpaEntities.put(GroupDto.class, Group.class);
     jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
+    jpaEntities.put(ProductDto.class, Product.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -76,6 +83,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -89,6 +97,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -102,6 +111,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -116,6 +126,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         ),
         metaInformationProvider
@@ -130,6 +141,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
@@ -151,6 +163,19 @@ public class ResourceRepositoryConfig {
   }
 
   @Bean
+  public JpaResourceRepository<ProductDto> productRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ProductDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(
@@ -159,6 +184,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -174,6 +200,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
         ),
         metaInformationProvider
@@ -189,6 +216,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
@@ -204,10 +232,27 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
     );
   }
+  
+  @Bean
+  public JpaRelationshipRepository<ProductDto, GroupDto> productToGroupRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ProductDto.class,
+        GroupDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            groupFilterFactory.create(root -> (Path<Group>) root)
+        ),
+        metaInformationProvider
+    );
+  }
+  
 
 }

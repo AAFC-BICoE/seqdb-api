@@ -21,6 +21,7 @@ crnk:
   domainName: ""
   defaultPageLimit: 20
   maxPageLimit: 1000
+  allow-unknown-attributes: true
 
 keycloak:
   # Disable Keycloak by default.

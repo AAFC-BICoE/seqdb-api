@@ -22,28 +22,6 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   private static final String TEST_PROFILE_CYCLE = "Cycle";
   
-  private static final HashMap<Integer, String> EXPECTED_MAP = new HashMap<Integer, String>() {
-
-    private static final long serialVersionUID = 7044890286044881851L;
-
-    {
-      put(1, "1");
-      put(2, "2");
-      put(3, "3");
-      put(4, "4");
-      put(5, "5");
-      put(6, "6");
-      put(7, "7");
-      put(8, "8");
-      put(9, "9");
-      put(10, "10");
-      put(11, "11");
-      put(12, "12");
-      put(13, "13");
-      put(14, "14");
-      put(15, "15");
-    }
-  };
   @Inject
   private ResourceRepositoryV2<ThermocyclerProfileDto, Serializable> thermoRepository;
   
@@ -75,23 +53,43 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   return testPcrProfile;
   }
   
-  private void verifyPcrProfileSteps(PcrProfile pcr) {
+  private void verifyStepsAreEqual(PcrProfile entity, ThermocyclerProfileDto dto) {
     
-    assertEquals("1", pcr.getStep1());
-    assertEquals("2", pcr.getStep2());
-    assertEquals("3", pcr.getStep3());
-    assertEquals("4", pcr.getStep4());
-    assertEquals("5", pcr.getStep5());
-    assertEquals("6", pcr.getStep6());
-    assertEquals("7", pcr.getStep7());
-    assertEquals("8", pcr.getStep8());
-    assertEquals("9", pcr.getStep9());
-    assertEquals("10", pcr.getStep10());
-    assertEquals("11", pcr.getStep11());
-    assertEquals("12", pcr.getStep12());
-    assertEquals("13", pcr.getStep13());
-    assertEquals("14", pcr.getStep14());
-    assertEquals("15", pcr.getStep15());
+    assertEquals(dto.getStep1(), entity.getStep1());
+    assertEquals(dto.getStep2(), entity.getStep2());
+    assertEquals(dto.getStep3(), entity.getStep3());
+    assertEquals(dto.getStep4(), entity.getStep4());
+    assertEquals(dto.getStep5(), entity.getStep5());
+    assertEquals(dto.getStep6(), entity.getStep6());
+    assertEquals(dto.getStep7(), entity.getStep7());
+    assertEquals(dto.getStep8(), entity.getStep8());
+    assertEquals(dto.getStep9(), entity.getStep9());
+    assertEquals(dto.getStep10(), entity.getStep10());
+    assertEquals(dto.getStep11(), entity.getStep11());
+    assertEquals(dto.getStep12(), entity.getStep12());
+    assertEquals(dto.getStep13(), entity.getStep13());
+    assertEquals(dto.getStep14(), entity.getStep14());
+    assertEquals(dto.getStep15(), entity.getStep15());
+
+  }
+  
+  private void verifyStepsAreEqual(ThermocyclerProfileDto baseDto, ThermocyclerProfileDto newDto) {
+    
+    assertEquals(newDto.getStep1(), baseDto.getStep1());
+    assertEquals(newDto.getStep2(), baseDto.getStep2());
+    assertEquals(newDto.getStep3(), baseDto.getStep3());
+    assertEquals(newDto.getStep4(), baseDto.getStep4());
+    assertEquals(newDto.getStep5(), baseDto.getStep5());
+    assertEquals(newDto.getStep6(), baseDto.getStep6());
+    assertEquals(newDto.getStep7(), baseDto.getStep7());
+    assertEquals(newDto.getStep8(), baseDto.getStep8());
+    assertEquals(newDto.getStep9(), baseDto.getStep9());
+    assertEquals(newDto.getStep10(), baseDto.getStep10());
+    assertEquals(newDto.getStep11(), baseDto.getStep11());
+    assertEquals(newDto.getStep12(), baseDto.getStep12());
+    assertEquals(newDto.getStep13(), baseDto.getStep13());
+    assertEquals(newDto.getStep14(), baseDto.getStep14());
+    assertEquals(newDto.getStep15(), baseDto.getStep15());
 
   }
   
@@ -107,20 +105,22 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(testPcrProfile.getId(), thermoDto.getPcrProfileId());
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, thermoDto.getCycles());
-    assertEquals(EXPECTED_MAP, thermoDto.getSteps());
+    verifyStepsAreEqual(testPcrProfile, thermoDto);
 
   }
   
   @Test
   public void findThermocyclerProfile_whenFieldsAreSelected_pcrProfileReturnedWithSelectedFieldsOnly() {
     QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "steps"));
+    querySpec.setIncludedFields(includeFieldSpecs("name", "step1"));
     
     ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getPcrProfileId(), querySpec);
     assertNotNull(thermoDto);
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
-    assertEquals(EXPECTED_MAP, thermoDto.getSteps());
     assertNull(thermoDto.getCycles());
+    assertEquals("1", thermoDto.getStep1());
+    assertNull(thermoDto.getStep2());
+    assertNull(thermoDto.getStep10());
   }
   
   @Test
@@ -129,7 +129,6 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     ThermocyclerProfileDto baseDto = new ThermocyclerProfileDto();
     baseDto.setName(TEST_PROFILE_NAME);
     baseDto.setCycles(TEST_PROFILE_CYCLE);
-    baseDto.setSteps(EXPECTED_MAP);
     
     //create the DTO in the repository
     ThermocyclerProfileDto createdDto = thermoRepository.create(baseDto);
@@ -138,15 +137,15 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(createdDto.getPcrProfileId());
     assertEquals(TEST_PROFILE_NAME, createdDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, createdDto.getCycles());
-    assertEquals(EXPECTED_MAP, createdDto.getSteps());
+    verifyStepsAreEqual(baseDto, createdDto);
     
     //Assert Entity has the set values
     PcrProfile profileEntity = entityManager.find(PcrProfile.class, createdDto.getPcrProfileId());
     assertNotNull(profileEntity.getId());
     assertEquals(TEST_PROFILE_NAME, profileEntity.getName());
     assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());
-    verifyPcrProfileSteps(profileEntity);
-    
+    verifyStepsAreEqual(profileEntity, baseDto);
+      
     
   }
   

@@ -32,10 +32,8 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Streams;
 
-import ca.gc.aafc.seqdb.api.modelMapper.SeqdbModelMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
-import ca.gc.aafc.seqdb.api.repository.handlers.ExpressionMappers.ExpressionMapper;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
@@ -68,7 +66,7 @@ public class JpaDtoRepository {
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
 
-  private static final ModelMapper mapper = SeqdbModelMapper.getConfiguredMapper();
+  private static final ModelMapper mapper = new ModelMapper();
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -100,9 +98,7 @@ public class JpaDtoRepository {
 
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
-    
-    Class<?> entityClassForDto = dtoJpaMapper.getEntityClassForDto(sourceDtoClass);
-    From<?, ?> sourcePath = criteriaQuery.from(entityClassForDto);
+    From<?, ?> sourcePath = criteriaQuery.from(dtoJpaMapper.getEntityClassForDto(sourceDtoClass));
 
     From<?, ?> targetPath = customRoot != null ? customRoot.apply(sourcePath) : sourcePath;
 
@@ -134,22 +130,11 @@ public class JpaDtoRepository {
             Optional.ofNullable(querySpec.getLimit()).orElse(Long.valueOf(100)).intValue()
         )
         .getResultList();
-    
-    
+
     return new DefaultResourceList<>(
         result.stream()
             .map(JpaDtoRepository::mapFromTuple)
-            .map(map -> {
-              
-              //Check if additional mapping needs to be done between Dto and entity.
-              if(ExpressionMapper.listOfDtoWithMaps.contains(targetDtoClass) ) {
-                //Need to instance the base entity when doing custom mapping.
-                Object entity = JpaDtoRepository.mapper.map(map, entityClassForDto);
-                return JpaDtoRepository.mapper.map(entity, targetDtoClass);
-              }else {
-                return JpaDtoRepository.mapper.map(map, targetDtoClass);
-              }
-            })
+            .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass))
             .collect(Collectors.toList()),
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder()
@@ -160,8 +145,6 @@ public class JpaDtoRepository {
         ),
         null
     );
-
-    
   }
 
   /**
@@ -367,8 +350,18 @@ public class JpaDtoRepository {
     ResourceInformation resourceInformation = resourceRegistry.findEntry(dto.getClass())
         .getResourceInformation();
 
-    mapper.map(dto, entity);
-     //Apply the DTO's relation values to the entity.
+    // Apply the DTO's attribute values to the entity.
+    List<ResourceField> attributeFields = resourceInformation.getAttributeFields();
+    for (ResourceField attributeField : attributeFields) {
+      String attributeName = attributeField.getUnderlyingName();
+      PropertyUtils.setProperty(
+          entity,
+          attributeName,
+          PropertyUtils.getProperty(dto, attributeName)
+      );
+    }
+
+    // Apply the DTO's relation values to the entity.
     List<ResourceField> relationFields = resourceInformation.getRelationshipFields();
     for (ResourceField relationField : relationFields) {
       String relationName = relationField.getUnderlyingName();

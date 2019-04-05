@@ -17,7 +17,9 @@ public class ThermocyclerProfileDto {
   private Integer pcrProfileId;
 
   private String name;
-
+  
+  private String application;
+  
   private String cycles;
 
   private Timestamp lastModified;

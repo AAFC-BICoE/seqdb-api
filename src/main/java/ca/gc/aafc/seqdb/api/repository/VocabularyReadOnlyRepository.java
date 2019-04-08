@@ -24,14 +24,13 @@ import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
 
-public class DtoReadonlyRepository<T> extends ReadOnlyResourceRepositoryBase<T, Serializable>{
+public class VocabularyReadOnlyRepository extends ReadOnlyResourceRepositoryBase<BaseVocabularyDto, Serializable>{
   
   
   private final static String ENTITY_FILTER = "ca/gc/aafc/seqdb/entities/";
   private final static String JAR_LOCATION = "lib/seqdb.dbi-3.30-SNAPSHOT.jar";
   
-  public static BaseVocabularyDto baseVocabulary = new BaseVocabularyDto();
-  private static Map<String, BaseVocabularyDto> vocabularyMap = getVocabularies();
+  public BaseVocabularyDto baseVocabulary;
   
   public static Set<Class<?>> exposedEntityClasses = new HashSet<Class<?>>() {
     /**
@@ -80,8 +79,8 @@ public class DtoReadonlyRepository<T> extends ReadOnlyResourceRepositoryBase<T, 
     return resultList;
   }
   
-  private static Map<String, BaseVocabularyDto> getVocabularies() {
-    Map<String, BaseVocabularyDto> resultList = new HashMap<String, BaseVocabularyDto>();
+  private static Map<String, Object[]> getVocabularies() {
+    Map<String, Object[]> resultList = new HashMap<String, Object[]>();
     
     Set<Class<?>> enumClasses = null;
     try {
@@ -92,43 +91,33 @@ public class DtoReadonlyRepository<T> extends ReadOnlyResourceRepositoryBase<T, 
     }
     if (enumClasses != null) {
       for(Class<?> clazz : enumClasses) {
-        BaseVocabularyDto entry = new BaseVocabularyDto();
         
         String entryName = clazz.getSimpleName();
-        entry.setEnumType(entryName);
-        entry.setEnumKeys(clazz.getEnumConstants());
+        Object[] enumConstantsArray = clazz.getEnumConstants();
         
-        resultList.put(entryName, entry);
-        baseVocabulary.addKeyString(entryName);
+        resultList.put(entryName, enumConstantsArray);
       }
     }
 
     return resultList;
   }
   
-  private ArrayList<T> yes = new ArrayList<T>() {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    {
-      yes.add((T) baseVocabulary);
-    }
-  };
 
   
   
-  
-  public DtoReadonlyRepository(Class<T> resourceClass) {
-    super(resourceClass);
+  public VocabularyReadOnlyRepository() {
+    super(BaseVocabularyDto.class);
+    this.baseVocabulary = new BaseVocabularyDto(getVocabularies());
+    
 
   }
 
   @Override
-  public ResourceList<T> findAll(QuerySpec querySpec) {
+  public ResourceList<BaseVocabularyDto> findAll(QuerySpec querySpec) {
+    ArrayList<BaseVocabularyDto> resultList = new ArrayList<BaseVocabularyDto>();
+    resultList.add(baseVocabulary);
 
-    return new DefaultResourceList<T>(yes, null, null);
+    return new DefaultResourceList<BaseVocabularyDto>(resultList, null, null);
   }
   
   

@@ -1,8 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto.vocabularies;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.Map;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
@@ -12,16 +10,14 @@ import lombok.Data;
 @JsonApiResource(type = "baseVocabulary", resourcePath ="vocabulary")
 public class BaseVocabularyDto {
   
+  public BaseVocabularyDto(Map<String,Object[]> enumMap) {
+    this.enumType = "baseEnum";
+    this.enumMap = enumMap;
+  }
   @JsonApiId
   private String enumType;
     
-  public Object[] enumKeys;
-  
-  public Set<String> keyStrings = new HashSet<String>();
-  
-  public boolean addKeyString(String key) {
-    return this.keyStrings.add(key);
-  }
+  public Map<String, Object[]> enumMap;
  
 
   

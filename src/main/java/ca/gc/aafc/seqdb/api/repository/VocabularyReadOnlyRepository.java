@@ -1,16 +1,11 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -19,19 +14,22 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
+import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
 
-public class VocabularyReadOnlyRepository extends ReadOnlyResourceRepositoryBase<BaseVocabularyDto, Serializable>{
-  
-  
-  private final static String ENTITY_FILTER = "ca/gc/aafc/seqdb/entities/";
-  private final static String JAR_LOCATION = "lib/seqdb.dbi-3.30-SNAPSHOT.jar";
-  
-  public BaseVocabularyDto baseVocabulary;
-  
+public class VocabularyReadOnlyRepository
+    extends ReadOnlyResourceRepositoryBase<BaseVocabularyDto, Serializable> {
+
+
+  private Map<String, BaseVocabularyDto> enumMap;
+
+  /**
+   * List of enittyClasses that are exposed as DTOs in the Api.
+   * This information could be obtained from a more generalized source in the future.
+   */
   public static Set<Class<?>> exposedEntityClasses = new HashSet<Class<?>>() {
     /**
      * 
@@ -48,80 +46,78 @@ public class VocabularyReadOnlyRepository extends ReadOnlyResourceRepositoryBase
     }
   };
   
-  private static Set<Class<?>> getEnumClasses(Set<Class<?>> classesToExpose) throws IOException, ClassNotFoundException {
-    
+  /**
+   * Scans the exposed entity classes and then filters them for enum classes
+   * 
+   * @param exposedClasses
+   * @return a set of enum classes from
+   */
+  private static Set<Class<?>> getEnumClasses(Set<Class<?>> exposedClasses) {
+
     Set<Class<?>> resultList = new HashSet<Class<?>>();
 
-    File f = new File(JAR_LOCATION);
-    FileInputStream fis = new FileInputStream(f);
-    JarInputStream jis = new JarInputStream(fis);
+    for (Class<?> entityClasses : exposedEntityClasses) {
+      for (Class<?> possibleEnumClasses : entityClasses.getClasses()) {
 
-    try {
-      JarEntry next = jis.getNextJarEntry();
-      while (next != null) {
+        if (possibleEnumClasses.isEnum()) {
+          resultList.add(possibleEnumClasses);
+        }
+      }
+    }
+    return resultList;
+  }
+  /**
+   * Unpacks the set of enum classes into a map.
+   * @return a map with the key being the enum type name and the value being the Dto with enum value.
+   */
+  private static Map<String, BaseVocabularyDto> getVocabulariesMap(Set<Class<?>> enumClasses) {
+    Map<String, BaseVocabularyDto> resultList = new HashMap<String, BaseVocabularyDto>();
+    BaseVocabularyDto vocabularyDto;
 
-        final String name = next.getName();
+    if (enumClasses != null) {
+      
+      for (Class<?> clazz : enumClasses) {
+        if(clazz.isEnum()) {
+          String entryName = clazz.getSimpleName();
+          Object[] enumConstantsArray = clazz.getEnumConstants();
 
-        if (name.endsWith(".class") && name.contains(ENTITY_FILTER)) {
-          String classname = name.replace('/', '.').substring(0, name.length() - 6);
-          Class<?> entityClass = Class.forName(classname);
-          if (entityClass.isEnum() && classesToExpose.contains(entityClass.getDeclaringClass())) {
-            resultList.add(entityClass);
-          }
+          vocabularyDto = new BaseVocabularyDto(entryName, enumConstantsArray);
+
+          resultList.put(entryName, vocabularyDto);
         }
 
-        next = jis.getNextJarEntry();
-      }
-    } finally {
-      jis.close();
-    }
-    
-    return resultList;
-  }
-  
-  private static Map<String, Object[]> getVocabularies() {
-    Map<String, Object[]> resultList = new HashMap<String, Object[]>();
-    
-    Set<Class<?>> enumClasses = null;
-    try {
-      enumClasses = getEnumClasses(exposedEntityClasses);
- 
-    } catch (ClassNotFoundException | IOException e) {
-      e.printStackTrace();
-    }
-    if (enumClasses != null) {
-      for(Class<?> clazz : enumClasses) {
-        
-        String entryName = clazz.getSimpleName();
-        Object[] enumConstantsArray = clazz.getEnumConstants();
-        
-        resultList.put(entryName, enumConstantsArray);
       }
     }
 
     return resultList;
   }
-  
 
-  
-  
   public VocabularyReadOnlyRepository() {
     super(BaseVocabularyDto.class);
-    this.baseVocabulary = new BaseVocabularyDto(getVocabularies());
-    
+    this.enumMap = getVocabulariesMap(getEnumClasses(exposedEntityClasses));
 
   }
 
   @Override
   public ResourceList<BaseVocabularyDto> findAll(QuerySpec querySpec) {
     ArrayList<BaseVocabularyDto> resultList = new ArrayList<BaseVocabularyDto>();
-    resultList.add(baseVocabulary);
+    for (String key : enumMap.keySet()) {
+
+      resultList.add(enumMap.get(key));
+    }
 
     return new DefaultResourceList<BaseVocabularyDto>(resultList, null, null);
   }
-  
-  
-  
 
-    
+  @Override
+  public BaseVocabularyDto findOne(Serializable id, QuerySpec querySpec) {
+
+    BaseVocabularyDto result = enumMap.get(id);
+    if (result != null) {
+      return result;
+    } else {
+      throw new ResourceNotFoundException("resource not found: " + id);
+    }
+  }
+
 }

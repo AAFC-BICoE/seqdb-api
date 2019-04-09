@@ -24,25 +24,25 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
   
   @Test
   public void findAll_DefaultQuerySpec_AllDtosReturned() {
-    ResourceList<BaseVocabularyDto> base = readOnlyRepo.findAll(new QuerySpec(BaseVocabularyDto.class));
+    ResourceList<BaseVocabularyDto> resultList = readOnlyRepo.findAll(new QuerySpec(BaseVocabularyDto.class));
 
-    assertTrue(base.contains(primerType));
-    assertTrue(base.contains(pcrBatchType));
-    assertTrue(base.contains(pcrBatchPlateSize));
+    assertTrue(resultList.contains(primerType));
+    assertTrue(resultList.contains(pcrBatchType));
+    assertTrue(resultList.contains(pcrBatchPlateSize));
   }
   
   @Test
   public void findOne_QueryPcrPrimerType_OnePrimerTypeDtoReturned() {
-    BaseVocabularyDto base = readOnlyRepo.findOne(PrimerType.class.getSimpleName(), new QuerySpec(BaseVocabularyDto.class));
+    BaseVocabularyDto resultDto = readOnlyRepo.findOne(PrimerType.class.getSimpleName(), new QuerySpec(BaseVocabularyDto.class));
     
-    assertTrue(base.equals(primerType));
+    assertTrue(resultDto.equals(primerType));
   }
   
   @Test(expected = ResourceNotFoundException.class)
   public void findOne_QueryNonExistantID_ThrowResourceNotFoundException() {
-    BaseVocabularyDto base = readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class));
+    BaseVocabularyDto resultDto = readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class));
     
-    assertNull(base);
+    assertNull(resultDto);
   }
   
   

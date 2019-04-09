@@ -18,7 +18,6 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
-import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;

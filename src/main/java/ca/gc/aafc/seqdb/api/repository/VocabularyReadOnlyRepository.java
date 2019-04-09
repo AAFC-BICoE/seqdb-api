@@ -3,13 +3,11 @@ package ca.gc.aafc.seqdb.api.repository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Functions;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -52,8 +50,9 @@ public class VocabularyReadOnlyRepository
   /**
    * Scans the exposed entity classes and then filters them for enum classes
    * 
-   * @param exposedClasses - the set 
-   * @return a hashmap of the enums in the exposed 
+   * @param exposedClasses
+   *          - the set
+   * @return a hashmap of the enums in the exposed
    */
   private static Map<String, BaseVocabularyDto> getVocabulariesMap(Set<Class<?>> exposedClasses) {
     Set<Class<?>> innerClasses = new HashSet<Class<?>>();
@@ -64,19 +63,11 @@ public class VocabularyReadOnlyRepository
 
     }
     
-    return innerClasses.stream().filter(x -> x.isEnum())
-        .map(y -> baseVocabularyDtoMaker(y.getSimpleName(), y.getEnumConstants()))
-        .collect(Collectors.toMap(BaseVocabularyDto::getEnumType, Functions.identity()));
 
-  }
-  /**
-   * Used in stream to construct new BaseVocabularyDto objects.
-   * @param name - the Id of the object, usually the enum name.
-   * @param content - the enum contents.
-   * @return a new baseVocabularyDto.
-   */
-  private static BaseVocabularyDto baseVocabularyDtoMaker(String name, Object[] content) {
-    return new BaseVocabularyDto(name, content);
+    return innerClasses.stream().filter(x -> x.isEnum())
+        .map(y -> new BaseVocabularyDto(y.getSimpleName(), y.getEnumConstants()))
+        .collect(Collectors.toMap(BaseVocabularyDto::getEnumType, Function.identity()));
+
   }
 
   public VocabularyReadOnlyRepository() {

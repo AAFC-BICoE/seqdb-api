@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -29,23 +30,17 @@ public class VocabularyReadOnlyRepository
    * List of entityClasses that are exposed as DTOs in the Api. This information could be obtained
    * from a more generalized source in the future.
    */
-  public static Set<Class<?>> exposedEntityClasses = new HashSet<Class<?>>() {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+  private static final Set<Class<?>> EXPOSED_ENTITY_CLASSES = new HashSet<>(
+      Arrays.asList(
+          Region.class, 
+          PcrPrimer.class, 
+          PcrBatch.class, 
+          PcrReaction.class, 
+          Group.class,
+          Product.class));
 
-    {
-      add(Region.class);
-      add(PcrPrimer.class);
-      add(PcrBatch.class);
-      add(PcrReaction.class);
-      add(Group.class);
-      add(Product.class);
-    }
-  };
 
-  private static Map<String, BaseVocabularyDto> enumMap = getVocabulariesMap(exposedEntityClasses);
+  private static final Map<String, BaseVocabularyDto> ENUM_MAP = initVocabulariesMap();
 
   /**
    * Scans the exposed entity classes and then filters them for enum classes
@@ -54,42 +49,30 @@ public class VocabularyReadOnlyRepository
    *          - the set
    * @return a hashmap of the enums in the exposed
    */
-  private static Map<String, BaseVocabularyDto> getVocabulariesMap(Set<Class<?>> exposedClasses) {
-    Set<Class<?>> innerClasses = new HashSet<Class<?>>();
-
-    for (Class<?> entityClasses : exposedEntityClasses) {
-
-      innerClasses.addAll(Arrays.asList(entityClasses.getClasses()));
-
-    }
-    
-
-    return innerClasses.stream().filter(x -> x.isEnum())
+  private static Map<String, BaseVocabularyDto> initVocabulariesMap() {
+    return EXPOSED_ENTITY_CLASSES.stream()
+        .flatMap(c -> Arrays.stream(c.getClasses()))
+        .filter(x -> x.isEnum())
         .map(y -> new BaseVocabularyDto(y.getSimpleName(), y.getEnumConstants()))
         .collect(Collectors.toMap(BaseVocabularyDto::getEnumType, Function.identity()));
-
   }
 
   public VocabularyReadOnlyRepository() {
     super(BaseVocabularyDto.class);
-
   }
 
   @Override
   public ResourceList<BaseVocabularyDto> findAll(QuerySpec querySpec) {
-    ArrayList<BaseVocabularyDto> resultList = new ArrayList<BaseVocabularyDto>();
-    for (String key : enumMap.keySet()) {
-
-      resultList.add(enumMap.get(key));
+    List<BaseVocabularyDto> resultList = new ArrayList<>();
+    for (String key : ENUM_MAP.keySet()) {
+      resultList.add(ENUM_MAP.get(key));
     }
-
     return new DefaultResourceList<BaseVocabularyDto>(resultList, null, null);
   }
 
   @Override
   public BaseVocabularyDto findOne(Serializable id, QuerySpec querySpec) {
-
-    BaseVocabularyDto result = enumMap.get(id);
+    BaseVocabularyDto result = ENUM_MAP.get(id);
     if (result != null) {
       return result;
     } else {

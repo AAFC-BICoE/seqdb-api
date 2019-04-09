@@ -7,6 +7,7 @@ import org.junit.Test;
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
+import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -42,7 +43,29 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
   public void findOne_QueryNonExistantID_ThrowResourceNotFoundException() {
     BaseVocabularyDto resultDto = readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class));
     
-    assertNull(resultDto);
+    fail();
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void save_ValidDto_ThrowUnsupportedOperationException() {
+    Object[] objectArray = {"Winter", "is", "Comin"};
+    BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
+    readOnlyRepo.save(newDto);
+    fail();
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void create_ValidDto_ThrowUnsupportedOperationException() {
+    Object[] objectArray = {"Winter", "is", "Comin"};
+    BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
+    readOnlyRepo.create(newDto);
+    fail();
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void delete_ExistingDtoID_ThrowUnsupportedOperationException() {
+    readOnlyRepo.delete(PrimerType.class.getSimpleName());
+    fail();
   }
   
   

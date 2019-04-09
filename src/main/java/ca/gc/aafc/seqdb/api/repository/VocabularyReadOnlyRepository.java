@@ -2,10 +2,14 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.google.common.base.Functions;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -23,12 +27,9 @@ import io.crnk.core.resource.list.ResourceList;
 public class VocabularyReadOnlyRepository
     extends ReadOnlyResourceRepositoryBase<BaseVocabularyDto, Serializable> {
 
-
-  private Map<String, BaseVocabularyDto> enumMap;
-
   /**
-   * List of enittyClasses that are exposed as DTOs in the Api.
-   * This information could be obtained from a more generalized source in the future.
+   * List of entityClasses that are exposed as DTOs in the Api. This information could be obtained
+   * from a more generalized source in the future.
    */
   public static Set<Class<?>> exposedEntityClasses = new HashSet<Class<?>>() {
     /**
@@ -45,56 +46,41 @@ public class VocabularyReadOnlyRepository
       add(Product.class);
     }
   };
-  
+
+  private static Map<String, BaseVocabularyDto> enumMap = getVocabulariesMap(exposedEntityClasses);
+
   /**
    * Scans the exposed entity classes and then filters them for enum classes
    * 
-   * @param exposedClasses
-   * @return a set of enum classes from
+   * @param exposedClasses - the set 
+   * @return a hashmap of the enums in the exposed 
    */
-  private static Set<Class<?>> getEnumClasses(Set<Class<?>> exposedClasses) {
-
-    Set<Class<?>> resultList = new HashSet<Class<?>>();
+  private static Map<String, BaseVocabularyDto> getVocabulariesMap(Set<Class<?>> exposedClasses) {
+    Set<Class<?>> innerClasses = new HashSet<Class<?>>();
 
     for (Class<?> entityClasses : exposedEntityClasses) {
-      for (Class<?> possibleEnumClasses : entityClasses.getClasses()) {
 
-        if (possibleEnumClasses.isEnum()) {
-          resultList.add(possibleEnumClasses);
-        }
-      }
+      innerClasses.addAll(Arrays.asList(entityClasses.getClasses()));
+
     }
-    return resultList;
+    
+    return innerClasses.stream().filter(x -> x.isEnum())
+        .map(y -> baseVocabularyDtoMaker(y.getSimpleName(), y.getEnumConstants()))
+        .collect(Collectors.toMap(BaseVocabularyDto::getEnumType, Functions.identity()));
+
   }
   /**
-   * Unpacks the set of enum classes into a map.
-   * @return a map with the key being the enum type name and the value being the Dto with enum value.
+   * Used in stream to construct new BaseVocabularyDto objects.
+   * @param name - the Id of the object, usually the enum name.
+   * @param content - the enum contents.
+   * @return a new baseVocabularyDto.
    */
-  private static Map<String, BaseVocabularyDto> getVocabulariesMap(Set<Class<?>> enumClasses) {
-    Map<String, BaseVocabularyDto> resultList = new HashMap<String, BaseVocabularyDto>();
-    BaseVocabularyDto vocabularyDto;
-
-    if (enumClasses != null) {
-      
-      for (Class<?> clazz : enumClasses) {
-        if(clazz.isEnum()) {
-          String entryName = clazz.getSimpleName();
-          Object[] enumConstantsArray = clazz.getEnumConstants();
-
-          vocabularyDto = new BaseVocabularyDto(entryName, enumConstantsArray);
-
-          resultList.put(entryName, vocabularyDto);
-        }
-
-      }
-    }
-
-    return resultList;
+  private static BaseVocabularyDto baseVocabularyDtoMaker(String name, Object[] content) {
+    return new BaseVocabularyDto(name, content);
   }
 
   public VocabularyReadOnlyRepository() {
     super(BaseVocabularyDto.class);
-    this.enumMap = getVocabulariesMap(getEnumClasses(exposedEntityClasses));
 
   }
 

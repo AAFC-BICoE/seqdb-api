@@ -32,6 +32,9 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
+import io.crnk.operations.server.OperationsModule;
+import io.crnk.operations.server.TransactionOperationFilter;
+import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
 @EntityScan("ca.gc.aafc.seqdb.entities")
@@ -48,7 +51,7 @@ public class ResourceRepositoryConfig {
   
   @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-  
+
   /**
    * Configures DTO-to-Entity mappings.
    * 
@@ -68,6 +71,28 @@ public class ResourceRepositoryConfig {
     return new JpaDtoMapper(jpaEntities);
   }
   
+  /**
+   * Registers the transaction filter that executes a transaction around bulk jsonpatch operations.
+   * 
+   * @param module
+   *          the Crnk operations module.
+   */
+  @Inject
+  public void initTransactionOperationFilter(OperationsModule module) {
+    module.addFilter(new TransactionOperationFilter());
+  }
+  
+  /**
+   * Provides Crnk's SpringTransactionRunner that implements transactions around bulk jsonpatch
+   * operations using Spring's transaction management.
+   * 
+   * @return the transaction runner.
+   */
+  @Bean
+  public SpringTransactionRunner crnkSpringTransactionRunner() {
+    return new SpringTransactionRunner();
+  }
+
   @Bean
   public JpaTotalMetaInformationProvider metaInformationProvider(EntityManager entityManager) {
     return new JpaTotalMetaInformationProvider(entityManager, dtoJpaMapper());
@@ -203,7 +228,7 @@ public class ResourceRepositoryConfig {
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
-    );
+        );
   }
 
   @Bean

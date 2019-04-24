@@ -42,8 +42,6 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
   @Test(expected = ResourceNotFoundException.class)
   public void findOne_QueryNonExistantID_ThrowResourceNotFoundException() {
     BaseVocabularyDto resultDto = readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class));
-    
-    fail();
   }
   
   @Test(expected = UnsupportedOperationException.class)
@@ -51,7 +49,6 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
     Object[] objectArray = {"Winter", "is", "Comin"};
     BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
     readOnlyRepo.save(newDto);
-    fail();
   }
   
   @Test(expected = UnsupportedOperationException.class)
@@ -59,13 +56,11 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
     Object[] objectArray = {"Winter", "is", "Comin"};
     BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
     readOnlyRepo.create(newDto);
-    fail();
   }
   
   @Test(expected = UnsupportedOperationException.class)
   public void delete_ExistingDtoID_ThrowUnsupportedOperationException() {
     readOnlyRepo.delete(PrimerType.class.getSimpleName());
-    fail();
   }
   
   

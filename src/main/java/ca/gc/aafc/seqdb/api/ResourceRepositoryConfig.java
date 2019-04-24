@@ -18,6 +18,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
@@ -29,6 +30,7 @@ import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFac
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
@@ -66,6 +68,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrBatchDto.class, PcrBatch.class);
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
     jpaEntities.put(GroupDto.class, Group.class);
+    jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
     jpaEntities.put(ProductDto.class, Product.class);
 
     return new JpaDtoMapper(jpaEntities);
@@ -165,6 +168,20 @@ public class ResourceRepositoryConfig {
             simpleFilterHandler,
             rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<ThermocyclerProfileDto> pcrProfileRepository(
+      JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ThermocyclerProfileDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
     );

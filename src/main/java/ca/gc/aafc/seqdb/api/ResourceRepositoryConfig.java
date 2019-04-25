@@ -18,6 +18,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
@@ -30,9 +31,13 @@ import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFac
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
+import io.crnk.operations.server.OperationsModule;
+import io.crnk.operations.server.TransactionOperationFilter;
+import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
 @EntityScan("ca.gc.aafc.seqdb.entities")
@@ -49,7 +54,7 @@ public class ResourceRepositoryConfig {
   
   @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-  
+
   /**
    * Configures DTO-to-Entity mappings.
    * 
@@ -64,11 +69,34 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(PcrBatchDto.class, PcrBatch.class);
     jpaEntities.put(PcrReactionDto.class, PcrReaction.class);
     jpaEntities.put(GroupDto.class, Group.class);
+    jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
     jpaEntities.put(ProductDto.class, Product.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
   
+  /**
+   * Registers the transaction filter that executes a transaction around bulk jsonpatch operations.
+   * 
+   * @param module
+   *          the Crnk operations module.
+   */
+  @Inject
+  public void initTransactionOperationFilter(OperationsModule module) {
+    module.addFilter(new TransactionOperationFilter());
+  }
+  
+  /**
+   * Provides Crnk's SpringTransactionRunner that implements transactions around bulk jsonpatch
+   * operations using Spring's transaction management.
+   * 
+   * @return the transaction runner.
+   */
+  @Bean
+  public SpringTransactionRunner crnkSpringTransactionRunner() {
+    return new SpringTransactionRunner();
+  }
+
   @Bean
   public JpaTotalMetaInformationProvider metaInformationProvider(EntityManager entityManager) {
     return new JpaTotalMetaInformationProvider(entityManager, dtoJpaMapper());
@@ -145,6 +173,20 @@ public class ResourceRepositoryConfig {
         metaInformationProvider
     );
   }
+  
+  @Bean
+  public JpaResourceRepository<ThermocyclerProfileDto> pcrProfileRepository(
+      JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ThermocyclerProfileDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
+        ),
+        metaInformationProvider
+    );
+  }
 
   @Bean
   public JpaResourceRepository<ProductDto> productRepository(JpaDtoRepository dtoRepository) {
@@ -209,7 +251,7 @@ public class ResourceRepositoryConfig {
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider
-    );
+        );
   }
 
   @Bean

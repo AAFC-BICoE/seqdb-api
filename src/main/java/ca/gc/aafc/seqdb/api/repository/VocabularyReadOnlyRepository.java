@@ -14,6 +14,7 @@ import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
@@ -28,7 +29,7 @@ public class VocabularyReadOnlyRepository
 
   /**
    * List of entityClasses that are exposed as DTOs in the Api. This information could be obtained
-   * from a more generalized source in the future.
+   * from a more generalized source in the future ie Reading the Seqdb.Jar file.
    */
   private static final Set<Class<?>> EXPOSED_ENTITY_CLASSES = new HashSet<>(
       Arrays.asList(
@@ -37,7 +38,8 @@ public class VocabularyReadOnlyRepository
           PcrBatch.class, 
           PcrReaction.class, 
           Group.class,
-          Product.class));
+          Product.class,
+          PcrProfile.class));
 
 
   private static final Map<String, BaseVocabularyDto> ENUM_MAP = initVocabulariesMap();

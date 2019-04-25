@@ -11,13 +11,13 @@ public class BaseVocabularyDto {
   
   public BaseVocabularyDto( String Id, Object[] enumValues) {
     this.enumType = Id;
-    this.values = enumValues;
+    this.enumValues = enumValues;
   }
   
   @JsonApiId
   private String enumType;
     
-  public Object[] values;
+  public Object[] enumValues;
  
 
   

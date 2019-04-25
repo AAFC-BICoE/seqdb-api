@@ -19,6 +19,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
@@ -200,6 +201,11 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  @Bean
+  public VocabularyReadOnlyRepository vocabularyDto(){
+    return new VocabularyReadOnlyRepository();
+  }
+
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {

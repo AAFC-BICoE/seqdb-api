@@ -2,18 +2,25 @@ package ca.gc.aafc.seqdb.api.repository.filter;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Sets;
+
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
 import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.queryspec.mapper.QuerySpecUrlMapper;
 import io.crnk.core.repository.ResourceRepositoryV2;
 import io.crnk.core.resource.list.ResourceList;
 
@@ -21,6 +28,9 @@ public class RsqlFilterHandlerIT extends BaseRepositoryTest {
 
   @Inject
   private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  
+  @Inject
+  private QuerySpecUrlMapper querySpecUrlMapper;
   
   @Before
   public void initPrimers() {
@@ -90,5 +100,22 @@ public class RsqlFilterHandlerIT extends BaseRepositoryTest {
     assertEquals(2, primers.size());
     assertEquals("primer2", primers.get(0).getName());
     assertEquals("primer4", primers.get(1).getName());
+  }
+  
+  /**
+   * For RSQL strings containing commas to work, the Crnk QuerySpecUrlMapper needs to be
+   * configured to not convert those strings to HashSets. This test ensures that the
+   * QuerySpecUrlMapper is configured correctly.
+   */
+  @Test
+  public void deserializeFilterParam_whenParamHasComma_deserializeFilterAsString() {
+    ResourceInformation primerInfo = resourceRegistry.findEntry(PcrPrimerDto.class).getResourceInformation();
+    
+    Map<String, Set<String>> paramMap = new HashMap<>();
+    paramMap.put("filter[rsql]", Sets.newHashSet("name==asd,asd,asd,asd"));
+    
+    QuerySpec querySpec = querySpecUrlMapper.deserialize(primerInfo, paramMap);
+    
+    assertEquals("name==asd,asd,asd,asd", querySpec.getFilter("rsql").getValue());
   }
 }

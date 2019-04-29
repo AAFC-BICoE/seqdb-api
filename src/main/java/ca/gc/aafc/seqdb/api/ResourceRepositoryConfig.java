@@ -11,6 +11,7 @@ import javax.persistence.criteria.Path;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
@@ -35,12 +36,16 @@ import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Region;
+import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
 import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
 @EntityScan("ca.gc.aafc.seqdb.entities")
+// Must explicitly depend on "querySpecUrlMapper" so Spring can inject it into this class'
+// initQuerySpecUrlMapper method.
+@DependsOn("querySpecUrlMapper")
 public class ResourceRepositoryConfig {
 
   @Inject
@@ -54,7 +59,14 @@ public class ResourceRepositoryConfig {
   
   @Inject
   private ReadableGroupFilterHandlerFactory groupFilterFactory;
-
+  
+  @Inject
+  public void initQuerySpecUrlMapper(DefaultQuerySpecUrlMapper mapper) {
+    // Disables Crnk's behavior of splitting up query params that contain commas into HashSets.
+    // This will allow RSQL 'OR' filters like "name==primer2,name==primer4".
+    mapper.setAllowCommaSeparatedValue(false);
+  }
+  
   /**
    * Configures DTO-to-Entity mappings.
    * 

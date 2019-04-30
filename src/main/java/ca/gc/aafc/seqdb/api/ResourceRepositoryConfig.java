@@ -194,6 +194,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -207,6 +208,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> root.get("group"))
         ),
         metaInformationProvider
@@ -291,6 +293,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
+            rsqlFilterHandler,
             groupFilterFactory.create(root -> (Path<Group>) root)
         ),
         metaInformationProvider

@@ -105,16 +105,27 @@ public class JpaDtoRepository {
     criteriaQuery.multiselect(
         this.selectionHandler.getSelections(querySpec, targetPath, resourceRegistry)
     );
-
-    List<Order> orders = querySpec.getSort().stream().map(sort -> {
-      Function<Expression<?>, Order> orderFunc =
-          sort.getDirection() == Direction.ASC ? cb::asc : cb::desc;
-      return orderFunc.apply(
-          this.selectionHandler.getExpression(targetPath, sort.getAttributePath())
+    
+    
+    if (querySpec.getSort().isEmpty()) {
+      // When no sorts are requested, sort by ascending ID by default.
+      criteriaQuery.orderBy(
+          cb.asc(
+              this.selectionHandler.getIdExpression(targetPath, targetDtoClass, resourceRegistry)
+          )
       );
-    }).collect(Collectors.toList());
-
-    criteriaQuery.orderBy(orders);
+    } else {
+      // Otherwise use the requested sorts.
+      List<Order> orders = querySpec.getSort().stream().map(sort -> {
+        Function<Expression<?>, Order> orderFunc =
+            sort.getDirection() == Direction.ASC ? cb::asc : cb::desc;
+        return orderFunc.apply(
+            this.selectionHandler.getExpression(targetPath, sort.getAttributePath())
+            );
+      }).collect(Collectors.toList());
+      
+      criteriaQuery.orderBy(orders);
+    }
 
     // Add the custom filter to the criteria query.
     if (customFilter != null) {

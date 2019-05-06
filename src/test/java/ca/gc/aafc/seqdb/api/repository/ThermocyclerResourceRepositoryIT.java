@@ -1,12 +1,18 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.inject.Inject;
+import javax.json.stream.JsonParser;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.leadpony.justify.api.JsonSchema;
+import org.leadpony.justify.api.JsonValidationService;
+import org.leadpony.justify.api.ProblemHandler;
+import org.springframework.core.io.ClassPathResource;
 
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
@@ -175,4 +181,20 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
     thermoRepository.delete(42);
   }
+  
+  @Test
+  public void findAllThermocyclerProfile_Validation() throws IOException {
+    JsonValidationService service = JsonValidationService.newInstance();
+    // Reads the JSON schema
+    JsonSchema schema = service.readSchema(new ClassPathResource("schema/GETthermocyclerJSONSchema.json").getFile().toPath());
+    // Problem handler which will print problems found.
+    ProblemHandler handler = service.createProblemPrinter(System.out::println);
+    // Parses the JSON instance by javax.json.stream.JsonParser
+    try (JsonParser parser = service.createParser(new ClassPathResource("schema/realThermoResponse-all.json").getFile().toPath(), schema, handler)) {
+      while (parser.hasNext()) {
+        JsonParser.Event event = parser.next();
+         System.out.println("event is " + event.toString());
+      }
+    }
+  }  
 }

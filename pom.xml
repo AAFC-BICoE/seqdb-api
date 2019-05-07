@@ -176,12 +176,6 @@
 		<artifactId>jackson-databind</artifactId>
 	</dependency>
 
-	<dependency>
-		<groupId>org.codehaus.jackson</groupId>
-		<artifactId>jackson-mapper-asl</artifactId>
-		<version>1.9.11</version>
-	</dependency>
-    
      <!--  Required for Java >= 9 -->
     <dependency>
       <groupId>javax.xml.bind</groupId>

@@ -196,5 +196,13 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
          System.out.println("event is " + event.toString());
       }
     }
+    
+    schema = service.readSchema(new ClassPathResource("schema/thermocyclerJSONSchema.json").getFile().toPath());
+    try (JsonParser parser = service.createParser(new ClassPathResource("schema/realThermoResponse.json").getFile().toPath(), schema, handler)) {
+      while (parser.hasNext()) {
+        JsonParser.Event event = parser.next();
+         System.out.println("event is " + event.toString());
+      }
+    }    
   }  
 }

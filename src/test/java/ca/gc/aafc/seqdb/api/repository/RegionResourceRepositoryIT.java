@@ -26,5 +26,13 @@ public class RegionResourceRepositoryIT extends BaseRepositoryTest{
          System.out.println("event is " + event.toString());
       }
     }
+    
+    schema = service.readSchema(new ClassPathResource("schema/regionJSONSchema.json").getFile().toPath());
+    try (JsonParser parser = service.createParser(new ClassPathResource("schema/realRegionResponse.json").getFile().toPath(), schema, handler)) {
+      while (parser.hasNext()) {
+        JsonParser.Event event = parser.next();
+         System.out.println("event is " + event.toString());
+      }
+    }    
   }  
 }

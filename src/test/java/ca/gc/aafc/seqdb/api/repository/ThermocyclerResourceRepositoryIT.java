@@ -185,33 +185,9 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findAllThermocyclerProfile_Validation() throws IOException {
-    Consumer <String> assertionPrinter = ( (error)->assertNull(error));    
-    JsonValidationService service = JsonValidationService.newInstance();
-    // Reads the JSON schema
-    JsonSchema schema = service.readSchema(
-        new ClassPathResource("json-schema/GETthermocyclerJSONSchema.json").
-        getFile().toPath());
-    // Problem handler which will print problems found.
-    ProblemHandler handler = service.createProblemPrinter(assertionPrinter);
-    // Parses the JSON instance by javax.json.stream.JsonParser
-    try (JsonParser parser = service.createParser(
-        new ClassPathResource("realThermoResponse-all.json").
-        getFile().toPath(), schema, handler)) {
-      while (parser.hasNext()) {
-        parser.next();
-      }
-    }
-    service = JsonValidationService.newInstance();    
-    schema = service.readSchema(
-        new ClassPathResource("json-schema/thermocyclerJSONSchema.json").
-        getFile().toPath());
-    handler = service.createProblemPrinter(assertionPrinter);
-    try (JsonParser parser = service.createParser(
-        new ClassPathResource("realThermoResponse.json").
-        getFile().toPath(), schema, handler)) {
-      while (parser.hasNext()) {
-        parser.next();
-      }
-    }
-  }  
+    JsonSchemaAssertions.assertJsonSchema("json-schema/GETthermocyclerJSONSchema.json",
+        "realThermoResponse-all.json");
+    JsonSchemaAssertions.assertJsonSchema("json-schema/thermocyclerJSONSchema.json",
+        "realThermoResponse.json");
+    }  
 }

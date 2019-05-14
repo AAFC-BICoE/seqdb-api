@@ -18,6 +18,8 @@ import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
+import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
+import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
@@ -35,6 +37,8 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
+import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.ReactionComponent;
 import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
@@ -83,6 +87,8 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(GroupDto.class, Group.class);
     jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
     jpaEntities.put(ProductDto.class, Product.class);
+    jpaEntities.put(ProtocolDto.class, Protocol.class);
+    jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -216,6 +222,34 @@ public class ResourceRepositoryConfig {
   }
   
   @Bean
+  public JpaResourceRepository<ProtocolDto> protocolRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ProtocolDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            rsqlFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
+  public JpaResourceRepository<ReactionComponentDto> reactionComponentRepository(JpaDtoRepository dtoRepository) {
+    return new JpaResourceRepository<>(
+        ReactionComponentDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler,
+            rsqlFilterHandler,
+            groupFilterFactory.create(root -> root.get("group"))
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
   public VocabularyReadOnlyRepository vocabularyDto(){
     return new VocabularyReadOnlyRepository();
   }
@@ -300,5 +334,51 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  @Bean
+  public JpaRelationshipRepository<ProtocolDto, GroupDto> protocolToGroupRepository(
+	      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+	    return new JpaRelationshipRepository<>(
+	        ProtocolDto.class,
+	        GroupDto.class,
+	        dtoRepository,
+	        Arrays.asList(
+	            simpleFilterHandler,
+	            rsqlFilterHandler,
+	            groupFilterFactory.create(root -> (Path<Group>) root)
+	        ),
+	        metaInformationProvider
+	    );
+	  }
 
-}
+   @Bean
+  public JpaRelationshipRepository<ProtocolDto, ReactionComponentDto> protocolToReactionComponentRepository(
+	  JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository){
+	return new JpaRelationshipRepository<>(
+		ProtocolDto.class,
+		ReactionComponentDto.class,
+		dtoRepository,
+		Arrays.asList(
+				simpleFilterHandler,
+				rsqlFilterHandler,
+				groupFilterFactory.create(root -> (Path<Group>) root)
+				),
+			metaInformationProvider
+	);
+  }
+
+   @Bean
+  public JpaRelationshipRepository<ReactionComponentDto, ProtocolDto> ReactionComponentToProtocolRepository(
+	  JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository){
+	return new JpaRelationshipRepository<>(
+		ReactionComponentDto.class,
+		ProtocolDto.class,
+		dtoRepository,
+		Arrays.asList(
+				simpleFilterHandler,
+				rsqlFilterHandler,
+				groupFilterFactory.create(root -> (Path<Group>) root)
+				),
+			metaInformationProvider
+	);
+  }
+}	

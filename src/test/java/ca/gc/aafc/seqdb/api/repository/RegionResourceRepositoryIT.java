@@ -7,12 +7,17 @@ import org.junit.Test;
 public class RegionResourceRepositoryIT {
 
   @Test
-  public void findAllRegions_Validation() throws IOException {
+  public void listRegion_APIResponse_schemaValidates() throws IOException {
 
-    JsonSchemaAssertions.assertJsonSchema("json-schema/GETregionJSONSchema.json",
-        "realRegionResponse-all.json");
-    JsonSchemaAssertions.assertJsonSchema("json-schema/regionJSONSchema.json",
-        "realRegionResponse.json");
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETregionJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realRegionResponse-all.json"));
+  }
 
+  @Test
+  public void getRegion_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/regionJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realRegionResponse.json"));
   }
 }

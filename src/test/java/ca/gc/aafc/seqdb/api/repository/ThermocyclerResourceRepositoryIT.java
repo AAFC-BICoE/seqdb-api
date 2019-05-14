@@ -2,18 +2,11 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.function.Consumer;
 
 import javax.inject.Inject;
-import javax.json.stream.JsonParser;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.leadpony.justify.api.JsonSchema;
-import org.leadpony.justify.api.JsonValidationService;
-import org.leadpony.justify.api.ProblemHandler;
-import org.springframework.core.io.ClassPathResource;
 
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
@@ -184,10 +177,16 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   }
   
   @Test
-  public void findAllThermocyclerProfile_Validation() throws IOException {
-    JsonSchemaAssertions.assertJsonSchema("json-schema/GETthermocyclerJSONSchema.json",
-        "realThermoResponse-all.json");
-    JsonSchemaAssertions.assertJsonSchema("json-schema/thermocyclerJSONSchema.json",
-        "realThermoResponse.json");
-    }  
+  public void listThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETthermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realThermoResponse-all.json"));
+  }
+
+  @Test
+  public void getThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/thermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realThermoResponse.json"));
+  } 
 }

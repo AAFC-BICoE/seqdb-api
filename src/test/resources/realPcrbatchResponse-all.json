@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "pcrBatch",
+      "attributes": {
+        "plateSize": "PLATE_NUMBER_96",
+        "name": "Test",
+        "type": "SANGER"
+      },
+      "relationships": {
+        "reactions": {
+          "links": {
+            "self": "/api/pcrBatch/1/relationships/reactions",
+            "related": "/api/pcrBatch/1/reactions"
+          }
+        },
+        "group": {
+          "links": {
+            "self": "/api/pcrBatch/1/relationships/group",
+            "related": "/api/pcrBatch/1/group"
+          }
+        }
+      },
+      "links": {
+        "self": "/api/pcrBatch/1"
+      }
+    },
+    {
+      "id": "2",
+      "type": "pcrBatch",
+      "attributes": {
+        "plateSize": "PLATE_NUMBER_96",
+        "name": "testetestetestetestete",
+        "type": "SANGER"
+      },
+      "relationships": {
+        "reactions": {
+          "links": {
+            "self": "/api/pcrBatch/2/relationships/reactions",
+            "related": "/api/pcrBatch/2/reactions"
+          }
+        },
+        "group": {
+          "links": {
+            "self": "/api/pcrBatch/2/relationships/group",
+            "related": "/api/pcrBatch/2/group"
+          }
+        }
+      },
+      "links": {
+        "self": "/api/pcrBatch/2"
+      }
+    }
+  ],
+  "links": {
+    "first": "/api/pcrBatch?page[limit]=20",
+    "last": "/api/pcrBatch?page[limit]=20"
+  },
+  "meta": {
+    "totalResourceCount": 2
+  }
+}

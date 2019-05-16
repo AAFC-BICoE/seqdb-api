@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://localhost:8080/api/schema/GETregion",
+  "$id": "json-schema/GETregionJSONSchema.json",
   "title": "The region GET Response Schema",
   "description": "The schema for the GET request response for region",
   "base": "http://localhost:8080/api",
@@ -32,27 +32,10 @@
             "const": "region",
             "description": "The type of the object."
           },
-          "attribute": {
-            "type": "object",
-            "description": "the properties of the region.",
-            "required": [
-              "name",
-              "symble"
-            ],
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "the name of the region."
-              },
-              "description": {
-                "type": "string",
-                "description": "the description of the region."
-              },
-              "symbol": {
-                "type": "string",
-                "description": "the symbol of the region."
-              }
-            }
+          "attribute": { 
+          	"allOf": [
+          		{ "$ref": "definitions/region.json" }
+          	]
           },
           "links": 
             {

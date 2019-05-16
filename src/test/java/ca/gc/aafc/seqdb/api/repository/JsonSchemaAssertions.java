@@ -69,10 +69,11 @@ public class JsonSchemaAssertions {
   /**
    * Schema resolver which looks for $ref locations in our resources where all of
    * schemas are located.
+   * This may be a temporary solution.
    */
   private static class LocalJsonSchemaResolver implements JsonSchemaResolver {
 
-    JsonValidationService service;
+    private final JsonValidationService service;
     
     public LocalJsonSchemaResolver(JsonValidationService service) {
       this.service = service;
@@ -97,11 +98,9 @@ public class JsonSchemaAssertions {
         path = Paths.get(resource.toURI());
         
       } catch (URISyntaxException e) {
-        // URI had a syntax issue and cannot be resolved.
+        fail(e.getMessage());
         return null;
       }
-      
-      // Read the schema located at this location as the reference.
       return service.readSchema(path);
     }
   };

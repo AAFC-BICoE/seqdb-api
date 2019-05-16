@@ -1,5 +1,5 @@
-= API JSON Schema Documentation
-JSON Schema is a JSON-based format to define data structures for validation, documentation, and interaction. It provides a contract for the JSON data required for the SeqDB API and how the data is returned.
+= JSON Schema
+JSON Schema is a JSON-based format to define data structures for validation, documentation and interaction. It provides a contract for the JSON data required for the SeqDB API and how the data is returned.
 
 To learn more about JSON Schema check out: https://json-schema.org/
 
@@ -35,7 +35,7 @@ All of the schemas for the SeqDB API can be found in the following directory:
 
 `/src/main/resources/json-schema/`
 
-Different requests require it's own JSON schema file, below I will provide the steps to create a JSON schema for the GET region response. `(for *GET* /api/region)`
+Different requests require different JSON schemas, below are the steps to create a JSON schema for the GET region response. `(for *GET* /api/region)`
 
 For the Region entity there are two main responses that you can make:
 
@@ -107,9 +107,11 @@ As explained above, you are able to reference parts of the schema to another fil
 
 == Creating the integration test based on the Schemas
 
-Now that you have created your schemas you can create an integration test to make sure it validates against test data. All of our real test data is stored in this directory:
+Now that we have created the schemas we can create an integration test to make sure it validates against an API response. For now, we serialize  API responses in files in this directory:
 
 `/src/test/resources/`
+
+It will eventually be changed to get a response from a running API in the the integration test.
 
 For example, the realRegionResponse-all.json contains:
 [source,json]

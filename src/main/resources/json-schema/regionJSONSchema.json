@@ -1,6 +1,6 @@
 {
    "$schema": "http://json-schema.org/draft-07/schema#",
-   "$id": "https://localhost:8080/api/schema/regionDto",
+   "$id": "json-schema/regionJSONSchema.json",
    "$base": "https://localhost:8080/api/",
    "title": "RegionDTO",
    "type": "object",
@@ -14,23 +14,9 @@
                     "description": "tells crnk what type this object is"
                 },
                 "attributes":{
-                    "description": "the properties of the object",
-                    "required":["name","symbol"],
-                    "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "name of the region"
-                        },
-                        "symbol": { 
-                            "type": "string",
-                            "description": "symbol of the region",
-                            "examples":["AAFC"]
-                        },
-                        "description": { 
-                            "type": "string",
-                            "description": "description of the region"
-                        }
-                    }
+		          	"allOf": [
+		          		{ "$ref": "definitions/region.json" }
+		          	]
                 }
             }
         }

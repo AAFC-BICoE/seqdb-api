@@ -22,4 +22,6 @@ include::bulk_operations.adoc[]
 
 include::jpa_resource_repositories.adoc[]
 
+include::json_schemas.adoc[]
+
 include::uxf_files.adoc[]

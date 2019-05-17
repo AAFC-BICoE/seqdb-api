@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -175,4 +175,18 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
     thermoRepository.delete(42);
   }
+  
+  @Test
+  public void listThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETthermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realThermoResponse-all.json"));
+  }
+
+  @Test
+  public void getThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/thermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realThermoResponse.json"));
+  } 
 }

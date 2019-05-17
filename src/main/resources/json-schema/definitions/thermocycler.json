@@ -1,0 +1,95 @@
+{
+   "type": "object",
+   "description": "the properties of the thermocycler.",
+   "required": ["name"],
+   "properties": {
+       "name": {
+           "type":"string",
+           "description": "the name of the profile."
+        },
+        "application": {
+            "type":"string",
+            "description": "the application of the profile."
+        },
+        "cycles": {
+            "type":"string",
+            "description": "how many cycles are in the profile.",
+            "examples": ["40"]
+        },
+        "step1": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step2": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step3": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step4": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step5": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step6": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step7": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step8": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step9": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step10": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step11": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step12": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step13": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step14": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        },
+        "step15": {
+            "type":"string",
+            "description": "A step in the instructions for the thermocycler.",
+            "examples": ["56°C for 1min"]
+        }
+    }
+}

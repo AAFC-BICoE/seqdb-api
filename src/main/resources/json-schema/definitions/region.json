@@ -1,0 +1,22 @@
+{
+	"type": "object",
+    "description": "the properties of the region.",
+    "required": [
+      "name",
+      "symbol"
+    ],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "the name of the region."
+      },
+      "description": {
+        "type": "string",
+        "description": "the description of the region."
+      },
+      "symbol": {
+        "type": "string",
+        "description": "the symbol of the region."
+      }
+    }
+}

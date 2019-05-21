@@ -73,6 +73,11 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     assertNotNull(objectToPersist.getId());
   }
   
+  /**
+   * Persists a group
+   * 
+   * @param the group to persist
+   */
   protected void persistGroup(Group groupToPersist) {
     assertNull(groupToPersist.getGroupId());
     entityManager.persist(groupToPersist);

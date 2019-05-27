@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.factories.ProtocolFactory;
@@ -27,11 +28,15 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   
   private Protocol testProtocol;
   
+  private Product testKit;
+  
   private Group testGroup;
   
   private Protocol createTestProtocol() {
     testGroup = new Group("group name");
     persistGroup(testGroup);
+    testKit = new Product("testKit", "testF", testGroup);
+    persist(testKit);
     testProtocol = ProtocolFactory.newProtocol()
         .name(TEST_PROTOCOL_NAME)
         .type(TEST_PROTOCOL_TYPE)
@@ -46,6 +51,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
         .reversePrimerConcentration("rpc")
         .reactionMixVolume("mixVolume")
         .reactionMixVolumePerTube("perTube")
+        .kit(testKit)
         .build();
     persist(testProtocol);
     
@@ -66,6 +72,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getReversePrimerConcentration(), entity.getReversePrimerConcentration());
     assertEquals(dto.getReactionMixVolume(), entity.getReactionMixVolume());
     assertEquals(dto.getReactionMixVolumePerTube(), entity.getReactionMixVolumePerTube());
+    assertEquals(dto.getKit().getProductId(), entity.getKit().getProductId());
   }
   
   @Before

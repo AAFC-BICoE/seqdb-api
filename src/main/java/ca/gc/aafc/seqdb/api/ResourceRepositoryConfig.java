@@ -349,6 +349,23 @@ public class ResourceRepositoryConfig {
 	        metaInformationProvider
 	    );
 	  }
+  
+  @Bean
+  public JpaRelationshipRepository<ProtocolDto, ProductDto> protocolToProductRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ProtocolDto.class,
+        ProductDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)
+            ),
+        metaInformationProvider
+    );
+  }
+      
 
    @Bean
   public JpaRelationshipRepository<ProtocolDto, ReactionComponentDto> protocolToReactionComponentRepository(

@@ -1,8 +1,9 @@
 package ca.gc.aafc.seqdb.api.dto;
 
- import java.util.List;
+import java.sql.Timestamp;
+import java.util.List;
 
- import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -38,9 +39,14 @@ public class ProtocolDto {
 	private String reactionMixVolume;
 
 	private String reactionMixVolumePerTube;
-
+	
+	private Timestamp lastModified;
+	
  	@JsonApiRelation(opposite="protocol")
 	private List <ReactionComponentDto> reactionComponents;
+ 	
+  @JsonApiRelation
+  private ProductDto kit;
 
  	@JsonApiRelation
 	private GroupDto group;

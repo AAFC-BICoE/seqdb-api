@@ -42,8 +42,7 @@ public class VocabularyReadOnlyRepository
           Group.class,
           Product.class,
           PcrProfile.class,
-          Protocol.class,
-          ReactionComponent.class
+          Protocol.class
     		  ));
 
 

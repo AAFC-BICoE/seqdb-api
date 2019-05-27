@@ -197,13 +197,13 @@
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
-      <artifactId>json-schema-validator</artifactId>
+      <artifactId>json-path</artifactId>
       <version>4.0.0</version>
       <scope>test</scope>
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
-	  <artifactId>json-path</artifactId>
+      <artifactId>json-schema-validator</artifactId>
       <version>4.0.0</version>
       <scope>test</scope>
 	</dependency>

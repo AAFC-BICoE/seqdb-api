@@ -26,21 +26,22 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
     // Expect status code 401 unauthorized, instead of 400 for illegal square brackets.
     assertEquals(401, response.getStatusLine().getStatusCode());
   }
-  
+
   @Test
-  public void sendRequestToRegionEndpoint_withAuthentication_statusCode200() throws ClientProtocolException, IOException {
+  public void sendRequestToRegionEndpoint_withAuthentication_statusCode200()
+       throws ClientProtocolException, IOException {
     HttpClient client = HttpClientBuilder.create().build();
     HttpGet request = new HttpGet("http://localhost:8080/api/region?page[limit]=10");
-    
+
     String auth = "Admin:Admin";
-    
+
     byte[] encodedAuth = Base64.encodeBase64(auth.getBytes());
     String authHeader = "Basic " + new String(encodedAuth);
     request.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
-    
+
     HttpResponse response = client.execute(request);
     // Expect status code 200 unauthorized.
     assertEquals(200, response.getStatusLine().getStatusCode());
   }
-  
+
 }

@@ -34,6 +34,7 @@
     <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
     <checkstyle.version>8.8</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
+    <rest-assured.version>4.0.0</rest-assured.version>
   </properties>
 
   <repositories>
@@ -192,26 +193,26 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>4.0.0</version>
+      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-path</artifactId>
-      <version>4.0.0</version>
+      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-schema-validator</artifactId>
-      <version>4.0.0</version>
+      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
     <dependency>
-		<groupId>io.rest-assured</groupId>
-		<artifactId>rest-assured-all</artifactId>
-		<version>4.0.0</version>
-		<scope>test</scope>
+      <groupId>io.rest-assured</groupId>
+	  <artifactId>rest-assured-all</artifactId>
+	  <version>${rest-assured.version}</version>
+	  <scope>test</scope>
 	</dependency>
   </dependencies>
 

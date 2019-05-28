@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 
 import io.crnk.core.engine.internal.utils.IOUtils;
 
@@ -21,11 +22,6 @@ import io.restassured.response.ValidatableResponse;
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 
 public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
-	
-	private static final int HTTP_OK = 200;
-	private static final int HTTP_NOT_FOUND = 404;
-	private static final int HTTP_NO_CONTENT = 204;
-	
 	
 	@Value("${local.server.port}")
 	protected int port;
@@ -68,7 +64,7 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 
 	protected ValidatableResponse testFindOne(String path) {
 		ValidatableResponse response = given().when().get(path).then()
-				.statusCode(HTTP_OK);
+				.statusCode(HttpStatus.OK.value());
 		return response;
 		//there is some issue with the schema includes reference to be parsed by Rest Assured API
 //		response.assertThat().body(matchesJsonSchema(jsonApiSchema));
@@ -76,12 +72,12 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 
 
 	protected void testFindOne_NotFound(String path) {
-		given().when().get(path).then().statusCode(HTTP_NOT_FOUND);
+		given().when().get(path).then().statusCode(HttpStatus.NOT_FOUND.value());
 	}
 
 	protected void testFindMany(String path) {
 		ValidatableResponse response = given().when().get(path).then()
-				.statusCode(HTTP_OK);
+				.statusCode(HttpStatus.OK.value());
 
 		String string = response.extract().asString();
 		System.out.println(string);
@@ -89,11 +85,12 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 	}
 
 	protected void testDelete(String path) {
-
-		given().contentType("application/json").when().delete(path).then().statusCode(HTTP_NO_CONTENT);
+		given().contentType("application/json")
+		.when().delete(path)
+		.then().statusCode(HttpStatus.NO_CONTENT.value());
 	}
 
-	protected int testCreate(String path, Map dataMap) {
+	protected int testCreate(String path, Map<String, Object> dataMap) {
 
 		Response response = given().contentType("application/vnd.api+json")
 				.body(dataMap).when().post(path);
@@ -104,12 +101,12 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 		return idInt;
 	}
 
-	protected ValidatableResponse testUpdate(String path, Map dataMap) {
+	protected ValidatableResponse testUpdate(String path, Map<String, Object> dataMap) {
 
 		Response response = given().contentType("application/vnd.api+json")
 				.body(dataMap).when().patch(path);
 		response.prettyPrint();
-		return response.then().statusCode(HTTP_OK); //status code Created.
+		return response.then().statusCode(HttpStatus.OK.value()); //status code Created.
 
 	}
 

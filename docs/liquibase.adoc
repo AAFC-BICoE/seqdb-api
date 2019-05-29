@@ -41,6 +41,10 @@ At project root folder:
 ----
 mvn liquibase:status
 ----
+
+A liquibase:update allows you to apply the changeLog to your current database schema. If you don't specify the context, all of the contexts will be applied. You can use the -Dliquibase.contexts property to change which contexts you are applying. The context list must be a comma separated list of all the contexts you wish to run. And you can also run single contexts such as the initial-cnc-data context.
+
+[source,bash]
 ----
-mvn liquibase:update
+mvn liquibase:update -Dliquibase.contexts="initial-data, schema-change, initial-cnc-data"
 ----

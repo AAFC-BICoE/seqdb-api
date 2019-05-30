@@ -90,7 +90,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   }
   
   @Test
-  public void findProtocol_whenFieldsAreSelected_protocolReturnedWithSelectedFieldsOnly() {
+  public void findProtocol_whenFieldsAreSelected_protocolReturnedWithSelectedFields() {
     // Searches for a protocol using entity's id and returns only the name and type
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "type"));

@@ -50,6 +50,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     return testComponent;
   }
   
+  // Asserts entity was passed to dto properly
   private void verifyComponent(ReactionComponent entity, ReactionComponentDto dto) {
     assertEquals(dto.getName(), entity.getName());
     assertEquals(dto.getConcentration(), entity.getConcentration());
@@ -64,31 +65,36 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   
   @Test
   public void findReactionComponent_whenNoFieldsAreSelected_reactionComponentReturnedWithAllFields() {
+    // Searches for a reactionComponent using entity's id
     ReactionComponentDto reactionComponentDto = componentRepository.findOne(testComponent.getReactionComponentId(), new QuerySpec(ReactionComponentDto.class));
     assertNotNull(reactionComponentDto);
+    // Verifies entity was passed to dto properly
     verifyComponent(testComponent, reactionComponentDto);
   }
   
   @Test
   public void findReactionComponent_whenFieldsAreSelected_reactionComponentReturnedWithSelectedFields() {
+    // Searches for a reactionComponent using entity's id and returns the name and protocol id
     QuerySpec querySpec = new QuerySpec(ReactionComponentDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "protocol"));
     
     ReactionComponentDto componentDto = componentRepository.findOne(testComponent.getReactionComponentId(), querySpec);
     assertNotNull(componentDto);
     assertEquals(TEST_COMPONENT_NAME, componentDto.getName());
-    assertNull(componentDto.getConcentration());
     assertEquals(testProtocol.getProtocolId(), componentDto.getProtocol().getProtocolId());
+    assertNull(componentDto.getConcentration());
     assertNull(componentDto.getQuantity());
   }
   
   @Test
   public void deleteReactionComponent_callRepositoryDeleteOnId_reactionComponentNotFound() {
+    // Removes reactionComponent and attempts to find it using entity's id
     componentRepository.delete(testComponent.getId());
     assertNull(entityManager.find(ReactionComponent.class, testComponent.getId()));
   }
   
   @Test(expected = ResourceNotFoundException.class)
+  // Attempts to find a reactionComponent that does not exist
   public void deleteReactionComponent_callRepositoryDeleteOnInvalidId_reactionComponentNotFound() {
     componentRepository.delete(123);
   }

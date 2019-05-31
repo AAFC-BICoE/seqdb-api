@@ -243,7 +243,7 @@ public class ResourceRepositoryConfig {
         Arrays.asList(
             simpleFilterHandler,
             rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("group"))
+            groupFilterFactory.create(root -> root.get("protocol").get("group"))
         ),
         metaInformationProvider
     );

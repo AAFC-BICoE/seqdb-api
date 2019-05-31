@@ -55,6 +55,26 @@ At project root folder:
 ----
 mvn liquibase:status
 ----
+
+To run all contexts you can use:
+
+[source,bash]
 ----
 mvn liquibase:update
+----
+
+You can also perform a specific context while running the update command:
+
+[source,bash]
+----
+mvn liquibase:update -Dliquibase.contexts="initial-data"
+----
+
+Note: You can run multiple contexts by using a comma separated list, for example: "initial-data, schema-change".
+
+You can also reset your database using the following command:
+
+[source,bash]
+----
+mvn liquibase:dropAll
 ----

@@ -8,5 +8,5 @@ import org.springframework.test.context.TestPropertySource;
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
     properties = "server.port=8080"
 )
-@TestPropertySource(properties="import-sample-accounts=true")
+
 public abstract class BaseHttpIntegrationTest extends BaseIntegrationTest { }

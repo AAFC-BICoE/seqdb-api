@@ -25,7 +25,7 @@ import io.restassured.response.ValidatableResponse;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 
-
+@TestPropertySource(properties="import-sample-accounts=true")
 public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 	
 	@Value("${local.server.port}")

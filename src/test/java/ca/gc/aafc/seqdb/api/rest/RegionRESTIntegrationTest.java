@@ -42,51 +42,50 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
 		testFindMany("/region");
 	}
 
-	@Test
-    public void testCreateTask() {
+  @Test
+  public void testCreateTask() {
 
-        Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-                .put("name", "test name").put("description", "test description")
-                .put("symbol", "test symbol").build();
+    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
+        .put("name", "test name").put("description", "test description")
+        .put("symbol", "test symbol").build();
 
-        Map dataMap = ImmutableMap.of("data",
-        		ImmutableMap.of("type", "region", "attributes", attributeMap));
-        int id  = testCreate("/region", dataMap);
+    Map<String, Object> dataMap = ImmutableMap.of("data",
+        ImmutableMap.of("type", "region", "attributes", attributeMap));
+    int id = testCreate("/region", dataMap);
 
-        testDelete("/region/"+id);
+    testDelete("/region/" + id);
+  }
 
-    }
+  @Test
+  public void testUpdateTask() {
+    // create new region
+    String updatedName = "updated name";
+    String updatedSymbol = "updated symbol";
+    String updatedDescription = "updated description";
+    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
+        .put("name", "test name").put("description", "test description")
+        .put("symbol", "test symbol").build();
 
-	@Test
-    public void testUpdateTask() {
-		//create new region
-		String updatedName = "updated name";
-		String updatedSymbol = "updated symbol";
-		String updatedDescription = "updated description";
-        Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-                .put("name", "test name").put("description", "test description")
-                .put("symbol", "test symbol").build();
+    Map<String, Object> dataMap = ImmutableMap.of("data",
+        ImmutableMap.of("type", "region", "attributes", attributeMap));
+    int id = testCreate("/region", dataMap);
 
-        Map dataMap = ImmutableMap.of("data", 
-        		ImmutableMap.of("type", "region", "attributes", attributeMap));
-        int id = testCreate("/region", dataMap);
+    // update
+    Map<String, Object> attributeMapUpdate = new ImmutableMap.Builder<String, Object>()
+        .put("name", updatedName).put("description", updatedDescription)
+        .put("symbol", updatedSymbol).build();
 
-        //update
-        Map<String, Object> attributeMapUpdate = new ImmutableMap.Builder<String, Object>()
-        		.put("name", updatedName).put("description", updatedDescription)
-                .put("symbol", updatedSymbol).build();
+    Map<String, Object> dataMapUpdate = ImmutableMap.of("data",
+        ImmutableMap.of("type", "region", "id", id, "attributes", attributeMapUpdate));
+    testUpdate("/region/" + id, dataMapUpdate);
 
-        Map dataMapUpdate = ImmutableMap.of("data", 
-        		ImmutableMap.of("type", "region", "id", id, "attributes", attributeMapUpdate));
-        testUpdate("/region/"+id, dataMapUpdate);
+    loadJsonApiSchema("json-schema/regionJSONSchema.json");
+    ValidatableResponse responseUpdate = testFindOne("/region/" + id);
 
-        loadJsonApiSchema("json-schema/regionJSONSchema.json");
-        ValidatableResponse responseUpdate = testFindOne("/region/"+id);
-
-        //verify
-        responseUpdate.body("data.attributes.name", equalTo(updatedName))
+    // verify
+    responseUpdate.body("data.attributes.name", equalTo(updatedName))
         .body("data.attributes.symbol", equalTo(updatedSymbol))
         .body("data.attributes.description", equalTo(updatedDescription));
-    }
+  }
 
 }

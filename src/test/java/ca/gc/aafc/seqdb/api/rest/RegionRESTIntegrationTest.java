@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.TestPropertySource;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -13,6 +14,7 @@ import io.restassured.response.ValidatableResponse;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+
 
 public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.TestPropertySource;
 
 import io.crnk.core.engine.internal.utils.IOUtils;
 
@@ -20,6 +21,7 @@ import io.restassured.response.ValidatableResponse;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 
+@TestPropertySource(properties="import-sample-accounts=true")
 public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 	
 	private static final int HTTP_OK = 200;

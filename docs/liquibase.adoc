@@ -4,7 +4,6 @@
 * Changelogs are source xml files that describe schema changes to the database. Liquibase maintains a "DATABASECHANGELOG" table in the same database to keep track of which changelogs have been executed. 
 * When the application starts, any changelogs that have not been executed are executed.
 
-
 http://www.liquibase.org/index.html[Liquibase home]
 
 http://www.liquibase.org/bestpractices.html[Liquibase Best Practices]
@@ -12,6 +11,21 @@ http://www.liquibase.org/bestpractices.html[Liquibase Best Practices]
 https://www.liquibase.org/documentation/changes/add_column.html[Change example: addColumn]
 
 https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquibase support to an existing database]
+
+== Liquibase Contexts
+
+When developing for SeqDB certain data is needed for the application to run properly and to make testing easier. Which is why we seperate our database migrations into categories known as contexts. The two main contexts are as follows:
+
+* schema-change
+** Changes to the schema such as adding new columns, changing table names, adding new tables.
+* initial-data
+** Test data for developers, this should not be ran on PROD/UAT since it's used for inserting test data for developers.
+
+For development purposes, it should automatically run the initial-data when running the application.
+
+For production/UAT purposes, the context can be changed by editing the application.yml file which has all of the liquibase configurations. The contexts are a comma separated list of all of the contexts to be performed.
+
+WARNING: Running initial-data on production/UAT will cause liquibase to fail. The initial-data should only be set when you want to create initial data for development purposes.
 
 == Liquibase migration file convention
 

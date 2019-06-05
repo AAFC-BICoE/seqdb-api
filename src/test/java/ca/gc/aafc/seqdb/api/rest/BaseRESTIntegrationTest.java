@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.test.context.TestPropertySource;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.springframework.http.HttpStatus;
 
 
@@ -27,6 +29,10 @@ import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 
 @TestPropertySource(properties="import-sample-accounts=true")
 public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
+  
+  public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
+  public static final String IT_BASE_URI = "http://localhost";
+  public static final String API_BASE_PATH = "/api";
 	
 	@Value("${local.server.port}")
 	protected int port;
@@ -36,15 +42,14 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 	@Before
 	public final void before() {
 		RestAssured.port = port;
-		RestAssured.baseURI = "http://localhost";
-		RestAssured.basePath = "/api";
+		RestAssured.baseURI = IT_BASE_URI;
+		RestAssured.basePath = API_BASE_PATH;
 		
 		//set basic auth with Admin/Admin
 		PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
 		authScheme.setUserName("User");
 		authScheme.setPassword("User");
 		RestAssured.authentication = authScheme;
-
 	}
 
 	protected void loadJsonApiSchema() {
@@ -75,6 +80,22 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 //		response.assertThat().body(matchesJsonSchema(jsonApiSchema));
 	}
 
+  protected static Map<String, Object> toJsonAPIMap(String typeName,
+      Map<String, Object> attributeMap) {
+    return toJsonAPIMap(typeName, attributeMap, null);
+  }
+
+  protected static Map<String, Object> toJsonAPIMap(String typeName,
+      Map<String, Object> attributeMap, Integer id) {
+    ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
+    bldr.put("type", typeName);
+    if (id != null) {
+      bldr.put("id", id);
+    }
+    bldr.put("attributes", attributeMap);
+
+    return ImmutableMap.of("data", bldr.build());
+  }
 
 	protected void testFindOne_NotFound(String path) {
 		given().when().get(path).then().statusCode(HttpStatus.NOT_FOUND.value());
@@ -97,7 +118,7 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 
 	protected int testCreate(String path, Map<String, Object> dataMap) {
 
-		Response response = given().contentType("application/vnd.api+json")
+		Response response = given().contentType(JSON_API_CONTENT_TYPE)
 				.body(dataMap).when().post(path);
 	    response.then().statusCode(201); //status code Created.
 		response.prettyPrint();
@@ -108,7 +129,7 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
 
 	protected ValidatableResponse testUpdate(String path, Map<String, Object> dataMap) {
 
-		Response response = given().contentType("application/vnd.api+json")
+		Response response = given().contentType(JSON_API_CONTENT_TYPE)
 				.body(dataMap).when().patch(path);
 		response.prettyPrint();
 		return response.then().statusCode(HttpStatus.OK.value()); //status code Created.

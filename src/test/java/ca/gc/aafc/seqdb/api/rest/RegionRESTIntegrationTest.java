@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.TestPropertySource;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -46,13 +45,11 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
   public void testCreateTask() {
 
     Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-        .put("name", "test name").put("description", "test description")
+        .put("name", "test name")
+        .put("description", "test description")
         .put("symbol", "test symbol").build();
-
-    Map<String, Object> dataMap = ImmutableMap.of("data",
-        ImmutableMap.of("type", "region", "attributes", attributeMap));
-    int id = testCreate("/region", dataMap);
-
+    
+    int id = testCreate("/region", toJsonAPIMap("region", attributeMap));
     testDelete("/region/" + id);
   }
 
@@ -63,21 +60,18 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
     String updatedSymbol = "updated symbol";
     String updatedDescription = "updated description";
     Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-        .put("name", "test name").put("description", "test description")
+        .put("name", "test name")
+        .put("description", "test description")
         .put("symbol", "test symbol").build();
 
-    Map<String, Object> dataMap = ImmutableMap.of("data",
-        ImmutableMap.of("type", "region", "attributes", attributeMap));
-    int id = testCreate("/region", dataMap);
+    int id = testCreate("/region", toJsonAPIMap("region", attributeMap));
 
     // update
     Map<String, Object> attributeMapUpdate = new ImmutableMap.Builder<String, Object>()
-        .put("name", updatedName).put("description", updatedDescription)
+        .put("name", updatedName)
+        .put("description", updatedDescription)
         .put("symbol", updatedSymbol).build();
-
-    Map<String, Object> dataMapUpdate = ImmutableMap.of("data",
-        ImmutableMap.of("type", "region", "id", id, "attributes", attributeMapUpdate));
-    testUpdate("/region/" + id, dataMapUpdate);
+    testUpdate("/region/" + id, toJsonAPIMap("region", attributeMapUpdate, id));
 
     loadJsonApiSchema("json-schema/regionJSONSchema.json");
     ValidatableResponse responseUpdate = testFindOne("/region/" + id);

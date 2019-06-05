@@ -9,16 +9,16 @@ import lombok.Data;
 @JsonApiResource(type = "reactionComponent")
 public class ReactionComponentDto {
 
-	@JsonApiId
-	private Integer reactionComponentId;
+  @JsonApiId
+  private Integer reactionComponentId;
 
-	private String name;
+  private String name;
 
-	private String concentration;
+  private String concentration;
 
-	private String quantity;
+  private String quantity;
 
-	@JsonApiRelation(opposite = "reactionComponents")
-	private ProtocolDto protocol;
+  @JsonApiRelation(opposite = "reactionComponents")
+  private ProtocolDto protocol;
 
 }

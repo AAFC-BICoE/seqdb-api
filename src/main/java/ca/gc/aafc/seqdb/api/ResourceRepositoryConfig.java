@@ -335,20 +335,18 @@ public class ResourceRepositoryConfig {
   }
   
   @Bean
-  public JpaRelationshipRepository<ProtocolDto, GroupDto> protocolToGroupRepository(
-	      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-	    return new JpaRelationshipRepository<>(
-	        ProtocolDto.class,
-	        GroupDto.class,
-	        dtoRepository,
-	        Arrays.asList(
-	            simpleFilterHandler,
-	            rsqlFilterHandler,
-	            groupFilterFactory.create(root -> (Path<Group>) root)
-	        ),
-	        metaInformationProvider
-	    );
-	  }
+  public JpaRelationshipRepository<ProtocolDto, GroupDto> protocolToGroupRepository(JpaDtoMapper dtoJpaMapper,
+      JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ProtocolDto.class, 
+        GroupDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
   
   @Bean
   public JpaRelationshipRepository<ProtocolDto, ProductDto> protocolToProductRepository(
@@ -369,33 +367,29 @@ public class ResourceRepositoryConfig {
 
    @Bean
   public JpaRelationshipRepository<ProtocolDto, ReactionComponentDto> protocolToReactionComponentRepository(
-	  JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository){
-	return new JpaRelationshipRepository<>(
-		ProtocolDto.class,
-		ReactionComponentDto.class,
-		dtoRepository,
-		Arrays.asList(
-				simpleFilterHandler,
-				rsqlFilterHandler,
-				groupFilterFactory.create(root -> (Path<Group>) root)
-				),
-			metaInformationProvider
-	);
+       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ProtocolDto.class, 
+        ReactionComponentDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
   }
 
-   @Bean
+  @Bean
   public JpaRelationshipRepository<ReactionComponentDto, ProtocolDto> ReactionComponentToProtocolRepository(
-	  JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository){
-	return new JpaRelationshipRepository<>(
-		ReactionComponentDto.class,
-		ProtocolDto.class,
-		dtoRepository,
-		Arrays.asList(
-				simpleFilterHandler,
-				rsqlFilterHandler,
-				groupFilterFactory.create(root -> (Path<Group>) root)
-				),
-			metaInformationProvider
-	);
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        ReactionComponentDto.class, 
+        ProtocolDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
   }
-}	
+}

@@ -1,12 +1,5 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Product;
@@ -16,6 +9,13 @@ import ca.gc.aafc.seqdb.factories.ProtocolFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
+
+import java.io.Serializable;
+
+import javax.inject.Inject;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
 
@@ -83,7 +83,8 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void findProtocol_whenNoFieldsAreSelected_protocolReturnedWithAllFields() {
     // Searches for a protocol using entity's id
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getProtocolId(), new QuerySpec(ProtocolDto.class));
+    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getProtocolId(),
+        new QuerySpec(ProtocolDto.class));
     assertNotNull(protocolDto);
     // Verifies entity was passed to dto properly
     verifyProtocol(testProtocol, protocolDto);
@@ -106,7 +107,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   
   @Test
   public void updateProtocol_whenSomeFieldsAreUpdated_protocolReturnedWithSelectedFieldsUpdated() {
-     // Get the test protocol DTO.
+    // Get the test protocol DTO.
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
 
     ProtocolDto protocolDto = protocolRepository.findOne(

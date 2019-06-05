@@ -1,22 +1,22 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
+import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.entities.ReactionComponent;
+import ca.gc.aafc.seqdb.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.factories.ReactionComponentFactory;
+import io.crnk.core.exception.ResourceNotFoundException;
+import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.repository.ResourceRepositoryV2;
+
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.ReactionComponent;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.factories.ProtocolFactory;
-import ca.gc.aafc.seqdb.factories.ReactionComponentFactory;
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
 
 public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   
@@ -66,7 +66,8 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void findReactionComponent_whenNoFieldsAreSelected_reactionComponentReturnedWithAllFields() {
     // Searches for a reactionComponent using entity's id
-    ReactionComponentDto reactionComponentDto = componentRepository.findOne(testComponent.getReactionComponentId(), new QuerySpec(ReactionComponentDto.class));
+    ReactionComponentDto reactionComponentDto = componentRepository
+        .findOne(testComponent.getReactionComponentId(), new QuerySpec(ReactionComponentDto.class));
     assertNotNull(reactionComponentDto);
     // Verifies entity was passed to dto properly
     verifyComponent(testComponent, reactionComponentDto);
@@ -78,7 +79,8 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ReactionComponentDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "protocol"));
     
-    ReactionComponentDto componentDto = componentRepository.findOne(testComponent.getReactionComponentId(), querySpec);
+    ReactionComponentDto componentDto = componentRepository
+        .findOne(testComponent.getReactionComponentId(), querySpec);
     assertNotNull(componentDto);
     assertEquals(TEST_COMPONENT_NAME, componentDto.getName());
     assertEquals(testProtocol.getProtocolId(), componentDto.getProtocol().getProtocolId());

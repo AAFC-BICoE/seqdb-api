@@ -1,53 +1,54 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
+
+import java.sql.Timestamp;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 @JsonApiResource(type = "protocol")
 public class ProtocolDto {
 
- 	@JsonApiId
-	private Integer protocolId;
+  @JsonApiId
+  private Integer protocolId;
 
- 	private ProtocolType type;
- 	
- 	private String name;
+  private ProtocolType type;
 
-	private String version;
+  private String name;
 
-	private String description;
+  private String version;
 
-	private String steps;
+  private String description;
 
-	private String notes;
+  private String steps;
 
-	private String reference;
+  private String notes;
 
-	private String equipment;
+  private String reference;
 
-	private String forwardPrimerConcentration;
+  private String equipment;
 
-	private String reversePrimerConcentration;
+  private String forwardPrimerConcentration;
 
-	private String reactionMixVolume;
+  private String reversePrimerConcentration;
 
-	private String reactionMixVolumePerTube;
-	
-	private Timestamp lastModified;
-	
- 	@JsonApiRelation(opposite="protocol")
-	private List <ReactionComponentDto> reactionComponents;
- 	
+  private String reactionMixVolume;
+
+  private String reactionMixVolumePerTube;
+
+  private Timestamp lastModified;
+
+  @JsonApiRelation(opposite = "protocol")
+  private List<ReactionComponentDto> reactionComponents;
+ 
   @JsonApiRelation
   private ProductDto kit;
 
- 	@JsonApiRelation
-	private GroupDto group;
+  @JsonApiRelation
+  private GroupDto group;
 }

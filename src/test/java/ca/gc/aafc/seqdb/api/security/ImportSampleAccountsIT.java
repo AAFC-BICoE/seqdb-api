@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -39,7 +43,7 @@ public class ImportSampleAccountsIT {
       assertEquals(Boolean.TRUE, adminPermission.getAdmin());
       
       Group adminGroup = adminPermission.getGroup();
-      assertEquals("Admin", adminGroup.getGroupName());
+      assertEquals("Admin Group", adminGroup.getGroupName());
       
       // Check User account data
       Account userAccount = accountRepository.findByAccountNameIgnoreCase("user");
@@ -52,7 +56,7 @@ public class ImportSampleAccountsIT {
       assertEquals(Boolean.TRUE, userPermission.getAdmin());
       
       Group userGroup = userPermission.getGroup();
-      assertEquals("User", userGroup.getGroupName());
+      assertEquals("User Group", userGroup.getGroupName());
     }
     
   }

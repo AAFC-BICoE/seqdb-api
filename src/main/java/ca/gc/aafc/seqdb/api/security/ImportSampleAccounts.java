@@ -2,12 +2,13 @@ package ca.gc.aafc.seqdb.api.security;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.service.GroupManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,64 +33,56 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ImportSampleAccounts implements ApplicationListener<ContextRefreshedEvent> {
 
-  private final EntityManagerFactory emf;
-  
+  private final EntityManager entityManager;  
   private final PasswordEncoder passwordEncoder;
-  
-  private Session session;
-  
-  private GroupManager groupManager;
-  
+    
   @Transactional
   @Override
   public void onApplicationEvent(ContextRefreshedEvent arg0) {
     log.info("Importing sample accounts...");
-    
-    session = emf.unwrap(SessionFactory.class).openSession();
-    groupManager = new GroupManager();
-    groupManager.setSessionFactory(session.getSessionFactory());
-    Transaction transaction = session.beginTransaction();
-    
+        
     Account adminAccount = new Account();
     adminAccount.setAccountName("Admin");
     adminAccount.setAccountPw(passwordEncoder.encode("Admin"));
-    adminAccount.setAccountType("Admin");
+    adminAccount.setAccountType(Account.Type.ADMIN.toString());
     adminAccount.setAccountStatus("Active");
-    session.persist(adminAccount);
-    
-    Group adminGroup = new Group();
-    adminGroup.setGroupName("Admin");
-    session.persist(adminGroup);
+    entityManager.persist(adminAccount);
     
     AccountsGroup adminPermissions = new AccountsGroup();
     adminPermissions.setAccount(adminAccount);
-    adminPermissions.setGroup(adminGroup);
+    adminPermissions.setGroup(retrieveGroup("Admin Group"));
     adminPermissions.setRights("1111");
     adminPermissions.setAdmin(true);
-    session.persist(adminPermissions);
+    entityManager.persist(adminPermissions);
     
     Account userAccount = new Account();
     userAccount.setAccountName("User");
     userAccount.setAccountPw(passwordEncoder.encode("User"));
-    userAccount.setAccountType("User");
+    userAccount.setAccountType(Account.Type.USER.toString());
     userAccount.setAccountStatus("Active");
-    session.persist(userAccount);
-    
-    Group userGroup = new Group();
-    userGroup.setGroupName("User");
-    session.persist(userGroup);
+    entityManager.persist(userAccount);
     
     AccountsGroup userPermissions = new AccountsGroup();
     userPermissions.setAccount(userAccount);
-    userPermissions.setGroup(userGroup);
+    userPermissions.setGroup(retrieveGroup("User Group"));
     userPermissions.setRights("1111");
     userPermissions.setAdmin(true);
-    session.persist(userPermissions);
-    
-    transaction.commit();
-    session.close();
-    
+    entityManager.persist(userPermissions);
+        
     log.info("Imported sample accounts.");
+  }
+  
+  private Group retrieveGroup(String groupName) {
+    
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Group> criteria = criteriaBuilder.createQuery(Group.class);
+    Root<Group> root = criteria.from(Group.class);
+    
+    criteria.where(criteriaBuilder.equal(root.get("groupName"), groupName));
+    criteria.select(root);
+    
+    TypedQuery<Group> query = entityManager.createQuery(criteria);
+    return query.getSingleResult();
   }
 
 }

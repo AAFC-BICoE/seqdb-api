@@ -21,6 +21,8 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
     defaultSchema: seqdb
+    # on existing database use "schema-change" only
+    contexts: schema-change, initial-data
 crnk:
   pathPrefix: /api
   domainName: ""

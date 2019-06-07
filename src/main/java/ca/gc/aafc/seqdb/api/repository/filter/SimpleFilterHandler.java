@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository.handlers;
+package ca.gc.aafc.seqdb.api.repository.filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 
+import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.NonNull;
@@ -34,17 +36,19 @@ public class SimpleFilterHandler implements FilterHandler {
       CriteriaQuery<?> query,
       CriteriaBuilder cb
   ) {
-
     List<FilterSpec> filterSpecs = querySpec.getFilters();
     List<Predicate> predicates = new ArrayList<>();
 
     for (FilterSpec filterSpec : filterSpecs) {
-      predicates.add(
-          cb.equal(
-              this.selectionHandler.getExpression(root, filterSpec.getAttributePath()),
-              (Object) filterSpec.getValue()
-          )
-      );
+      Expression<?> attributePath;
+      try {
+        attributePath = this.selectionHandler.getExpression(root, filterSpec.getAttributePath());
+      } catch(IllegalArgumentException e) {
+        // This FilterHandler will ignore filter parameters that do not map to fields on the DTO,
+        // like "rsql" or others that are only handled by other FilterHandlers.
+        continue;
+      }
+      predicates.add(cb.equal(attributePath, (Object) filterSpec.getValue()));
     }
 
     return cb.and(predicates.stream().toArray(Predicate[]::new));

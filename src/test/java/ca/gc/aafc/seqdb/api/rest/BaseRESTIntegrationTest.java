@@ -34,14 +34,11 @@ public abstract class BaseRESTIntegrationTest extends BaseHttpIntegrationTest {
   public static final String IT_BASE_URI = "http://localhost";
   public static final String API_BASE_PATH = "/api";
 	
-	@Value("${local.server.port}")
-	protected int port;
-
 	protected String jsonApiSchema;
 
 	@Before
 	public final void before() {
-		RestAssured.port = port;
+		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI;
 		RestAssured.basePath = API_BASE_PATH;
 		

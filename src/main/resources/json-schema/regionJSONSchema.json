@@ -15,7 +15,7 @@
                 },
                 "attributes":{
 		          	"allOf": [
-		          		{ "$ref": "regionJSONSchema.json#definitions/region.json" }
+		          		{ "$ref": "definitions/region.json" }
 		          	]
                 }
             }

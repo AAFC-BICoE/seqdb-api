@@ -19,7 +19,7 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
 
 	@Before
 	public final void setup() {
-		RestAssured.port = port;
+		RestAssured.port = testPort;
 		//load regionJSONSchema schema
 		loadJsonApiSchema("json-schema/GETregionJSONSchema.json");
 	}

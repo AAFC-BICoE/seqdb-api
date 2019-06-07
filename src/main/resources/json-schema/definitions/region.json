@@ -1,5 +1,4 @@
 {
-	"id": "resource:/path/within/your/maven/resources/folder/commonsMixed.json#",
 	"type": "object",
     "description": "the properties of the region.",
     "required": [

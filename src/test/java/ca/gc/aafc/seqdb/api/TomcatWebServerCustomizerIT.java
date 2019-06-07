@@ -23,7 +23,7 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
   @Test
   public void sendRequestToRegionEndpoint_whenUrlHasSquareBrackets_statusCode401() throws ClientProtocolException, IOException {
     HttpClient client = HttpClientBuilder.create().build();
-    HttpGet request = new HttpGet("http://localhost:8080/api/region?page[limit]=10");
+    HttpGet request = new HttpGet("http://localhost:"+ testPort + "/api/region?page[limit]=10");
     HttpResponse response = client.execute(request);
     // Expect status code 401 unauthorized, instead of 400 for illegal square brackets.
     assertEquals(401, response.getStatusLine().getStatusCode());
@@ -33,7 +33,7 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
   public void sendRequestToRegionEndpoint_withAuthentication_statusCode200()
        throws ClientProtocolException, IOException {
     HttpClient client = HttpClientBuilder.create().build();
-    HttpGet request = new HttpGet("http://localhost:8080/api/region?page[limit]=10");
+    HttpGet request = new HttpGet("http://localhost:" + testPort + "/api/region?page[limit]=10");
 
     String auth = "Admin:Admin";
 

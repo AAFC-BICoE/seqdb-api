@@ -33,6 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ImportSampleAccounts implements ApplicationListener<ContextRefreshedEvent> {
 
+  public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
+  public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
+  
   private final EntityManager entityManager;  
   private final PasswordEncoder passwordEncoder;
     
@@ -42,10 +45,10 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
     log.info("Importing sample accounts...");
         
     Account adminAccount = new Account();
-    adminAccount.setAccountName("Admin");
-    adminAccount.setAccountPw(passwordEncoder.encode("Admin"));
+    adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
+    adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
     adminAccount.setAccountType(Account.Type.ADMIN.toString());
-    adminAccount.setAccountStatus("Active");
+    adminAccount.setAccountStatus(Account.Status.ACTIVE.toString());
     entityManager.persist(adminAccount);
     
     AccountsGroup adminPermissions = new AccountsGroup();
@@ -56,10 +59,10 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
     entityManager.persist(adminPermissions);
     
     Account userAccount = new Account();
-    userAccount.setAccountName("User");
-    userAccount.setAccountPw(passwordEncoder.encode("User"));
+    userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
+    userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
     userAccount.setAccountType(Account.Type.USER.toString());
-    userAccount.setAccountStatus("Active");
+    userAccount.setAccountStatus(Account.Status.ACTIVE.toString());
     entityManager.persist(userAccount);
     
     AccountsGroup userPermissions = new AccountsGroup();
@@ -72,8 +75,12 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
     log.info("Imported sample accounts.");
   }
   
+  /**
+   * Retrieve a group that is already persisted in the database (usually by Liquibase initial-data)
+   * @param groupName case sensitive groupName
+   * @return
+   */
   private Group retrieveGroup(String groupName) {
-    
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Group> criteria = criteriaBuilder.createQuery(Group.class);
     Root<Group> root = criteria.from(Group.class);

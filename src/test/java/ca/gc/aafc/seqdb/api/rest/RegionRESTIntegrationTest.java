@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.rest;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Before;
@@ -17,40 +18,27 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
 
-	@Before
-	public final void setup() {
-		RestAssured.port = testPort;
-		//load regionJSONSchema schema
-		loadJsonApiSchema("json-schema/GETregionJSONSchema.json");
-	}
+  @Override
+  protected String getResourceUnderTest() {
+    return "region";
+  }
+  
+  @Override
+  protected String getGetOneSchemaFilename() {
+    return "regionJSONSchema.json";
+  }
 
-	@Test
-    public void testFindOne_NotFound() {
-        testFindOne_NotFound("/region/0");
-	}
-
-	@Test
-    public void testFindOne_Found() {
-		loadJsonApiSchema("json-schema/regionJSONSchema.json");
-		testFindOne("/region/1");
-	}
-
-	@Test
-	public void testFindMany() {
-		loadJsonApiSchema("json-schema/GETregionJSONSchema.json");
-		testFindMany("/region");
-	}
-
-  @Test
-  public void testCreateTask() {
-
-    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-        .put("name", "test name")
+  @Override
+  protected String getGetManySchemaFilename() {
+    return "GETregionJSONSchema.json";
+  }
+  
+  @Override
+  protected Map<String, Object> buildCreateAttributeMap() {
+    return new ImmutableMap.Builder<String, Object>()
+        .put("name", "test region")
         .put("description", "test description")
         .put("symbol", "test symbol").build();
-    
-    int id = testCreate("/region", toJsonAPIMap("region", attributeMap));
-    testDelete("/region/" + id);
   }
 
   @Test
@@ -59,12 +47,8 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
     String updatedName = "updated name";
     String updatedSymbol = "updated symbol";
     String updatedDescription = "updated description";
-    Map<String, Object> attributeMap = new ImmutableMap.Builder<String, Object>()
-        .put("name", "test name")
-        .put("description", "test description")
-        .put("symbol", "test symbol").build();
 
-    int id = testCreate("/region", toJsonAPIMap("region", attributeMap));
+    int id = sendPost(toJsonAPIMap("region", buildCreateAttributeMap()));
 
     // update
     Map<String, Object> attributeMapUpdate = new ImmutableMap.Builder<String, Object>()
@@ -73,8 +57,7 @@ public class RegionRESTIntegrationTest extends BaseRESTIntegrationTest {
         .put("symbol", updatedSymbol).build();
     testUpdate("/region/" + id, toJsonAPIMap("region", attributeMapUpdate, id));
 
-    loadJsonApiSchema("json-schema/regionJSONSchema.json");
-    ValidatableResponse responseUpdate = testFindOne("/region/" + id);
+    ValidatableResponse responseUpdate = sendGet(id);
 
     // verify
     responseUpdate.body("data.attributes.name", equalTo(updatedName))

@@ -1,8 +1,11 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -43,36 +46,46 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   @Override
   public void onApplicationEvent(ContextRefreshedEvent arg0) {
     log.info("Importing sample accounts...");
-        
-    Account adminAccount = new Account();
-    adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
-    adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
-    adminAccount.setAccountType(Account.Type.ADMIN.toString());
-    adminAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-    entityManager.persist(adminAccount);
     
-    AccountsGroup adminPermissions = new AccountsGroup();
-    adminPermissions.setAccount(adminAccount);
-    adminPermissions.setGroup(retrieveGroup("Admin Group"));
-    adminPermissions.setRights("1111");
-    adminPermissions.setAdmin(true);
-    entityManager.persist(adminPermissions);
+    if(!retrieveAccount(IMPORTED_ADMIN_ACCOUNT_NAME).isPresent()) {
+      Account adminAccount = new Account();
+      adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
+      adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
+      adminAccount.setAccountType(Account.Type.ADMIN.toString());
+      adminAccount.setAccountStatus(Account.Status.ACTIVE.toString());
+      entityManager.persist(adminAccount);
+      
+      AccountsGroup adminPermissions = new AccountsGroup();
+      adminPermissions.setAccount(adminAccount);
+      adminPermissions.setGroup(retrieveGroup("Admin Group"));
+      adminPermissions.setRights("1111");
+      adminPermissions.setAdmin(true);
+      entityManager.persist(adminPermissions);
+      log.info("Admin sample account imported.");
+    }
+    else {
+      log.info("Admin account already exist. Skipping.");
+    }
     
-    Account userAccount = new Account();
-    userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
-    userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
-    userAccount.setAccountType(Account.Type.USER.toString());
-    userAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-    entityManager.persist(userAccount);
-    
-    AccountsGroup userPermissions = new AccountsGroup();
-    userPermissions.setAccount(userAccount);
-    userPermissions.setGroup(retrieveGroup("User Group"));
-    userPermissions.setRights("1111");
-    userPermissions.setAdmin(true);
-    entityManager.persist(userPermissions);
-        
-    log.info("Imported sample accounts.");
+    if(!retrieveAccount(IMPORTED_USER_ACCOUNT_NAME).isPresent()) {
+      Account userAccount = new Account();
+      userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
+      userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
+      userAccount.setAccountType(Account.Type.USER.toString());
+      userAccount.setAccountStatus(Account.Status.ACTIVE.toString());
+      entityManager.persist(userAccount);
+      
+      AccountsGroup userPermissions = new AccountsGroup();
+      userPermissions.setAccount(userAccount);
+      userPermissions.setGroup(retrieveGroup("User Group"));
+      userPermissions.setRights("1111");
+      userPermissions.setAdmin(true);
+      entityManager.persist(userPermissions);
+      log.info("User sample account imported.");
+    }
+    else {
+      log.info("User account already exist. Skipping.");
+    }
   }
   
   /**
@@ -90,6 +103,24 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
     
     TypedQuery<Group> query = entityManager.createQuery(criteria);
     return query.getSingleResult();
+  }
+  
+  private Optional<Account> retrieveAccount(String accountName) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+    Root<Account> root = criteria.from(Account.class);
+    
+    criteria.where(criteriaBuilder.equal(root.get("accountName"), accountName));
+    criteria.select(root);
+    
+    TypedQuery<Account> query = entityManager.createQuery(criteria);
+    try {
+      return Optional.of(query.getSingleResult());
+    }
+    catch (NoResultException ex) {
+      return Optional.empty();
+    }
+    
   }
 
 }

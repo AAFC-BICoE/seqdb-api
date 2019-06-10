@@ -17,6 +17,7 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
+import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Region;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -39,7 +40,9 @@ public class VocabularyReadOnlyRepository
           PcrReaction.class, 
           Group.class,
           Product.class,
-          PcrProfile.class));
+          PcrProfile.class,
+          Protocol.class
+         ));
 
 
   private static final Map<String, BaseVocabularyDto> ENUM_MAP = initVocabulariesMap();

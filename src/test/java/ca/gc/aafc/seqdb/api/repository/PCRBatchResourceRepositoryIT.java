@@ -8,7 +8,6 @@ public class PCRBatchResourceRepositoryIT {
 
   @Test
   public void listRegion_APIResponse_schemaValidates() throws IOException {
-
     JsonSchemaAssertions.assertJsonSchema(
         BaseRepositoryTest.newClasspathResourceReader("json-schema/GETpcrbatchJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realPcrbatchResponse-all.json"));

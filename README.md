@@ -27,4 +27,4 @@ To generate the complete documentation:
 mvn clean compile
 ```
 
-The sinlge HTML page will be available at `target/generated-docs/index.hml`
+The single HTML page will be available at `target/generated-docs/index.html`

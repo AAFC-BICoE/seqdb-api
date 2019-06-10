@@ -1,0 +1,43 @@
+{
+	"data":{
+		"id": "1",
+		"type" : "protocol",
+		"attributes" : {
+			"name" : "testProtocol",
+			"type" : "SEQ_REACTION",
+			"version" : "A",
+			"description" : "testDescription",
+			"steps" : "a few of them",
+			"notes" : "some notes",
+			"reference" : "some reference",
+			"equipment" : "pogo stick",
+			"forwardPrimerConcentration" : "frontFlip",
+			"reversePrimerConcentration" : "backFlip",
+			"reactionMixVolume" : "testVolume",
+			"reactionMixVolumePerTube" : "testTube"
+    },
+    "relationships" : {
+    	"reactionComponents" :{
+    		"links" : {
+    			"self" : "/api/protocol/1/relationships/reactionComponents",
+    			"related": "/api/protocol/1/reactionComponents"
+    		}
+    	},
+    	"kit" : {
+    		"links" : {
+    			"self" : "/api/protocol/1/relationshps/kit",
+    			"related" : "/api/protocol/1/kit"
+    		}
+    	},
+    	"group" : {
+    		"links" : {
+    			"self" : "/api/protocol/1/relationships/group",
+				"related" : "/api/protocol/1/group"
+    		}
+    	}
+    },
+    "links" : {
+    	"self" : "/api/protocol/1"
+    }
+  }
+}

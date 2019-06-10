@@ -89,7 +89,7 @@
 	    },
 
 		"kit" : {
-			"type" : "product",
+			"type" : "object",
 			"description" : "The kit used to perform the sequencing",
 			"examples" : ["Macherey-Nagel NucleoMag 96 Trace"]
 		}

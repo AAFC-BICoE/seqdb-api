@@ -10,6 +10,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.inject.Inject;
@@ -137,4 +138,17 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     protocolRepository.delete(999);
   }
   
+  @Test
+  public void listProtocol_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETprotocolJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse-all.json"));
+  }
+
+  @Test
+  public void getProtocol_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/protocolJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse.json"));
+  } 
 }

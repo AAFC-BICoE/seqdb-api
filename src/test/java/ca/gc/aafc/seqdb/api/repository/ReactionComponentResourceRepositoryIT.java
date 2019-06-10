@@ -11,6 +11,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.inject.Inject;
@@ -101,5 +102,18 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     componentRepository.delete(123);
   }
   
+  @Test
+  public void listReactionComponent_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETreactionComponentJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse-all.json"));
+  }
+
+  @Test
+  public void getReactionComponent_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/reactionComponentJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse.json"));
+  } 
   
 }

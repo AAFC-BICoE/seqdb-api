@@ -87,6 +87,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 	protected abstract Map<String, Object> buildCreateAttributeMap();
 	
 	protected abstract Map<String, Object> buildUpdateAttributeMap();
+	
+	protected abstract Map<String, Object> buildRelationshipMap();
 
 	/**
 	 * Load a JSON Schema as String.
@@ -108,8 +110,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @param attributeMap
    * @return
    */
-  protected Map<String, Object> toJsonAPIMap(Map<String, Object> attributeMap) {
-    return toJsonAPIMap(getResourceUnderTest(), attributeMap, null);
+  protected Map<String, Object> toJsonAPIMap(Map<String, Object> attributeMap, Map<String, Object> relationshipMap) {
+    return toJsonAPIMap(getResourceUnderTest(), attributeMap, relationshipMap, null);
   }
 
   /**
@@ -124,13 +126,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected static Map<String, Object> toJsonAPIMap(String typeName,
-      Map<String, Object> attributeMap, Integer id) {
+      Map<String, Object> attributeMap, Map<String, Object> relationshipMap, Integer id) {
     ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
     bldr.put("type", typeName);
     if (id != null) {
       bldr.put("id", id);
     }
     bldr.put("attributes", attributeMap);
+    if(relationshipMap != null) {
+      bldr.put("relationships", relationshipMap);
+    }
     return ImmutableMap.of("data", bldr.build());
   }
 
@@ -146,7 +151,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
   @Test
   public void resourceUnderTest_whenIdExists_returnOkAndBody() {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     ValidatableResponse response = given().when()
         .get(getResourceUnderTest() + "/" + id)
         .then().statusCode(HttpStatus.OK.value());
@@ -162,8 +167,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
 	@Test
   public void resourceUnderTest_whenMultipleResources_returnOkAndBody() throws IOException {
-	  int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-	  int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+	  int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+	  int id2 = sendPost(toJsonAPIMap(buildUpdateAttributeMap(), buildRelationshipMap()));
 	  
     ValidatableResponse response = given().when()
         .get(getResourceUnderTest())
@@ -178,19 +183,19 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 
   @Test
   public void resourceUnderTest_whenDeleteExisting_returnNoContent() {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     sendDelete(id);
   }
   
   @Test
   public void resourceUnderTest_whenUpdating_returnOkAndResourceIsUpdated() {
     // Setup: create an resource
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     
     Map<String, Object> updatedAttributeMap = buildUpdateAttributeMap();
 
     // update the resource
-    sendPatch(id, toJsonAPIMap(getResourceUnderTest(), updatedAttributeMap, id));
+    sendPatch(id, toJsonAPIMap(getResourceUnderTest(), updatedAttributeMap, buildRelationshipMap(), id));
 
     ValidatableResponse responseUpdate = sendGet(id);
 
@@ -203,7 +208,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     //cleanup
     sendDelete(id);
   }
-  
+
   /**
    * Sends a GET to the resource under test for the provided id. Asserts that it returns HTTP OK 200 and
    * returns the response as {@link ValidatableResponse}

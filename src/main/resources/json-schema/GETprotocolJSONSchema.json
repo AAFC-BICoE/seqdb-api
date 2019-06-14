@@ -32,13 +32,11 @@
                         "const": "protocol",
                         "description": "The type of data being returned."
                     },
-
-                    "attributes": {
-			          	"allOf": [
-			          		{ "$ref": "definitions/protocol.json" }
-			          	]
+                   "attribute": {
+  			          	"allOf": [
+  			          		  { "$ref": "definitions/protocol.json" }
+  			          	  ]
                     },
-
                     "relationships": {
                         "$comment": "Contains all of the relationships that is possible with Protocol objects.",
                         "type": "object",

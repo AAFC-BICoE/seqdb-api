@@ -14,10 +14,12 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,14 +31,16 @@ import lombok.extern.slf4j.Slf4j;
 @Named
 @ConditionalOnProperty(value = "import-sample-accounts", havingValue = "true")
 @Slf4j
-@RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ImportSampleAccounts implements ApplicationListener<ContextRefreshedEvent> {
 
   public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
   public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
 
-  private final EntityManager entityManager;
-  private final PasswordEncoder passwordEncoder;
+  @Inject
+  private EntityManager entityManager;
+  
+  @Inject
+  private PasswordEncoder passwordEncoder;
 
   @Transactional
   @Override
@@ -89,7 +93,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
    *          case sensitive groupName
    * @return
    */
-  private Group retrieveGroup(String groupName) {
+  protected Group retrieveGroup(String groupName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Group> criteria = criteriaBuilder.createQuery(Group.class);
     Root<Group> root = criteria.from(Group.class);
@@ -107,7 +111,8 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
    * @param accountName
    * @return
    */
-  private boolean accountExists(String accountName) {
+  @VisibleForTesting
+  protected boolean accountExists(String accountName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
     Root<Account> root = criteria.from(Account.class);

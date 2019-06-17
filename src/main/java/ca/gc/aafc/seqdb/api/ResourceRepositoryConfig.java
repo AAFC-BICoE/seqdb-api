@@ -10,6 +10,7 @@ import javax.persistence.criteria.Path;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
@@ -22,10 +23,9 @@ import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.JpaRelationshipRepository;
-import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
+import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
@@ -46,6 +46,7 @@ import io.crnk.operations.server.TransactionOperationFilter;
 import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
+@ComponentScan
 @EntityScan("ca.gc.aafc.seqdb.entities")
 // Must explicitly depend on "querySpecUrlMapper" so Spring can inject it into this class'
 // initQuerySpecUrlMapper method.
@@ -121,38 +122,10 @@ public class ResourceRepositoryConfig {
   }
   
   @Bean
-  public JpaResourceRepository<ProtocolDto> protocolRepository(JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(
-        ProtocolDto.class,
-        dtoRepository,
-        Arrays.asList(
-            simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("group"))
-        ),
-        metaInformationProvider
-    );
-  }
-  
-  @Bean
-  public JpaResourceRepository<ReactionComponentDto> reactionComponentRepository(JpaDtoRepository dtoRepository) {
-    return new JpaResourceRepository<>(
-        ReactionComponentDto.class,
-        dtoRepository,
-        Arrays.asList(
-            simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("protocol").get("group"))
-        ),
-        metaInformationProvider
-    );
-  }
-  
-  @Bean
   public VocabularyReadOnlyRepository vocabularyDto(){
     return new VocabularyReadOnlyRepository();
   }
-
+  
   @Bean
   public JpaRelationshipRepository<PcrPrimerDto, RegionDto> primerToRegionRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -261,8 +234,7 @@ public class ResourceRepositoryConfig {
             ),
         metaInformationProvider
     );
-  }
-      
+  }  
 
    @Bean
   public JpaRelationshipRepository<ProtocolDto, ReactionComponentDto> protocolToReactionComponentRepository(

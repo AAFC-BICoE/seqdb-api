@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.User;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
@@ -70,6 +71,17 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     entityManager.persist(objectToPersist);
     // New primer must have an ID.
     assertNotNull(objectToPersist.getId());
+  }
+  
+  /**
+   * Persists a group
+   * 
+   * @param the group to persist
+   */
+  protected void persistGroup(Group groupToPersist) {
+    assertNull(groupToPersist.getGroupId());
+    entityManager.persist(groupToPersist);
+    assertNotNull(groupToPersist.getGroupId());
   }
 
   

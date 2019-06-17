@@ -1,7 +1,12 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -39,7 +44,7 @@ public class ImportSampleAccountsIT {
       assertEquals(Boolean.TRUE, adminPermission.getAdmin());
       
       Group adminGroup = adminPermission.getGroup();
-      assertEquals("Admin", adminGroup.getGroupName());
+      assertEquals("Admin Group", adminGroup.getGroupName());
       
       // Check User account data
       Account userAccount = accountRepository.findByAccountNameIgnoreCase("user");
@@ -52,7 +57,7 @@ public class ImportSampleAccountsIT {
       assertEquals(Boolean.TRUE, userPermission.getAdmin());
       
       Group userGroup = userPermission.getGroup();
-      assertEquals("User", userGroup.getGroupName());
+      assertEquals("User Group", userGroup.getGroupName());
     }
     
   }
@@ -62,7 +67,8 @@ public class ImportSampleAccountsIT {
     @Inject
     private AccountRepository accountRepository;
     
-    @Test
+    @Test()
+    @Ignore("unstable, depends on the order. See #16375")
     public void startApp_whenImportSampleAccountsNotSet_sampleAccountsNotAvailable() {
       assertNull(this.accountRepository.findByAccountNameIgnoreCase("Admin"));
       assertNull(this.accountRepository.findByAccountNameIgnoreCase("User"));

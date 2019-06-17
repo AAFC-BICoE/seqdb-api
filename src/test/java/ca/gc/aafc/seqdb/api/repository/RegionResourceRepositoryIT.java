@@ -10,14 +10,14 @@ public class RegionResourceRepositoryIT {
   public void listRegion_APIResponse_schemaValidates() throws IOException {
 
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETregionJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETregionJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realRegionResponse-all.json"));
   }
 
   @Test
   public void getRegion_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/regionJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/regionJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realRegionResponse.json"));
   }
 }

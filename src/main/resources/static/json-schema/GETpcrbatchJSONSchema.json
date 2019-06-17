@@ -1,5 +1,5 @@
 {
-    "$id": "json-schema/GETpcrbatchJSONSchema.json",
+    "$id": "static/json-schema/GETpcrbatchJSONSchema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "The PCR Batch GET Response Schema",
     "description": "The schema for the GET response to retrieve an array of PcrBatches",

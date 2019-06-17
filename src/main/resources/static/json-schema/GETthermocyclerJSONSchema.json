@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "json-schema/GETthermocyclerJSONSchema.json",
+    "$id": "static/json-schema/GETthermocyclerJSONSchema.json",
     "title": "The ThermocyclerProfile GET Response Schema",
     "description": "The schema for the GET request response for thermocyclers",
     "base": "http://localhost:8080/api",

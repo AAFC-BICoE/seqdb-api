@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "json-schema/pcrbatchJSONSchema.json",
+  "$id": "static/json-schema/pcrbatchJSONSchema.json",
   "$base": "https://localhost:8080/api/",
   "title": "Single PcrBatch Schema",
   "type": "object",

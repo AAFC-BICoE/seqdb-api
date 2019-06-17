@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,6 +28,14 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.exception.MethodNotAllowedException;
 
+/**
+ * An in memory alternative for the Entity Manager. Emulates some of the behavior such as persisting
+ * and deleting to use an ArrayList instead. Also adds a bunch of utility classes to be used when testing
+ * it out to be able to test what is in the database.
+ * 
+ * This class will try to determine what the id property is by using the @id annotation, but if it cannot be
+ * found you can register the property using the registerKeyProperty method.
+ */
 public class MapBackedEntityManager implements EntityManager {
 
   /**
@@ -49,6 +56,9 @@ public class MapBackedEntityManager implements EntityManager {
    */
   private final Map<Class<?>, String> entityIdProperty = new HashMap<>();
   
+  /**
+   * Sequentially generated ID to provide for the entity.
+   */
   private final AtomicInteger idGenerator = new AtomicInteger(0);
   
   /**
@@ -64,7 +74,7 @@ public class MapBackedEntityManager implements EntityManager {
    * @throws IllegalStateException
    *           if there is more than one method with the {@link @Id} annotation
    */
-  private static final String retreiveEntityIdFieldName(Class<?> clazz)
+  private static String retreiveEntityIdFieldName(Class<?> clazz)
       throws IllegalStateException {
 
     List<Method> methodAnnotatedWithId = MethodUtils.getMethodsListWithAnnotation(clazz, Id.class);
@@ -243,7 +253,7 @@ public class MapBackedEntityManager implements EntityManager {
    */
   @Override
   public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode) {
-    throw new UnsupportedOperationException("The find method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("find (entityClass, primaryKey, lockMode)"));
   }
 
   /**
@@ -252,260 +262,361 @@ public class MapBackedEntityManager implements EntityManager {
   @Override
   public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode,
       Map<String, Object> properties) {
-    throw new UnsupportedOperationException("The find method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("find (entityClass, primaryKey, lockMode, properties)"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> T getReference(Class<T> entityClass, Object primaryKey) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getReference"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void flush() {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("flush"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void setFlushMode(FlushModeType flushMode) {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("getFlushMode"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public FlushModeType getFlushMode() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getFlushMode"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void lock(Object entity, LockModeType lockMode) {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("lock"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void lock(Object entity, LockModeType lockMode, Map<String, Object> properties) {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("lock"));
   }
 
+  /**
+   * Refreshes the instances of the database. Since we using an in memory entity manager, no action is required here.
+   */
   @Override
   public void refresh(Object entity) {
     // Don't do anything. No operation.
   }
 
+  /**
+   * Refreshes the instances of the database. Since we using an in memory entity manager, no action is required here.
+   */
   @Override
   public void refresh(Object entity, Map<String, Object> properties) {
     // Don't do anything. No operation.
   }
 
+  /**
+   * Refreshes the instances of the database. Since we using an in memory entity manager, no action is required here.
+   */
   @Override
   public void refresh(Object entity, LockModeType lockMode) {
     // Don't do anything. No operation.
   }
 
+  /**
+   * Refreshes the instances of the database. Since we using an in memory entity manager, no action is required here.
+   */
   @Override
   public void refresh(Object entity, LockModeType lockMode, Map<String, Object> properties) {
     // Don't do anything. No operation.
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void clear() {
-    // Don't do anything. No operation.
+    throw new UnsupportedOperationException(unsupportedMessage("clear"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void detach(Object entity) {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("detach"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public boolean contains(Object entity) {
-    // TODO Auto-generated method stub
-    return false;
+    throw new UnsupportedOperationException(unsupportedMessage("contains"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public LockModeType getLockMode(Object entity) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getLockMode"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void setProperty(String propertyName, Object value) {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("setProperty"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Map<String, Object> getProperties() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getProperties"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createQuery(String qlString) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createQuery(CriteriaUpdate updateQuery) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createQuery(CriteriaDelete deleteQuery) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createNamedQuery(String name) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createNativeQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createNativeQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createNativeQuery(String sqlString) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createNativeQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createNativeQuery(String sqlString, Class resultClass) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createNativeQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Query createNativeQuery(String sqlString, String resultSetMapping) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createNativeQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public StoredProcedureQuery createNamedStoredProcedureQuery(String name) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createStoredProcedureQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public StoredProcedureQuery createStoredProcedureQuery(String procedureName) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createStoredProcedureQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public StoredProcedureQuery createStoredProcedureQuery(String procedureName,
       Class... resultClasses) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createStoredProcedureQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public StoredProcedureQuery createStoredProcedureQuery(String procedureName,
       String... resultSetMappings) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("createStoredProcedureQuery"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void joinTransaction() {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("joinTransaction"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public boolean isJoinedToTransaction() {
-    // TODO Auto-generated method stub
-    return false;
+    throw new UnsupportedOperationException(unsupportedMessage("isJoinedToTransaction"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> T unwrap(Class<T> cls) {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("unwrap"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Object getDelegate() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getDelegate"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public void close() {
-    // TODO Auto-generated method stub
-    
+    throw new UnsupportedOperationException(unsupportedMessage("close"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public boolean isOpen() {
     return true;
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public EntityTransaction getTransaction() {
-    // TODO Auto-generated method stub
-    return null;
+    throw new UnsupportedOperationException(unsupportedMessage("getTransaction"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public EntityManagerFactory getEntityManagerFactory() {
-    throw new UnsupportedOperationException("The getEntityManagerFactory method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("getEntityManagerFactory"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public CriteriaBuilder getCriteriaBuilder() {
-    throw new UnsupportedOperationException("The getCriteriaBuilder method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("getCriteriaBuilder"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public Metamodel getMetamodel() {
-    throw new UnsupportedOperationException("The getMetamodel method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("getMetamodel"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> EntityGraph<T> createEntityGraph(Class<T> rootType) {
-    throw new UnsupportedOperationException("The createEntityGraph method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("createEntityGraph"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public EntityGraph<?> createEntityGraph(String graphName) {
-    throw new UnsupportedOperationException("The createEntityGraph method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("createEntityGraph"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public EntityGraph<?> getEntityGraph(String graphName) {
-    throw new UnsupportedOperationException("The getEntityGraph method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("getEntityGraph"));
   }
 
+  /**
+   * Unsupported. This method is currently not being supported.
+   */
   @Override
   public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass) {
-    throw new UnsupportedOperationException("The getEntityGraphs method is not supported in the MapBackedEntityManager.");
+    throw new UnsupportedOperationException(unsupportedMessage("getEntityGraphs"));
   }
 
 }

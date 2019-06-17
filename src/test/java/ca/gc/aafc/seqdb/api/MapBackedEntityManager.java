@@ -1,14 +1,18 @@
 package ca.gc.aafc.seqdb.api;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
+import javax.persistence.Id;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
@@ -18,6 +22,9 @@ import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.metamodel.Metamodel;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.exception.MethodNotAllowedException;
@@ -32,7 +39,7 @@ public class MapBackedEntityManager implements EntityManager {
    * 
    * For each entity class type, a new list will be created to store the entities.
    */
-  private Map<Class<?>, List<Object>> entities = new HashMap<Class<?>, List<Object>>();
+  private final Map<Class<?>, List<Object>> entities = new HashMap<Class<?>, List<Object>>();
   
   /**
    * For some of the tests, the ability to retrieve entities by ID is needed. If you
@@ -40,9 +47,48 @@ public class MapBackedEntityManager implements EntityManager {
    * the id using the supplied function. In the find method we can then use the function
    * to get the id from the entity.
    */
-  private Map<Class<?>, String> entityIdProperty = new HashMap<>();
+  private final Map<Class<?>, String> entityIdProperty = new HashMap<>();
   
-  private int generatedId = 0;
+  private final AtomicInteger idGenerator = new AtomicInteger(0);
+  
+  /**
+   * Try to get the name of the property where the getter is annotated with {@link @Id}. How it
+   * works: - get all the {@link Method} with a {@link @Id} annotation form the provided class -
+   * ensure there is only 1 method - extract the property name by removing the "get" part of the
+   * method and lowercase first letter
+   * 
+   * @param clazz
+   *          the class of the entity
+   * @return the property name or null if no methods are annotated with {@link @Id} or the method is
+   *         not a getter
+   * @throws IllegalStateException
+   *           if there is more than one method with the {@link @Id} annotation
+   */
+  private static final String retreiveEntityIdFieldName(Class<?> clazz)
+      throws IllegalStateException {
+
+    List<Method> methodAnnotatedWithId = MethodUtils.getMethodsListWithAnnotation(clazz, Id.class);
+
+    if (methodAnnotatedWithId.isEmpty()) {
+      return null;
+    }
+    if (methodAnnotatedWithId.size() > 1) {
+      throw new IllegalStateException("can't handle multiple Id annotation on the same class");
+    }
+
+    // not a getter, return null too risky
+    if (!StringUtils.startsWith(methodAnnotatedWithId.get(0).getName(), "get")) {
+      return null;
+    }
+
+    String propertyName = StringUtils.removeStart(methodAnnotatedWithId.get(0).getName(), "get");
+    if (propertyName == null) {
+      return null;
+    }
+    // property name always starts with a lowercase
+    return StringUtils.uncapitalize(propertyName);
+
+  }
   
   /**
    * Based on a specific entity class, retrieve a list of all the stored entities.
@@ -94,27 +140,37 @@ public class MapBackedEntityManager implements EntityManager {
   @Override
   public void persist(Object entity) {
     Class<?> entityClass = entity.getClass();
-    
+
     // Check if the entity class has been inserted before in the entities map.
     if (!entities.containsKey(entityClass)) {
       // New entity class being inserted. Create a list to place it in.
       entities.put(entityClass, new ArrayList<Object>());
     }
-    
+
+    String keyProperty = null;
     // Check if an ID property function has been registered to the entity.
     if (entityIdProperty.containsKey(entityClass)) {
-      
-      // If the ID is null for the entity, generate one.
-      Integer key = (Integer) PropertyUtils.getProperty(entity, entityIdProperty.get(entityClass));
-      if (key == null) {
-        generatedId++;
-        PropertyUtils.setProperty(entity, entityIdProperty.get(entityClass), generatedId);
+      keyProperty = entityIdProperty.get(entityClass);
+    } else {
+      String retreivedKeyProperty = retreiveEntityIdFieldName(entityClass);
+      // if we found something we register it so it could be used by the find method
+      if (retreivedKeyProperty != null) {
+        keyProperty = retreivedKeyProperty;
+        entityIdProperty.put(entityClass, keyProperty);
       }
-      
     }
-    
+
+    if (keyProperty != null) {
+      // If the ID is null for the entity, generate one.
+      Integer key = (Integer) PropertyUtils.getProperty(entity, keyProperty);
+      if (key == null) {
+        PropertyUtils.setProperty(entity, keyProperty, idGenerator.incrementAndGet());
+      }
+    }
+
     // Add the entity to it's respective list.
     entities.get(entityClass).add(entity);
+
   }
 
   /**
@@ -148,6 +204,7 @@ public class MapBackedEntityManager implements EntityManager {
    * @param entityClass The entity type being used to retrieve the ID from.
    * @param primaryKey 
    */
+  @SuppressWarnings("unchecked")
   @Override
   public <T> T find(Class<T> entityClass, Object primaryKey) {
     // First check if the entity class has registered a key function.

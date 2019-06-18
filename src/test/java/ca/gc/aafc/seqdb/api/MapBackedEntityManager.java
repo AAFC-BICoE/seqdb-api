@@ -35,6 +35,9 @@ import io.crnk.core.exception.MethodNotAllowedException;
  * 
  * This class will try to determine what the id property is by using the @id annotation, but if it cannot be
  * found you can register the property using the registerKeyProperty method.
+ * 
+ * This class is partially implemented and is to be used for testing purposes only. Many of the methods are
+ * not implemented and will throw exceptions if they are used. 
  */
 public class MapBackedEntityManager implements EntityManager {
 
@@ -217,9 +220,19 @@ public class MapBackedEntityManager implements EntityManager {
   @SuppressWarnings("unchecked")
   @Override
   public <T> T find(Class<T> entityClass, Object primaryKey) {
+
     // First check if the entity class has registered a key function.
     if (!entityIdProperty.containsKey(entityClass)) {
-      throw new MethodNotAllowedException("Unable to find by primary key for the entity: '" + entityClass.getSimpleName() + "'. You need to register a get key function for that specific entity first.");
+      
+      // Check if it can be found automagically.
+      String retreivedKeyProperty = retreiveEntityIdFieldName(entityClass);
+      
+      // if we found something we register it so it could be used by the find method
+      if (retreivedKeyProperty != null) {
+        entityIdProperty.put(entityClass, retreivedKeyProperty);
+      } else {
+        throw new MethodNotAllowedException("Unable to find by primary key for the entity: '" + entityClass.getSimpleName() + "'. You need to register a get key function for that specific entity first.");
+      }
     }
     
     // Check if there is no entity class list. If not then it's definitely not in the entity manager.

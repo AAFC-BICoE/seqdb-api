@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import io.crnk.core.engine.internal.utils.PropertyUtils;
-import io.crnk.core.exception.MethodNotAllowedException;
 
 /**
  * An in memory alternative for the Entity Manager. Emulates some of the behavior such as persisting
@@ -65,42 +64,58 @@ public class MapBackedEntityManager implements EntityManager {
   private final AtomicInteger idGenerator = new AtomicInteger(0);
   
   /**
-   * Try to get the name of the property where the getter is annotated with {@link @Id}. How it
-   * works: - get all the {@link Method} with a {@link @Id} annotation form the provided class -
+   * Looks to see if the entity has been already registered. If not it will attempt to
+   * automatically register it using the {@link @Id} annotation. 
+   * 
+   * How it works: - check to see if it's already registered, if it is just return the property name. -
+   * get all the {@link Method} with a {@link @Id} annotation form the provided class -
    * ensure there is only 1 method - extract the property name by removing the "get" part of the
    * method and lowercase first letter
    * 
    * @param clazz
    *          the class of the entity
-   * @return the property name or null if no methods are annotated with {@link @Id} or the method is
-   *         not a getter
+   *          
+   * @return the property name which was either registered manually or automatically using the {@link @Id}
+   *           annotation.
+   * 
    * @throws IllegalStateException
-   *           if there is more than one method with the {@link @Id} annotation
+   *           thrown if there is zero or more than one annotation found, and if the annotation is not
+   *           on a getter method. 
    */
-  private static String retreiveEntityIdFieldName(Class<?> clazz)
+  private String checkIfRegistered(Class<?> clazz)
       throws IllegalStateException {
 
+    // Check if it's already registered.
+    if (entityIdProperty.containsKey(clazz)) {
+      return entityIdProperty.get(clazz);
+    }
+    
     List<Method> methodAnnotatedWithId = MethodUtils.getMethodsListWithAnnotation(clazz, Id.class);
 
-    if (methodAnnotatedWithId.isEmpty()) {
-      return null;
-    }
+    // Cannot handle more than one id annotation.
     if (methodAnnotatedWithId.size() > 1) {
       throw new IllegalStateException("can't handle multiple Id annotation on the same class");
     }
-
-    // not a getter, return null too risky
-    if (!StringUtils.startsWith(methodAnnotatedWithId.get(0).getName(), "get")) {
-      return null;
+    
+    // Check if the annotation exists on a getter method.
+    if (methodAnnotatedWithId.isEmpty() 
+        || methodAnnotatedWithId.get(0).getName() == null
+        || !StringUtils.startsWith(methodAnnotatedWithId.get(0).getName(), "get")) {
+      
+      throw new IllegalStateException("Cannot retrieve the key property for the entity: " + clazz.getSimpleName() 
+            + ". It could not be automatically added since no id annotations were found in the entities class."
+            + " You can add the id key property field manually using the registerKeyProperty method.");
+    
     }
-
-    String propertyName = StringUtils.removeStart(methodAnnotatedWithId.get(0).getName(), "get");
-    if (propertyName == null) {
-      return null;
-    }
+    
     // property name always starts with a lowercase
-    return StringUtils.uncapitalize(propertyName);
+    String property = StringUtils.uncapitalize(StringUtils.removeStart(methodAnnotatedWithId.get(0).getName(), "get"));
 
+    // Add it to the entityIdProperty list so it does not have to search again for it.
+    entityIdProperty.put(clazz, property);
+    
+    // Return the property name to the user.
+    return property;
   }
   
   /**
@@ -119,10 +134,15 @@ public class MapBackedEntityManager implements EntityManager {
   }
   
   /** 
-   * Register a new key function for a specific entity class. This allows the find method to be able to retrieve
-   * the id since the getId method for each entity is different.
+   * Register a new key function for a specific entity class if it cannot be detected automatically. 
+   * This allows the find method to be able to retrieve the id since the getId method for each entity 
+   * is different.
    * 
-   * For example, Account.class id is mapped to getAccountId(), while PcrBatch.class is mapped to getPcrBatchId().
+   * For example, Account.class id is mapped to getAccountId(), while PcrBatch.class is mapped to 
+   * getPcrBatchId().
+   * 
+   * This method does not need to be used if you have an @id annotation on the entities getter for the 
+   * id property. If the id annotation is found, it will do it automatically.
    * 
    * Not thread safe.
    * 
@@ -159,19 +179,9 @@ public class MapBackedEntityManager implements EntityManager {
       // New entity class being inserted. Create a list to place it in.
       entities.put(entityClass, new ArrayList<Object>());
     }
-
-    String keyProperty = null;
+    
     // Check if an ID property function has been registered to the entity.
-    if (entityIdProperty.containsKey(entityClass)) {
-      keyProperty = entityIdProperty.get(entityClass);
-    } else {
-      String retreivedKeyProperty = retreiveEntityIdFieldName(entityClass);
-      // if we found something we register it so it could be used by the find method
-      if (retreivedKeyProperty != null) {
-        keyProperty = retreivedKeyProperty;
-        entityIdProperty.put(entityClass, keyProperty);
-      }
-    }
+    String keyProperty = checkIfRegistered(entityClass);
 
     if (keyProperty != null) {
       // If the ID is null for the entity, generate one.
@@ -220,25 +230,14 @@ public class MapBackedEntityManager implements EntityManager {
   @SuppressWarnings("unchecked")
   @Override
   public <T> T find(Class<T> entityClass, Object primaryKey) {
-
-    // First check if the entity class has registered a key function.
-    if (!entityIdProperty.containsKey(entityClass)) {
-      
-      // Check if it can be found automagically.
-      String retreivedKeyProperty = retreiveEntityIdFieldName(entityClass);
-      
-      // if we found something we register it so it could be used by the find method
-      if (retreivedKeyProperty != null) {
-        entityIdProperty.put(entityClass, retreivedKeyProperty);
-      } else {
-        throw new MethodNotAllowedException("Unable to find by primary key for the entity: '" + entityClass.getSimpleName() + "'. You need to register a get key function for that specific entity first.");
-      }
-    }
     
     // Check if there is no entity class list. If not then it's definitely not in the entity manager.
     if (!entities.containsKey(entityClass)) {
       return null;
     }
+    
+    // First check if the entity class has registered a key function.
+    checkIfRegistered(entityClass);
     
     for (Object entity : entities.get(entityClass)) {
       Integer key = (Integer)PropertyUtils.getProperty(entity, entityIdProperty.get(entityClass));
@@ -553,15 +552,17 @@ public class MapBackedEntityManager implements EntityManager {
   }
 
   /**
-   * Unsupported. This method is currently not being supported.
+   * No operation should be performed since this is not using a database connection. Nothing needs
+   * to be closed.
    */
   @Override
   public void close() {
-    throw new UnsupportedOperationException(unsupportedMessage("close"));
+    // No operation should be performed.
   }
 
   /**
-   * Unsupported. This method is currently not being supported.
+   * Will always return true since this entity manager cannot be closed. This is because all of
+   * the data is stored in memory.
    */
   @Override
   public boolean isOpen() {

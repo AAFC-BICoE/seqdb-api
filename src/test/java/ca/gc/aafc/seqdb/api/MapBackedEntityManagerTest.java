@@ -45,6 +45,17 @@ public class MapBackedEntityManagerTest {
   }
   
   /**
+   * Check if an exception is thrown when no id annotation can be found and it's not
+   * registered manually.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void persist_noRegisteredId_exceptionExpected() {
+    EntityManager entityManager = new MapBackedEntityManager();
+    
+    entityManager.persist(new String("Test"));
+  }
+  
+  /**
    * Test will first check to make sure no entities are returned when the entity manager is first
    * created, then it will persist 10 product entities and try to retrieve all of them.
    * 
@@ -57,7 +68,7 @@ public class MapBackedEntityManagerTest {
     
     assertNull(entityManager.getPersistedEntities(Product.class));
     
-    entityManager.persist(PcrBatchFactory.newPcrBatch());
+    entityManager.persist(PcrBatchFactory.newPcrBatch().build());
     
     List<Product> testProducts = ProductFactory.newListOf(10);
     for (Product testProduct : testProducts) {
@@ -106,6 +117,6 @@ public class MapBackedEntityManagerTest {
     EntityManager entityManager = new MapBackedEntityManager();
     
     // Attempt to use an unsupported method.
-    entityManager.clear();
+    entityManager.createNamedQuery("test");
   }
 }

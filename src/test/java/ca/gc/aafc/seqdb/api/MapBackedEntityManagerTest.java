@@ -16,6 +16,22 @@ import static org.junit.Assert.assertNull;
 public class MapBackedEntityManagerTest {
   
   /**
+   * Used to test entity with a getter not matching the property's name.
+   *
+   */
+  public static class TestEntity {
+    private int id;
+    
+    public TestEntity(int id) {
+      this.id = id;
+    }
+    
+    public int getIdentifier() {
+      return id;
+    }
+  }
+  
+  /**
    * Test will check if when an entity is persisted an id is assigned to it.
    */
   @Test
@@ -44,6 +60,19 @@ public class MapBackedEntityManagerTest {
     assertEquals("ABC", testProductRetreived.getName());
   }
   
+  @Test
+  public void persist_registerKeyProperty_entityFound() {
+    MapBackedEntityManager entityManager = new MapBackedEntityManager();
+    entityManager.registerKeyProperty(TestEntity.class, "identifier");
+
+    TestEntity testEntity = new TestEntity(2);
+    entityManager.persist(testEntity);
+
+    TestEntity testEntityRetrieved = entityManager.find(TestEntity.class, 2);
+    assertNotNull(testEntityRetrieved);
+    assertEquals(2, testEntityRetrieved.getIdentifier());
+  }
+  
   /**
    * Check if an exception is thrown when no id annotation can be found and it's not
    * registered manually.
@@ -51,8 +80,7 @@ public class MapBackedEntityManagerTest {
   @Test(expected = IllegalStateException.class)
   public void persist_noRegisteredId_exceptionExpected() {
     EntityManager entityManager = new MapBackedEntityManager();
-    
-    entityManager.persist(new String("Test"));
+    entityManager.persist("Test");
   }
   
   /**
@@ -67,7 +95,6 @@ public class MapBackedEntityManagerTest {
     MapBackedEntityManager entityManager = new MapBackedEntityManager();
     
     assertNull(entityManager.getPersistedEntities(Product.class));
-    
     entityManager.persist(PcrBatchFactory.newPcrBatch().build());
     
     List<Product> testProducts = ProductFactory.newListOf(10);
@@ -83,17 +110,16 @@ public class MapBackedEntityManagerTest {
    * it. It should return null since it now has been deleted.
    */
   @Test
-  public void remove_persistedEntity_successful() {
+  public void remove_persistedEntity_Successful() {
     EntityManager entityManager = new MapBackedEntityManager();
     
     Product testProduct = ProductFactory.newProduct().name("ABC").build();
     entityManager.persist(testProduct);
-    Integer id = testProduct.getId();
     
+    Integer id = testProduct.getId();
     assertNotNull(entityManager.find(Product.class, id));
     
     entityManager.remove(testProduct);
-    
     assertNull(entityManager.find(Product.class, id));
   }
 
@@ -105,7 +131,6 @@ public class MapBackedEntityManagerTest {
   @Test
   public void find_nonRegisteredManually_noResults() {
     EntityManager entityManager = new MapBackedEntityManager();
-    
     assertNull(entityManager.find(Product.class, 13));
   }
   

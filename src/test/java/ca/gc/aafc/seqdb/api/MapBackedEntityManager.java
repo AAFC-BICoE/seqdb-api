@@ -82,7 +82,7 @@ public class MapBackedEntityManager implements EntityManager {
    *           thrown if there is zero or more than one annotation found, and if the annotation is not
    *           on a getter method. 
    */
-  private String checkIfRegistered(Class<?> clazz)
+  private String locateAndGetEntityIdProperty(Class<?> clazz)
       throws IllegalStateException {
 
     // Check if it's already registered.
@@ -181,7 +181,7 @@ public class MapBackedEntityManager implements EntityManager {
     }
     
     // Check if an ID property function has been registered to the entity.
-    String keyProperty = checkIfRegistered(entityClass);
+    String keyProperty = locateAndGetEntityIdProperty(entityClass);
 
     if (keyProperty != null) {
       // If the ID is null for the entity, generate one.
@@ -221,11 +221,11 @@ public class MapBackedEntityManager implements EntityManager {
   }
 
   /**
-   * If the entity has registered how to retrieve the ID from it, the find method can be used to find based on a
-   * specific id. 
+   * Find entity based on the provided primaryKey.
    * 
    * @param entityClass The entity type being used to retrieve the ID from.
-   * @param primaryKey 
+   * @param primaryKey
+   * @throws IllegalStateException if the method cannot locate the entity id property.
    */
   @SuppressWarnings("unchecked")
   @Override
@@ -237,7 +237,7 @@ public class MapBackedEntityManager implements EntityManager {
     }
     
     // First check if the entity class has registered a key function.
-    checkIfRegistered(entityClass);
+    locateAndGetEntityIdProperty(entityClass);
     
     for (Object entity : entities.get(entityClass)) {
       Integer key = (Integer)PropertyUtils.getProperty(entity, entityIdProperty.get(entityClass));

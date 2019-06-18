@@ -179,14 +179,14 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void listThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETthermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETthermocyclerJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realThermoResponse-all.json"));
   }
 
   @Test
   public void getThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/thermocyclerJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/thermocyclerJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realThermoResponse.json"));
   } 
 }

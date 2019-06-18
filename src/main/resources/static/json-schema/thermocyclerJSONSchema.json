@@ -1,5 +1,5 @@
 {
-    "$id": "json-schema/thermocyclerJSONSchema.json",
+    "$id": "static/json-schema/thermocyclerJSONSchema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "ThermocyclerProfile",
     "description": "A thermocyclerprofile schema",

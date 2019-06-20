@@ -1,10 +1,8 @@
 package ca.gc.aafc.seqdb.api.rest;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
 
-
+import java.util.Map;
 
 /**
  * Integration test for the region resource.
@@ -38,7 +36,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
         .put("notes", "test notes")
         .put("reference", "test reference")
         .put("equipment", "test equipment")
-        .put("forwardPrimerConcentration" , "10")
+        .put("forwardPrimerConcentration", "10")
         .put("reversePrimerConcentration", "2")
         .put("reactionMixVolume", "4.0mL")
         .put("reactionMixVolumePerTube", "10dL")
@@ -46,7 +44,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   @Override
-  protected Map<String, Object> buildRelationshipMap(){
+  protected Map<String, Object> buildRelationshipMap() {
     ImmutableMap.Builder<String, Object> relationships = new ImmutableMap.Builder<>();
     relationships.put("type", "group").put("id", "2").build();
     
@@ -66,7 +64,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
         .put("notes", "new test notes")
         .put("reference", "new test reference")
         .put("equipment", "new test equipment")
-        .put("forwardPrimerConcentration" , "11")
+        .put("forwardPrimerConcentration", "11")
         .put("reversePrimerConcentration", "3")
         .put("reactionMixVolume", "4.5mL")
         .put("reactionMixVolumePerTube", "100dL")

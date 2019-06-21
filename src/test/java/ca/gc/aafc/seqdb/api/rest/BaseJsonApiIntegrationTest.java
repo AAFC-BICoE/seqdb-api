@@ -45,7 +45,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public static final String IT_BASE_URI = "http://localhost";
   public static final String API_BASE_PATH = "/api";
   
-  private static final String JSON_SCHEMA_FOLDER = "json-schema";
+  private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
 	@Before
 	public final void before() {

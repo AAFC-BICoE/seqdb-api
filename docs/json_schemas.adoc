@@ -33,7 +33,7 @@ And this tool comes in handy to verify your schema against the data you are tryi
 == Creating a new JSON Schema
 All of the schemas for the SeqDB API can be found in the following directory:
 
-`/src/main/resources/json-schema/`
+`/src/main/resources/static/json-schema/`
 
 Different requests require different JSON schemas, below are the steps to create a JSON schema for the GET region response. `(for *GET* /api/region)`
 
@@ -156,3 +156,9 @@ public class RegionResourceRepositoryIT {
 ----
 
 IMPORTANT: All integration tests need to end with "IT" to automatically run during the `mvn clean verify` process. 
+
+---
+
+== Accessing the JSON schema files through the running application
+
+The application serves the JSON schema files statically from the /json-schema/* endpoint prefix. For example, http://localhost:8080/json-schema/thermocyclerJSONSchema.json .

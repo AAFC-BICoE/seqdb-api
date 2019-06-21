@@ -141,14 +141,14 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void listProtocol_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETprotocolJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETprotocolJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse-all.json"));
   }
 
   @Test
   public void getProtocol_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/protocolJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/protocolJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse.json"));
   } 
 }

@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "json-schema/reactionComponentJSONSchema.json",
+	"$id": "static/json-schema/reactionComponentJSONSchema.json",
 	"$base": "https://localhost:8080/api/",
 	"title": "Reaction Component Schema",
 	"type": "object",

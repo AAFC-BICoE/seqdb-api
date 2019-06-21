@@ -105,14 +105,14 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void listReactionComponent_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETreactionComponentJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETreactionComponentJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse-all.json"));
   }
 
   @Test
   public void getReactionComponent_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("json-schema/reactionComponentJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/reactionComponentJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse.json"));
   } 
   

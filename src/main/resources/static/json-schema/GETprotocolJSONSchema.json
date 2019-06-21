@@ -1,5 +1,5 @@
 {
-    "$id": "json-schema/GETprotocolJSONSchema.json",
+    "$id": "static/json-schema/GETprotocolJSONSchema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "The Protocol GET Response Schema",
     "description": "The schema for the GET response to retrieve an array of Protocols",

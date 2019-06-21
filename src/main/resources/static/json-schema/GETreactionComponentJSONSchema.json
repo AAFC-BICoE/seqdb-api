@@ -1,5 +1,5 @@
 {
-    "$id": "json-schema/GETreactionComponentJSONSchema.json",
+    "$id": "static/json-schema/GETreactionComponentJSONSchema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "The reactionComponent GET Response Schema",
     "description": "The schema for the GET response to retrieve an array of Reaction Components",
@@ -32,43 +32,11 @@
                         "const": "reactionComponent",
                         "description": "The type of data being returned."
                     },
-
-                    "attributes": {
-	"$comment": "All of the attributes for the Reaction Component object can be found here.",
-	"type": "object",
-	"description": "The properties of the Reaction Component object.",
-	"required": ["name"],
-	"properties": {
-	
-	    "name": {
-	        "type": "string",
-	        "description": "The name given to the Reaction Component.",
-	        "maxLength": 50,
-	        "examples": ["Sterile HPLC Water H20"]
-	    },
-
-		"concentration" : {
-			"type" : "string",
-			"description" : "The concentration of the Reaction Component",
-			"maxLength" : 50,
-			"examples" : ["20mg/mL"]
-		},
-		
-		"quantity" : {
-			"type" : "string",
-			"description" : "The quantity of the Reaction Component",
-			"maxLength" : 50,
-			"examples" : ["6.82"]			
-		},
-		
-		"protocol" : {
-			"type" : "object",
-			"description" : "The protocol the Reaction Component belongs to",
-			"examples" : ["Immolase Protocol (10uL)"]
-		}
-	}
-},
-
+                    "attribute": {
+                        "allOf": [
+                          { "$ref": "definitions/reactioncomponent.json" }
+                        ]
+                    },
                     "relationships": {
                         "$comment": "Contains all of the relationships that is possible with reactionComponent objects.",
                         "type": "object",

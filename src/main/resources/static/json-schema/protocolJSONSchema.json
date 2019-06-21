@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "json-schema/protocolJSONSchema.json",
+  "$id": "static/json-schema/protocolJSONSchema.json",
   "$base": "https://localhost:8080/api/",
   "title": "Protocol Schema",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "json-schema/GETregionJSONSchema.json",
+  "$id": "static/json-schema/GETregionJSONSchema.json",
   "title": "The region GET Response Schema",
   "description": "The schema for the GET request response for region",
   "base": "http://localhost:8080/api",

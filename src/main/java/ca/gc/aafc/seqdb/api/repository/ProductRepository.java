@@ -16,11 +16,12 @@ import lombok.NonNull;
 @Component
 public class ProductRepository extends JpaResourceRepository<ProductDto> {
 
-	public ProductRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-			RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-			JpaMetaInformationProvider metaInformationProvider) {
-		super(ProductDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-				groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-	}
+  public ProductRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      JpaMetaInformationProvider metaInformationProvider) {
+    super(ProductDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
+        metaInformationProvider);
+  }
 
 }

@@ -14,11 +14,12 @@ import lombok.NonNull;
 @Component
 public class ProtocolRepository extends JpaResourceRepository<ProtocolDto> {
 
-	public ProtocolRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-			RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-			JpaMetaInformationProvider metaInformationProvider) {
-		super(ProtocolDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-				groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-	}
+  public ProtocolRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      JpaMetaInformationProvider metaInformationProvider) {
+    super(ProtocolDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
+        metaInformationProvider);
+  }
 
 }

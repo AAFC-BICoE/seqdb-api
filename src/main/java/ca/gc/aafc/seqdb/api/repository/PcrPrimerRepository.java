@@ -16,10 +16,11 @@ import lombok.NonNull;
 @Component
 public class PcrPrimerRepository extends JpaResourceRepository<PcrPrimerDto> {
 
-	public PcrPrimerRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-			RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-			JpaMetaInformationProvider metaInformationProvider) {
-		super(PcrPrimerDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-				groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-	}
+  public PcrPrimerRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      JpaMetaInformationProvider metaInformationProvider) {
+    super(PcrPrimerDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
+        metaInformationProvider);
+  }
 }

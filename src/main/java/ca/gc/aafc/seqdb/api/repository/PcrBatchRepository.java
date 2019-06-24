@@ -14,11 +14,12 @@ import lombok.NonNull;
 @Component
 public class PcrBatchRepository extends JpaResourceRepository<PcrBatchDto> {
 
-	public PcrBatchRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-			RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-			JpaMetaInformationProvider metaInformationProvider) {
-		super(PcrBatchDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-				groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-	}
+  public PcrBatchRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      JpaMetaInformationProvider metaInformationProvider) {
+    super(PcrBatchDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
+        metaInformationProvider);
+  }
 
 }

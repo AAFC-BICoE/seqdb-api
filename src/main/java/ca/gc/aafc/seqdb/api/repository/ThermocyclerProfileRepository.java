@@ -16,11 +16,12 @@ import lombok.NonNull;
 @Component
 public class ThermocyclerProfileRepository extends JpaResourceRepository<ThermocyclerProfileDto> {
 
-	public ThermocyclerProfileRepository(@NonNull JpaDtoRepository dtoRepository,
-			SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-			ReadableGroupFilterHandlerFactory groupFilterFactory, JpaMetaInformationProvider metaInformationProvider) {
-		super(ThermocyclerProfileDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-				groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-	}
+  public ThermocyclerProfileRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      JpaMetaInformationProvider metaInformationProvider) {
+    super(ThermocyclerProfileDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
+        metaInformationProvider);
+  }
 
 }

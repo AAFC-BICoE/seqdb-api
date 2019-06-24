@@ -23,7 +23,7 @@
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.32-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.33-SNAPSHOT</seqdb.dbi.version>
     
     <!-- We need to skip 1.4.197 (currently provided by SpringBoot 2.1)  -->
     <h2.version>1.4.198</h2.version>
@@ -209,7 +209,8 @@
     <!-- SeqDBfactory test jar -->
     <dependency>
       <groupId>ca.gc.aafc</groupId>
-      <artifactId>seqdb.dbi-test-support</artifactId>
+      <artifactId>seqdb.dbi</artifactId>
+      <classifier>test-support</classifier>
       <version>${seqdb.dbi.version}</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>

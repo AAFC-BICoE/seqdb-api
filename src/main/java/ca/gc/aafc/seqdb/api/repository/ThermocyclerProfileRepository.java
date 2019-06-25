@@ -9,6 +9,8 @@ import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
 import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import lombok.NonNull;

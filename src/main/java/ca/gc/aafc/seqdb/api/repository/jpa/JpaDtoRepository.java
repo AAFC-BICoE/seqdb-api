@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository;
+package ca.gc.aafc.seqdb.api.repository.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;

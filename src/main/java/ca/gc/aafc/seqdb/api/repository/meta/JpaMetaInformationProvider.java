@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 
-import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository.TriFunction;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository.TriFunction;
 import io.crnk.core.resource.meta.MetaInformation;
 import lombok.Builder;
 import lombok.Getter;

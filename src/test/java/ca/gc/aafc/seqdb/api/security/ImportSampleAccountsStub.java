@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import ca.gc.aafc.seqdb.entities.Group;
+
 /**
  * For the ImportSampleAccount integration test. This is used to create an altered
  * version of the ImportSampleAccounts to override Hibernate methods and to use the
@@ -17,5 +19,8 @@ public class ImportSampleAccountsStub extends ImportSampleAccounts {
     return false;
   }
   
-  //TODO: Override the retrieveGroups once the new entity manager is complete. 
+  @Override
+  protected Group retrieveGroup(String groupName) {
+    return new Group("Test Group");
+  }
 }

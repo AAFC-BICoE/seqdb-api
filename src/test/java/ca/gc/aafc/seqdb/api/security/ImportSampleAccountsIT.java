@@ -13,19 +13,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import ca.gc.aafc.seqdb.MapBackedEntityManager;
-import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
-import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
+
+import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
 public class ImportSampleAccountsIT {
 
-  @SpringBootTest(classes = ImportSampleAccountsEnabledIT.TestConfig.class)
-  public static class ImportSampleAccountsEnabledIT extends BaseIntegrationTest {
-
+  @RunWith(SpringJUnit4ClassRunner.class)
+  @SpringBootTest(classes = ImportSampleAccountsEnabledIT.EnableImportSampleAccountsTestConfig.class)
+  public static class ImportSampleAccountsEnabledIT {
+    
     /**
      * Mocked entity manager to use instead of the real entity manager. The reason were using this
      * is so the changes don't persist into the real database. We just want to test to make sure
@@ -33,14 +35,10 @@ public class ImportSampleAccountsIT {
      */
     private static MapBackedEntityManager mapBackedEntityManager = new MapBackedEntityManager();
     
-    /**
-     * This is a custom configuration to load in our stubbed ImportSampleAccount.
-     * All of the other defaults are taken from the SeqdbApiLauncher class.
-     */
     @TestConfiguration
     @Import(SeqdbApiLauncher.class)
-    public static class TestConfig {
-
+    public static class EnableImportSampleAccountsTestConfig {
+      
       /**
        * Instead of running it with the property we just apply this bean with mocked
        * methods to avoid the hibernate queries from being performed.
@@ -72,25 +70,6 @@ public class ImportSampleAccountsIT {
     private PasswordEncoder passwordEncoder;
     
     /**
-     * Look at the persisted data and retrieve a specific user.
-     * 
-     * @param userName the name of the user to find.
-     * @param listOfPersisted the persisted data to search against.
-     * @return if an account a found, the account will be returned. Otherwise, null is returned.
-     */
-    private Account getUserFromPersistedData(String userName, List<Object> listOfPersisted) {
-      for (Object object : listOfPersisted) {
-        Account account = (Account) object;
-        
-        if (account.getAccountName().equals(userName)) {
-          return account;
-        }
-      }
-      
-      return null;
-    }
-    
-    /**
      * Test to ensure that data is persisted whenever the import sample accounts is activated.
      * 
      * @see TestConfig - Configuration to activate the import sample account and mocking of the
@@ -120,10 +99,31 @@ public class ImportSampleAccountsIT {
     
   }
   
-  public static class ImportSampleAccountsDisabledIT extends BaseIntegrationTest {
+  @RunWith(SpringJUnit4ClassRunner.class)
+  @SpringBootTest(classes = ImportSampleAccountsDisabledIT.DisableImportSampleAccountsTestConfig.class)
+  public static class ImportSampleAccountsDisabledIT {
     
-    @Inject
-    private AccountRepository accountRepository;
+    /**
+     * Mocked entity manager to use instead of the real entity manager. The reason were using this
+     * is so the changes don't persist into the real database. We just want to test to make sure
+     * it triggers the persist.
+     */
+    private static MapBackedEntityManager mapBackedEntityManager = new MapBackedEntityManager();
+    
+    @TestConfiguration
+    @Import(SeqdbApiLauncher.class)
+    public static class DisableImportSampleAccountsTestConfig {
+      
+      /**
+       * Instead of running it with the property we just apply this bean with mocked
+       * methods to avoid the hibernate queries from being performed.
+       */
+      @Bean
+      @Primary
+      public EntityManager mockEntityManager() {
+        return mapBackedEntityManager;
+      }
+    }
     
     /**
      * User data should not be stored in the database since the import sample accounts is not
@@ -131,10 +131,32 @@ public class ImportSampleAccountsIT {
      */
     @Test
     public void startApp_whenImportSampleAccountsNotSet_sampleAccountsNotAvailable() {
-      assertNull(this.accountRepository.findByAccountNameIgnoreCase("Admin"));
-      assertNull(this.accountRepository.findByAccountNameIgnoreCase("User"));
+      // Retrieve a list of persisted accounts.
+      List<Object> persistedAccounts = mapBackedEntityManager.getPersistedEntities(Account.class);
+      
+      // No accounts should be persisted.
+      assertNull(persistedAccounts);
     }
     
+  }
+  
+  /**
+   * Look at the persisted data and retrieve a specific user.
+   * 
+   * @param userName the name of the user to find.
+   * @param listOfPersisted the persisted data to search against.
+   * @return if an account a found, the account will be returned. Otherwise, null is returned.
+   */
+  private static Account getUserFromPersistedData(String userName, List<Object> listOfPersisted) {
+    for (Object object : listOfPersisted) {
+      Account account = (Account) object;
+      
+      if (account.getAccountName().equals(userName)) {
+        return account;
+      }
+    }
+    
+    return null;
   }
   
 }

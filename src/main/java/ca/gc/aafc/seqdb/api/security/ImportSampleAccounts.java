@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.security;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -36,11 +35,13 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
   public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
 
-  @Inject
   private EntityManager entityManager;
-  
-  @Inject
   private PasswordEncoder passwordEncoder;
+  
+  public ImportSampleAccounts(EntityManager entityManager, PasswordEncoder passwordEncoder) {
+    this.entityManager = entityManager;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   @Transactional
   @Override
@@ -93,6 +94,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
    *          case sensitive groupName
    * @return
    */
+  @VisibleForTesting
   protected Group retrieveGroup(String groupName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Group> criteria = criteriaBuilder.createQuery(Group.class);

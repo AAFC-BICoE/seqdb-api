@@ -33,11 +33,17 @@ public class ImportSampleAccountsIT {
      * is so the changes don't persist into the real database. We just want to test to make sure
      * it triggers the persist.
      */
-    private static MapBackedEntityManager mapBackedEntityManager = new MapBackedEntityManager();
+    private static final EntityManager ENTITY_MANAGER = new MapBackedEntityManager();
+    
+    @Inject
+    private PasswordEncoder passwordEncoder;
     
     @TestConfiguration
     @Import(SeqdbApiLauncher.class)
     public static class EnableImportSampleAccountsTestConfig {
+      
+      @Inject
+      private PasswordEncoder passwordEncoder;
       
       /**
        * Instead of running it with the property we just apply this bean with mocked
@@ -49,7 +55,7 @@ public class ImportSampleAccountsIT {
       @Bean
       @Primary
       public ImportSampleAccounts mockedBean() {
-        return new ImportSampleAccountsStub();
+        return new ImportSampleAccountsStub(ENTITY_MANAGER, passwordEncoder);
       }
       
       /**
@@ -59,15 +65,9 @@ public class ImportSampleAccountsIT {
       @Bean
       @Primary
       public EntityManager mockEntityManager() {
-        return mapBackedEntityManager;
+        return ENTITY_MANAGER;
       }
     }
-    
-    /**
-     * Used to encode the password to ensure the password is encrypted correctly.
-     */
-    @Inject
-    private PasswordEncoder passwordEncoder;
     
     /**
      * Test to ensure that data is persisted whenever the import sample accounts is activated.
@@ -79,7 +79,7 @@ public class ImportSampleAccountsIT {
     public void startApp_whenImportSampleAccountsTrue_sampleAccountsAvailable() {
       
       // Retrieve a list of persisted accounts.
-      List<Object> persistedAccounts = mapBackedEntityManager.getPersistedEntities(Account.class);
+      List<Object> persistedAccounts = ((MapBackedEntityManager)ENTITY_MANAGER).getPersistedEntities(Account.class);
       
       // Check if the user was inserted properly.
       Account user = getUserFromPersistedData(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME, persistedAccounts);
@@ -108,7 +108,7 @@ public class ImportSampleAccountsIT {
      * is so the changes don't persist into the real database. We just want to test to make sure
      * it triggers the persist.
      */
-    private static MapBackedEntityManager mapBackedEntityManager = new MapBackedEntityManager();
+    private static final EntityManager ENTITY_MANAGER = new MapBackedEntityManager();
     
     @TestConfiguration
     @Import(SeqdbApiLauncher.class)
@@ -121,7 +121,7 @@ public class ImportSampleAccountsIT {
       @Bean
       @Primary
       public EntityManager mockEntityManager() {
-        return mapBackedEntityManager;
+        return ENTITY_MANAGER;
       }
     }
     
@@ -132,7 +132,7 @@ public class ImportSampleAccountsIT {
     @Test
     public void startApp_whenImportSampleAccountsNotSet_sampleAccountsNotAvailable() {
       // Retrieve a list of persisted accounts.
-      List<Object> persistedAccounts = mapBackedEntityManager.getPersistedEntities(Account.class);
+      List<Object> persistedAccounts = ((MapBackedEntityManager)ENTITY_MANAGER).getPersistedEntities(Account.class);
       
       // No accounts should be persisted.
       assertNull(persistedAccounts);
@@ -150,12 +150,10 @@ public class ImportSampleAccountsIT {
   private static Account getUserFromPersistedData(String userName, List<Object> listOfPersisted) {
     for (Object object : listOfPersisted) {
       Account account = (Account) object;
-      
       if (account.getAccountName().equals(userName)) {
         return account;
       }
     }
-    
     return null;
   }
   

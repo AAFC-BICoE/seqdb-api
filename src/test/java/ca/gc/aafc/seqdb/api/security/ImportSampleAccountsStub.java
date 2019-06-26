@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import ca.gc.aafc.seqdb.entities.Group;
 
 /**
@@ -9,7 +13,11 @@ import ca.gc.aafc.seqdb.entities.Group;
  *
  */
 public class ImportSampleAccountsStub extends ImportSampleAccounts {
-  
+ 
+  public ImportSampleAccountsStub(EntityManager entityManager, PasswordEncoder passwordEncoder) {
+    super(entityManager, passwordEncoder);
+  }
+
   /**
    * Skip the hibernate query and just assume the accounts do not exist in this
    * test situation.

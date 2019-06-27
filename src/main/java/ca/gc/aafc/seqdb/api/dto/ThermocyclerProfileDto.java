@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -21,7 +22,8 @@ public class ThermocyclerProfileDto {
   private String application;
   
   private String cycles;
-
+  
+  @SuppressFBWarnings(value="EI_EXPOSE_REP")
   private Timestamp lastModified;
 
   private String step1;

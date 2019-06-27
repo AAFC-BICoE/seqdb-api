@@ -18,7 +18,7 @@ import lombok.NonNull;
 @Component
 public class PcrReactionRepository extends JpaResourceRepository<PcrReactionDto> {
 
-  public PcrReactionRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public PcrReactionRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(PcrReactionDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,

@@ -6,6 +6,8 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 import java.sql.Timestamp;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @Data
 @JsonApiResource(type = "product")
 public class ProductDto {
@@ -22,7 +24,8 @@ public class ProductDto {
   private String description;
   
   private String upc;  
-  
+
+  @SuppressFBWarnings(value="EI_EXPOSE_REP")  
   private Timestamp lastModified;  
   
   @JsonApiRelation

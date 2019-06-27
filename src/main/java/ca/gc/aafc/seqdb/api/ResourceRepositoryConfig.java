@@ -46,7 +46,7 @@ import io.crnk.operations.server.TransactionOperationFilter;
 import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
-@ComponentScan("ca.gc.aafc.seqdb.api.repository") // Restricted to repository package.
+@ComponentScan("ca.gc.aafc.seqdb.api.repository") // Restricted to repository package so it won't affect tests with bean mocking/overriding.
 @EntityScan("ca.gc.aafc.seqdb.entities")
 // Must explicitly depend on "querySpecUrlMapper" so Spring can inject it into this class'
 // initQuerySpecUrlMapper method.

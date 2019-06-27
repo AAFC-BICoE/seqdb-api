@@ -4,8 +4,11 @@ cache:
   directories:
   - $HOME/.m2
 
-script: mvn verify
-
+script: 
+  - mvn checkstyle:check
+  - mvn com.github.spotbugs:spotbugs-maven-plugin:check
+  - mvn verify
+  
 jdk:
   - openjdk8
   - openjdk9

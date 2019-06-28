@@ -1,0 +1,55 @@
+{
+    "$id": "static/json-schema/thermocyclerJSONSchema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ThermocyclerProfile",
+    "description": "A thermocyclerprofile schema",
+    "type": "object",
+    "required": ["data"],
+    "additionalProperties": false,
+    "properties":{
+        "data":{
+            "required": ["type", "attributes","relationships"],
+            "properties": {
+                "type":{
+                    "const": "thermocyclerprofile",
+                    "description": "tells crnk what type this object is."
+                },
+                "attribute":{
+		          	"allOf": [
+		          		{ "$ref": "definitions/thermocycler.json" }
+		          	]
+                },
+                "relationships":{
+                    "properties": {
+                        "region":{ "$ref":"#/definitions/relationshipdata" },
+                        "group":{ "$ref": "#/definitions/relationshipdata" }
+                    }
+                }
+
+            }
+        }
+
+    },
+
+    "definitions": {
+        "relationshipdata":{
+            "required": ["links"],
+            "properties": {
+                "links":{
+                    "required": ["self", "related"],
+                    "properties": {
+                        "self":{
+                            "type": "string",
+                            "description": "ref to the related object within relationship context."
+                        },
+                        "related":{
+                            "type":"string",
+                            "description": "ref to the related object."
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}

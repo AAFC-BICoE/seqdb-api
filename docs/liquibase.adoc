@@ -1,10 +1,8 @@
 = Database migration with Liquibase
 
-* This application uses Liquibase to generate the database and migrate to new versions of the database. 
+* Liquibase is used to generate the database and migrate to new versions of the database. 
 * Changelogs are source xml files that describe schema changes to the database. Liquibase maintains a "DATABASECHANGELOG" table in the same database to keep track of which changelogs have been executed. 
 * When the application starts, any changelogs that have not been executed are executed.
-*Our changelogs are kept in src/main/resources/db/changelog.
-* When adding a new migration changelog, put the new file in src/main/resources/db/changelog/migrations, and name the file after the issue, e.g. db.changelog-Feature_15_Add_Sample_Table.xml". Then add the new file's path to src/main/resources/db/changelog/db.changelog-master.xml in an "include" tag.
 
 http://www.liquibase.org/index.html[Liquibase home]
 
@@ -13,6 +11,34 @@ http://www.liquibase.org/bestpractices.html[Liquibase Best Practices]
 https://www.liquibase.org/documentation/changes/add_column.html[Change example: addColumn]
 
 https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquibase support to an existing database]
+
+== Liquibase Contexts
+
+When developing for SeqDB certain data is needed for the application to run properly and to make testing easier. Which is why we seperate our database migrations into categories known as contexts. The two main contexts are as follows:
+
+* schema-change
+** Changes to the schema such as adding new columns, changing table names, adding new tables.
+* initial-data
+** Test data for developers, this should not be ran on PROD/UAT since it's used for inserting test data for developers.
+
+For development purposes, it should automatically run the initial-data when running the application.
+
+For production/UAT purposes, the context can be changed by editing the application.yml file which has all of the liquibase configurations. The contexts are a comma separated list of all of the contexts to be performed.
+
+WARNING: Running initial-data on production/UAT will cause liquibase to fail. The initial-data should only be set when you want to create initial data for development purposes.
+
+== Liquibase migration file convention
+
+The following convention should be followed by all Liquibase database migration files:
+
+* Migration scripts live in `src/main/resources/db/changelog` of the `seqdb-dbi` module
+* Filename should follow the convention `<UNIQUE_INCREMENTAL_ID>-<ISSUE_TITLE>.xml` (e.g. `2-new_specimen_field_PHAC_containment_level.xml`)
+* A new migration file's path should be added in an "include" tag of `src/main/resources/db/changelog/db.changelog-master.xml` (`seqdb-dbi` module)
+* The context of a `changeSet` in the migration xml file should always be set to `context="schema-change"` or `context="initial-data"`
+* The `<comment>` tag should be used to add a reference to the Redmine issue
+
+When merging code to dev, we need to make sure the incremental number is always unique. If we have a duplicate, we should be reassigned a new identifier and update the `db.changelog-master.xml`.
+
 
 == Run Liquibase exclusively
 
@@ -29,6 +55,26 @@ At project root folder:
 ----
 mvn liquibase:status
 ----
+
+To run all contexts you can use:
+
+[source,bash]
 ----
 mvn liquibase:update
+----
+
+You can also perform a specific context while running the update command:
+
+[source,bash]
+----
+mvn liquibase:update -Dliquibase.contexts="initial-data"
+----
+
+Note: You can run multiple contexts by using a comma separated list, for example: "initial-data, schema-change".
+
+You can also reset your database using the following command:
+
+[source,bash]
+----
+mvn liquibase:dropAll
 ----

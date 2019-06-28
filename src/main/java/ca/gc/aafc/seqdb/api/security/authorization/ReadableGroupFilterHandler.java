@@ -15,7 +15,7 @@ import javax.persistence.criteria.Subquery;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;

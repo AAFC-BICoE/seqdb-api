@@ -1,0 +1,164 @@
+= JSON Schema
+JSON Schema is a JSON-based format to define data structures for validation, documentation and interaction. It provides a contract for the JSON data required for the SeqDB API and how the data is returned.
+
+To learn more about JSON Schema check out: https://json-schema.org/
+
+.JSON Schema Common Tags
+[options="header"]
+|=====================
+| Tag Name | Description | Example
+| $id | Location of the schema, *it's important that you include the json-schema/ infront of it!* | "$id": "json-schema/GETregionJSONSchema.json"
+| $schema | Schema type being used. | "$schema": "http://json-schema.org/draft-07/schema#"
+| title | The title of the schema for documentation purposes. | "title": "The region GET Response Schema"
+| description | The description of the schema for documentation purposes. | "description": "The schema for the GET request response for region"
+| required | List of tags that need to be present in the response. |  "required": [ "data", "another-tag" ]
+| type | The type being made. For the root it should be an object. | "type": "object"
+| properties | Anytime you are dealing with an "object" type, you need to provide what the object contains. | "properties": { ... }
+|=====================
+
+WARNING: It is very important that you pay attention to how the *$id* and *$ref* are being used in your schema. Look at the other schemas to get an idea on how to properly name it!
+
+For a better tutorial on how to get started writing JSON Schemas these are great resources:
+
+* http://json-schema.org/learn/getting-started-step-by-step.html
+* http://json-schema.org/specification.html
+* https://json-schema.org/understanding-json-schema/
+
+And this tool comes in handy to verify your schema against the data you are trying to validate against.
+
+* https://www.jsonschemavalidator.net/
+
+---
+
+== Creating a new JSON Schema
+All of the schemas for the SeqDB API can be found in the following directory:
+
+`/src/main/resources/static/json-schema/`
+
+Different requests require different JSON schemas, below are the steps to create a JSON schema for the GET region response. `(for *GET* /api/region)`
+
+For the Region entity there are two main responses that you can make:
+
+* `*GET* /api/region`
+** Retrieve an array of Region objects.
+* `*GET* /api/region/{id}`
+** Retrieve an object based on the id. 
+
+Which is why we need to make two schema files since one of the requests will be returning an array of data and one just a single object. Which requires two schemas to cover the request.
+
+But since a lot of the data for the schemas will be the same across the two schema files, we can simplify it by creating a definition schema which contains all of the attributes.
+
+Here is an example of the folder view after creating these three files:
+
+----
+/json-schemas
+    /definitions
+        region.json                 <--- Attributes to be used in both files below.
+    GETregionJSONSchema.json        <--- Array of region objects.
+    regionJSONSchema.json           <--- Single region object.
+----
+
+---
+
+== Schema Linking
+
+As explained above, you are able to reference parts of the schema to another file so you are not repeating the same thing twice. Here is how the linking process takes place:
+
+.GETregionJSONSchema.json and regionJSONSchema.json files will contain this snippet of code:
+[source,json]
+----
+...
+          "attribute": { 
+              "allOf": [
+                  { "$ref": "definitions/region.json" }
+              ]
+          },
+...
+----
+
+.region.json
+[source,json]
+----
+{
+    "type": "object",
+    "description": "the properties of the region.",
+    "required": [
+      "name",
+      "symbol"
+    ],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "the name of the region."
+      },
+      "description": {
+        "type": "string",
+        "description": "the description of the region."
+      },
+      "symbol": {
+        "type": "string",
+        "description": "the symbol of the region."
+      }
+    }
+}
+----
+
+---
+
+== Creating the integration test based on the Schemas
+
+Now that we have created the schemas we can create an integration test to make sure it validates against an API response. For now, we serialize  API responses in files in this directory:
+
+`/src/test/resources/`
+
+It will eventually be changed to get a response from a running API in the the integration test.
+
+For example, the realRegionResponse-all.json contains:
+[source,json]
+----
+{"data":[{"id":"1","type":"region","attributes":{"symbol":"EF-1a","name":"EF-1a","description":null},"links":{"self":"/api/region/1"}},{"id":"2","type":"region","attributes":{"symbol":"EF1a","name":"EF1a","description":null},"links":{"self":"/api/region/2"}},{"id":"3","type":"region","attributes":{"symbol":"ACA","name":"ACA","description":null},"links":{"self":"/api/region/3"}},{"id":"4","type":"region","attributes":{"symbol":"Cox3","name":"Cox3","description":null},"links":{"self":"/api/region/4"}},{"id":"5","type":"region","attributes":{"symbol":"Cox","name":"Cox","description":null},"links":{"self":"/api/region/5"}},{"id":"6","type":"region","attributes":{"symbol":"COII","name":"COII","description":null},"links":{"self":"/api/region/6"}},{"id":"7","type":"region","attributes":{"symbol":"COI","name":"COI","description":null},"links":{"self":"/api/region/7"}},{"id":"8","type":"region","attributes":{"symbol":"ITS","name":"ITS","description":null},"links":{"self":"/api/region/8"}},{"id":"9","type":"region","attributes":{"symbol":"28S","name":"28S","description":null},"links":{"self":"/api/region/9"}},{"id":"10","type":"region","attributes":{"symbol":"mitSSU","name":"mitSSU","description":null},"links":{"self":"/api/region/10"}},{"id":"11","type":"region","attributes":{"symbol":"18S","name":"18S","description":null},"links":{"self":"/api/region/11"}},{"id":"12","type":"region","attributes":{"symbol":"OCM1","name":"OCM1","description":null},"links":{"self":"/api/region/12"}},{"id":"13","type":"region","attributes":{"symbol":"5.8S","name":"5.8S","description":null},"links":{"self":"/api/region/13"}},{"id":"14","type":"region","attributes":{"symbol":"pGEM vector","name":"pGEM vector","description":null},"links":{"self":"/api/region/14"}},{"id":"15","type":"region","attributes":{"symbol":"rRNA","name":"rRNA","description":null},"links":{"self":"/api/region/15"}},{"id":"16","type":"region","attributes":{"symbol":"Beta tubulin","name":"Beta tubulin","description":null},"links":{"self":"/api/region/16"}},{"id":"17","type":"region","attributes":{"symbol":"AOX1","name":"AOX1","description":null},"links":{"self":"/api/region/17"}},{"id":"18","type":"region","attributes":{"symbol":"Alpha Factor","name":"Alpha Factor","description":null},"links":{"self":"/api/region/18"}},{"id":"19","type":"region","attributes":{"symbol":"OCM2","name":"OCM2","description":null},"links":{"self":"/api/region/19"}},{"id":"20","type":"region","attributes":{"symbol":"OCM4","name":"OCM4","description":null},"links":{"self":"/api/region/20"}}],"links":{"first":"/api/region?page[limit]=20","last":"/api/region?page[limit]=20&page[offset]=440","next":"/api/region?page[limit]=20&page[offset]=20"},"meta":{"totalResourceCount":448}}
+----
+
+This is the data the integration test will be validated against. This should something you would expect to get from an API response. The schema is there to validate the response data and make sure it falls within the contract of the schema.
+
+Now that you have provided the test data to validate against, you know how to make the actual test to perform the validation. The Integration tests will fall under this directory:
+
+`src/test/java/ca/gc/aafc/seqdb/api/repository/`
+
+Create a new class in that directory and it should match this example (except with your own schema files and class name):
+
+.RegionResourceRepositoryIT.java
+[source,java]
+----
+package ca.gc.aafc.seqdb.api.repository;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
+public class RegionResourceRepositoryIT {
+
+  @Test
+  public void listRegion_APIResponse_schemaValidates() throws IOException { // Array Object Schema.
+
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/GETregionJSONSchema.json"), // Schema
+        BaseRepositoryTest.newClasspathResourceReader("realRegionResponse-all.json")); // Real data to valdate against. 
+  }
+
+  @Test
+  public void getRegion_APIResponse_schemaValidates() throws IOException { // Single Object Schema.
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("json-schema/regionJSONSchema.json"), // Schema
+        BaseRepositoryTest.newClasspathResourceReader("realRegionResponse.json")); // Real data to valdate against. 
+  }
+}
+----
+
+IMPORTANT: All integration tests need to end with "IT" to automatically run during the `mvn clean verify` process. 
+
+---
+
+== Accessing the JSON schema files through the running application
+
+The application serves the JSON schema files statically from the /json-schema/* endpoint prefix. For example, http://localhost:8080/json-schema/thermocyclerJSONSchema.json .

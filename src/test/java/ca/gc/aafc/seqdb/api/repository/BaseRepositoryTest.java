@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,12 +12,14 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.junit.Before;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
@@ -27,6 +33,12 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   
   @Inject
   protected ResourceRegistry resourceRegistry;
+  
+  
+  public static Reader newClasspathResourceReader(String classpathResourcePath) throws IOException {
+    return new InputStreamReader(new ClassPathResource(classpathResourcePath).getInputStream(),
+        StandardCharsets.UTF_8);
+  }
   
   /**
    * By default, run as an admin user to avoid dealing with Group-based authorization for tests that
@@ -59,6 +71,17 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     entityManager.persist(objectToPersist);
     // New primer must have an ID.
     assertNotNull(objectToPersist.getId());
+  }
+  
+  /**
+   * Persists a group
+   * 
+   * @param the group to persist
+   */
+  protected void persistGroup(Group groupToPersist) {
+    assertNull(groupToPersist.getGroupId());
+    entityManager.persist(groupToPersist);
+    assertNotNull(groupToPersist.getGroupId());
   }
 
   

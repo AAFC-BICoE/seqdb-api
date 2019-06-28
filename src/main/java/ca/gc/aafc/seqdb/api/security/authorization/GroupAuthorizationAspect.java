@@ -18,8 +18,8 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import ca.gc.aafc.seqdb.api.repository.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountsGroupRepository;
 import ca.gc.aafc.seqdb.entities.Account;
@@ -66,7 +66,7 @@ public class GroupAuthorizationAspect {
    *          The result of the findOne operation.
    */
   @AfterReturning(
-      pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.findOne(..))",
+      pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository+.findOne(..))",
       returning = "result"
   )
   public void findOneInterceptor(JoinPoint joinPoint, Object result) {
@@ -90,7 +90,7 @@ public class GroupAuthorizationAspect {
    *          The result of the create operation.
    */
   @AfterReturning(
-      pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.create(..))",
+      pointcut = "execution(* ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository+.create(..))",
       returning = "result"
   )
   public void createInterceptor(JoinPoint joinPoint, Object result) {
@@ -116,7 +116,7 @@ public class GroupAuthorizationAspect {
    * @throws Throwable
    */
   @Around(
-      "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.save(..))"
+      "execution(* ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository+.save(..))"
       + " && args(inputDto)"
   )
   public Object saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
@@ -155,7 +155,7 @@ public class GroupAuthorizationAspect {
    *          The id of the resource to delete.
    */
   @Before(
-      "execution(* ca.gc.aafc.seqdb.api.repository.JpaResourceRepository+.delete(..))"
+      "execution(* ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository+.delete(..))"
       + " && args(id)"
   )
   public void deleteInterceptor(JoinPoint joinPoint, Serializable id) {

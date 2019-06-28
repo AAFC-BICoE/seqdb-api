@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository;
+package ca.gc.aafc.seqdb.api.repository.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
@@ -49,7 +49,7 @@ public class JpaRelationshipRepository<S, T>
 
   @NonNull
   private final List<FilterHandler> filterHandlers;
-  
+
   @Nullable
   private final JpaMetaInformationProvider metaInformationProvider;
 

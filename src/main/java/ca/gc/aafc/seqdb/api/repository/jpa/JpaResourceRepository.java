@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.repository;
+package ca.gc.aafc.seqdb.api.repository.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 
 import com.google.common.collect.Iterables;
 
-import ca.gc.aafc.seqdb.api.repository.handlers.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;

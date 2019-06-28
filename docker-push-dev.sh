@@ -10,7 +10,7 @@ MVN_VERSION=$(mvn -q \
 # The name and tag of the docker image. "dev-" is prepended to the tag.
 DOCKER_IMAGE_FULLNAME="$DOCKER_IMAGE":dev-"$MVN_VERSION"
 
-docker build -t "$DOCKER_IMAGE_FULLNAME"
+docker build -t "$DOCKER_IMAGE_FULLNAME" .
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 

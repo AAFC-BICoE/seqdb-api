@@ -4,7 +4,7 @@ cache:
   directories:
   - $HOME/.m2
 
-script: mvn verify
+script: mvn install
 
 jdk:
   - openjdk8

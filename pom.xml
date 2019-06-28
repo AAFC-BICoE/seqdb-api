@@ -172,7 +172,7 @@
 		<groupId>net.jcip</groupId>
 		<artifactId>jcip-annotations</artifactId>
 		<version>${jcip-annotations.version}</version>
-		<optional>true</optional>
+		<scope>provided</scope>
 	</dependency>
 	<dependency>
 		<groupId>com.github.spotbugs</groupId>

@@ -12,6 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "thermocyclerprofile")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class ThermocyclerProfileDto {
 
   @JsonApiId
@@ -23,7 +24,6 @@ public class ThermocyclerProfileDto {
   
   private String cycles;
   
-  @SuppressFBWarnings(value="EI_EXPOSE_REP")
   private Timestamp lastModified;
 
   private String step1;

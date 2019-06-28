@@ -12,6 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class PcrPrimerDto {
 
   @JsonApiId
@@ -31,7 +32,6 @@ public class PcrPrimerDto {
 
   private Integer version;
   
-  @SuppressFBWarnings(value="EI_EXPOSE_REP")
   private Date designDate;
 
   private String direction;
@@ -66,7 +66,6 @@ public class PcrPrimerDto {
 
   private String note;
   
-  @SuppressFBWarnings(value="EI_EXPOSE_REP")
   private Timestamp lastModified;
 
   private String application;
@@ -77,7 +76,6 @@ public class PcrPrimerDto {
 
   private String supplier;
   
-  @SuppressFBWarnings(value="EI_EXPOSE_REP") 
   private Date dateOrdered;
 
   private String purification;

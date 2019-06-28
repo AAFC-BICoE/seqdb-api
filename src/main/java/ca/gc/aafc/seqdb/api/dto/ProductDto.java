@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @Data
 @JsonApiResource(type = "product")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class ProductDto {
   
   @JsonApiId  
@@ -25,7 +26,6 @@ public class ProductDto {
   
   private String upc;  
 
-  @SuppressFBWarnings(value="EI_EXPOSE_REP")  
   private Timestamp lastModified;  
   
   @JsonApiRelation

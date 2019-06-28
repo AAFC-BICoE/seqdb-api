@@ -10,3 +10,14 @@ jdk:
   - openjdk8
   - openjdk9
   - openjdk10
+
+deploy:
+  - provider: script
+    script: bash docker-push-prod.sh
+    on:
+      branch: master
+      tags: true
+  - provider: script
+    script: bash docker-push-dev.sh
+    on:
+      branch: Support_16529_Containerize_seqdb-api_and_deploy_on_dev_server

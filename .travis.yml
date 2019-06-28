@@ -22,4 +22,4 @@ deploy:
     script: bash docker-push-dev.sh
     skip_cleanup: true
     on:
-      branch: Support_16529_Containerize_seqdb-api_and_deploy_on_dev_server
+      branch: dev

@@ -166,20 +166,20 @@
       <groupId>com.jayway.jsonpath</groupId>
       <artifactId>json-path</artifactId>
     </dependency>
-    
-	<!-- Spotbug annotation  -->
-	<dependency>
-		<groupId>net.jcip</groupId>
-		<artifactId>jcip-annotations</artifactId>
-		<version>${jcip-annotations.version}</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>com.github.spotbugs</groupId>
-		<artifactId>spotbugs-annotations</artifactId>
-		<version>${spotbugs.version}</version>
-		<scope>provided</scope>		
-	</dependency>
+
+	<!-- Used by Spotbug annotation -->
+    <dependency>
+      <groupId>net.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
+      <version>${jcip-annotations.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>${spotbugs.version}</version>
+      <scope>provided</scope>
+    </dependency>
 	
      <!--  Required for Java >= 9 -->
     <dependency>
@@ -309,6 +309,7 @@
         <artifactId>spotbugs-maven-plugin</artifactId>
 	    <version>${spotbugs-maven-plugin.version}</version>
 	    <dependencies>
+          <!-- Force SpotBug version to match the annotation -->
           <dependency>	    
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs</artifactId>
@@ -429,7 +430,8 @@
         <artifactId>spotbugs-maven-plugin</artifactId>
 	    <version>${spotbugs-maven-plugin.version}</version>
 	  </plugin>
-      <plugin>
+	  
+	  <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
         <version>${dependency-check-maven.version}</version>
@@ -441,6 +443,7 @@
           </reportSet>
         </reportSets>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>

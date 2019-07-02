@@ -287,6 +287,11 @@
             <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <configLocation>checkstyle.xml</configLocation>
+          <failOnViolation>true</failOnViolation>
+          <logViolationsToConsole>true</logViolationsToConsole>
+        </configuration>        
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

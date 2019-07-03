@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -69,8 +70,8 @@ public class VocabularyReadOnlyRepository
   @Override
   public ResourceList<BaseVocabularyDto> findAll(QuerySpec querySpec) {
     List<BaseVocabularyDto> resultList = new ArrayList<>();
-    for (String key : ENUM_MAP.keySet()) {
-      resultList.add(ENUM_MAP.get(key));
+    for (Entry<String, BaseVocabularyDto> key : ENUM_MAP.entrySet()) {
+      resultList.add(key.getValue());
     }
     return new DefaultResourceList<BaseVocabularyDto>(resultList, null, null);
   }

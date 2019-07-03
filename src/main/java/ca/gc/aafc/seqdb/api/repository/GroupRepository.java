@@ -19,7 +19,7 @@ import lombok.NonNull;
 @Component
 public class GroupRepository extends JpaResourceRepository<GroupDto> {
 
-  public GroupRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public GroupRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(GroupDto.class, dtoRepository,

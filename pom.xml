@@ -33,7 +33,7 @@
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency-check-maven.version>3.2.1</dependency-check-maven.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
     <checkstyle.version>8.18</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
     <!-- rest assured 4.0.0 is required for API testing-->

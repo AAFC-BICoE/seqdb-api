@@ -89,7 +89,7 @@ public class JpaDtoRepository {
       @NonNull Class<D> sourceDtoClass,
       @NonNull QuerySpec querySpec,
       @NonNull ResourceRegistry resourceRegistry,
-      @Nullable JpaMetaInformationProvider metaInformationProvider,
+      @NonNull JpaMetaInformationProvider metaInformationProvider,
       @Nullable TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter,
       @Nullable Function<From<?, ?>, From<?, ?>> customRoot
   ) {

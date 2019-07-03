@@ -29,6 +29,8 @@
     <h2.version>1.4.198</h2.version>
     
     <spotbugs-maven-plugin.version>3.1.5</spotbugs-maven-plugin.version>
+    <spotbugs.version>3.1.5</spotbugs.version>
+    <jcip-annotations.version>1.0</jcip-annotations.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency-check-maven.version>3.2.1</dependency-check-maven.version>
@@ -164,6 +166,20 @@
       <groupId>com.jayway.jsonpath</groupId>
       <artifactId>json-path</artifactId>
     </dependency>
+
+	<!-- Used by Spotbug annotation -->
+    <dependency>
+      <groupId>net.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
+      <version>${jcip-annotations.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>${spotbugs.version}</version>
+      <scope>provided</scope>
+    </dependency>
 	
      <!--  Required for Java >= 9 -->
     <dependency>
@@ -289,6 +305,19 @@
         </dependencies>
       </plugin>
       <plugin>
+		<groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+	    <version>${spotbugs-maven-plugin.version}</version>
+	    <dependencies>
+          <!-- Force SpotBug version to match the annotation -->
+          <dependency>	    
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs</artifactId>
+			<version>${spotbugs.version}</version>
+          </dependency>
+        </dependencies>		
+      </plugin>
+      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco-maven-plugin.version}</version>
@@ -399,9 +428,10 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${spotbugs-maven-plugin.version}</version>
-      </plugin>
-      <plugin>
+	    <version>${spotbugs-maven-plugin.version}</version>
+	  </plugin>
+	  
+	  <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
         <version>${dependency-check-maven.version}</version>
@@ -413,6 +443,7 @@
           </reportSet>
         </reportSets>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>

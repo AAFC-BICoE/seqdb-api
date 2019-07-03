@@ -16,7 +16,7 @@ import lombok.NonNull;
 @Component
 public class ProtocolRepository extends JpaResourceRepository<ProtocolDto> {
 
-  public ProtocolRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ProtocolRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(ProtocolDto.class, dtoRepository,

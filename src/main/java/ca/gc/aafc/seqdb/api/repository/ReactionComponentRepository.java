@@ -16,7 +16,7 @@ import lombok.NonNull;
 @Component
 public class ReactionComponentRepository extends JpaResourceRepository<ReactionComponentDto> {
 
-  public ReactionComponentRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ReactionComponentRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(ReactionComponentDto.class, dtoRepository,

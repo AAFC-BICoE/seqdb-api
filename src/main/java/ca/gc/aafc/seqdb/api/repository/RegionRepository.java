@@ -18,7 +18,7 @@ import lombok.NonNull;
 @Component
 public class RegionRepository extends JpaResourceRepository<RegionDto> {
 
-  public RegionRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public RegionRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(RegionDto.class, dtoRepository,

@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Named
 @ConditionalOnProperty(value = "import-sample-accounts", havingValue = "true")
 @Slf4j
+//CHECKSTYLE:OFF AnnotationUseStyle
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ImportSampleAccounts implements ApplicationListener<ContextRefreshedEvent> {
 

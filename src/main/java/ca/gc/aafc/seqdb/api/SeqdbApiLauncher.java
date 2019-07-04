@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Launches the application.
  * @author poffm
  */
+//CHECKSTYLE:OFF HideUtilityClassConstructor
 @SpringBootApplication
+//CHECKSTYLE:ON HideUtilityClassConstructor
 @EnableJpaRepositories(considerNestedRepositories = true)
 public class SeqdbApiLauncher {
 

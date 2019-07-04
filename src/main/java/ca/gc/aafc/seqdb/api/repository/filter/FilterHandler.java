@@ -11,7 +11,7 @@ import io.crnk.core.queryspec.QuerySpec;
  * Interface for creating custom filtering strategies for the JpaResourceRepository.
  */
 public interface FilterHandler {
-  public Predicate getRestriction(
+  Predicate getRestriction(
       QuerySpec querySpec,
       From<?, ?> root,
       CriteriaQuery<?> query,

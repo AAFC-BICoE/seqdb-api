@@ -67,9 +67,7 @@ public class JpaDtoRepository {
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
 
-  //CHECKSTYLE:OFF ConstantName
-  private static final ModelMapper mapper = new ModelMapper();
-  //CHECKSTYLE:ON ConstantName
+  private static final ModelMapper MAPPER = new ModelMapper();
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -134,7 +132,7 @@ public class JpaDtoRepository {
         .getResultList();
 
     return new DefaultResourceList<>(result.stream().map(JpaDtoRepository::mapFromTuple)
-        .map(map -> JpaDtoRepository.mapper.map(map, targetDtoClass)).collect(Collectors.toList()),
+        .map(map -> JpaDtoRepository.MAPPER.map(map, targetDtoClass)).collect(Collectors.toList()),
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder().sourceResourceClass(sourceDtoClass)
                 .customRoot(customRoot).customFilter(customFilter).build()),

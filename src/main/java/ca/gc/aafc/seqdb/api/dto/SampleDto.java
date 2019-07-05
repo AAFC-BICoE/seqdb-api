@@ -2,6 +2,9 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ca.gc.aafc.seqdb.entities.Sample.SampleType;
 
@@ -17,14 +20,18 @@ public class SampleDto {
   @JsonApiId
   private Integer sampleId;
   
-  private SampleType sampleType;
+  // Required Fields
   
   private String name;
   
+  private String version;  
+  
+  // Optional Fields
+  
+  private SampleType sampleType;
+  
   private String experimenter;
-  
-  private String version;
-  
+
   private String versionDescription;
   
   private String treatment;
@@ -78,10 +85,14 @@ public class SampleDto {
   private String extractionSolvent;
   
   private Boolean discarded;
-  
-  private Date dateDiscarded;
+
+  // Unsupported for now due to ModelMapper lacks default Java 8 support.
+  @JsonIgnore
+  private LocalDate dateDiscarded;
 
   private Timestamp lastModified;
+  
+  // Optional Relations
   
   @JsonApiRelation
   private GroupDto group;

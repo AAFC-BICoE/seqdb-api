@@ -1,8 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;

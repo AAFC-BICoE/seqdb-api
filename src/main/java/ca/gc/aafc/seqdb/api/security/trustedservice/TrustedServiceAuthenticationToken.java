@@ -7,6 +7,7 @@ import lombok.Getter;
 /**
  * Authentication token for a trusted service to authenticate as a user by using an api-key.
  */
+//CHECKSTYLE:OFF AnnotationUseStyle
 public class TrustedServiceAuthenticationToken extends AbstractAuthenticationToken {
 
   private static final long serialVersionUID = -1689000801224458018L;

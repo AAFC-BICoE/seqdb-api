@@ -30,6 +30,7 @@ import lombok.Setter;
  */
 @Transactional
 @RequiredArgsConstructor
+//CHECKSTYLE:OFF AnnotationUseStyle
 public class JpaResourceRepository<D>
     implements ResourceRepositoryV2<D, Serializable>, ResourceRegistryAware {
 

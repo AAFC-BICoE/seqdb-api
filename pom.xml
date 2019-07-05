@@ -28,8 +28,8 @@
     <!-- We need to skip 1.4.197 (currently provided by SpringBoot 2.1)  -->
     <h2.version>1.4.198</h2.version>
     
-    <spotbugs-maven-plugin.version>3.1.5</spotbugs-maven-plugin.version>
-    <spotbugs.version>3.1.5</spotbugs.version>
+    <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+    <spotbugs.version>3.1.12</spotbugs.version>
     <jcip-annotations.version>1.0</jcip-annotations.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>

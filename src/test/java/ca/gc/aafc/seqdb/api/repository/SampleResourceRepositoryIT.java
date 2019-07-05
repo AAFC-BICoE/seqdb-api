@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.inject.Inject;
 
@@ -154,5 +155,20 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
   @Test(expected = ResourceNotFoundException.class)
   public void deleteSample_onSampleNotFound_throwResourceNotFoundException() {
     sampleRepository.delete(1000);
-  }  
+  }
+  
+  @Test
+  public void listSample_APIResponse_schemaValidates() throws IOException {
+
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETsampleJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realSampleResponse-all.json"));
+  }
+
+  @Test
+  public void getSample_APIResponse_schemaValidates() throws IOException {
+    JsonSchemaAssertions.assertJsonSchema(
+        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/sampleJSONSchema.json"),
+        BaseRepositoryTest.newClasspathResourceReader("realSampleResponse.json"));
+  }
 }

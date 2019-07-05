@@ -2,9 +2,6 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ca.gc.aafc.seqdb.entities.Sample.SampleType;
 
@@ -86,9 +83,8 @@ public class SampleDto {
   
   private Boolean discarded;
 
-  // Unsupported for now due to ModelMapper lacks default Java 8 support.
-  @JsonIgnore
-  private LocalDate dateDiscarded;
+  // discardedDate is currently not supported for now due to ModelMapper lacks default Java 8 support.
+  // another issue will address this problem.
 
   private Timestamp lastModified;
   

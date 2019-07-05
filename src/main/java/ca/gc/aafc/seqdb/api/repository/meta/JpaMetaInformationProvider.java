@@ -25,11 +25,11 @@ public interface JpaMetaInformationProvider {
    * @param params The parameters for creating this MetaInformation.
    * @return the query's MetaInformation
    */
-  public MetaInformation getMetaInformation(JpaMetaInformationParams params);
+  MetaInformation getMetaInformation(JpaMetaInformationParams params);
   
   @Builder
   @Getter
-  public static class JpaMetaInformationParams {
+  class JpaMetaInformationParams {
     
     /**
      * The source resource class used when querying across a relationship.

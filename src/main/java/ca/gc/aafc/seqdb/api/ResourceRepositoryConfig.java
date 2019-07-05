@@ -22,6 +22,7 @@ import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
@@ -40,6 +41,7 @@ import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.ReactionComponent;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.entities.Sample;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
@@ -90,6 +92,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ProductDto.class, Product.class);
     jpaEntities.put(ProtocolDto.class, Protocol.class);
     jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
+    jpaEntities.put(SampleDto.class, Sample.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -255,6 +258,48 @@ public class ResourceRepositoryConfig {
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(
         ReactionComponentDto.class, 
+        ProtocolDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, GroupDto> sampleToGroupRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
+        GroupDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, ProductDto> sampleToProductRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
+        ProductDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, ProtocolDto> sampleToProtocolRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
         ProtocolDto.class, 
         dtoRepository,
         Arrays.asList(

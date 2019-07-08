@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Imports sample local Account data when the application starts. You can log into these Accounts
  * without a connection to LDAP.
- * 
+ *
  * Username: Admin, Password: Admin Username: User, Password: User
  */
 @Named
@@ -37,7 +37,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   private EntityManager entityManager;
   private PasswordEncoder passwordEncoder;
-  
+
   public ImportSampleAccounts(EntityManager entityManager, PasswordEncoder passwordEncoder) {
     this.entityManager = entityManager;
     this.passwordEncoder = passwordEncoder;
@@ -89,7 +89,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   /**
    * Retrieve a group that is already persisted in the database (usually by Liquibase initial-data)
-   * 
+   *
    * @param groupName
    *          case sensitive groupName
    * @return
@@ -109,7 +109,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   /**
    * Check if an account is already in the database (case sensitive).
-   * 
+   *
    * @param accountName
    * @return
    */

@@ -13,14 +13,15 @@ import ca.gc.aafc.seqdb.entities.Group;
  *
  */
 public class ImportSampleAccountsStub extends ImportSampleAccounts {
-  
+
   /**
    * The state of the accounts existing, this boolean will be returned as the override accountsExist method.
-   * So depending on how the stub in configured you can change the return. 
+   * So depending on how the stub in configured you can change the return.
    */
   private boolean accountsAlreadyExist = false;
- 
-  public ImportSampleAccountsStub(EntityManager entityManager, PasswordEncoder passwordEncoder, boolean accountsExist) {
+
+  public ImportSampleAccountsStub(EntityManager entityManager, PasswordEncoder passwordEncoder,
+      boolean accountsExist) {
     super(entityManager, passwordEncoder);
     this.accountsAlreadyExist = accountsExist;
   }
@@ -33,7 +34,7 @@ public class ImportSampleAccountsStub extends ImportSampleAccounts {
   protected boolean accountExists(String accountName) {
     return accountsAlreadyExist;
   }
-  
+
   @Override
   protected Group retrieveGroup(String groupName) {
     return new Group("Test Group");

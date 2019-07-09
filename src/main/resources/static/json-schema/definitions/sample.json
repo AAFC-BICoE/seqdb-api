@@ -133,11 +133,6 @@
 	    	"description": "Is there any unusable DNA in the sample."
 	    },
 	    
-	    "discarded": {
-	    	"type": "boolean",
-	    	"description": "Is this sample discarded."
-	    },
-	    
 	    "sampleType": {
 	    	"type": "string",
 	    	"enum": ["NO_TYPE", "DNA", "RNA", "PROTEIN", "LIBRARY", "CHEMICAL"],

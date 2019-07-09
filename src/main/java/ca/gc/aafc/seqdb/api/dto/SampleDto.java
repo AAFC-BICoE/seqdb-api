@@ -80,11 +80,6 @@ public class SampleDto {
   private String fermentationTime;
   
   private String extractionSolvent;
-  
-  private Boolean discarded;
-
-  // discardedDate is currently not supported for now due to ModelMapper lacks default Java 8 support.
-  // another issue will address this problem.
 
   private Timestamp lastModified;
   

@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
@@ -280,6 +279,9 @@ public class ResourceRepositoryConfig {
         metaInformationProvider);
   }
   
+  /**
+   * Relationship Repository between a Chain and ChainTemplate.
+   */
   @Bean
   public JpaRelationshipRepository<ChainDto, ChainTemplateDto> chainToChainTemplateRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -294,6 +296,9 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a ChainStepTemplate and ChainTemplate.
+   */
   @Bean
   public JpaRelationshipRepository<ChainStepTemplateDto, ChainTemplateDto> chainStepTemplateToChainTemplateRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -308,6 +313,9 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a ChainStepTemplate and StepTemplate.
+   */
   @Bean
   public JpaRelationshipRepository<ChainStepTemplateDto, StepTemplateDto> chainStepTemplateToStepTemplateRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -322,6 +330,9 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a StepResource and Chain.
+   */
   @Bean
   public JpaRelationshipRepository<StepResourceDto, ChainDto> stepResourceToChainRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -336,6 +347,9 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a StepResource and Region.
+   */
   @Bean
   public JpaRelationshipRepository<StepResourceDto, RegionDto> stepResourceToRegionRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
@@ -350,6 +364,9 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a StepResource and PcrPrimer.
+   */
   @Bean
   public JpaRelationshipRepository<StepResourceDto, PcrPrimerDto> stepResourceToPcrPrimerRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {

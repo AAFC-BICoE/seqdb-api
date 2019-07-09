@@ -34,10 +34,14 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
   public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
+  
+  // defined by Liquibase
+  public static final String ADMIN_GROUP_NAME = "Admin Group";
+  public static final String USER_GROUP_NAME = "User Group";
 
-  private EntityManager entityManager;
-  private PasswordEncoder passwordEncoder;
-
+  private final EntityManager entityManager;
+  private final PasswordEncoder passwordEncoder;
+ 
   public ImportSampleAccounts(EntityManager entityManager, PasswordEncoder passwordEncoder) {
     this.entityManager = entityManager;
     this.passwordEncoder = passwordEncoder;
@@ -58,7 +62,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
       AccountsGroup adminPermissions = new AccountsGroup();
       adminPermissions.setAccount(adminAccount);
-      adminPermissions.setGroup(retrieveGroup("Admin Group"));
+      adminPermissions.setGroup(retrieveGroup(ADMIN_GROUP_NAME));
       adminPermissions.setRights("1111");
       adminPermissions.setAdmin(true);
       entityManager.persist(adminPermissions);
@@ -77,7 +81,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
       AccountsGroup userPermissions = new AccountsGroup();
       userPermissions.setAccount(userAccount);
-      userPermissions.setGroup(retrieveGroup("User Group"));
+      userPermissions.setGroup(retrieveGroup(USER_GROUP_NAME));
       userPermissions.setRights("1111");
       userPermissions.setAdmin(true);
       entityManager.persist(userPermissions);

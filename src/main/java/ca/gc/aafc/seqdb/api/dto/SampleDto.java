@@ -12,6 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "sample")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class SampleDto {
 
   @JsonApiId

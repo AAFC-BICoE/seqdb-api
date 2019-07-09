@@ -267,7 +267,7 @@ public class ResourceRepositoryConfig {
   }
 
   @Bean
-  public JpaRelationshipRepository<ReactionComponentDto, ProtocolDto> ReactionComponentToProtocolRepository(
+  public JpaRelationshipRepository<ReactionComponentDto, ProtocolDto> reactionComponentToProtocolRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(
         ReactionComponentDto.class, 

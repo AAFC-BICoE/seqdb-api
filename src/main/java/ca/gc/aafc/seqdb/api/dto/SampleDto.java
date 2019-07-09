@@ -55,11 +55,11 @@ public class SampleDto {
 
   private Double qubitDNAConcentration;
 
-  @SuppressWarnings("checkstyle:membername")
+  //CHECKSTYLE:OFF
   private Double ratio260_280;
 
-  @SuppressWarnings("checkstyle:membername")
   private Double ratio260_230;
+  //CHECKSTYLE:ON
 
   private String quantificationMethod;
 

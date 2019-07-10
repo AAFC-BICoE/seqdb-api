@@ -33,6 +33,7 @@ import lombok.Setter;
  */
 @Transactional
 @RequiredArgsConstructor
+//CHECKSTYLE:OFF AnnotationUseStyle
 public class JpaRelationshipRepository<S, T>
     implements RelationshipRepositoryV2<S, Serializable, T, Serializable>, ResourceRegistryAware {
 
@@ -41,6 +42,7 @@ public class JpaRelationshipRepository<S, T>
   private final Class<S> sourceResourceClass;
 
   @NonNull
+    
   @Getter(onMethod_ = @Override)
   private final Class<T> targetResourceClass;
 
@@ -52,7 +54,6 @@ public class JpaRelationshipRepository<S, T>
 
   @Nullable
   private final JpaMetaInformationProvider metaInformationProvider;
-
   @Setter(onMethod_ = @Override)
   private ResourceRegistry resourceRegistry;
 

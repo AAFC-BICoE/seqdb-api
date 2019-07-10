@@ -1,5 +1,4 @@
 package ca.gc.aafc.seqdb.api.dto.vocabularies;
-
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
@@ -9,8 +8,8 @@ import lombok.Data;
 @JsonApiResource(type = "vocabulary")
 public class BaseVocabularyDto {
   
-  public BaseVocabularyDto( String Id, Object[] enumValues) {
-    this.enumType = Id;
+  public BaseVocabularyDto( String id, Object[] enumValues) {
+    this.enumType = id;
     this.enumValues = enumValues;
   }
   
@@ -18,9 +17,4 @@ public class BaseVocabularyDto {
   private String enumType;
     
   public Object[] enumValues;
- 
-
-  
-  
-  
 }

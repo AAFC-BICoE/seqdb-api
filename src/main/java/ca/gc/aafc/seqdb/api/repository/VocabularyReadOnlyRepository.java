@@ -20,6 +20,7 @@ import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.entities.Sample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
@@ -42,7 +43,8 @@ public class VocabularyReadOnlyRepository
           Group.class,
           Product.class,
           PcrProfile.class,
-          Protocol.class
+          Protocol.class,
+          Sample.class
          ));
 
 

@@ -18,7 +18,7 @@ import io.crnk.core.exception.CrnkMappableException;
  * Deserializer for ObjectMapper that converts a string of YYYY-MM-DD format to a java.sql.date.
  */
 @JsonComponent
-public class DateDeserializer extends JsonDeserializer<Date>{
+public class DateDeserializer extends JsonDeserializer<Date> {
 
   private static final Integer STATUS_ON_ERROR = HttpStatus.UNPROCESSABLE_ENTITY_422;
   

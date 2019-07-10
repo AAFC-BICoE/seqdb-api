@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
@@ -24,6 +25,7 @@ import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.dto.StepResourceDto;
 import ca.gc.aafc.seqdb.api.dto.StepTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
@@ -44,19 +46,20 @@ import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.ReactionComponent;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.entities.Sample;
 import ca.gc.aafc.seqdb.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.entities.workflow.ChainStepTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.ChainTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.StepResource;
 import ca.gc.aafc.seqdb.entities.workflow.StepTemplate;
-
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
 import io.crnk.spring.jpa.SpringTransactionRunner;
 
 @Configuration
-@ComponentScan
+//Restricted to repository package so it won't affect tests with bean mocking/overriding.
+@ComponentScan("ca.gc.aafc.seqdb.api.repository")
 @EntityScan("ca.gc.aafc.seqdb.entities")
 // Must explicitly depend on "querySpecUrlMapper" so Spring can inject it into this class'
 // initQuerySpecUrlMapper method.
@@ -105,6 +108,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ProductDto.class, Product.class);
     jpaEntities.put(ProtocolDto.class, Protocol.class);
     jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
+    jpaEntities.put(SampleDto.class, Sample.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -379,5 +383,47 @@ public class ResourceRepositoryConfig {
         ),
         metaInformationProvider
     );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, GroupDto> sampleToGroupRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
+        GroupDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, ProductDto> sampleToProductRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
+        ProductDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<SampleDto, ProtocolDto> sampleToProtocolRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        SampleDto.class, 
+        ProtocolDto.class, 
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler, 
+            rsqlFilterHandler, 
+            groupFilterFactory.create(root -> (Path<Group>) root)),
+        metaInformationProvider);
   }
 }

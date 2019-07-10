@@ -1,0 +1,131 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "sample",
+      "attributes": {
+        "versionDescription": "version description",
+        "date": "2019-05-19",
+        "ratio260_280": 3.0,
+        "treatment": "treatment",
+        "dnaNotes": "dna notes",
+        "notes": "main notes",
+        "experimenter": "brandon andre",
+        "source": "test",
+        "sampleType": "DNA",
+        "lysisBufferVolume": 3.3,
+        "qubitDNAConcentration": 3.2,
+        "extractionSolvent": "extraction solvent",
+        "quantificationMethod": "quantification method",
+        "dnaConcentrationPerStartMaterial": "dna concentration per start material",
+        "proteinaseKVolume": 3.0,
+        "extractionBatch": "extraction batch",
+        "dnaConcentrationNotes": "dna concentration notes",
+        "growthMedia": "growth media",
+        "unusableDna": false,
+        "pelletSize": 5.0,
+        "dnaConcentration": "dna concentration notes",
+        "version": "version",
+        "tubeId": "tube id",
+        "fraction": "fraction",
+        "nuclAcidExt": "nucl acid ext",
+        "fermentationTime": "fermentation time",
+        "name": "name",
+        "lastModified": "2019-07-05T17:26:37.286+0000",
+        "ratio260_230": 3.2,
+        "inoculationDate": "1998-05-19",
+        "fermentationTemperature": 5.0
+      },
+      "relationships": {
+        "protocol": {
+          "links": {
+            "self": "/api/sample/1/relationships/protocol",
+            "related": "/api/sample/1/protocol"
+          }
+        },
+        "kit": {
+          "links": {
+            "self": "/api/sample/1/relationships/kit",
+            "related": "/api/sample/1/kit"
+          }
+        },
+        "group": {
+          "links": {
+            "self": "/api/sample/1/relationships/group",
+            "related": "/api/sample/1/group"
+          }
+        }
+      },
+      "links": {
+        "self": "/api/sample/1"
+      }
+    },
+    {
+      "id": "2",
+      "type": "sample",
+      "attributes": {
+        "versionDescription": "version description",
+        "date": "2019-05-19",
+        "ratio260_280": 3.0,
+        "treatment": "treatment",
+        "dnaNotes": "dna notes",
+        "notes": "main notes",
+        "experimenter": "brandon andre",
+        "source": "test",
+        "sampleType": "DNA",
+        "lysisBufferVolume": 3.3,
+        "qubitDNAConcentration": 3.2,
+        "extractionSolvent": "extraction solvent",
+        "quantificationMethod": "quantification method",
+        "dnaConcentrationPerStartMaterial": "dna concentration per start material",
+        "proteinaseKVolume": 3.0,
+        "extractionBatch": "extraction batch",
+        "dnaConcentrationNotes": "dna concentration notes",
+        "growthMedia": "growth media",
+        "unusableDna": false,
+        "pelletSize": 5.0,
+        "dnaConcentration": "dna concentration notes",
+        "version": "version",
+        "tubeId": "tube id",
+        "fraction": "fraction",
+        "nuclAcidExt": "nucl acid ext",
+        "fermentationTime": "fermentation time",
+        "name": "name 2",
+        "lastModified": "2019-07-05T17:26:37.286+0000",
+        "ratio260_230": 3.2,
+        "inoculationDate": "1998-05-19",
+        "fermentationTemperature": 5.0
+      },
+      "relationships": {
+        "protocol": {
+          "links": {
+            "self": "/api/sample/2/relationships/protocol",
+            "related": "/api/sample/2/protocol"
+          }
+        },
+        "kit": {
+          "links": {
+            "self": "/api/sample/2/relationships/kit",
+            "related": "/api/sample/2/kit"
+          }
+        },
+        "group": {
+          "links": {
+            "self": "/api/sample/2/relationships/group",
+            "related": "/api/sample/2/group"
+          }
+        }
+      },
+      "links": {
+        "self": "/api/sample/2"
+      }
+    }
+  ],
+  "links": {
+    "first": "/api/sample?page[limit]=20",
+    "last": "/api/sample?page[limit]=20"
+  },
+  "meta": {
+    "totalResourceCount": 2
+  }
+}

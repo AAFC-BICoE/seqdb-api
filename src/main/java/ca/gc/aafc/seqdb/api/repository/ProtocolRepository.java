@@ -11,12 +11,11 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
-import lombok.NonNull;
 
 @Component
 public class ProtocolRepository extends JpaResourceRepository<ProtocolDto> {
 
-  public ProtocolRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ProtocolRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(ProtocolDto.class, dtoRepository,

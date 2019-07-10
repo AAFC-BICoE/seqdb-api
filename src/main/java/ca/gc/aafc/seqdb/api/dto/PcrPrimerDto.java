@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -11,6 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class PcrPrimerDto {
 
   @JsonApiId
@@ -29,7 +31,7 @@ public class PcrPrimerDto {
   // Optional fields
 
   private Integer version;
-
+  
   private Date designDate;
 
   private String direction;
@@ -63,7 +65,7 @@ public class PcrPrimerDto {
   private String urllink;
 
   private String note;
-
+  
   private Timestamp lastModified;
 
   private String application;
@@ -73,7 +75,7 @@ public class PcrPrimerDto {
   private String targetSpecies;
 
   private String supplier;
-
+  
   private Date dateOrdered;
 
   private String purification;

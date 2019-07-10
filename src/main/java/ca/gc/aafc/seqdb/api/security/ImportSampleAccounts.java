@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.security;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -14,29 +13,39 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Imports sample local Account data when the application starts. You can log into these Accounts
  * without a connection to LDAP.
- * 
+ *
  * Username: Admin, Password: Admin Username: User, Password: User
  */
 @Named
 @ConditionalOnProperty(value = "import-sample-accounts", havingValue = "true")
 @Slf4j
-@RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ImportSampleAccounts implements ApplicationListener<ContextRefreshedEvent> {
 
   public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
   public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
+  
+  // defined by Liquibase
+  public static final String ADMIN_GROUP_NAME = "Admin Group";
+  public static final String USER_GROUP_NAME = "User Group";
 
   private final EntityManager entityManager;
   private final PasswordEncoder passwordEncoder;
+ 
+  public ImportSampleAccounts(EntityManager entityManager, PasswordEncoder passwordEncoder) {
+    this.entityManager = entityManager;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   @Transactional
   @Override
@@ -53,7 +62,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
       AccountsGroup adminPermissions = new AccountsGroup();
       adminPermissions.setAccount(adminAccount);
-      adminPermissions.setGroup(retrieveGroup("Admin Group"));
+      adminPermissions.setGroup(retrieveGroup(ADMIN_GROUP_NAME));
       adminPermissions.setRights("1111");
       adminPermissions.setAdmin(true);
       entityManager.persist(adminPermissions);
@@ -72,7 +81,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
       AccountsGroup userPermissions = new AccountsGroup();
       userPermissions.setAccount(userAccount);
-      userPermissions.setGroup(retrieveGroup("User Group"));
+      userPermissions.setGroup(retrieveGroup(USER_GROUP_NAME));
       userPermissions.setRights("1111");
       userPermissions.setAdmin(true);
       entityManager.persist(userPermissions);
@@ -84,12 +93,13 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   /**
    * Retrieve a group that is already persisted in the database (usually by Liquibase initial-data)
-   * 
+   *
    * @param groupName
    *          case sensitive groupName
    * @return
    */
-  private Group retrieveGroup(String groupName) {
+  @VisibleForTesting
+  protected Group retrieveGroup(String groupName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Group> criteria = criteriaBuilder.createQuery(Group.class);
     Root<Group> root = criteria.from(Group.class);
@@ -103,11 +113,12 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   /**
    * Check if an account is already in the database (case sensitive).
-   * 
+   *
    * @param accountName
    * @return
    */
-  private boolean accountExists(String accountName) {
+  @VisibleForTesting
+  protected boolean accountExists(String accountName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
     Root<Account> root = criteria.from(Account.class);

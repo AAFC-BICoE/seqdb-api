@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "stepTemplate")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class StepTemplateDto {
   
   @JsonApiId

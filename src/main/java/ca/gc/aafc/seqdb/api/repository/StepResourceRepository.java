@@ -17,7 +17,7 @@ import lombok.NonNull;
 @Component
 public class StepResourceRepository extends JpaResourceRepository<StepResourceDto> {
   
-  public StepResourceRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public StepResourceRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     

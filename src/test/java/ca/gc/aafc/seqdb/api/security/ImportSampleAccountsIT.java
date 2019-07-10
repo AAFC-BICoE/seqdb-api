@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.security;
 
 import java.util.List;
 import java.util.function.Predicate;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 

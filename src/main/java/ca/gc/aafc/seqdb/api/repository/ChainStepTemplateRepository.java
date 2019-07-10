@@ -17,7 +17,7 @@ import lombok.NonNull;
 @Component
 public class ChainStepTemplateRepository extends JpaResourceRepository<ChainStepTemplateDto> {
 
-  public ChainStepTemplateRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ChainStepTemplateRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     

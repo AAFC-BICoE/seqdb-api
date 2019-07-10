@@ -17,7 +17,7 @@ import lombok.NonNull;
 @Component
 public class ChainRepository extends JpaResourceRepository<ChainDto> {
 
-  public ChainRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ChainRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     

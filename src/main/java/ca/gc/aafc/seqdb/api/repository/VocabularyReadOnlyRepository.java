@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.entities.Sample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
@@ -41,7 +43,8 @@ public class VocabularyReadOnlyRepository
           Group.class,
           Product.class,
           PcrProfile.class,
-          Protocol.class
+          Protocol.class,
+          Sample.class
          ));
 
 
@@ -69,8 +72,8 @@ public class VocabularyReadOnlyRepository
   @Override
   public ResourceList<BaseVocabularyDto> findAll(QuerySpec querySpec) {
     List<BaseVocabularyDto> resultList = new ArrayList<>();
-    for (String key : ENUM_MAP.keySet()) {
-      resultList.add(ENUM_MAP.get(key));
+    for (Entry<String, BaseVocabularyDto> key : ENUM_MAP.entrySet()) {
+      resultList.add(key.getValue());
     }
     return new DefaultResourceList<BaseVocabularyDto>(resultList, null, null);
   }

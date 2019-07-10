@@ -1,0 +1,166 @@
+{
+	"$comment": "All of the attributes for the Sample object can be found here.",
+	"type": "object",
+	"description": "The properties of the Sample object.",
+	"required": ["name", "version"],
+	"properties": {
+	
+	    "name": {
+	        "type": "string",
+	        "description": "The name given to the Sample.",
+	        "maxLength": 50,
+	        "examples": ["BG_PCR026"]
+	    },
+	    
+	    "version": {
+	    	"type": "string",
+	        "description": "The version given to the Sample.",
+	        "maxLength": 50,
+	        "examples": ["A"]
+	    },
+	    
+	    "experimenter": {
+	    	"type": "string",
+	    	"description": "The experimenter who worked on the Sample",
+	    	"maxLength": 50,
+	        "examples": ["Dr. Brandon Andre"]
+	    },
+	    
+	    "versionDescription": {
+	    	"type": "string",
+	    	"description": "Description of the version of the Sample",
+	    	"maxLength": 512,
+	        "examples": ["This is the initial version of the sample."]
+	    },
+	    
+	    "source": {
+	    	"type": "string",
+	    	"description": "Source of the Sample",
+	    	"maxLength": 200
+	    },
+	    
+	    "dnaConcentration": {
+	    	"type": "string",
+	    	"description": "Dna concentration of the sample.",
+	    	"maxLength": 50,
+	        "examples": ["57%"]
+	    },
+	    
+	    "dnaConcentrationNotes": {
+	    	"type": "string",
+	    	"description": "Notes about the Dna concentration of the sample.",
+	    	"maxLength": 200
+	    },
+	    
+	    "treatment": {
+	    	"type": "string",
+	    	"description": "treatment information of the sample."
+	    },
+	    
+	    "growthMedia": {
+	    	"type": "string",
+	    	"description": "Growth media information of the sample.",
+	    	"maxLength": 50
+	    },
+	    
+	    "date": {
+	    	"type": "string",
+	    	"pattern": "^([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$",
+	    	"description": "Extraction date of the sample.",
+	        "examples": ["1998-05-19"]
+	    },
+	    
+	    "nuclAcidExt": {
+	    	"type": "string",
+	    	"description": "Nucleic Acid Extraction of the sample.",
+	    	"maxLength": 50
+	    },
+	    
+	    "pelletSize": {
+	    	"type": "number",
+	    	"description": "Pellet size of the sample."
+	    },
+	    
+	    "lysisBufferVolume": {
+	    	"type": "number",
+	    	"description": "Lysis buffer volume of the sample."
+	    },
+	   
+	    "proteinaseKVolume": {
+	    	"type": "number",
+	    	"description": "Proteinase K volume of the sample."
+	    },
+	   
+	    "qubitDNAConcentration": {
+	    	"type": "number",
+	    	"description": "Qubit DNA concentration of the sample."
+	    },
+	   
+	    "ratio260_280": {
+	    	"type": "number",
+	    	"description": "ratio 260 280 of the sample."
+	    },
+	   
+	    "ratio260_230": {
+	    	"type": "number",
+	    	"description": "ratio 260 230 of the sample."
+	    },
+	    
+	    "quantificationMethod": {
+	    	"type": "string",
+	    	"description": "Quantification method of the sample.",
+	    	"maxLength": 100
+	    },
+	    
+	    "notes": {
+	    	"type": "string",
+	    	"description": "Sample notes, additional information about the sample."
+	    },
+	    
+	    "dnaNotes": {
+	    	"type": "string",
+	    	"description": "Sample DNA notes, additional information about the sample DNA."
+	    },
+	    
+	    "tubeId": {
+	    	"type": "string",
+	    	"description": "Tube ID of the sample.",
+	    	"maxLength": 50
+	    },
+	    
+	    "unusableDna": {
+	    	"type": "boolean",
+	    	"description": "Is there any unusable DNA in the sample."
+	    },
+	    
+	    "sampleType": {
+	    	"type": "string",
+	    	"enum": ["NO_TYPE", "DNA", "RNA", "PROTEIN", "LIBRARY", "CHEMICAL"],
+	    	"description": "The selected type of the sample."
+	    },
+	    
+	    "inoculationDate": {
+	    	"type": "string",
+	    	"pattern": "^([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$",
+	    	"description": "Inoculation Date of the sample."
+	    },
+	    
+	    "fraction": {
+	    	"type": "string",
+	    	"description": "The fraction of the sample.",
+	    	"maxLength": 50
+	    },
+	   
+	    "fermentationTemperature": {
+	    	"type": "number",
+	    	"description": "The fermentation temperature of the sample."
+	    },
+	    
+	    "extractionSolvent": {
+	    	"type": "string",
+	    	"description": "The Extraction Solvent of the sample.",
+	    	"maxLength": 50
+	    }
+	
+	}
+}

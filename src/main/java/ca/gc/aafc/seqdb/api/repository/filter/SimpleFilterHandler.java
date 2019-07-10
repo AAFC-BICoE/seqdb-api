@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
  *   http://localhost:8080/api/pcrPrimer?filter[name]=101F
  */
 @Named
+//CHECKSTYLE:OFF AnnotationUseStyle
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class SimpleFilterHandler implements FilterHandler {
 

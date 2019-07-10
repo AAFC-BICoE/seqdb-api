@@ -119,6 +119,7 @@ public class GroupAuthorizationAspect {
       "execution(* ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository+.save(..))"
       + " && args(inputDto)"
   )
+  //CHECKSTYLE:OFF IllegalThrows  
   public Object saveInterceptor(ProceedingJoinPoint joinPoint, Object inputDto) throws Throwable {
     JpaResourceRepository<?> repository = (JpaResourceRepository<?>) joinPoint.getThis();
     

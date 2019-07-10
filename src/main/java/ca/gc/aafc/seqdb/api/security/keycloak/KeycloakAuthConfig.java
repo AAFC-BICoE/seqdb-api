@@ -37,7 +37,7 @@ public class KeycloakAuthConfig extends KeycloakWebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public KeycloakConfigResolver KeycloakConfigResolver() {
+  public KeycloakConfigResolver keycloakConfigResolver() {
     return new KeycloakSpringBootConfigResolver();
   }
 

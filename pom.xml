@@ -230,13 +230,13 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>
     </dependency>
-    
+
     <!-- used in dbi jar -->
     <dependency>
-	    <groupId>com.vladmihalcea</groupId>
-	    <artifactId>hibernate-types-52</artifactId>
-	    <version>2.3.5</version>
-	</dependency>
+      <groupId>com.vladmihalcea</groupId>
+      <artifactId>hibernate-types-52</artifactId>
+      <version>2.3.5</version>
+    </dependency>
     
     <!-- TEST Scope -->
     <dependency>

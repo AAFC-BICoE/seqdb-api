@@ -1,20 +1,20 @@
 package ca.gc.aafc.seqdb.api.rest;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Integration test for the region resource.
  *
  */
 public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
-  
+
   @Override
   protected String getResourceUnderTest() {
     return "protocol";
   }
-  
+
   @Override
   protected String getGetOneSchemaFilename() {
     return "protocolJSONSchema.json";
@@ -24,7 +24,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
   protected String getGetManySchemaFilename() {
     return "GETprotocolJSONSchema.json";
   }
-  
+
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
     return new ImmutableMap.Builder<String, Object>()
@@ -42,17 +42,17 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
         .put("reactionMixVolumePerTube", "10dL")
         .build();
   }
-  
+
   @Override
   protected Map<String, Object> buildRelationshipMap() {
     ImmutableMap.Builder<String, Object> relationships = new ImmutableMap.Builder<>();
     relationships.put("type", "group").put("id", "2").build();
-    
+
     ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
     bldr.put("data", relationships.build());
     return ImmutableMap.of("group", bldr.build());
   }
-  
+
   @Override
   protected Map<String, Object> buildUpdateAttributeMap() {
     return new ImmutableMap.Builder<String, Object>()

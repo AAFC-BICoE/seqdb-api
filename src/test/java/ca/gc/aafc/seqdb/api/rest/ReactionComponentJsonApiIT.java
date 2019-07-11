@@ -15,9 +15,9 @@ import static io.restassured.RestAssured.given;
  * Integration test for the reaction component resource.
  */
 public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
-  
+
   private int id;
-  
+
   @Override
   protected String getResourceUnderTest() {
     return "reactionComponent";
@@ -32,7 +32,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
   protected String getGetManySchemaFilename() {
     return "GETreactionComponentJSONSchema.json";
   }
-  
+
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
     return new ImmutableMap.Builder<String, Object>()
@@ -45,7 +45,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
   protected Map<String, Object> buildRelationshipMap() {
     ImmutableMap.Builder<String, Object> relationships = new ImmutableMap.Builder<>();
     relationships.put("type", "protocol").put("id", String.valueOf(id)).build();
-    
+
     ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
     bldr.put("data", relationships.build());
     return ImmutableMap.of("protocol", bldr.build());
@@ -58,7 +58,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
       .put("concentration", "45mg/mL")
       .put("quantity", "9.37").build();
   }
-  
+
   /*
    * Builds and posts a protocol required to post a reaction component.
    */
@@ -70,17 +70,17 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
       .put("type", ProtocolType.COLLECTION_EVENT)
       .put("version", "A")
       .build();
-    
+
     //Build group relationship for protocol
     ImmutableMap.Builder<String, Object> protocolRelationships = new ImmutableMap.Builder<>();
     protocolRelationships.put("type", "group").put("id", "2").build();
-    
+
     ImmutableMap.Builder<String, Object> dataBldr = new ImmutableMap.Builder<>();
     dataBldr.put("data", protocolRelationships.build());
-    
+
     ImmutableMap.Builder<String, Object> relationshipBldr = new ImmutableMap.Builder<>();
     relationshipBldr.put("group", dataBldr.build());
-    
+
     //Put maps together and create one json map
     Map<String, Object> protocolMap = toJsonAPIMap(
         "protocol", protocolAttributes.build(), relationshipBldr.build(), null);
@@ -91,7 +91,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
     String strid = (String) response.body().jsonPath().get("data.id");
     id = Integer.parseInt(strid);
   }
-  
+
   /*
    * Destroys the protocol when the test is complete.
    */
@@ -101,5 +101,4 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
     given().contentType(JSON_API_CONTENT_TYPE).when().delete("protocol" + "/" + id)
     .then().statusCode(HttpStatus.NO_CONTENT.value());
   }
-  
 }

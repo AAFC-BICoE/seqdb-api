@@ -86,13 +86,6 @@
 	    	"description" : "The volume of the reaction mix per tube ",
 	    	"maxLength" : 50,
 	    	"examples" : ["9"]
-	    },
-
-		"kit" : {
-			"type" : "object",
-			"description" : "The kit used to perform the sequencing",
-			"examples" : ["Macherey-Nagel NucleoMag 96 Trace"]
-		}
-	
+	    }
 	}
 }

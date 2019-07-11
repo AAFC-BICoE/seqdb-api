@@ -19,7 +19,8 @@ public class StepResourceRepository extends JpaResourceRepository<StepResourceDt
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(StepResourceDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+    super(StepResourceDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
     
   }
   

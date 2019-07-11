@@ -19,7 +19,8 @@ public class ChainStepTemplateRepository extends JpaResourceRepository<ChainStep
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(ChainStepTemplateDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+    super(ChainStepTemplateDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
     
   }
   

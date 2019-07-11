@@ -19,7 +19,8 @@ public class ChainTemplateRepository extends JpaResourceRepository<ChainTemplate
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(ChainTemplateDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+    super(ChainTemplateDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
     
   }
 

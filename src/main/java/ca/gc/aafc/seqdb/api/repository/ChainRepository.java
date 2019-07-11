@@ -19,7 +19,8 @@ public class ChainRepository extends JpaResourceRepository<ChainDto> {
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(ChainDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
+    super(ChainDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
+        groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
     
   }
   

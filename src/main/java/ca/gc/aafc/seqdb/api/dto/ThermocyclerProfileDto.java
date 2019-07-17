@@ -1,9 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -11,6 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "thermocyclerprofile")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class ThermocyclerProfileDto {
 
   @JsonApiId
@@ -21,7 +21,7 @@ public class ThermocyclerProfileDto {
   private String application;
   
   private String cycles;
-
+  
   private Timestamp lastModified;
 
   private String step1;

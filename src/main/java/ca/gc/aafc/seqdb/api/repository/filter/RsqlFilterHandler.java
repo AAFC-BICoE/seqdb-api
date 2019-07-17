@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
  * RSQL spec: https://github.com/jirutka/rsql-parser
  */
 @Named
+//CHECKSTYLE:OFF AnnotationUseStyle
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class RsqlFilterHandler implements FilterHandler {
 

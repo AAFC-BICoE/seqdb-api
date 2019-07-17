@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
  * of its dependencies.
  */
 @Named
+//CHECKSTYLE:OFF AnnotationUseStyle
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class ReadableGroupFilterHandlerFactory {
 

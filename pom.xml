@@ -28,12 +28,14 @@
     <!-- We need to skip 1.4.197 (currently provided by SpringBoot 2.1)  -->
     <h2.version>1.4.198</h2.version>
     
-    <spotbugs-maven-plugin.version>3.1.5</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+    <spotbugs.version>3.1.12</spotbugs.version>
+    <jcip-annotations.version>1.0</jcip-annotations.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency-check-maven.version>3.2.1</dependency-check-maven.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
     <checkstyle.version>8.18</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
     <!-- rest assured 4.0.0 is required for API testing-->
@@ -165,6 +167,20 @@
       <groupId>com.jayway.jsonpath</groupId>
       <artifactId>json-path</artifactId>
     </dependency>
+
+	<!-- Used by Spotbug annotation -->
+    <dependency>
+      <groupId>net.jcip</groupId>
+      <artifactId>jcip-annotations</artifactId>
+      <version>${jcip-annotations.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>${spotbugs.version}</version>
+      <scope>provided</scope>
+    </dependency>
 	
      <!--  Required for Java >= 9 -->
     <dependency>
@@ -221,6 +237,13 @@
       <version>${seqdb.dbi.version}</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>
+    </dependency>
+
+    <!-- used in dbi jar -->
+    <dependency>
+      <groupId>com.vladmihalcea</groupId>
+      <artifactId>hibernate-types-52</artifactId>
+      <version>2.3.5</version>
     </dependency>
     
     <!-- TEST Scope -->
@@ -295,6 +318,24 @@
             <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <configLocation>checkstyle.xml</configLocation>
+          <failOnViolation>true</failOnViolation>
+          <logViolationsToConsole>true</logViolationsToConsole>
+        </configuration>        
+      </plugin>
+      <plugin>
+		<groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+	    <version>${spotbugs-maven-plugin.version}</version>
+	    <dependencies>
+          <!-- Force SpotBug version to match the annotation -->
+          <dependency>	    
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs</artifactId>
+			<version>${spotbugs.version}</version>
+          </dependency>
+        </dependencies>		
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -407,9 +448,10 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${spotbugs-maven-plugin.version}</version>
-      </plugin>
-      <plugin>
+	    <version>${spotbugs-maven-plugin.version}</version>
+	  </plugin>
+	  
+	  <plugin>
         <groupId>org.owasp</groupId>
         <artifactId>dependency-check-maven</artifactId>
         <version>${dependency-check-maven.version}</version>
@@ -421,6 +463,7 @@
           </reportSet>
         </reportSets>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>

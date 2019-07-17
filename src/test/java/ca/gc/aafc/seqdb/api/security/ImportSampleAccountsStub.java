@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.security;
 
 import java.util.Arrays;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +16,9 @@ import ca.gc.aafc.seqdb.entities.Group;
  */
 public class ImportSampleAccountsStub extends ImportSampleAccounts {
 
-  static Group ADMIN_GROUP = new Group(ImportSampleAccounts.ADMIN_GROUP_NAME);
-  static Group USER_GROUP = new Group(ImportSampleAccounts.USER_GROUP_NAME);
-  static final List<Group> GROUPS = Arrays.asList(ADMIN_GROUP, USER_GROUP);
+  private static final Group ADMIN_GROUP = new Group(ImportSampleAccounts.ADMIN_GROUP_NAME);
+  private static final Group USER_GROUP = new Group(ImportSampleAccounts.USER_GROUP_NAME);
+  private static final List<Group> GROUPS = Arrays.asList(ADMIN_GROUP, USER_GROUP);
 
   /**
    * The state of the accounts existing, this boolean will be returned as the override accountsExist

@@ -4,9 +4,12 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -21,6 +24,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
+import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
+import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
 import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
@@ -44,6 +49,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
   public static final String IT_BASE_URI = "http://localhost";
   public static final String API_BASE_PATH = "/api";
+  public static final String SCEHMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
@@ -100,7 +106,22 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 		  return CharStreams.toString(reader);
 		}
 	}
-	
+  /**
+   * Load Json Schema via network remote url
+   * 
+   * @param schemaFileName
+   *          schemaFileName of the JSON Schema at location IT_BASE_URI + SCEHMA_BASE_PATH
+   * @param responseJson
+   *          The response json from service
+   * @throws IOException
+   * @throws URISyntaxException
+   */
+  protected void valiateJsonSchema(String schemaFileName, String responseJson)
+      throws IOException, URISyntaxException {
+    JsonSchemaAssertions.assertJsonSchema_Network(
+        IT_BASE_URI + ":"+testPort + SCEHMA_BASE_PATH + "/" + schemaFileName,
+        new StringReader(responseJson), "" + testPort);
+  }
   /**
    * Creates a JSON API Map from the provided attributes. "type" will be equal to
    * {@link BaseJsonApiIntegrationTest#getResourceUnderTest()}.
@@ -145,12 +166,12 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
   
   @Test
-  public void resourceUnderTest_whenIdExists_returnOkAndBody() {
+  public void resourceUnderTest_whenIdExists_returnOkAndBody()
+      throws IOException, URISyntaxException {
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
     ValidatableResponse response = given().when()
-        .get(getResourceUnderTest() + "/" + id)
-        .then().statusCode(HttpStatus.OK.value());
-    
+        .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
+    valiateJsonSchema(getGetOneSchemaFilename(), response.log().body().extract().asString());
     //cleanup
     sendDelete(id);
     

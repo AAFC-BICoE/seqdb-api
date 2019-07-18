@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Predicate;
 
-import ca.gc.aafc.seqdb.api.repository.JpaDtoRepository.TriFunction;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository.TriFunction;
 import io.crnk.core.resource.meta.MetaInformation;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +25,11 @@ public interface JpaMetaInformationProvider {
    * @param params The parameters for creating this MetaInformation.
    * @return the query's MetaInformation
    */
-  public MetaInformation getMetaInformation(JpaMetaInformationParams params);
+  MetaInformation getMetaInformation(JpaMetaInformationParams params);
   
   @Builder
   @Getter
-  public static class JpaMetaInformationParams {
+  class JpaMetaInformationParams {
     
     /**
      * The source resource class used when querying across a relationship.

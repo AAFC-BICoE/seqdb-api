@@ -1,7 +1,7 @@
 {
    "$schema": "http://json-schema.org/draft-07/schema#",
-   "$id": "static/json-schema/regionJSONSchema.json",
-   "$base": "https://localhost:8080/api/",
+   "$id": "http://localhost:8080/json-schema/getOneRegionSchema.json",
+   "$base": "http://localhost:8080/api/",
    "title": "RegionDTO",
    "type": "object",
    "required":["data"],

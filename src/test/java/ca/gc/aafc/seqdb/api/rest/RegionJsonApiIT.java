@@ -17,12 +17,12 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected String getGetOneSchemaFilename() {
-    return "regionJSONSchema.json";
+    return "getOneRegionSchema.json";
   }
 
   @Override
   protected String getGetManySchemaFilename() {
-    return "GETregionJSONSchema.json";
+    return "getManyRegionSchema.json";
   }
   
   @Override

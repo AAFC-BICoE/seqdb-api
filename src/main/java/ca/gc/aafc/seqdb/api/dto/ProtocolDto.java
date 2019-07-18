@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -12,6 +13,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "protocol")
+@SuppressFBWarnings(value="EI_EXPOSE_REP")
 public class ProtocolDto {
 
   @JsonApiId
@@ -40,7 +42,7 @@ public class ProtocolDto {
   private String reactionMixVolume;
 
   private String reactionMixVolumePerTube;
-
+  
   private Timestamp lastModified;
 
   @JsonApiRelation(opposite = "protocol")

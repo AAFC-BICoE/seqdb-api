@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
  * the first time. This filter should be set to run after KeycloakAuthenticationProcessingFilter,
  * which sets the required authentication in the SecurityContext.
  */
+//CHECKSTYLE:OFF AnnotationUseStyle
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class KeycloakAccountRegistrationFilter extends GenericFilterBean {
 

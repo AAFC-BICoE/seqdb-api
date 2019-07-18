@@ -189,31 +189,26 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public void resourceUnderTest_whenIdExists_returnOkAndBody()
       throws IOException, URISyntaxException {
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
+    ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
+        .statusCode(HttpStatus.OK.value());
     validateJsonSchemaByURL(getGetOneSchemaFilename(), response.log().body().extract().asString());
-    
-    //cleanup
+
+    // cleanup
     sendDelete(id);
-    
-    //return response;
-    //there is some issue with the schema includes reference to be parsed by Rest Assured API
-//    response.assertThat().body(matchesJsonSchema(jsonApiSchema));
   }
 
-  
-	@Test
-  public void resourceUnderTest_whenMultipleResources_returnOkAndBody() throws IOException {
-	  int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-	  int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-	  
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest())
-        .then().statusCode(HttpStatus.OK.value());
-    String jsonSchema = loadJsonSchemaAsString(getGetManySchemaFilename());
-    response.assertThat().body(matchesJsonSchema(jsonSchema));
-    
-    //cleanup
+  @Test
+  public void resourceUnderTest_whenMultipleResources_returnOkAndBody()
+      throws IOException, URISyntaxException {
+    int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+
+    ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
+        .statusCode(HttpStatus.OK.value());
+
+    validateJsonSchemaByURL(getGetManySchemaFilename(), response.log().body().extract().asString());
+
+    // cleanup
     sendDelete(id1);
     sendDelete(id2);
   }

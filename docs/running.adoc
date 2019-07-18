@@ -4,7 +4,7 @@
 
 [source,bash]
 ----
-mvn spring-boot:run -Dimport-sample-accounts=true -Dspring.datasource.url=jdbc:postgresql://localhost/seqdb_prod?currentSchema=seqdb -Dspring.datasource.username=seqdb_webapp -Dspring.datasource.password=changeme -Dspring.liquibase.user=seqdb_migration -Dspring.liquibase.password=changeme2
+mvn clean spring-boot:run
 ----
 
 == To run test

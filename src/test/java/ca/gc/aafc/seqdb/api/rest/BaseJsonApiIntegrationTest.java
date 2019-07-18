@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api.rest;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.io.IOException;
@@ -191,47 +190,22 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
   
   @Test
-<<<<<<< HEAD
-  public void resourceUnderTest_whenIdExists_returnOkAndBody() {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest() + "/" + id)
-        .then().statusCode(HttpStatus.OK.value());
-    
-    //cleanup
-=======
   public void resourceUnderTest_whenIdExists_returnOkAndBody()
       throws IOException, URISyntaxException {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
     validateJsonSchemaByURL(getGetOneSchemaFilename(), response.log().body().extract().asString());
 
     // cleanup
->>>>>>> refs/remotes/origin/dev
     sendDelete(id);
   }
 
-<<<<<<< HEAD
-  
-	@Test
-  public void resourceUnderTest_whenMultipleResources_returnOkAndBody() throws IOException {
-	  int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
-	  int id2 = sendPost(toJsonAPIMap(buildUpdateAttributeMap(), buildRelationshipMap()));
-	  
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest())
-        .then().statusCode(HttpStatus.OK.value());
-    String jsonSchema = loadJsonSchemaAsString(getGetManySchemaFilename());
-    response.assertThat().body(matchesJsonSchema(jsonSchema));
-    
-    //cleanup
-=======
   @Test
   public void resourceUnderTest_whenMultipleResources_returnOkAndBody()
       throws IOException, URISyntaxException {
-    int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-    int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+    int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
 
     ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
         .statusCode(HttpStatus.OK.value());
@@ -239,7 +213,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     validateJsonSchemaByURL(getGetManySchemaFilename(), response.log().body().extract().asString());
 
     // cleanup
->>>>>>> refs/remotes/origin/dev
     sendDelete(id1);
     sendDelete(id2);
   }

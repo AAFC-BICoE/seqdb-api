@@ -4,15 +4,16 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -24,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
-import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
 import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
 import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 import io.restassured.RestAssured;
@@ -47,16 +47,31 @@ import io.restassured.response.ValidatableResponse;
 public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest {
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
-  public static final String IT_BASE_URI = "http://localhost";
+  
+  public static final URI IT_BASE_URI;
+  static {
+    URIBuilder uriBuilder = new URIBuilder();
+    uriBuilder.setScheme("http");
+    uriBuilder.setHost("localhost");
+    URI tmpURI = null;
+    try {
+      tmpURI = uriBuilder.build();
+    } catch (URISyntaxException e) {
+      fail(e.getMessage());
+    }
+    IT_BASE_URI = tmpURI;
+  }
+
+  
   public static final String API_BASE_PATH = "/api";
-  public static final String SCEHMA_BASE_PATH = "/json-schema";
+  public static final String SCHEMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
 	@Before
 	public final void before() {
 		RestAssured.port = testPort;
-		RestAssured.baseURI = IT_BASE_URI;
+		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;
 		
 		//set basic auth with ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME
@@ -106,6 +121,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 		  return CharStreams.toString(reader);
 		}
 	}
+	
   /**
    * Load Json Schema via network remote url
    * 
@@ -116,12 +132,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @throws IOException
    * @throws URISyntaxException
    */
-  protected void valiateJsonSchema(String schemaFileName, String responseJson)
+  protected void validateJsonSchemaByURL(String schemaFileName, String responseJson)
       throws IOException, URISyntaxException {
-    JsonSchemaAssertions.assertJsonSchema_Network(
-        IT_BASE_URI + ":"+testPort + SCEHMA_BASE_PATH + "/" + schemaFileName,
-        new StringReader(responseJson), "" + testPort);
+
+    URIBuilder uriBuilder = new URIBuilder(IT_BASE_URI);
+    uriBuilder.setPort(testPort);
+    uriBuilder.setPath(SCHEMA_BASE_PATH + "/" + schemaFileName);
+
+    JsonSchemaAssertions.assertJsonSchema(uriBuilder.build(), new StringReader(responseJson));
   }
+  
   /**
    * Creates a JSON API Map from the provided attributes. "type" will be equal to
    * {@link BaseJsonApiIntegrationTest#getResourceUnderTest()}.
@@ -171,7 +191,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
     ValidatableResponse response = given().when()
         .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
-    valiateJsonSchema(getGetOneSchemaFilename(), response.log().body().extract().asString());
+    validateJsonSchemaByURL(getGetOneSchemaFilename(), response.log().body().extract().asString());
+    
     //cleanup
     sendDelete(id);
     

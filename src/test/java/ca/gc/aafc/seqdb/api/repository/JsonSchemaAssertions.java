@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 import javax.json.stream.JsonParser;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.leadpony.justify.api.JsonSchema;
 import org.leadpony.justify.api.JsonSchemaReader;
 import org.leadpony.justify.api.JsonSchemaReaderFactory;
@@ -29,14 +30,11 @@ import org.leadpony.justify.api.SpecVersion;
  * 
  */
 public class JsonSchemaAssertions {
-  private static JsonValidationService service = JsonValidationService.newInstance();
-  private static JsonSchemaReaderFactory schemaReaderFactory;
   
-  private static String testPort;
-
+  private static final JsonValidationService JSON_VALIDATION_SERVICE = JsonValidationService.newInstance();
   private static final Consumer<String> ASSERTION_PRINTER = ((error) -> assertNull(
       "Validation service is not returning errors", error));
-
+  
   private JsonSchemaAssertions() {
   }
 
@@ -76,31 +74,22 @@ public class JsonSchemaAssertions {
   }
   
   /**
-   * Assert that the provided apiResponse validates against the provided schema with remote url ref
+   * Assert that the provided apiResponse validates against the provided schema URI.
    * 
-   * @param uriStr
-   *          the uri as string
+   * @param uri
+   *          the uri of the json schema
    * @param apiResponse
    *          the api response
-   * @throws IOException
-   * @throws URISyntaxException
    */
-  public static void assertJsonSchema_Network(String uriStr, Reader apiResponse,String port)
-      throws IOException, URISyntaxException {
-    testPort = port;
-    URI uri = new URI(uriStr);
-    // Build reader factory which will resolve provided schema version using the given resolver
-    schemaReaderFactory = service.createSchemaReaderFactoryBuilder()
-        .withSchemaResolver(new NetworkJsonSchemaResolver())
-        .withDefaultSpecVersion(SpecVersion.DRAFT_07).build();
-
-    JsonSchema schema = new NetworkJsonSchemaResolver().resolveSchema(uri);
+  public static void assertJsonSchema(URI uri, Reader apiResponse) {
+    
+    JsonSchema schema = new NetworkJsonSchemaResolver(uri.getPort()).resolveSchema(uri);
 
     // Problem handler which will print problems found.
-    ProblemHandler handler = service.createProblemPrinter(ASSERTION_PRINTER);
+    ProblemHandler handler = JSON_VALIDATION_SERVICE.createProblemPrinter(ASSERTION_PRINTER);
 
     // Parses the JSON instance by javax.json.stream.JsonParser
-    try (JsonParser parser = service.createParser(apiResponse, schema, handler)) {
+    try (JsonParser parser = JSON_VALIDATION_SERVICE.createParser(apiResponse, schema, handler)) {
       while (parser.hasNext()) {
         parser.next();
       }
@@ -108,29 +97,45 @@ public class JsonSchemaAssertions {
   }
 
   /**
-   * Schema resolver which resolves remote url for $ref locations in our resources where subschemas are located. 
+   * Schema resolver which resolves remote url for $ref locations in our resources where 
+   * subschemas are located. 
    */
   private static class NetworkJsonSchemaResolver implements JsonSchemaResolver {
 
+    private final int portUsed;
+    private final JsonSchemaReaderFactory schemaReaderFactory;
+    
+    /**
+     * 
+     * @param portUsed used to dynamically change the port on recursive calls to load sub-schemas
+     */
+    private NetworkJsonSchemaResolver(int portUsed){
+      this.portUsed = portUsed;
+      this.schemaReaderFactory = JSON_VALIDATION_SERVICE.createSchemaReaderFactoryBuilder()
+          .withSchemaResolver(this)
+          .withDefaultSpecVersion(SpecVersion.DRAFT_07).build();
+    }
+    
     @Override
     public JsonSchema resolveSchema(URI uri) {
-      String urlStr;
+
       URL url = null;
-    
+      URIBuilder uriBuilder = new URIBuilder(uri);
+      uriBuilder.setPort(portUsed);
+
       try {
-        urlStr = uri.toURL().toString().replace("8080", testPort);
-        url = new URL(urlStr);        
-      } catch (MalformedURLException e1) {
+        url = uriBuilder.build().toURL();
+      } catch (URISyntaxException | MalformedURLException e) {
+        fail(e.getMessage());
         return null;
       }
 
       try (InputStream in = url.openStream();
-                JsonSchemaReader reader = schemaReaderFactory.createSchemaReader(in)) {          
+          JsonSchemaReader reader = schemaReaderFactory.createSchemaReader(in)) {
         return reader.read();
-      } catch (MalformedURLException e) {
-         return null;
       } catch (IOException e) {
-         return null;
+        fail(e.getMessage());
+        return null;
       }
     }
   }

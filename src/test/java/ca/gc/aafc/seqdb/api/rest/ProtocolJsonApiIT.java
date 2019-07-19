@@ -4,12 +4,14 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+import ca.gc.aafc.seqdb.factories.ProtocolFactory;
+
 /**
  * Integration test for the region resource.
  *
  */
 public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
-
+  
   @Override
   protected String getResourceUnderTest() {
     return "protocol";
@@ -17,18 +19,19 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
 
   @Override
   protected String getGetOneSchemaFilename() {
-    return "protocolJSONSchema.json";
+    return "getOneProtocolSchema.json";
   }
 
   @Override
   protected String getGetManySchemaFilename() {
-    return "GETprotocolJSONSchema.json";
+    return "getManyProtocolSchema.json";
   }
 
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
+    
     return new ImmutableMap.Builder<String, Object>()
-        .put("name", "test protocol")
+        .put("name", ProtocolFactory.newProtocol().build().getName())
         .put("type", "SEQ_REACTION")
         .put("version", "A")
         .put("description", "test description")
@@ -56,7 +59,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
   @Override
   protected Map<String, Object> buildUpdateAttributeMap() {
     return new ImmutableMap.Builder<String, Object>()
-        .put("name", "new test protocol")
+        .put("name", ProtocolFactory.newProtocol().build().getName())
         .put("type", "COLLECTION_EVENT")
         .put("version", "B")
         .put("description", "new test description")

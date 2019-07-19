@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.rest;
 
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+
 import com.google.common.collect.ImmutableMap;
 import io.restassured.response.Response;
 import java.util.Map;
@@ -25,18 +26,19 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
 
   @Override
   protected String getGetOneSchemaFilename() {
-    return "reactionComponentJSONSchema.json";
+    return "getOneReactionComponentSchema.json";
   }
 
   @Override
   protected String getGetManySchemaFilename() {
-    return "GETreactionComponentJSONSchema.json";
+    return "getManyReactionComponentSchema.json";
   }
 
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
+    
     return new ImmutableMap.Builder<String, Object>()
-      .put("name", "test component")
+      .put("name", "testReactionComponent")
       .put("concentration", "20mg/mL")
       .put("quantity", "6.82").build();
   }
@@ -54,7 +56,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
   @Override
   protected Map<String, Object> buildUpdateAttributeMap() {
     return new ImmutableMap.Builder<String, Object>()
-      .put("name", "new test component")
+      .put("name", "updatedReactionComponent")
       .put("concentration", "45mg/mL")
       .put("quantity", "9.37").build();
   }

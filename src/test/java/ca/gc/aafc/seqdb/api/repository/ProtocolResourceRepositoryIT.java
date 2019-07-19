@@ -6,11 +6,9 @@ import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.factories.ProtocolFactory;
-import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepositoryV2;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.inject.Inject;
@@ -124,31 +122,19 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     // Check that the entity has the new desc value.
     assertEquals("new desc", testProtocol.getDescription());
   }
-  
-  @Test
-  public void deleteProtocol_callRepositoryDeleteOnID_protocolNotFound() {
-    // Remove protocol and attempt to find it using entity's id
-    protocolRepository.delete(testProtocol.getId());
-    assertNull(entityManager.find(Protocol.class, testProtocol.getId()));
-  }
-  
-  @Test (expected = ResourceNotFoundException.class)
-  public void deleteProtocol_callRepositoryDeleteOnInvalidId_protocolNotFound() {
-    // Attempt to find a protocol that does not exist
-    protocolRepository.delete(999);
-  }
-  
-  @Test
-  public void listProtocol_APIResponse_schemaValidates() throws IOException {
-    JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETprotocolJSONSchema.json"),
-        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse-all.json"));
-  }
 
-  @Test
-  public void getProtocol_APIResponse_schemaValidates() throws IOException {
-    JsonSchemaAssertions.assertJsonSchema(
-        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/protocolJSONSchema.json"),
-        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse.json"));
-  } 
+  
+//  @Test
+//  public void listProtocol_APIResponse_schemaValidates() throws IOException {
+//    JsonSchemaAssertions.assertJsonSchema(
+//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getManyProtocolSchema.json"),
+//        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse-all.json"));
+//  }
+
+//  @Test
+//  public void getProtocol_APIResponse_schemaValidates() throws IOException {
+//    JsonSchemaAssertions.assertJsonSchema(
+//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getOneProtocolSchema.json"),
+//        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse.json"));
+//  } 
 }

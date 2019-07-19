@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import ca.gc.aafc.seqdb.entities.workflow.StepResource.StepResourceType;
 import ca.gc.aafc.seqdb.entities.workflow.StepTemplate.StepResourceValue;
+
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -66,5 +67,8 @@ public class StepResourceDto {
 //  
 //  @JsonApiRelation
 //  private ProtocolDto protocol;
+  
+  @JsonApiRelation
+  private PreLibraryPrepDto preLibraryPrep;
   
 }

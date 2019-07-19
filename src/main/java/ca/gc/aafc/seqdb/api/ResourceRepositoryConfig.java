@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
@@ -21,6 +20,7 @@ import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
+import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
@@ -41,6 +41,7 @@ import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
+import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.ReactionComponent;
@@ -106,6 +107,7 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ProductDto.class, Product.class);
     jpaEntities.put(ProtocolDto.class, Protocol.class);
     jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
+    jpaEntities.put(PreLibraryPrepDto.class, PreLibraryPrep.class);
 
     return new JpaDtoMapper(jpaEntities);
   }
@@ -356,6 +358,48 @@ public class ResourceRepositoryConfig {
     return new JpaRelationshipRepository<>(
         StepResourceDto.class,
         PcrPrimerDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, PreLibraryPrepDto> stepResourceToPreLibraryPrepRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        PreLibraryPrepDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<PreLibraryPrepDto, ProtocolDto> preLibraryPrepToProtocolRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        PreLibraryPrepDto.class,
+        ProtocolDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<PreLibraryPrepDto, ProductDto> preLibraryPrepToProductRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        PreLibraryPrepDto.class,
+        ProductDto.class,
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler

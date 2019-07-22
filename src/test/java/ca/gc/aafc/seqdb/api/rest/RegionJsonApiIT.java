@@ -2,7 +2,8 @@ package ca.gc.aafc.seqdb.api.rest;
 
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.factories.RegionFactory;
 
 /**
  * Integration test for the region resource.
@@ -27,17 +28,32 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
-    return new ImmutableMap.Builder<String, Object>()
-        .put("name", "test region")
-        .put("description", "test description")
-        .put("symbol", "test symbol").build();
+    
+    Region region = RegionFactory.newRegion()
+    .name("test region")
+    .description("test description")
+    .symbol("test symbol").build();
+    
+    Map<String, Object> map = toAttributeMap(region);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
   
   @Override
   protected Map<String, Object> buildUpdateAttributeMap() {
-    return new ImmutableMap.Builder<String, Object>()
-        .put("name", "updated name")
-        .put("description", "updated description")
-        .put("symbol", "updated symbol").build();
+    Region region = RegionFactory.newRegion()
+    .name("updated name")
+    .description("updated description")
+    .symbol("updated symbol").build();
+    
+    Map<String, Object> map = toAttributeMap(region);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
 }

@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api.rest;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.io.IOException;
@@ -21,6 +20,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 
@@ -48,6 +50,9 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
   
+  private static final ObjectMapper IT_OBJECT_MAPPER = new ObjectMapper();
+  private static final TypeReference<Map<String, Object>> IT_OM_TYPE_REF = new TypeReference<Map<String, Object>>() {};
+   
   public static final URI IT_BASE_URI;
   static {
     URIBuilder uriBuilder = new URIBuilder();
@@ -60,6 +65,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
       fail(e.getMessage());
     }
     IT_BASE_URI = tmpURI;
+    IT_OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
   }
 
   
@@ -143,6 +149,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
   
   /**
+   * Create an attribute map for the provided object. Attributes with nulls will be skipped.
+   * 
+   * @param obj
+   * @return attribute map for the provided object
+   */
+  protected Map<String, Object> toAttributeMap(Object obj) {
+    return IT_OBJECT_MAPPER.convertValue(obj, IT_OM_TYPE_REF);
+  }
+  
+  /**
    * Creates a JSON API Map from the provided attributes. "type" will be equal to
    * {@link BaseJsonApiIntegrationTest#getResourceUnderTest()}.
    * 
@@ -223,7 +239,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public void resourceUnderTest_whenUpdating_returnOkAndResourceIsUpdated() {
     // Setup: create an resource
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-    
+
     Map<String, Object> updatedAttributeMap = buildUpdateAttributeMap();
 
     // update the resource
@@ -232,12 +248,12 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     ValidatableResponse responseUpdate = sendGet(id);
 
     // verify
-    
-    for(String attributeKey: updatedAttributeMap.keySet()) {
-      responseUpdate.body("data.attributes." + attributeKey, equalTo(updatedAttributeMap.get(attributeKey)));
+    for (String attributeKey : updatedAttributeMap.keySet()) {
+      responseUpdate.body("data.attributes." + attributeKey,
+          equalTo(updatedAttributeMap.get(attributeKey)));
     }
-    
-    //cleanup
+
+    // cleanup
     sendDelete(id);
   }
   

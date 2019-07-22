@@ -16,8 +16,10 @@ import java.util.function.Consumer;
 
 import javax.json.JsonException;
 import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParsingException;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONException;
 import org.leadpony.justify.api.JsonSchema;
 import org.leadpony.justify.api.JsonSchemaReader;
 import org.leadpony.justify.api.JsonSchemaReaderFactory;
@@ -137,8 +139,8 @@ public class JsonSchemaAssertions {
       try (InputStream in = url.openStream();
           JsonSchemaReader reader = schemaReaderFactory.createSchemaReader(in)) {
         return reader.read();
-      } catch (IOException e) {
-        fail(e.getMessage());
+      } catch (IOException | JsonParsingException e) {
+        fail("Error while trying to read schema from "+ url.toString() + ":" + e.getMessage());
         return null;
       }
     }

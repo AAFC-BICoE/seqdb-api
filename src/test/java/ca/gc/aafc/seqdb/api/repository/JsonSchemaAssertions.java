@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
+import javax.json.JsonException;
 import javax.json.stream.JsonParser;
 
 import org.apache.http.client.utils.URIBuilder;
@@ -93,7 +94,10 @@ public class JsonSchemaAssertions {
       while (parser.hasNext()) {
         parser.next();
       }
+    } catch (JsonException jsonEx) {
+      fail("Trying to assert schema located at " + uri.toString() + ": " + jsonEx.getMessage());
     }
+    
   }
 
   /**

@@ -30,6 +30,7 @@ import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -43,6 +44,7 @@ import io.restassured.response.ValidatableResponse;
  *
  */
 @TestPropertySource(properties="import-sample-accounts=true")
+@Slf4j
 public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest {
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
@@ -139,6 +141,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     URIBuilder uriBuilder = new URIBuilder(IT_BASE_URI);
     uriBuilder.setPort(testPort);
     uriBuilder.setPath(SCHEMA_BASE_PATH + "/" + schemaFileName);
+    
+    log.info("Validating {} schema against the following response: {}", schemaFileName, responseJson);
 
     JsonSchemaAssertions.assertJsonSchema(uriBuilder.build(), new StringReader(responseJson));
   }
@@ -195,7 +199,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
-    validateJsonSchemaByURL(getGetOneSchemaFilename(), response.log().body().extract().asString());
+    validateJsonSchemaByURL(getGetOneSchemaFilename(), response.extract().body().asString());
 
     // cleanup
     sendDelete(id);
@@ -210,7 +214,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
         .statusCode(HttpStatus.OK.value());
 
-    validateJsonSchemaByURL(getGetManySchemaFilename(), response.log().body().extract().asString());
+    validateJsonSchemaByURL(getGetManySchemaFilename(), response.extract().body().asString());
 
     // cleanup
     sendDelete(id1);

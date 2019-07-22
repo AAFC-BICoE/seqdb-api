@@ -38,11 +38,11 @@ import org.leadpony.justify.api.SpecVersion;
  * Utility class to assert an api response against a json schema.
  * 
  */
-public class JsonSchemaAssertions {
+public final class JsonSchemaAssertions {
   
   private static final JsonValidationService JSON_VALIDATION_SERVICE = JsonValidationService.newInstance();
-  private static final Consumer<String> ASSERTION_PRINTER = ((error) -> assertNull(
-      "Validation service is not returning errors", error));
+  private static final Consumer<String> ASSERTION_PRINTER = error -> assertNull(
+      "Validation service is not returning errors", error);
   
   private JsonSchemaAssertions() {
   }
@@ -112,7 +112,7 @@ public class JsonSchemaAssertions {
    * Schema resolver which resolves remote url for $ref locations in our resources where 
    * subschemas are located. 
    */
-  private static class NetworkJsonSchemaResolver implements JsonSchemaResolver {
+  private static final class NetworkJsonSchemaResolver implements JsonSchemaResolver {
 
     private final int portUsed;
     private final JsonSchemaReaderFactory schemaReaderFactory;
@@ -145,19 +145,29 @@ public class JsonSchemaAssertions {
         fail(e.getMessage());
         return null;
       }
-
+      
       try (JsonSchemaReader reader = schemaReaderFactory
           .createSchemaReader(new StringReader(responseBody))) {
         return reader.read();
       } catch (JsonParsingException e) {
         fail("Error while trying to read schema from " + testResolvableUri.toString() + ":" + e.getMessage());
         return null;
+      } finally {
+        closeHttpClient(httpclient);
+      }
+    }
+    
+    public void closeHttpClient(CloseableHttpClient httpClient) {
+      try {
+        httpClient.close();
+      } catch(IOException e) {
+        fail("Error trying to close the connection" + e.getStackTrace());
       }
     }
   }
 
   
-  private static final ResponseHandler<String> builResponseHandler() {
+  private static ResponseHandler<String> builResponseHandler() {
     return new ResponseHandler<String>() {
       @Override
       public String handleResponse(HttpResponse response)
@@ -182,7 +192,7 @@ public class JsonSchemaAssertions {
 
     private final JsonValidationService service;
 
-    public LocalJsonSchemaResolver(JsonValidationService service) {
+    LocalJsonSchemaResolver(JsonValidationService service) {
       this.service = service;
     }
 

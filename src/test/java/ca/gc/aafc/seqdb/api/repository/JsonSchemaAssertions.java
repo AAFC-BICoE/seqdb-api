@@ -91,21 +91,30 @@ public final class JsonSchemaAssertions {
    *          the api response
    */
   public static void assertJsonSchema(URI uri, Reader apiResponse) {
-    
-    JsonSchema schema = new NetworkJsonSchemaResolver(uri.getPort()).resolveSchema(uri);
 
-    // Problem handler which will print problems found.
-    ProblemHandler handler = JSON_VALIDATION_SERVICE.createProblemPrinter(ASSERTION_PRINTER);
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    try {
+      JsonSchema schema = new NetworkJsonSchemaResolver(uri.getPort(), httpClient)
+          .resolveSchema(uri);
 
-    // Parses the JSON instance by javax.json.stream.JsonParser
-    try (JsonParser parser = JSON_VALIDATION_SERVICE.createParser(apiResponse, schema, handler)) {
-      while (parser.hasNext()) {
-        parser.next();
+      // Problem handler which will print problems found.
+      ProblemHandler handler = JSON_VALIDATION_SERVICE.createProblemPrinter(ASSERTION_PRINTER);
+
+      // Parses the JSON instance by javax.json.stream.JsonParser
+      try (JsonParser parser = JSON_VALIDATION_SERVICE.createParser(apiResponse, schema, handler)) {
+        while (parser.hasNext()) {
+          parser.next();
+        }
       }
     } catch (JsonException jsonEx) {
       fail("Trying to assert schema located at " + uri.toString() + ": " + jsonEx.getMessage());
+    } finally {
+      try {
+        httpClient.close();
+      } catch (IOException e) {
+        // ignore
+      }
     }
-    
   }
 
   /**
@@ -116,14 +125,15 @@ public final class JsonSchemaAssertions {
 
     private final int portUsed;
     private final JsonSchemaReaderFactory schemaReaderFactory;
-    private final CloseableHttpClient httpclient = HttpClients.createDefault();
+    private final CloseableHttpClient httpClient;
     
     /**
      * 
      * @param portUsed used to dynamically change the port on recursive calls to load sub-schemas
      */
-    private NetworkJsonSchemaResolver(int portUsed){
+    private NetworkJsonSchemaResolver(int portUsed, CloseableHttpClient httpClient){
       this.portUsed = portUsed;
+      this.httpClient = httpClient;
       this.schemaReaderFactory = JSON_VALIDATION_SERVICE.createSchemaReaderFactoryBuilder()
           .withSchemaResolver(this)
           .withDefaultSpecVersion(SpecVersion.DRAFT_07).build();
@@ -131,7 +141,6 @@ public final class JsonSchemaAssertions {
     
     @Override
     public JsonSchema resolveSchema(URI uri) {
-
       URI testResolvableUri = null;
       URIBuilder uriBuilder = new URIBuilder(uri);
       uriBuilder.setPort(portUsed);
@@ -140,7 +149,7 @@ public final class JsonSchemaAssertions {
       try {
         testResolvableUri = uriBuilder.build();
         HttpGet httpget = new HttpGet(testResolvableUri);
-        responseBody = httpclient.execute(httpget, builResponseHandler());
+        responseBody = httpClient.execute(httpget, builResponseHandler());
       } catch (URISyntaxException | IOException e) {
         fail(e.getMessage());
         return null;
@@ -151,17 +160,7 @@ public final class JsonSchemaAssertions {
         return reader.read();
       } catch (JsonParsingException e) {
         fail("Error while trying to read schema from " + testResolvableUri.toString() + ":" + e.getMessage());
-        return null;
-      } finally {
-        closeHttpClient(httpclient);
-      }
-    }
-    
-    public void closeHttpClient(CloseableHttpClient httpClient) {
-      try {
-        httpClient.close();
-      } catch(IOException e) {
-        fail("Error trying to close the connection" + e.getStackTrace());
+        throw e;
       }
     }
   }

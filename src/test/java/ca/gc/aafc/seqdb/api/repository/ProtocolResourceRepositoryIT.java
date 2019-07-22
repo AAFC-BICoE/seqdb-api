@@ -122,19 +122,5 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     // Check that the entity has the new desc value.
     assertEquals("new desc", testProtocol.getDescription());
   }
-
-  
-//  @Test
-//  public void listProtocol_APIResponse_schemaValidates() throws IOException {
-//    JsonSchemaAssertions.assertJsonSchema(
-//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getManyProtocolSchema.json"),
-//        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse-all.json"));
-//  }
-
-//  @Test
-//  public void getProtocol_APIResponse_schemaValidates() throws IOException {
-//    JsonSchemaAssertions.assertJsonSchema(
-//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getOneProtocolSchema.json"),
-//        BaseRepositoryTest.newClasspathResourceReader("realProtocolResponse.json"));
-//  } 
+ 
 }

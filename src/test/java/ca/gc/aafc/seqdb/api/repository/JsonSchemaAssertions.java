@@ -110,7 +110,9 @@ public final class JsonSchemaAssertions {
       fail("Trying to assert schema located at " + uri.toString() + ": " + jsonEx.getMessage());
     } finally {
       try {
-        httpClient.close();
+        if (httpClient != null) {
+          httpClient.close();
+        }
       } catch (IOException e) {
         // ignore
       }

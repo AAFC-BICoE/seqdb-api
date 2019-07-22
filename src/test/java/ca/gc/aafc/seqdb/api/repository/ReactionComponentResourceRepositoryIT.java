@@ -86,19 +86,5 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     assertNull(componentDto.getConcentration());
     assertNull(componentDto.getQuantity());
   }
-
-//  @Test
-//  public void listReactionComponent_APIResponse_schemaValidates() throws IOException {
-//    JsonSchemaAssertions.assertJsonSchema(
-//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getManyReactionComponentSchema.json"),
-//        BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse-all.json"));
-//  }
-
-//  @Test
-//  public void getReactionComponent_APIResponse_schemaValidates() throws IOException {
-//    JsonSchemaAssertions.assertJsonSchema(
-//        BaseRepositoryTest.newClasspathResourceReader("static/json-schema/getOneReactionComponentSchema.json"),
-//        BaseRepositoryTest.newClasspathResourceReader("realReactionComponentResponse.json"));
-//  } 
   
 }

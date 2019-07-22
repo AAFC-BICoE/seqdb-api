@@ -4,9 +4,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
-import java.net.MalformedURLException;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,8 +17,15 @@ import javax.json.JsonException;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParsingException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
-import org.json.JSONException;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.leadpony.justify.api.JsonSchema;
 import org.leadpony.justify.api.JsonSchemaReader;
 import org.leadpony.justify.api.JsonSchemaReaderFactory;
@@ -110,6 +116,7 @@ public class JsonSchemaAssertions {
 
     private final int portUsed;
     private final JsonSchemaReaderFactory schemaReaderFactory;
+    private final CloseableHttpClient httpclient = HttpClients.createDefault();
     
     /**
      * 
@@ -125,27 +132,48 @@ public class JsonSchemaAssertions {
     @Override
     public JsonSchema resolveSchema(URI uri) {
 
-      URL url = null;
+      URI testResolvableUri = null;
       URIBuilder uriBuilder = new URIBuilder(uri);
       uriBuilder.setPort(portUsed);
+      String responseBody;
 
       try {
-        url = uriBuilder.build().toURL();
-      } catch (URISyntaxException | MalformedURLException e) {
+        testResolvableUri = uriBuilder.build();
+        HttpGet httpget = new HttpGet(testResolvableUri);
+        responseBody = httpclient.execute(httpget, builResponseHandler());
+      } catch (URISyntaxException | IOException e) {
         fail(e.getMessage());
         return null;
       }
 
-      try (InputStream in = url.openStream();
-          JsonSchemaReader reader = schemaReaderFactory.createSchemaReader(in)) {
+      try (JsonSchemaReader reader = schemaReaderFactory
+          .createSchemaReader(new StringReader(responseBody))) {
         return reader.read();
-      } catch (IOException | JsonParsingException e) {
-        fail("Error while trying to read schema from "+ url.toString() + ":" + e.getMessage());
+      } catch (JsonParsingException e) {
+        fail("Error while trying to read schema from " + testResolvableUri.toString() + ":" + e.getMessage());
         return null;
       }
     }
   }
 
+  
+  private static final ResponseHandler<String> builResponseHandler() {
+    return new ResponseHandler<String>() {
+      @Override
+      public String handleResponse(HttpResponse response)
+          throws ClientProtocolException, IOException {
+        int status = response.getStatusLine().getStatusCode();
+        if (status >= 200 && status < 300) {
+          HttpEntity entity = response.getEntity();
+          return entity != null ? EntityUtils.toString(entity) : null;
+        } else {
+          throw new ClientProtocolException("Unexpected response status: " + status);
+        }
+
+      }
+    };
+  }
+  
   /**
    * Schema resolver which looks for $ref locations in our resources where all of schemas are
    * located. This may be a temporary solution.

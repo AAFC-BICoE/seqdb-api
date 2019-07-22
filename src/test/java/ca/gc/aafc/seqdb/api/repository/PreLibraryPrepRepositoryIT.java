@@ -1,9 +1,10 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.sql.SQLException;
 import javax.inject.Inject;
+import javax.sql.DataSource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
@@ -14,7 +15,14 @@ import ca.gc.aafc.seqdb.factories.PreLibraryPrepFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 
-@Ignore
+import static org.junit.Assume.assumeTrue;
+
+/**
+ * Integration test for PreLibraryPrep Repository.
+ * 
+ * This test is designed to work only using Postgresql, if you are using any other database to run
+ * the test, the tests will be ignored.
+ */
 public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   protected static final PreLibraryPrepType TEST_PRELIBRARYPREP_TYPE = PreLibraryPrepType.SHEARING;
@@ -30,6 +38,9 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Inject
   private PreLibraryPrepRepository preLibraryPrepRepository;
   
+  @Inject
+  private DataSource datasource;
+  
   private PreLibraryPrep testPreLibraryPrep;
   
   private PreLibraryPrep createTestPreLibraryPrep() {
@@ -42,9 +53,23 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     persist(testPreLibraryPrep);
     return testPreLibraryPrep;
   }
-  
+
+  /**
+   * Since H2 does not support creating enum types, the integration tests will only work using
+   * postgresql. If you are using another dbms it will ignore all of the tests.
+   */
   @Before
   public void setup() {
+    // Assume that the tests are running only on postgresql, if not the tests will be ignored.
+    try {
+      assumeTrue(
+          "PreLibraryPrep tests were ignored since the test environment is not running on PostgreSQL.",
+          "PostgreSQL".equals(datasource.getConnection().getMetaData().getDatabaseProductName())
+      );
+    } catch (SQLException e) {
+      fail("Datasource could not be found. Make sure your connection is setup properly.");
+    }
+    
     createTestPreLibraryPrep();
   }
   

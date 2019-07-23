@@ -26,10 +26,11 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
@@ -67,7 +68,8 @@ public class JpaDtoRepository {
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
 
-  private static final ModelMapper MAPPER = new ModelMapper();
+  private static final ObjectMapper MAPPER = new ObjectMapper()
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -132,7 +134,7 @@ public class JpaDtoRepository {
         .getResultList();
 
     return new DefaultResourceList<>(result.stream().map(JpaDtoRepository::mapFromTuple)
-        .map(map -> JpaDtoRepository.MAPPER.map(map, targetDtoClass)).collect(Collectors.toList()),
+        .map(map -> JpaDtoRepository.MAPPER.convertValue(map, targetDtoClass)).collect(Collectors.toList()),
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder().sourceResourceClass(sourceDtoClass)
                 .customRoot(customRoot).customFilter(customFilter).build()),

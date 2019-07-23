@@ -1,5 +1,12 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.Serializable;
+
+import javax.inject.Inject;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Product;
@@ -8,14 +15,7 @@ import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.factories.ProtocolFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
-
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
 
@@ -24,7 +24,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   private static final ProtocolType TEST_PROTOCOL_TYPE = ProtocolType.COLLECTION_EVENT;
   
   @Inject
-  private ResourceRepositoryV2<ProtocolDto, Serializable> protocolRepository;
+  private ResourceRepository<ProtocolDto, Serializable> protocolRepository;
   
   private Protocol testProtocol;
   

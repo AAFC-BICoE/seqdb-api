@@ -1,5 +1,12 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.io.Serializable;
+
+import javax.inject.Inject;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Protocol;
@@ -9,21 +16,14 @@ import ca.gc.aafc.seqdb.factories.ProtocolFactory;
 import ca.gc.aafc.seqdb.factories.ReactionComponentFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
-
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   
   private static final String TEST_COMPONENT_NAME = "test component";
   
   @Inject
-  private ResourceRepositoryV2<ReactionComponentDto, Serializable> componentRepository;
+  private ResourceRepository<ReactionComponentDto, Serializable> componentRepository;
   
   private ReactionComponent testComponent;
   

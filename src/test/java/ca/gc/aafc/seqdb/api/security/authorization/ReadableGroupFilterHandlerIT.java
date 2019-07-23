@@ -17,13 +17,13 @@ import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 
 public class ReadableGroupFilterHandlerIT extends BaseRepositoryTest {
   
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Test
   public void findAll_whenNoFilterIsSpecified_filterByReadableGroups() {

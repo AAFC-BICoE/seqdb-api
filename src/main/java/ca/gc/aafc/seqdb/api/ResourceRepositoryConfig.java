@@ -426,4 +426,21 @@ public class ResourceRepositoryConfig {
             groupFilterFactory.create(root -> (Path<Group>) root)),
         metaInformationProvider);
   }
+  
+  /**
+   * Relationship Repository between a StepResource and ChainStepTemplate.
+   */
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, ChainStepTemplateDto> stepResourceToChainStepTemplateRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        ChainStepTemplateDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
 }

@@ -13,7 +13,7 @@ import ca.gc.aafc.seqdb.entities.PcrProfile;
 import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
@@ -23,7 +23,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_PROFILE_CYCLE = "Cycle";
   
   @Inject
-  private ResourceRepositoryV2<ThermocyclerProfileDto, Serializable> thermoRepository;
+  private ResourceRepository<ThermocyclerProfileDto, Serializable> thermoRepository;
   
   
   private PcrProfile testPcrProfile;

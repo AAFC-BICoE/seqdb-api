@@ -12,12 +12,10 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 
-import lombok.NonNull;
-
 @Component
 public class PreLibraryPrepRepository extends JpaResourceRepository<PreLibraryPrepDto> {
 
-  public PreLibraryPrepRepository(@NonNull JpaDtoRepository dtoRepository,
+  public PreLibraryPrepRepository(JpaDtoRepository dtoRepository,
       SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
       ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {

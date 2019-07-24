@@ -388,6 +388,23 @@ public class ResourceRepositoryConfig {
     );
   }
   
+  /**
+   * Relationship Repository between a StepResource and Sample.
+   */
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, SampleDto> stepResourceToSampleRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        SampleDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
+  
   @Bean
   public JpaRelationshipRepository<SampleDto, GroupDto> sampleToGroupRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {

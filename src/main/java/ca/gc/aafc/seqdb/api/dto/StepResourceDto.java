@@ -68,4 +68,7 @@ public class StepResourceDto {
 //  @JsonApiRelation
 //  private ProtocolDto protocol;
   
+  @JsonApiRelation
+  private PreLibraryPrepDto preLibraryPrep;
+  
 }

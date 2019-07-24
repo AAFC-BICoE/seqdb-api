@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Path;
@@ -52,6 +51,7 @@ import ca.gc.aafc.seqdb.entities.workflow.ChainStepTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.ChainTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.StepResource;
 import ca.gc.aafc.seqdb.entities.workflow.StepTemplate;
+
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
@@ -377,6 +377,23 @@ public class ResourceRepositoryConfig {
     return new JpaRelationshipRepository<>(
         StepResourceDto.class,
         PcrPrimerDto.class,
+        dtoRepository,
+        Arrays.asList(
+            simpleFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
+  
+  /**
+   * Relationship Repository between a StepResource and Sample.
+   */
+  @Bean
+  public JpaRelationshipRepository<StepResourceDto, SampleDto> stepResourceToSampleRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        StepResourceDto.class,
+        SampleDto.class,
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler

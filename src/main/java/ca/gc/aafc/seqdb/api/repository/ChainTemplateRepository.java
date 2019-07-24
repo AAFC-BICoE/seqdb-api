@@ -12,16 +12,15 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 
-import lombok.NonNull;
-
 @Component
 public class ChainTemplateRepository extends JpaResourceRepository<ChainTemplateDto> {
 
-  public ChainTemplateRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public ChainTemplateRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(ChainTemplateDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+    super(ChainTemplateDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
     
   }
 

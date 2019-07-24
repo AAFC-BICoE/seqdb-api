@@ -17,12 +17,12 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected String getGetOneSchemaFilename() {
-    return "regionJSONSchema.json";
+    return "getOneRegionSchema.json";
   }
 
   @Override
   protected String getGetManySchemaFilename() {
-    return "GETregionJSONSchema.json";
+    return "getManyRegionSchema.json";
   }
   
   @Override
@@ -39,5 +39,11 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
         .put("name", "updated name")
         .put("description", "updated description")
         .put("symbol", "updated symbol").build();
+  }
+
+  @Override
+  protected Map<String, Object> buildRelationshipMap() {
+    // Entity does not require relationships
+    return null;
   }
 }

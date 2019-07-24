@@ -12,16 +12,15 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 
-import lombok.NonNull;
-
 @Component
 public class StepTemplateRepository extends JpaResourceRepository<StepTemplateDto> {
 
-  public StepTemplateRepository(@NonNull JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
+  public StepTemplateRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
       RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(StepTemplateDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+    super(StepTemplateDto.class, dtoRepository,
+        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
     
   }
   

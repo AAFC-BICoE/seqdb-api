@@ -1,15 +1,18 @@
 package ca.gc.aafc.seqdb.api.rest;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -21,11 +24,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
+import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
 import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -39,18 +44,35 @@ import io.restassured.response.ValidatableResponse;
  *
  */
 @TestPropertySource(properties="import-sample-accounts=true")
+@Slf4j
 public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest {
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
-  public static final String IT_BASE_URI = "http://localhost";
+  
+  public static final URI IT_BASE_URI;
+  static {
+    URIBuilder uriBuilder = new URIBuilder();
+    uriBuilder.setScheme("http");
+    uriBuilder.setHost("localhost");
+    URI tmpURI = null;
+    try {
+      tmpURI = uriBuilder.build();
+    } catch (URISyntaxException e) {
+      fail(e.getMessage());
+    }
+    IT_BASE_URI = tmpURI;
+  }
+
+  
   public static final String API_BASE_PATH = "/api";
+  public static final String SCHEMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
 	@Before
 	public final void before() {
 		RestAssured.port = testPort;
-		RestAssured.baseURI = IT_BASE_URI;
+		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;
 		
 		//set basic auth with ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME
@@ -87,6 +109,8 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 	protected abstract Map<String, Object> buildCreateAttributeMap();
 	
 	protected abstract Map<String, Object> buildUpdateAttributeMap();
+	
+	protected abstract Map<String, Object> buildRelationshipMap();
 
 	/**
 	 * Load a JSON Schema as String.
@@ -102,14 +126,36 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 	}
 	
   /**
+   * Load Json Schema via network remote url
+   * 
+   * @param schemaFileName
+   *          schemaFileName of the JSON Schema at location IT_BASE_URI + SCEHMA_BASE_PATH
+   * @param responseJson
+   *          The response json from service
+   * @throws IOException
+   * @throws URISyntaxException
+   */
+  protected void validateJsonSchemaByURL(String schemaFileName, String responseJson)
+      throws IOException, URISyntaxException {
+
+    URIBuilder uriBuilder = new URIBuilder(IT_BASE_URI);
+    uriBuilder.setPort(testPort);
+    uriBuilder.setPath(SCHEMA_BASE_PATH + "/" + schemaFileName);
+    
+    log.info("Validating {} schema against the following response: {}", schemaFileName, responseJson);
+
+    JsonSchemaAssertions.assertJsonSchema(uriBuilder.build(), new StringReader(responseJson));
+  }
+  
+  /**
    * Creates a JSON API Map from the provided attributes. "type" will be equal to
    * {@link BaseJsonApiIntegrationTest#getResourceUnderTest()}.
    * 
    * @param attributeMap
    * @return
    */
-  protected Map<String, Object> toJsonAPIMap(Map<String, Object> attributeMap) {
-    return toJsonAPIMap(getResourceUnderTest(), attributeMap, null);
+  protected Map<String, Object> toJsonAPIMap(Map<String, Object> attributeMap, Map<String, Object> relationshipMap) {
+    return toJsonAPIMap(getResourceUnderTest(), attributeMap, relationshipMap, null);
   }
 
   /**
@@ -124,13 +170,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected static Map<String, Object> toJsonAPIMap(String typeName,
-      Map<String, Object> attributeMap, Integer id) {
+      Map<String, Object> attributeMap, Map<String, Object> relationshipMap, Integer id) {
     ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
     bldr.put("type", typeName);
     if (id != null) {
       bldr.put("id", id);
     }
     bldr.put("attributes", attributeMap);
+    if(relationshipMap != null) {
+      bldr.put("relationships", relationshipMap);
+    }
     return ImmutableMap.of("data", bldr.build());
   }
 
@@ -145,52 +194,48 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
   
   @Test
-  public void resourceUnderTest_whenIdExists_returnOkAndBody() {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest() + "/" + id)
-        .then().statusCode(HttpStatus.OK.value());
-    
-    //cleanup
+  public void resourceUnderTest_whenIdExists_returnOkAndBody()
+      throws IOException, URISyntaxException {
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+    ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
+        .statusCode(HttpStatus.OK.value());
+    validateJsonSchemaByURL(getGetOneSchemaFilename(), response.extract().body().asString());
+
+    // cleanup
     sendDelete(id);
-    
-    //return response;
-    //there is some issue with the schema includes reference to be parsed by Rest Assured API
-//    response.assertThat().body(matchesJsonSchema(jsonApiSchema));
   }
 
-  
-	@Test
-  public void resourceUnderTest_whenMultipleResources_returnOkAndBody() throws IOException {
-	  int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-	  int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
-	  
-    ValidatableResponse response = given().when()
-        .get(getResourceUnderTest())
-        .then().statusCode(HttpStatus.OK.value());
-    String jsonSchema = loadJsonSchemaAsString(getGetManySchemaFilename());
-    response.assertThat().body(matchesJsonSchema(jsonSchema));
-    
-    //cleanup
+  @Test
+  public void resourceUnderTest_whenMultipleResources_returnOkAndBody()
+      throws IOException, URISyntaxException {
+    int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+    int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+
+    ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
+        .statusCode(HttpStatus.OK.value());
+
+    validateJsonSchemaByURL(getGetManySchemaFilename(), response.extract().body().asString());
+
+    // cleanup
     sendDelete(id1);
     sendDelete(id2);
   }
 
   @Test
   public void resourceUnderTest_whenDeleteExisting_returnNoContent() {
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     sendDelete(id);
   }
   
   @Test
   public void resourceUnderTest_whenUpdating_returnOkAndResourceIsUpdated() {
     // Setup: create an resource
-    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap()));
+    int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     
     Map<String, Object> updatedAttributeMap = buildUpdateAttributeMap();
 
     // update the resource
-    sendPatch(id, toJsonAPIMap(getResourceUnderTest(), updatedAttributeMap, id));
+    sendPatch(id, toJsonAPIMap(getResourceUnderTest(), updatedAttributeMap, buildRelationshipMap(), id));
 
     ValidatableResponse responseUpdate = sendGet(id);
 
@@ -203,7 +248,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     //cleanup
     sendDelete(id);
   }
-  
+
   /**
    * Sends a GET to the resource under test for the provided id. Asserts that it returns HTTP OK 200 and
    * returns the response as {@link ValidatableResponse}

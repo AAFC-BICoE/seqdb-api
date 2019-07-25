@@ -169,7 +169,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    *          id of the resource or null if there is none
    * @return
    */
-  protected static Map<String, Object> toJsonAPIMap(String typeName,
+  public static Map<String, Object> toJsonAPIMap(String typeName,
       Map<String, Object> attributeMap, Map<String, Object> relationshipMap, Integer id) {
     ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
     bldr.put("type", typeName);

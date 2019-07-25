@@ -12,7 +12,7 @@ import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.factories.ProductFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   
@@ -25,7 +25,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   protected static final String TEST_PRODUCT_DESCRIPTION_CREATE = "product desc create";
     
   @Inject
-  private ResourceRepositoryV2<ProductDto, Serializable> productRepository;
+  private ResourceRepository<ProductDto, Serializable> productRepository;
   
   private Product testProduct;
   

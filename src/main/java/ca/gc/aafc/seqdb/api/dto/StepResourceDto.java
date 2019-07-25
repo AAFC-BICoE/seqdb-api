@@ -33,10 +33,10 @@ public class StepResourceDto {
 //  
 //  @JsonApiRelation
 //  private MixedSpecimenDto mixedSpecimen;
-//  
-//  @JsonApiRelation
-//  private SampleDto sample;
-  
+
+  @JsonApiRelation
+  private SampleDto sample;
+
 //  @JsonApiRelation
 //  private PcrBatchDto pcrBatch;
 //  
@@ -60,5 +60,8 @@ public class StepResourceDto {
 //  
 //  @JsonApiRelation
 //  private ProtocolDto protocol;
+  
+  @JsonApiRelation
+  private PreLibraryPrepDto preLibraryPrep;
   
 }

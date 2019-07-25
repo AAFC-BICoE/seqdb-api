@@ -18,7 +18,7 @@ import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.error.ErrorResponse;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest {
   
@@ -26,10 +26,10 @@ public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest 
   private DataIntegrityViolationExceptionMapper exceptionMapper;
   
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Inject
-  private ResourceRepositoryV2<GroupDto, Serializable> groupRepository;
+  private ResourceRepository<GroupDto, Serializable> groupRepository;
   
   @Test
   public void createPcrBatch_whenUniqueConstraintIsViolated_mapperCreatesReadableErrorMessages() {

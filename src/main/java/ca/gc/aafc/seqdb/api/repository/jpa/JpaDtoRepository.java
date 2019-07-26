@@ -31,6 +31,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
@@ -69,7 +70,8 @@ public class JpaDtoRepository {
   private final JpaDtoMapper dtoJpaMapper;
 
   private static final ObjectMapper MAPPER = new ObjectMapper()
-      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+      .registerModule(new JavaTimeModule()); // Provides support for LocalDate and other Java 8 date/time types. 
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.

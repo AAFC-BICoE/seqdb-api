@@ -14,6 +14,7 @@ import com.github.tennaito.rsql.jpa.JpaPredicateVisitor;
 
 import cz.jirutka.rsql.parser.RSQLParser;
 import io.crnk.core.queryspec.FilterSpec;
+import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +37,7 @@ public class RsqlFilterHandler implements FilterHandler {
   @Override
   public Predicate getRestriction(QuerySpec querySpec, From<?, ?> root, CriteriaQuery<?> query,
       CriteriaBuilder cb) {
-    FilterSpec rsqlFilterSpec = querySpec.getFilter("rsql");
+    FilterSpec rsqlFilterSpec = querySpec.findFilter(PathSpec.of("rsql")).orElse(null);
     if (rsqlFilterSpec == null || StringUtils.isBlank(rsqlFilterSpec.getValue().toString())) {
       // Return a blank predicate if there is no requested RSQL filter.
       return cb.and();

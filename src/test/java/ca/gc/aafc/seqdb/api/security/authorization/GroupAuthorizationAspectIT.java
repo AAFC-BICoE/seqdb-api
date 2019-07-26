@@ -22,15 +22,15 @@ import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
 
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Inject
-  private ResourceRepositoryV2<GroupDto, Serializable> groupRepository;
+  private ResourceRepository<GroupDto, Serializable> groupRepository;
   
   @Test(expected = ForbiddenException.class)
   public void findOne_whenResourceExistsButUserDoesNotHaveReadAccess_throwForbiddenException() {

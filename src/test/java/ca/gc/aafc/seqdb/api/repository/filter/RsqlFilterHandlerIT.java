@@ -19,15 +19,16 @@ import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
+import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.mapper.QuerySpecUrlMapper;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 
 public class RsqlFilterHandlerIT extends BaseRepositoryTest {
 
   @Inject
-  private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  private ResourceRepository<PcrPrimerDto, Serializable> primerRepository;
   
   @Inject
   private QuerySpecUrlMapper querySpecUrlMapper;
@@ -116,6 +117,9 @@ public class RsqlFilterHandlerIT extends BaseRepositoryTest {
     
     QuerySpec querySpec = querySpecUrlMapper.deserialize(primerInfo, paramMap);
     
-    assertEquals("name==asd,asd,asd,asd", querySpec.getFilter("rsql").getValue());
+    assertEquals(
+        "name==asd,asd,asd,asd",
+        querySpec.findFilter(PathSpec.of("rsql")).get().getValue()
+    );
   }
 }

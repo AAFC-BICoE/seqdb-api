@@ -18,7 +18,7 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.RelationshipRepositoryV2;
+import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.resource.list.ResourceList;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,7 +35,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 //CHECKSTYLE:OFF AnnotationUseStyle
 public class JpaRelationshipRepository<S, T>
-    implements RelationshipRepositoryV2<S, Serializable, T, Serializable>, ResourceRegistryAware {
+    implements RelationshipRepository<S, Serializable, T, Serializable>, ResourceRegistryAware {
 
   @NonNull
   @Getter(onMethod_ = @Override)
@@ -75,7 +75,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void setRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void setRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,
@@ -95,7 +95,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void addRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void addRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,
@@ -112,7 +112,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void removeRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void removeRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,

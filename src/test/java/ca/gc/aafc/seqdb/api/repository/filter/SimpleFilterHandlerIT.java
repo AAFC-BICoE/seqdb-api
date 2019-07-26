@@ -16,12 +16,12 @@ import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class SimpleFilterHandlerIT extends BaseRepositoryTest {
 
   @Inject
-  private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  private ResourceRepository<PcrPrimerDto, Serializable> primerRepository;
   
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {

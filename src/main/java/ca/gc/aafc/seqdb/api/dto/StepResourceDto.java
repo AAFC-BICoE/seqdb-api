@@ -18,16 +18,9 @@ public class StepResourceDto {
   private StepResourceType type;
   
   private StepResourceValue value;
-  
-  /**
-   * In the future, this should be set automatically from the chain.
-   */
-  private Integer chainTemplateId;
-  
-  /**
-   * In the future, this should be replaced with a relation to ChainStepTemplateDto.
-   */
-  private Integer stepTemplateId;
+
+  @JsonApiRelation
+  private ChainStepTemplateDto chainStepTemplate; 
   
   @JsonApiRelation
   private ChainDto chain;
@@ -40,10 +33,10 @@ public class StepResourceDto {
 //  
 //  @JsonApiRelation
 //  private MixedSpecimenDto mixedSpecimen;
-//  
-//  @JsonApiRelation
-//  private SampleDto sample;
-  
+
+  @JsonApiRelation
+  private SampleDto sample;
+
 //  @JsonApiRelation
 //  private PcrBatchDto pcrBatch;
 //  
@@ -67,5 +60,8 @@ public class StepResourceDto {
 //  
 //  @JsonApiRelation
 //  private ProtocolDto protocol;
+  
+  @JsonApiRelation
+  private PreLibraryPrepDto preLibraryPrep;
   
 }

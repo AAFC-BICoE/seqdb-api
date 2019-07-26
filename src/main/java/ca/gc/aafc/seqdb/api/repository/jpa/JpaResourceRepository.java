@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository.jpa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -16,7 +17,7 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 import lombok.Getter;
 import lombok.NonNull;
@@ -32,7 +33,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 //CHECKSTYLE:OFF AnnotationUseStyle
 public class JpaResourceRepository<D>
-    implements ResourceRepositoryV2<D, Serializable>, ResourceRegistryAware {
+    implements ResourceRepository<D, Serializable>, ResourceRegistryAware {
 
   /**
    * The JsonApi resource class.
@@ -86,7 +87,7 @@ public class JpaResourceRepository<D>
   }
 
   @Override
-  public ResourceList<D> findAll(@Nullable Iterable<Serializable> ids, QuerySpec querySpec) {
+  public ResourceList<D> findAll(@Nullable Collection<Serializable> ids, QuerySpec querySpec) {
     
     return dtoRepository.findAll(
         this.resourceClass, querySpec, this.resourceRegistry, this.metaInformationProvider,

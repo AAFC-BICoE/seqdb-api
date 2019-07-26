@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.repository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,19 +30,19 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.SortSpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 
 public class JpaResourceRepositoryIT extends BaseRepositoryTest {
   
   @Inject
-  private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  private ResourceRepository<PcrPrimerDto, Serializable> primerRepository;
   
   @Inject
-  private ResourceRepositoryV2<RegionDto, Serializable> regionRepository;
+  private ResourceRepository<RegionDto, Serializable> regionRepository;
   
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   //Assertion values, entity values are defined by the factory unless explicitly set.
   private static final String TEST_PRIMER_NAME = "test primer";
@@ -323,7 +324,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
       persist(region);
     }
     
-    Iterable<Serializable> expectedIds = Arrays.asList(
+    Collection<Serializable> expectedIds = Arrays.asList(
         newRegions.get(2).getId(),
         newRegions.get(4).getId(),
         newRegions.get(6).getId()

@@ -58,8 +58,8 @@
   </parent>
 
   <scm>
-    <connection>scm:git:https://github.com/AAFC-BICoE/seqdb-api.git</connection>
-    <developerConnection>scm:git:https://github.com/AAFC-BICoE/seqdb-api.git</developerConnection>
+    <connection>scm:git:git://github.com/AAFC-BICoE/seqdb-api.git</connection>
+    <developerConnection>scm:git:git@github.com:AAFC-BICoE/seqdb-api.git</developerConnection>
     <url>https://github.com/AAFC-BICoE/seqdb-api</url>
   </scm>
   

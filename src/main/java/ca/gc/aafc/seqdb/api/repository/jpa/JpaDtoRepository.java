@@ -35,6 +35,7 @@ import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
+import ca.gc.aafc.seqdb.api.repository.links.NoLinkInformation;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
@@ -67,6 +68,9 @@ public class JpaDtoRepository {
   @NonNull
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
+  
+  /* Forces CRNK to not display any top-level links. */
+  private static final NoLinkInformation NO_LINK_INFORMATION = new NoLinkInformation();
 
   private static final ObjectMapper MAPPER = new ObjectMapper()
       .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -138,7 +142,7 @@ public class JpaDtoRepository {
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder().sourceResourceClass(sourceDtoClass)
                 .customRoot(customRoot).customFilter(customFilter).build()),
-        null);
+        NO_LINK_INFORMATION);
   }
 
   /**

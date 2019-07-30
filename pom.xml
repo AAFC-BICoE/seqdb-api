@@ -18,6 +18,7 @@
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
     <local-javax-jaxb.version>2.3.0.1</local-javax-jaxb.version>
     <javax.activation.version>1.1.1</javax.activation.version>
+    <javax.interceptor-api>1.2.2</javax.interceptor-api>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
@@ -441,6 +442,19 @@
 	<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-release-plugin</artifactId>
+	</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-javadoc-plugin</artifactId>
+		<configuration>
+			<additionalDependencies>
+				<additionalDependency>
+					<groupId>javax.interceptor</groupId>
+					<artifactId>javax.interceptor-api</artifactId>
+					<version>${javax.interceptor-api}</version>
+				</additionalDependency>
+			</additionalDependencies>
+		</configuration>
 	</plugin>
     </plugins>
   </build>

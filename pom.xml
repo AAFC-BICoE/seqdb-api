@@ -3,7 +3,7 @@
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.3.0</version>
   <packaging>jar</packaging>
 
   <name>seqdb.api</name>
@@ -61,7 +61,7 @@
     <connection>scm:git:git://github.com/AAFC-BICoE/seqdb-api.git</connection>
     <developerConnection>scm:git:git@github.com:AAFC-BICoE/seqdb-api.git</developerConnection>
     <url>https://github.com/AAFC-BICoE/seqdb-api</url>
-    <tag>seqdb.api-1.3.0</tag>
+    <tag>v1.3.0</tag>
   </scm>
   
   <dependencies>

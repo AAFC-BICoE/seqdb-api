@@ -1,3 +1,11 @@
+# Version 1.3
+2019-07-29
+
+* Support for Product, Protocol, ReactionComponent, TermocyclerProfile
+* JSON Schema
+* JSON Patch support
+* RSQL support for complex filtering
+
 # Version 1.2
 
 2019-02-04

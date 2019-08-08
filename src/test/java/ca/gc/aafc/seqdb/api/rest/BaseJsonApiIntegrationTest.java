@@ -117,7 +117,14 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 	
 	protected abstract Map<String, Object> buildUpdateAttributeMap();
 	
-	protected abstract Map<String, Object> buildRelationshipMap();
+  /**
+   * Override if a relationship map is required.
+   * 
+   * @return relationship map or null if none
+   */
+  protected Map<String, Object> buildRelationshipMap() {
+    return null;
+  }
 
 	/**
 	 * Load a JSON Schema as String.
@@ -306,15 +313,27 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
 
   /**
-   * Sends a POST to the resource under test for the provided id. Asserts that it returns HTTP
+   * Sends a POST to the resource under test. Asserts that it returns HTTP
    * CREATED 201. Extracts the newly assigned id and returns it.
    * 
    * @param dataMap body of the POST as Map
    * @return id of the newly created resource
    */
   protected int sendPost(Map<String, Object> dataMap) {
+    return sendPost(getResourceUnderTest(), dataMap);
+  }
+  
+  /**
+   * Sends a POST to the resourceName. Asserts that it returns HTTP
+   * CREATED 201. Extracts the newly assigned id and returns it.
+   * 
+   * @resourceName name of the resource to POST to
+   * @param dataMap body of the POST as Map
+   * @return id of the newly created resource
+   */
+  protected int sendPost(String resourceName, Map<String, Object> dataMap) {
     Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
-        .post(getResourceUnderTest());
+        .post(resourceName);
     response.then().statusCode(HttpStatus.CREATED.value());
     String id = (String) response.body().jsonPath().get("data.id");
     int idInt = Integer.parseInt(id);

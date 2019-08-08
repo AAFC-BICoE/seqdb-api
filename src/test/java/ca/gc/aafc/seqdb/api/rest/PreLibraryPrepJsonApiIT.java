@@ -13,8 +13,6 @@ import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.factories.PreLibraryPrepFactory;
 
-import io.restassured.response.Response;
-
 import static io.restassured.RestAssured.given;
 
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
@@ -43,13 +41,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .preLibraryPrepType(PreLibraryPrepType.SHEARING)
         .notes("Test Notes")
         .quality("Test Quality").build();
-
-    Map<String, Object> map = toAttributeMap(preLibraryPrep);
-    // we should not be able to provide those fields but the API currently allows it
-    map.remove("lft");
-    map.remove("rgt");
-    
-    return map;
+    return toAttributeMap(preLibraryPrep);
   }
   
   @Override
@@ -58,13 +50,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .preLibraryPrepType(PreLibraryPrepType.SIZE_SELECTION)
         .notes("Updated Notes")
         .quality("Updated Quality").build();
-
-    Map<String, Object> map = toAttributeMap(preLibraryPrep);
-    // we should not be able to provide those fields but the API currently allows it
-    map.remove("lft");
-    map.remove("rgt");
-    
-    return map;
+    return toAttributeMap(preLibraryPrep);
   }
 
   /**
@@ -93,27 +79,14 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
     //Put maps together and create one json map
     Map<String, Object> protocolMap = toJsonAPIMap(
         "protocol", protocolAttributes.build(), relationshipBldr.build(), null);
-    //Post the json map and expect a successful http status
-    Response protocolResponse = given().contentType(JSON_API_CONTENT_TYPE)
-        .body(protocolMap).when().post("protocol");
-    //Stores id found in json response to be used in reaction component post and destroyProtocol
-    String strid = (String) protocolResponse.body().jsonPath().get("data.id");
-    protocolId = Integer.parseInt(strid);
+    protocolId = sendPost("protocol", protocolMap);
     
     // Build attributes for product
     ImmutableMap.Builder<String, Object> productAttributes = new ImmutableMap.Builder<>();
     productAttributes.put("name", "test product").build();
-    
     // Create map for product. 
     Map<String, Object> productMap = toJsonAPIMap("product", productAttributes.build(), null, null);
-    
-    //Post the json map and expect a successful http status
-    Response productResponse = given().contentType(JSON_API_CONTENT_TYPE)
-        .body(productMap).when().post("product");
-    
-    //Stores id found in json response to be used in reaction component post and destroyProtocol
-    strid = (String) productResponse.body().jsonPath().get("data.id");
-    productId = Integer.parseInt(strid);
+    productId = sendPost("product", productMap);
   }
   
   /**

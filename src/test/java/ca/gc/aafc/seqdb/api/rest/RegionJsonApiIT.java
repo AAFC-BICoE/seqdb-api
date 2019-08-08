@@ -57,9 +57,4 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
     return map;
   }
 
-  @Override
-  protected Map<String, Object> buildRelationshipMap() {
-    // Entity does not require relationships
-    return null;
-  }
 }

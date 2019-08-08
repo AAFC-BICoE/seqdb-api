@@ -13,8 +13,7 @@
 			"required": [
 				"id",
 				"type",
-				"attributes",
-				"relationships"
+				"attributes"
 			],
 			"properties": {
 				"id": { "allOf": [{ "$ref": "common/id.json" }] },

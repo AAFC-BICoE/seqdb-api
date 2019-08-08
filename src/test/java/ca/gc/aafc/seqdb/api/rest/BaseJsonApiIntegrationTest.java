@@ -214,8 +214,17 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public void resourceUnderTest_whenIdExists_returnOkAndBody()
       throws IOException, URISyntaxException {
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+    
+    // Test with the crnk-compact header.
+    ValidatableResponse responseCompact = given().header("crnk-compact", "true").when()
+        .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
+    
+    validateJsonSchemaByURL(getGetOneSchemaFilename(), responseCompact.extract().body().asString());
+    
+    // Test without the crnk-compact header.
     ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
+    
     validateJsonSchemaByURL(getGetOneSchemaFilename(), response.extract().body().asString());
 
     // cleanup
@@ -228,9 +237,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
 
+    // Test with the crnk-compact header.
+    ValidatableResponse responseCompact = given().header("crnk-compact", "true").when()
+        .get(getResourceUnderTest()).then().statusCode(HttpStatus.OK.value());
+
+    validateJsonSchemaByURL(getGetManySchemaFilename(), responseCompact.extract().body().asString());
+    
+    // Test without the crnk-compact header.
     ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
         .statusCode(HttpStatus.OK.value());
-
+    
     validateJsonSchemaByURL(getGetManySchemaFilename(), response.extract().body().asString());
 
     // cleanup
@@ -274,7 +290,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendGet(int id) {
-    return given().when().get(getResourceUnderTest() + "/" + id).then()
+    return given().header("crnk-compact", "true").when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
   }
 
@@ -297,7 +313,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return id of the newly created resource
    */
   protected int sendPost(Map<String, Object> dataMap) {
-    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
         .post(getResourceUnderTest());
     response.then().statusCode(HttpStatus.CREATED.value());
     String id = (String) response.body().jsonPath().get("data.id");
@@ -313,7 +329,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendPatch(int id, Map<String, Object> dataMap) {
-    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
         .patch(getResourceUnderTest() + "/" + id);
     return response.then().statusCode(HttpStatus.OK.value());
   }

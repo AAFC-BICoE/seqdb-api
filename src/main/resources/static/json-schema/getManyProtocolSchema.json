@@ -15,7 +15,7 @@
             "description": "Each element is a Protocol object, the number of elements can range from 1, for a specific query, or all instances in the database.",
             "items": {
             
-                "required": ["id", "type", "attributes", "relationships"],
+                "required": ["id", "type", "attributes"],
                 "properties": {
 
                     "id": { "allOf": [{ "$ref": "common/id.json" }] },

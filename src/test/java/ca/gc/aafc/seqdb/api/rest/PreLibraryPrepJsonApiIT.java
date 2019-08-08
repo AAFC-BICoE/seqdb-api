@@ -44,7 +44,12 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .notes("Test Notes")
         .quality("Test Quality").build();
 
-    return toAttributeMap(preLibraryPrep);
+    Map<String, Object> map = toAttributeMap(preLibraryPrep);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
   
   @Override
@@ -54,7 +59,12 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .notes("Updated Notes")
         .quality("Updated Quality").build();
 
-    return toAttributeMap(preLibraryPrep);
+    Map<String, Object> map = toAttributeMap(preLibraryPrep);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
 
   /**

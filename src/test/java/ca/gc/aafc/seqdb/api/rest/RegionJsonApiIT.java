@@ -28,12 +28,18 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected Map<String, Object> buildCreateAttributeMap() {
+    
     Region region = RegionFactory.newRegion()
     .name("test region")
     .description("test description")
     .symbol("test symbol").build();
     
-    return toAttributeMap(region);
+    Map<String, Object> map = toAttributeMap(region);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
   
   @Override
@@ -42,8 +48,13 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
     .name("updated name")
     .description("updated description")
     .symbol("updated symbol").build();
-
-    return toAttributeMap(region);
+    
+    Map<String, Object> map = toAttributeMap(region);
+    // we should not be able to provide those fields but the API currently allows it
+    map.remove("lft");
+    map.remove("rgt");
+    
+    return map;
   }
 
   @Override

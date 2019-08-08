@@ -161,13 +161,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return attribute map for the provided object
    */
   protected Map<String, Object> toAttributeMap(Object obj) {
-    Map<String, Object> map = IT_OBJECT_MAPPER.convertValue(obj, IT_OM_TYPE_REF);
-    
-    // we should not be able to provide those fields but the API currently allows it
-    map.remove("lft");
-    map.remove("rgt");
-    
-    return map;
+    return IT_OBJECT_MAPPER.convertValue(obj, IT_OM_TYPE_REF);
   }
   
   /**

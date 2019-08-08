@@ -3,6 +3,7 @@
 	"type": "object",
 	"description": "The properties of the Protocol object.",
 	"required": ["name", "type"],
+	"additionalProperties": false,
 	"properties": {
 	
 	    "name": {
@@ -86,6 +87,12 @@
 	    	"description" : "The volume of the reaction mix per tube ",
 	    	"maxLength" : 50,
 	    	"examples" : ["9"]
+	    },
+	    
+	    "lastModified": {
+	    	"type": "string",
+	    	"description": "Extraction date of the sample.",
+	        "examples": ["1998-05-19"]
 	    }
 	}
 }

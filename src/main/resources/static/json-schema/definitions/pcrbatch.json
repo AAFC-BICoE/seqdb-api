@@ -3,6 +3,7 @@
 	"type": "object",
 	"description": "The properties of the Pcr Batch object.",
 	"required": ["name", "type", "plateSize"],
+	"additionalProperties": false,
 	"properties": {
 	
 	    "name": {

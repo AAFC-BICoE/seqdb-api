@@ -2,6 +2,7 @@
    "type": "object",
    "description": "the properties of the thermocycler.",
    "required": ["name"],
+   "additionalProperties": false,
    "properties": {
        "name": {
            "type":"string",

@@ -1,48 +1,38 @@
 {
-    "$id": "static/json-schema/GETsampleJSONSchema.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "The Sample GET Response Schema",
-    "description": "The schema for the GET response to retrieve an array of Samples",
-    "base": "http://localhost:8080/api",
-    "type": "object",
-    "required": ["data", "meta"],
-    "properties": {
+  "$id": "static/json-schema/GETsampleJSONSchema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The Sample GET Response Schema",
+  "description": "The schema for the GET response to retrieve an array of Samples",
+  "base": "http://localhost:8080/api",
+  "type": "object",
+  "required": [ "data", "meta" ],
+  "properties": {
+    "data": {
+      "type": "array",
+      "description": "Each element is a Sample object, the number of elements can range from 1, for a specific query, or all instances in the database.",
+      "items": {
+        "required": [ "id", "type", "attributes" ],
+        "properties": {
 
-        "data": {
-            "$comment": "This is where the data of the request is found, containing an array of all of the Samples.",
-            "type": "array",
-            "description": "Each element is a Sample object, the number of elements can range from 1, for a specific query, or all instances in the database.",
-            "items": {
+          "id": { "allOf": [{ "$ref": "common/id.json" }] },
+          "type": {
+            "const": "sample",
+            "description": "The type of the object of the data being returned."
+          },
+          "attributes": { "allOf": [{ "$ref": "definitions/sample.json" }] },
+          "relationships": {
+            "properties": {
 
-                "required": ["id", "type", "attributes"],
-                "properties": {
+              "group": { "allOf": [{ "$ref": "common/relationship.json" }] },
+              "protocol": { "allOf": [{ "$ref": "common/relationship.json" }] },
+              "kit": { "allOf": [{ "$ref": "common/relationship.json" }] }
 
-                    "id": { "allOf": [{ "$ref": "common/id.json" }] },
-
-                    "type": {
-                        "$comment": "The type of object the data will be returned.",
-                        "const": "sample",
-                        "description": "The type of the object of the data being returned."
-                    },
-
-                    "attributes": {
-			          	"allOf": [{ 
-			          		"$ref": "definitions/sample.json" 
-			          	}]
-                    },
-
-                    "relationships": {
-                        "properties": {
-                        
-                            "group": { "allOf": [{ "$ref": "common/relationship.json" }] },
-                            "protocol": { "allOf": [{ "$ref": "common/relationship.json" }] },
-                            "kit": { "allOf": [{ "$ref": "common/relationship.json" }] }
-
-                        }
-                    }
-                }
             }
-        },
-		"meta": { "allOf": [{ "$ref": "common/meta.json" }] }
-    }
+          }
+
+        }
+      }
+    },
+    "meta": { "allOf": [{ "$ref": "common/meta.json" }] }
+  }
 }

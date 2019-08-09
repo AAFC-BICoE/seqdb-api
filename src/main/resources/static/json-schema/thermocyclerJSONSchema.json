@@ -1,40 +1,36 @@
 {
-	"$id": "static/json-schema/thermocyclerJSONSchema.json",
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"title": "ThermocyclerProfile",
-	"description": "A thermocyclerprofile schema",
-	"type": "object",
-	"required": [
-		"data"
-	],
-	"additionalProperties": false,
-	"properties": {
-		"data": {
-			"required": [
-				"id",
-				"type",
-				"attributes"
-			],
-			"properties": {
-				"id": { "allOf": [{ "$ref": "common/id.json" }] },
-				"type": {
-					"const": "thermocyclerprofile",
-					"description": "tells crnk what type this object is."
-				},
-				"attribute": {
-					"allOf": [{
-						"$ref": "definitions/thermocycler.json"
-					}]
-				},
-				"relationships": {
-					"properties": {
-					
-						"region": { "allOf": [{ "$ref": "common/relationship.json" }] },
-						"group": { "allOf": [{ "$ref": "common/relationship.json" }] }
-						
-					}
-				}
-			}
-		}
-	}
+  "$id": "static/json-schema/thermocyclerJSONSchema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ThermocyclerProfile",
+  "description": "A thermocyclerprofile schema",
+  "type": "object",
+  "required": [ "data" ],
+  "additionalProperties": false,
+  "properties": {
+    "data": {
+      "required": [ "id", "type", "attributes" ],
+      "properties": {
+
+        "id": { "allOf": [{ "$ref": "common/id.json" }] },
+        "type": {
+          "const": "thermocyclerprofile",
+          "description": "tells crnk what type this object is."
+        },
+        "attribute": {
+          "allOf": [{
+            "$ref": "definitions/thermocycler.json"
+          }]
+        },
+        "relationships": {
+          "properties": {
+          
+            "region": { "allOf": [{ "$ref": "common/relationship.json" }] },
+            "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
+            
+          }
+        }
+
+      }
+    }
+  }
 }

@@ -1,0 +1,10 @@
+{
+  "$comment": "Metadata that comes along with the request.",
+  "additionalProperties": false,
+  "properties": {
+    "totalResourceCount": {
+      "type": "integer",
+      "description": "Meta info describing how many elements are in the data array returned."
+    }
+  }
+}

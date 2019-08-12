@@ -1,9 +1,8 @@
 package ca.gc.aafc.seqdb.api;
 
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-public class AppStartsIT extends BaseHttpIntegrationTest {
+public class AppStartsIT extends BaseIntegrationTest {
 
   /**
    * Tests that the application with embedded Tomcat starts up successfully.

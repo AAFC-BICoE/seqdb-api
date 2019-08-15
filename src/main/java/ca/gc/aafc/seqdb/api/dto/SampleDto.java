@@ -85,9 +85,9 @@ public class SampleDto {
   
   private String extractionSolvent;
   
-  private Boolean discarded;
-  
   private LocalDate dateDiscarded;
+  
+  private String discardedNotes;
 
   private Timestamp lastModified;
   

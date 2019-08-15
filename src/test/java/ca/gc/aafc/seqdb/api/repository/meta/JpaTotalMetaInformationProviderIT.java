@@ -69,7 +69,7 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
     PcrBatch testBatch = persistTestPcrBatchWith22Reactions("test-batch");
     
     QuerySpec querySpec = new QuerySpec(PcrReactionDto.class);
-    querySpec.addFilter(new FilterSpec(Arrays.asList("pcrName"), FilterOperator.EQ, "reaction5"));
+    querySpec.addFilter(new FilterSpec(Arrays.asList("tubeNumber"), FilterOperator.EQ, 5));
     ResourceList<PcrReactionDto> reactions = pcrBatchToReactionRepository
         .findManyTargets(testBatch.getPcrBatchId(), "reactions", querySpec);
     DefaultPagedMetaInformation meta = (DefaultPagedMetaInformation) reactions.getMeta();

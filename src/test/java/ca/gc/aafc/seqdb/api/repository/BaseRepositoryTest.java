@@ -98,7 +98,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     
     for (int i = 1; i <= 22; i++) {
       PcrReaction reaction = new PcrReaction();
-      reaction.setPcrName("reaction" + i);
+      reaction.setTubeNumber(i);
       
       assertNull(reaction.getId());
       

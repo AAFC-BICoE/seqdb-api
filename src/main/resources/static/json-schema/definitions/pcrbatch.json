@@ -1,30 +1,30 @@
 {
-	"$comment": "All of the attributes for the PcrBatch object can be found here.",
-	"type": "object",
-	"description": "The properties of the Pcr Batch object.",
-	"required": ["name", "type", "plateSize"],
-	"properties": {
-	
-	    "name": {
-	        "type": "string",
-	        "description": "The name given to the PcrBatch.",
-	        "maxLength": 50,
-	        "examples": ["BG_PCR026"]
-	    },
-	
-	    "type": {
-	        "type": "string",
-	        "description": "The sequencing technology used for the Pcr Batch.",
-	        "enum": ["FRAGMENT", "NGS", "ROUND2", "SANGER"],
-	        "examples": ["SANGER", "NGS"]
-	    },
-	
-	    "plateSize": {
-	        "type": "string",
-	        "description": "The size of the plate used for the Pcr Batch.",
-	        "enum": ["PLATE_NUMBER_384", "PLATE_NUMBER_96"],
-	        "examples": ["PLATE_NUMBER_96", "PLATE_NUMBER_384"]
-	    }
-	
-	}
+  "$comment": "All of the attributes for the PcrBatch object can be found here.",
+  "type": "object",
+  "description": "The properties of the Pcr Batch object.",
+  "required": ["name", "type", "plateSize"],
+  "additionalProperties": false,
+  "properties": {
+  
+    "name": {
+      "type": "string",
+      "description": "The name given to the PcrBatch.",
+      "maxLength": 50,
+      "examples": ["BG_PCR026"]
+    },
+  
+    "type": {
+      "type": "string",
+      "description": "The sequencing technology used for the Pcr Batch.",
+      "enum": ["FRAGMENT", "NGS", "ROUND2", "SANGER"],
+      "examples": ["SANGER", "NGS"]
+    },
+  
+    "plateSize": {
+      "type": "string",
+      "description": "The size of the plate used for the Pcr Batch.",
+      "enum": ["PLATE_NUMBER_384", "PLATE_NUMBER_96"],
+      "examples": ["PLATE_NUMBER_96", "PLATE_NUMBER_384"]
+    }
+  }
 }

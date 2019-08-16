@@ -125,6 +125,7 @@ public class ResourceRepositoryConfig {
   @Inject
   public void initTransactionOperationFilter(OperationsModule module) {
     module.addFilter(new TransactionOperationFilter());
+    module.setIncludeChangedRelationships(false);
   }
   
   /**

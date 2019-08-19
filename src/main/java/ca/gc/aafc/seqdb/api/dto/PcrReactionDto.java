@@ -12,7 +12,7 @@ public class PcrReactionDto {
   @JsonApiId
   private Integer pcrReactionId;
 
-  private String pcrName;
+  private Integer tubeNumber;
 
   @JsonApiRelation(opposite = "reactions")
   private PcrBatchDto pcrBatch;

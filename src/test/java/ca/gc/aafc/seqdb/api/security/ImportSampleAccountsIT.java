@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -34,7 +33,6 @@ import static org.junit.Assert.*;
  * specific situations.
  */
 @RunWith(Enclosed.class)
-@Ignore
 public class ImportSampleAccountsIT {
 
   /**

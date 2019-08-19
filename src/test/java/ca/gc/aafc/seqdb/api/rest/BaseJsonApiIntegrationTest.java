@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -47,6 +48,7 @@ import static org.hamcrest.Matchers.equalTo;
  *
  */
 @Slf4j
+@TestPropertySource(properties="import-sample-accounts=true")
 public abstract class BaseJsonApiIntegrationTest extends BaseIntegrationTest {
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";

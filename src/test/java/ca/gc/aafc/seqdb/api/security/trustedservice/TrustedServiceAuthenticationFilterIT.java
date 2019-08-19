@@ -14,10 +14,14 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.TestPropertySource;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
 
+@TestPropertySource(
+    properties = "seqdb.trusted-service-api-keys = test-api-key, another-test-api-key"
+)
 public class TrustedServiceAuthenticationFilterIT extends BaseIntegrationTest {
   
   @Inject

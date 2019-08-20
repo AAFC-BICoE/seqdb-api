@@ -10,6 +10,7 @@
     "data": {
       "type": "object",
       "required": [ "id", "type", "attributes" ],
+      "additionalProperties": false,
       "properties": {
 
         "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -17,8 +18,14 @@
           "const": "pcrBatch",
           "description": "The type of the object of the data being returned."
         },
-        "attributes": { "allOf": [{ "$ref": "definitions/pcrbatch.json" }] }
-
+        "attributes": { "allOf": [{ "$ref": "definitions/pcrbatch.json" }] },
+	    "relationships": {
+	      "properties": {
+	        "reactions": { "allOf": [{ "$ref": "common/relationship.json" }] },
+	        "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
+	      }
+	    },
+	    "links": { "allOf": [{ "$ref": "common/link.json" }] }
       }
     }
   }

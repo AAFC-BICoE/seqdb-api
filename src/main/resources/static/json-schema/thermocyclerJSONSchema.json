@@ -9,6 +9,7 @@
   "properties": {
     "data": {
       "required": [ "id", "type", "attributes" ],
+      "additionalProperties": false,
       "properties": {
 
         "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -16,11 +17,7 @@
           "const": "thermocyclerprofile",
           "description": "tells crnk what type this object is."
         },
-        "attribute": {
-          "allOf": [{
-            "$ref": "definitions/thermocycler.json"
-          }]
-        },
+        "attributes": { "allOf": [{ "$ref": "definitions/thermocycler.json" }] },
         "relationships": {
           "properties": {
           
@@ -28,7 +25,8 @@
             "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
             
           }
-        }
+        },
+        "links": { "allOf": [{ "$ref": "common/link.json" }] }
 
       }
     }

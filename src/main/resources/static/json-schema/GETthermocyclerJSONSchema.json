@@ -12,6 +12,7 @@
       "description": "each element is a thermocycler object, the number of elements can range from 1, for a specific query, or all instances in the database.",
       "items": {
         "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
         "properties": {
 
           "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -19,19 +20,14 @@
             "const": "thermocyclerprofile",
             "description": "The type of the object."
           },
-          "attribute": {
-            "allOf": [
-              {
-                "$ref": "definitions/thermocycler.json"
-              }
-            ]
-          },
+          "attributes": { "allOf": [{ "$ref": "definitions/thermocycler.json" } ]},
           "relationships": {
             "properties": {
               "region": { "allOf": [{ "$ref": "common/relationship.json" }] },
               "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
             }
-          }
+          },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
 
         }
       }

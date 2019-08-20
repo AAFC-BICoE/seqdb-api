@@ -13,20 +13,20 @@
       "description": "Each element is a Reaction Components object, the number of elements can range from 1, for a specific query, or all instances in the database.",
       "items": {
         "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
         "properties": {
           "id": { "allOf": [{ "$ref": "common/id.json" }] },
           "type": {
             "const": "reactionComponent",
             "description": "The type of data being returned."
           },
-          "attribute": { "allOf": [{ "$ref": "definitions/reactioncomponent.json" }] },
+          "attributes": { "allOf": [{ "$ref": "definitions/reactioncomponent.json" }] },
           "relationships": {
             "properties": {
-
               "protocol": { "allOf": [{ "$ref": "common/relationship.json" }] }
-
             }
-          }
+          },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
         }
       }
     },

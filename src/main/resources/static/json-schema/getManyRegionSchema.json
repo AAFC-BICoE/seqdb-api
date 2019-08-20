@@ -13,13 +13,15 @@
       "description": "each element is a region object, the number of elements can range from 1, for a specific query, or all instances in the database.",
       "items": {
         "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
         "properties": {
           "id": { "allOf": [{ "$ref": "common/id.json" }] },
           "type": {
             "const": "region",
             "description": "The type of the object."
           },
-          "attribute": { "allOf": [{ "$ref": "definitions/region.json" }] }
+          "attributes": { "allOf": [{ "$ref": "definitions/region.json" }] },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
         }
       }
     },

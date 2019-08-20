@@ -14,6 +14,7 @@
       "description": "Each element is a Protocol object, the number of elements can range from 1, for a specific query, or all instances in the database.",
       "items": {
         "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
         "properties": {
         
           "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -21,7 +22,7 @@
             "const": "protocol",
             "description": "The type of data being returned."
           },
-          "attribute": { "allOf": [{ "$ref": "definitions/protocol.json" }] },
+          "attributes": { "allOf": [{ "$ref": "definitions/protocol.json" }] },
           "relationships": {
             "properties": {
 
@@ -30,7 +31,8 @@
               "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
 
             }
-          }
+          },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
           
         }
       }

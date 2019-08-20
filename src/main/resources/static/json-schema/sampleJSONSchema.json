@@ -10,6 +10,7 @@
     "data": {
       "type": "object",
       "required": [ "id", "type", "attributes" ],
+      "additionalProperties": false,
       "properties": {
 
         "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -17,8 +18,17 @@
           "const": "sample",
           "description": "The type of the object of the data being returned."
         },
-        "attributes": { "allOf": [{ "$ref": "definitions/sample.json" }] }
+        "attributes": { "allOf": [{ "$ref": "definitions/sample.json" }] },
+        "relationships": {
+          "properties": {
 
+            "group": { "allOf": [{ "$ref": "common/relationship.json" }] },
+            "protocol": { "allOf": [{ "$ref": "common/relationship.json" }] },
+            "kit": { "allOf": [{ "$ref": "common/relationship.json" }] }
+
+          }
+        },
+        "links": { "allOf": [{ "$ref": "common/link.json" }] }
       }
     }
   }

@@ -51,17 +51,17 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   @Transactional
   @Override
   public void onApplicationEvent(ContextRefreshedEvent arg0) {
-    log.info("Importing sample accounts...");
-    insertAdminAccount();
-    insertUserAccount();
+    insertUserAndAdminAccounts();
   }
-  
+
   /**
-   * Checks if the admin account exists and creates a sample admin account used for
-   * development and testing.
+   * Check if the admin or user accounts exist, if they do not exist then to insert the accounts
+   * into the entity manager to be used for developer and testing purposes.
    */
-  public void insertAdminAccount() {
-    if (retrieveAccount(IMPORTED_ADMIN_ACCOUNT_NAME) == null) {
+  public void insertUserAndAdminAccounts() {
+    log.info("Importing sample accounts...");
+    
+    if (!accountExists(IMPORTED_ADMIN_ACCOUNT_NAME)) {
       Account adminAccount = new Account();
       adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
       adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
@@ -79,14 +79,8 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
     } else {
       log.info("Admin account already exist. Skipping.");
     }
-  }
-  
-  /**
-   * Checks if the user account exists and creates a sample user account used for
-   * development and testing.
-   */
-  public void insertUserAccount() {
-    if (retrieveAccount(IMPORTED_USER_ACCOUNT_NAME) == null) {
+
+    if (!accountExists(IMPORTED_USER_ACCOUNT_NAME)) {
       Account userAccount = new Account();
       userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
       userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
@@ -127,35 +121,26 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   }
 
   /**
-   * Retrieve an account that is in the database.
+   * Check if an account is already in the database (case sensitive).
    *
-   * @param accountName string of the account name to retrieve. (Case sensitive)
-   * @return the account from the entityManager. Null if it does not exist.
+   * @param accountName
+   * @return
    */
   @VisibleForTesting
-  protected Account retrieveAccount(String accountName) {
+  protected boolean accountExists(String accountName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+    CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
     Root<Account> root = criteria.from(Account.class);
 
+    criteria.select(criteriaBuilder.count(root));
     criteria.where(criteriaBuilder.equal(root.get("accountName"), accountName));
 
-    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
+    Long count = entityManager.createQuery(criteria).getSingleResult();
+    if (count == null) {
+      return false;
+    }
+    // accountName is UNIQUE
+    return count.longValue() == 1L;
   }
-  
-  /**
-   * Retrieve the account group based on the account id.
-   * 
-   * @param accountId the id of the account to find the account group on.
-   * @return the accountsGroup from the entityManager. Null if it does not exist.
-   */
-  protected AccountsGroup retrieveAccountGroup(int accountId) {
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<AccountsGroup> criteria = criteriaBuilder.createQuery(AccountsGroup.class);
-    Root<AccountsGroup> root = criteria.from(AccountsGroup.class);
 
-    criteria.where(criteriaBuilder.equal(root.join("account").get("accountId"), accountId));
-
-    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
-  }
 }

@@ -1,6 +1,9 @@
 package ca.gc.aafc.seqdb.api.security;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,11 +43,10 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
   @Test
   public void importSampleAccounts_insertUserAccount_successfullyCreateUserAccount() {
     // Invoke the create user accounts
-    importSampleAccounts.insertUserAccount();
+    importSampleAccounts.insertUserAndAdminAccounts();
 
     // Check if the account exists on the entity manager...
-    Account userAccount = importSampleAccounts
-        .retrieveAccount(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
+    Account userAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
 
     assertNotNull(userAccount);
     assertNotNull(userAccount.getAccountId());
@@ -55,8 +57,7 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
     assertEquals(Account.Status.ACTIVE.toString(), userAccount.getAccountStatus());
 
     // Retrieve the account group from the entity manager...
-    AccountsGroup accountGroup = importSampleAccounts
-        .retrieveAccountGroup(userAccount.getAccountId());
+    AccountsGroup accountGroup = retrieveAccountGroup(userAccount.getAccountId());
 
     assertNotNull(accountGroup);
     assertEquals(ImportSampleAccounts.IMPORTED_ACCOUNT_RIGHTS, accountGroup.getRights());
@@ -72,11 +73,10 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
   @Test
   public void importSampleAccounts_insertAdminAccount_successfullyCreateAdminAccount() {
     // Invoke the create user accounts
-    importSampleAccounts.insertAdminAccount();
+    importSampleAccounts.insertUserAndAdminAccounts();
 
     // Check if the account exists on the entity manager...
-    Account adminAccount = importSampleAccounts
-        .retrieveAccount(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME);
+    Account adminAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME);
 
     assertNotNull(adminAccount);
     assertNotNull(adminAccount.getAccountId());
@@ -87,13 +87,44 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
     assertEquals(Account.Status.ACTIVE.toString(), adminAccount.getAccountStatus());
 
     // Retrieve the account group from the entity manager...
-    AccountsGroup accountGroup = importSampleAccounts
-        .retrieveAccountGroup(adminAccount.getAccountId());
+    AccountsGroup accountGroup = retrieveAccountGroup(adminAccount.getAccountId());
 
     assertNotNull(accountGroup);
     assertEquals(ImportSampleAccounts.IMPORTED_ACCOUNT_RIGHTS, accountGroup.getRights());
     assertTrue(accountGroup.getAdmin());
     assertEquals(importSampleAccounts.retrieveGroup(ImportSampleAccounts.ADMIN_GROUP_NAME),
         accountGroup.getGroup());
+  }
+  
+  /**
+   * Retrieve an account that is in the database.
+   *
+   * @param accountName string of the account name to retrieve. (Case sensitive)
+   * @return the account from the entityManager. Null if it does not exist.
+   */
+  private Account retrieveAccount(String accountName) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+    Root<Account> root = criteria.from(Account.class);
+
+    criteria.where(criteriaBuilder.equal(root.get("accountName"), accountName));
+
+    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
+  }
+  
+  /**
+   * Retrieve the account group based on the account id.
+   * 
+   * @param accountId the id of the account to find the account group on.
+   * @return the accountsGroup from the entityManager. Null if it does not exist.
+   */
+  private AccountsGroup retrieveAccountGroup(int accountId) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<AccountsGroup> criteria = criteriaBuilder.createQuery(AccountsGroup.class);
+    Root<AccountsGroup> root = criteria.from(AccountsGroup.class);
+
+    criteria.where(criteriaBuilder.equal(root.join("account").get("accountId"), accountId));
+
+    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
   }
 }

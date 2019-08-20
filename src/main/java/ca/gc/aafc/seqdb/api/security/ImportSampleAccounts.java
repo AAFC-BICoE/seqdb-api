@@ -34,6 +34,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
 
   public static final String IMPORTED_ADMIN_ACCOUNT_NAME = "Admin";
   public static final String IMPORTED_USER_ACCOUNT_NAME = "User";
+  public static final String IMPORTED_ACCOUNT_RIGHTS = "1111";
   
   // defined by Liquibase
   public static final String ADMIN_GROUP_NAME = "Admin Group";
@@ -50,44 +51,38 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   @Transactional
   @Override
   public void onApplicationEvent(ContextRefreshedEvent arg0) {
+    insertUserAccounts();
+  }
+  
+  public void insertUserAccounts() {
+    insertUserAccount(IMPORTED_ADMIN_ACCOUNT_NAME, ADMIN_GROUP_NAME, Account.Type.ADMIN);
+    insertUserAccount(IMPORTED_USER_ACCOUNT_NAME, USER_GROUP_NAME, Account.Type.USER);
+  }
+
+  /**
+   * Check if the provided user accounts exist, if it does not exist then insert the accounts
+   * into the entity manager to be used for developer and testing purposes.
+   */
+  private void insertUserAccount(String accountName, String accountGroup, Account.Type type) {
     log.info("Importing sample accounts...");
+    
+    if (!accountExists(accountName)) {
+      Account account = new Account();
+      account.setAccountName(accountName);
+      account.setAccountPw(passwordEncoder.encode(accountName));
+      account.setAccountType(type.toString());
+      account.setAccountStatus(Account.Status.ACTIVE.toString());
+      entityManager.persist(account);
 
-    if (!accountExists(IMPORTED_ADMIN_ACCOUNT_NAME)) {
-      Account adminAccount = new Account();
-      adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
-      adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
-      adminAccount.setAccountType(Account.Type.ADMIN.toString());
-      adminAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-      entityManager.persist(adminAccount);
-
-      AccountsGroup adminPermissions = new AccountsGroup();
-      adminPermissions.setAccount(adminAccount);
-      adminPermissions.setGroup(retrieveGroup(ADMIN_GROUP_NAME));
-      adminPermissions.setRights("1111");
-      adminPermissions.setAdmin(true);
-      entityManager.persist(adminPermissions);
-      log.info("Admin sample account imported.");
+      AccountsGroup permissions = new AccountsGroup();
+      permissions.setAccount(account);
+      permissions.setGroup(retrieveGroup(accountGroup));
+      permissions.setRights(IMPORTED_ACCOUNT_RIGHTS);
+      permissions.setAdmin(true);
+      entityManager.persist(permissions);
+      log.info("{} sample account imported.", accountName);
     } else {
-      log.info("Admin account already exist. Skipping.");
-    }
-
-    if (!accountExists(IMPORTED_USER_ACCOUNT_NAME)) {
-      Account userAccount = new Account();
-      userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
-      userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
-      userAccount.setAccountType(Account.Type.USER.toString());
-      userAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-      entityManager.persist(userAccount);
-
-      AccountsGroup userPermissions = new AccountsGroup();
-      userPermissions.setAccount(userAccount);
-      userPermissions.setGroup(retrieveGroup(USER_GROUP_NAME));
-      userPermissions.setRights("1111");
-      userPermissions.setAdmin(true);
-      entityManager.persist(userPermissions);
-      log.info("User sample account imported.");
-    } else {
-      log.info("User account already exist. Skipping.");
+      log.info("{} account already exist. Skipping.", accountName);
     }
   }
 
@@ -117,8 +112,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
    * @param accountName
    * @return
    */
-  @VisibleForTesting
-  protected boolean accountExists(String accountName) {
+  private boolean accountExists(String accountName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
     Root<Account> root = criteria.from(Account.class);

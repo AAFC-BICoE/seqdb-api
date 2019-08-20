@@ -55,15 +55,15 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   }
   
   public void insertUserAccounts() {
-    insertUserAccounts(IMPORTED_ADMIN_ACCOUNT_NAME, ADMIN_GROUP_NAME, Account.Type.ADMIN);
-    insertUserAccounts(IMPORTED_USER_ACCOUNT_NAME, USER_GROUP_NAME, Account.Type.USER);
+    insertUserAccount(IMPORTED_ADMIN_ACCOUNT_NAME, ADMIN_GROUP_NAME, Account.Type.ADMIN);
+    insertUserAccount(IMPORTED_USER_ACCOUNT_NAME, USER_GROUP_NAME, Account.Type.USER);
   }
 
   /**
-   * Check if the admin or user accounts exist, if they do not exist then to insert the accounts
+   * Check if the provided user accounts exist, if it does not exist then insert the accounts
    * into the entity manager to be used for developer and testing purposes.
    */
-  private void insertUserAccounts(String accountName, String accountGroup, Account.Type type) {
+  private void insertUserAccount(String accountName, String accountGroup, Account.Type type) {
     log.info("Importing sample accounts...");
     
     if (!accountExists(accountName)) {
@@ -112,8 +112,7 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
    * @param accountName
    * @return
    */
-  @VisibleForTesting
-  protected boolean accountExists(String accountName) {
+  private boolean accountExists(String accountName) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
     Root<Account> root = criteria.from(Account.class);

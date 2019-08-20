@@ -269,12 +269,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
-    <dependency>
-         <groupId>org.junit.vintage</groupId>
-         <artifactId>junit-vintage-engine</artifactId>
-         <version>${junit-jupiter.version}</version>
-    </dependency>
     <!--JUnit Jupiter Engine to depend on the JUnit5 engine and JUnit 5 API -->
     <dependency>
         <groupId>org.junit.jupiter</groupId>

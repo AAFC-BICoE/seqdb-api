@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.rest;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,19 +13,19 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.apache.http.client.utils.URIBuilder;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
+
+import org.apache.http.client.utils.URIBuilder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
@@ -76,7 +77,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
-	@Before
+	@BeforeEach
 	public final void before() {
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();

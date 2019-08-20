@@ -1,27 +1,32 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import java.util.function.Predicate;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.gc.aafc.seqdb.MapBackedEntityManager;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 
-import static org.junit.Assert.*;
 
 /**
  * Contains a bunch of different testing environments for testing the Import Sample Account
@@ -32,14 +37,14 @@ import static org.junit.Assert.*;
  * Each test has it's own TestConfiguration which will override some beans that way we can test
  * specific situations.
  */
-@RunWith(Enclosed.class)
+@ExtendWith(SpringExtension.class)
 public class ImportSampleAccountsIT {
 
   /**
    * Testing environment where import sample accounts is enabled, the accounts do not exist, so they
    * should be persisted.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
+  @Nested
   @SpringBootTest(classes = ImportSampleAccountsEnabledIT.EnableImportSampleAccountsTestConfig.class)
   public static class ImportSampleAccountsEnabledIT {
 
@@ -131,7 +136,7 @@ public class ImportSampleAccountsIT {
    * Testing environment where import sample accounts is disabled, so no account data should be
    * persisted in this case.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
+  @Nested
   @SpringBootTest(classes = ImportSampleAccountsDisabledIT.DisableImportSampleAccountsTestConfig.class)
   public static class ImportSampleAccountsDisabledIT {
 
@@ -176,7 +181,7 @@ public class ImportSampleAccountsIT {
    * Testing environment where the import sample accounts is enabled, but the accounts already
    * exist. This test will be ensuring that no data is persisted in this case.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
+  @Nested
   @SpringBootTest(classes = ImportSampleAccountsEnabledAccountsExistIT.EnableImportSampleAccountsAlreadyExistTestConfig.class)
   public static class ImportSampleAccountsEnabledAccountsExistIT {
     /**

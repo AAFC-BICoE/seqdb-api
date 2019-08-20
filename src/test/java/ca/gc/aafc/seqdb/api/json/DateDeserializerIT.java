@@ -1,15 +1,18 @@
 package ca.gc.aafc.seqdb.api.json;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.sql.Date;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import io.crnk.core.engine.document.ErrorData;

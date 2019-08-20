@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,10 +10,10 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Sets;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
@@ -33,7 +35,7 @@ public class RsqlFilterHandlerIT extends BaseRepositoryTest {
   @Inject
   private QuerySpecUrlMapper querySpecUrlMapper;
   
-  @Before
+  @BeforeEach
   public void initPrimers() {
     // Persist 5 test primers.
     persist(PcrPrimerFactory.newPcrPrimer().name("primer1").build());

@@ -1,13 +1,18 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -31,7 +36,7 @@ public class TrustedServiceAuthenticationFilterIT extends BaseIntegrationTest {
   
   protected Account testAccount;
   
-  @Before
+  @BeforeEach
   public void init() {
     // Setup test account.
     testAccount = new Account();
@@ -44,7 +49,7 @@ public class TrustedServiceAuthenticationFilterIT extends BaseIntegrationTest {
     filter = new TrustedServiceAuthenticationFilter(authManager);
   }
   
-  @After
+  @AfterEach
   public void cleanUp() {
     // Remove any authentication in the context.
     SecurityContextHolder.getContext().setAuthentication(null);
@@ -76,16 +81,16 @@ public class TrustedServiceAuthenticationFilterIT extends BaseIntegrationTest {
     assertNull(SecurityContextHolder.getContext().getAuthentication());
   }
   
-  @Test(expected = BadCredentialsException.class)
+  @Test
   public void filter_whenAuthorizationHeaderIsWrongFormat_throwBadCredentialsException()
       throws ServletException, IOException {
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    MockHttpServletResponse response = new MockHttpServletResponse();
-    MockFilterChain filterChain = new MockFilterChain();
-    
-    request.addHeader("Authorization", "TrustedService username and api-key");
-    
-    filter.doFilter(request, response, filterChain);
+    assertThrows(BadCredentialsException.class, () -> {
+      MockHttpServletRequest request = new MockHttpServletRequest();
+      MockHttpServletResponse response = new MockHttpServletResponse();
+      MockFilterChain filterChain = new MockFilterChain();
+      request.addHeader("Authorization", "TrustedService username and api-key");
+      filter.doFilter(request, response, filterChain);
+    });
   }
   
   @Test

@@ -43,7 +43,7 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
   @Test
   public void importSampleAccounts_insertUserAccount_successfullyCreateUserAccount() {
     // Invoke the create user accounts
-    importSampleAccounts.insertUserAndAdminAccounts();
+    importSampleAccounts.insertUserAccounts();
 
     // Check if the account exists on the entity manager...
     Account userAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
@@ -73,7 +73,7 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
   @Test
   public void importSampleAccounts_insertAdminAccount_successfullyCreateAdminAccount() {
     // Invoke the create user accounts
-    importSampleAccounts.insertUserAndAdminAccounts();
+    importSampleAccounts.insertUserAccounts();
 
     // Check if the account exists on the entity manager...
     Account adminAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME);

@@ -51,52 +51,38 @@ public class ImportSampleAccounts implements ApplicationListener<ContextRefreshe
   @Transactional
   @Override
   public void onApplicationEvent(ContextRefreshedEvent arg0) {
-    insertUserAndAdminAccounts();
+    insertUserAccounts();
+  }
+  
+  public void insertUserAccounts() {
+    insertUserAccounts(IMPORTED_ADMIN_ACCOUNT_NAME, ADMIN_GROUP_NAME, Account.Type.ADMIN);
+    insertUserAccounts(IMPORTED_USER_ACCOUNT_NAME, USER_GROUP_NAME, Account.Type.USER);
   }
 
   /**
    * Check if the admin or user accounts exist, if they do not exist then to insert the accounts
    * into the entity manager to be used for developer and testing purposes.
    */
-  public void insertUserAndAdminAccounts() {
+  private void insertUserAccounts(String accountName, String accountGroup, Account.Type type) {
     log.info("Importing sample accounts...");
     
-    if (!accountExists(IMPORTED_ADMIN_ACCOUNT_NAME)) {
-      Account adminAccount = new Account();
-      adminAccount.setAccountName(IMPORTED_ADMIN_ACCOUNT_NAME);
-      adminAccount.setAccountPw(passwordEncoder.encode(IMPORTED_ADMIN_ACCOUNT_NAME));
-      adminAccount.setAccountType(Account.Type.ADMIN.toString());
-      adminAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-      entityManager.persist(adminAccount);
+    if (!accountExists(accountName)) {
+      Account account = new Account();
+      account.setAccountName(accountName);
+      account.setAccountPw(passwordEncoder.encode(accountName));
+      account.setAccountType(type.toString());
+      account.setAccountStatus(Account.Status.ACTIVE.toString());
+      entityManager.persist(account);
 
-      AccountsGroup adminPermissions = new AccountsGroup();
-      adminPermissions.setAccount(adminAccount);
-      adminPermissions.setGroup(retrieveGroup(ADMIN_GROUP_NAME));
-      adminPermissions.setRights(IMPORTED_ACCOUNT_RIGHTS);
-      adminPermissions.setAdmin(true);
-      entityManager.persist(adminPermissions);
-      log.info("Admin sample account imported.");
+      AccountsGroup permissions = new AccountsGroup();
+      permissions.setAccount(account);
+      permissions.setGroup(retrieveGroup(accountGroup));
+      permissions.setRights(IMPORTED_ACCOUNT_RIGHTS);
+      permissions.setAdmin(true);
+      entityManager.persist(permissions);
+      log.info("{} sample account imported.", accountName);
     } else {
-      log.info("Admin account already exist. Skipping.");
-    }
-
-    if (!accountExists(IMPORTED_USER_ACCOUNT_NAME)) {
-      Account userAccount = new Account();
-      userAccount.setAccountName(IMPORTED_USER_ACCOUNT_NAME);
-      userAccount.setAccountPw(passwordEncoder.encode(IMPORTED_USER_ACCOUNT_NAME));
-      userAccount.setAccountType(Account.Type.USER.toString());
-      userAccount.setAccountStatus(Account.Status.ACTIVE.toString());
-      entityManager.persist(userAccount);
-
-      AccountsGroup userPermissions = new AccountsGroup();
-      userPermissions.setAccount(userAccount);
-      userPermissions.setGroup(retrieveGroup(USER_GROUP_NAME));
-      userPermissions.setRights(IMPORTED_ACCOUNT_RIGHTS);
-      userPermissions.setAdmin(true);
-      entityManager.persist(userPermissions);
-      log.info("User sample account imported.");
-    } else {
-      log.info("User account already exist. Skipping.");
+      log.info("{} account already exist. Skipping.", accountName);
     }
   }
 

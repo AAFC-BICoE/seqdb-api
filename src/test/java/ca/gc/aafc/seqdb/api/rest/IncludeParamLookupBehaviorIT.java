@@ -7,7 +7,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -17,7 +16,6 @@ import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 
-@TestPropertySource(properties="import-sample-accounts=true")
 public class IncludeParamLookupBehaviorIT extends BaseHttpIntegrationTest {
   
   public static final String JSON_API_CONTENT_TYPE = BaseJsonApiIntegrationTest.JSON_API_CONTENT_TYPE;

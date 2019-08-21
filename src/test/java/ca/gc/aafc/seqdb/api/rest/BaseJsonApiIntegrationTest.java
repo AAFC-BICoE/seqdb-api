@@ -15,9 +15,11 @@ import java.util.Map;
 import org.apache.http.client.utils.URIBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -70,14 +72,22 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     IT_OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
   }
 
-  
   public static final String API_BASE_PATH = "/api";
   public static final String SCHEMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  
+  private ImportSampleAccounts importSampleAccounts;
+  
 	@Before
 	public final void before() {
+	  // Import the user and admin account for REST authorization. 
+	  importSampleAccounts = new ImportSampleAccounts(entityManager, passwordEncoder);
+	  importSampleAccounts.insertUserAccounts();
+	  
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;

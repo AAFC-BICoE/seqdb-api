@@ -6,8 +6,8 @@ import com.google.common.collect.ImmutableMap;
 import io.restassured.response.Response;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
@@ -64,7 +64,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
   /*
    * Builds and posts a protocol required to post a reaction component.
    */
-  @Before
+  @BeforeEach
   public void buildProtocol() {
     //Build attributes for protocol
     ImmutableMap.Builder<String, Object> protocolAttributes = new ImmutableMap.Builder<>();
@@ -97,7 +97,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
   /*
    * Destroys the protocol when the test is complete.
    */
-  @After
+  @AfterEach
   public void destroyProtocol() {
     //Remove the protocol after each test to avoid constraint violations
     given().contentType(JSON_API_CONTENT_TYPE).when().delete("protocol" + "/" + id)

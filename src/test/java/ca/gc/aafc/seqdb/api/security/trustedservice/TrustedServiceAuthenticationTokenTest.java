@@ -1,18 +1,21 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(JUnit4.class)
+@ExtendWith(SpringExtension.class)
 public class TrustedServiceAuthenticationTokenTest {
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void setAuthenticated_whenTrue_throwIllegalArgumentException() {
-    new TrustedServiceAuthenticationToken("principal", "credentials").setAuthenticated(true);
+    assertThrows(IllegalArgumentException.class, () -> {
+      new TrustedServiceAuthenticationToken("principal", "credentials").setAuthenticated(true);
+    });
   }
   
   @Test

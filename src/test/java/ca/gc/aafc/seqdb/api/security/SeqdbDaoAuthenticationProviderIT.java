@@ -1,8 +1,12 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,10 +50,12 @@ public class SeqdbDaoAuthenticationProviderIT extends BaseIntegrationTest {
     assertNull(authenticationProvider.authenticate(authToken));
   }
   
-  @Test(expected = BadCredentialsException.class)
+  @Test
   public void localAuth_whenIncorrectPasswordGiven_BadCredentialsException() {
-    Authentication authToken = new UsernamePasswordAuthenticationToken("Mat", "mypassword");
-    authenticationProvider.authenticate(authToken);
+    assertThrows(BadCredentialsException.class, ()->{
+      Authentication authToken = new UsernamePasswordAuthenticationToken("Mat", "mypassword");
+      authenticationProvider.authenticate(authToken);
+    });
   }
   
 }

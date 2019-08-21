@@ -2,8 +2,8 @@ package ca.gc.aafc.seqdb.api.rest;
 
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpStatus;
 
 import com.google.common.collect.ImmutableMap;
@@ -57,7 +57,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
    * In order to test out the relationships, we need to first insert them into the
    * database so we can test if it can properly link and retrieve it. 
    */
-  @Before
+  @BeforeEach
   public void buildRelationshipInstances() {
     //Build attributes for protocol
     ImmutableMap.Builder<String, Object> protocolAttributes = new ImmutableMap.Builder<>();
@@ -93,7 +93,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
    * To avoid conflict with the rest of the tests, the protocol and products should be
    * deleted. 
    */
-  @After
+  @AfterEach
   public void destroyRelationshipInstances() {
     // Delete protocol.
     given().contentType(JSON_API_CONTENT_TYPE).when().delete("protocol" + "/" + protocolId)

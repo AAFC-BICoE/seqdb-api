@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api;
 
-import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
 
 public class AppStartsIT extends BaseHttpIntegrationTest {
 

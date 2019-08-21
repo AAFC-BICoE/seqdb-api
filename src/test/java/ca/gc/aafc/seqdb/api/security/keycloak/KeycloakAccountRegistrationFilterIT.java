@@ -1,11 +1,16 @@
 package ca.gc.aafc.seqdb.api.security.keycloak;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.junit.Test;
+import com.google.common.collect.Sets;
+
+import org.junit.jupiter.api.Test;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
@@ -18,8 +23,6 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.google.common.collect.Sets;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;

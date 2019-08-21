@@ -1,11 +1,15 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.entities.Group;
@@ -57,7 +61,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getProtocol().getProtocolId(), entity.getProtocol().getProtocolId());
   }
   
-  @Before
+  @BeforeEach
   public void setup() {
     createTestComponent();
   }

@@ -1,11 +1,16 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.entities.Product;
@@ -39,7 +44,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     return testProduct;
   }
   
-  @Before
+  @BeforeEach
   public void setup() { 
     createTestProduct();    
   }
@@ -120,8 +125,8 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     assertNull(entityManager.find(Product.class, testProduct.getId()));
   }
 
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void deleteProduct_onProductNotFound_throwResourceNotFoundException() {
-    productRepository.delete(1000);
-  }  
+    assertThrows(ResourceNotFoundException.class, () -> productRepository.delete(1000));
+  }
 }

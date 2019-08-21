@@ -1,12 +1,16 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,7 +35,7 @@ public class ImportSampleAccountsIT extends BaseIntegrationTest {
   /**
    * Create the import sample account with entity manager and password encoder.
    */
-  @Before
+  @BeforeEach
   public void setup() {
     importSampleAccounts = new ImportSampleAccounts(entityManager, passwordEncoder);
   }

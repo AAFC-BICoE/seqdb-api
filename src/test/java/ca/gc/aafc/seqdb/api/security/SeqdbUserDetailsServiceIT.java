@@ -1,8 +1,13 @@
 package ca.gc.aafc.seqdb.api.security;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -35,9 +40,9 @@ public class SeqdbUserDetailsServiceIT extends BaseIntegrationTest {
     userDetails.getAuthorities().forEach(authority -> assertEquals("user", authority.getAuthority()));
   }
 
-  @Test(expected = UsernameNotFoundException.class)
+  @Test
   public void loadUserByUsername_whenUserDoesNotExist_throwUsernameNotFoundException() {
-    userDetailsService.loadUserByUsername("Mat");
+    assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("Mat"));
   }
 
 }

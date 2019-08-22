@@ -424,6 +424,27 @@
               <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
             </configuration>
           </execution>
+          <execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+            <dataFile>${project.build.directory}/aggregate.exec</dataFile>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.90</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>

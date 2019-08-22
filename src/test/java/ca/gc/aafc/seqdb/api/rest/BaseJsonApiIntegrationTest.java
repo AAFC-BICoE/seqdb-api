@@ -77,17 +77,10 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
-  
-  private ImportSampleAccounts importSampleAccounts;
-  
+
 	@BeforeEach
 	public final void before() {
-	  // Import the user and admin account for REST authorization. 
-	  importSampleAccounts = new ImportSampleAccounts(entityManager, passwordEncoder);
-	  importSampleAccounts.insertUserAccounts();
-	  
+
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;

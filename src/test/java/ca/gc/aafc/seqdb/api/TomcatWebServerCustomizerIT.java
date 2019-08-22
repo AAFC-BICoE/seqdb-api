@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api;
 
 import java.io.IOException;
-import javax.persistence.EntityManager;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHeaders;
@@ -11,20 +10,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
-
-  @Autowired
-  private EntityManager entityManager;
-  
-  @Autowired
-  private PasswordEncoder passwordEncoder;
 
   /**
    * Test to ensure that square brackets are allowed in URLs.
@@ -43,10 +32,6 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
   @Test
   public void sendRequestToRegionEndpoint_withAuthentication_statusCode200()
        throws ClientProtocolException, IOException {
-    
-    // Insert the user account for authorization.
-    ImportSampleAccounts importSampleAccounts = new ImportSampleAccounts(entityManager, passwordEncoder);
-    importSampleAccounts.insertUserAccounts();
     
     HttpClient client = HttpClientBuilder.create().build();
     HttpGet request = new HttpGet("http://localhost:" + testPort + "/api/region?page[limit]=10");

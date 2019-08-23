@@ -425,7 +425,8 @@
             </configuration>
           </execution>
           <execution>
-            <id>check</id>
+            <id>default-cli</id>
+            <phase>none</phase>
             <goals>
               <goal>check</goal>
             </goals>

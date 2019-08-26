@@ -9,13 +9,15 @@
   "properties": {
     "data": {
       "required": [ "id", "type", "attributes" ],
+      "additionalProperties": false,
       "properties": {
         "id": { "allOf": [{ "$ref": "common/id.json" }] },
         "type": {
           "const": "region",
           "description": "tells crnk what type this object is"
         },
-        "attributes": { "allOf": [{ "$ref": "definitions/region.json" }] }
+        "attributes": { "allOf": [{ "$ref": "definitions/region.json" }] },
+        "links": { "allOf": [{ "$ref": "common/link.json" }] }
       }
     }
   }

@@ -10,6 +10,7 @@
     "data": {
       "type": "object",
       "required": [ "id", "type", "attributes" ],
+      "additionalProperties": false,
       "properties": {
         "id": { "allOf": [{ "$ref": "common/id.json" }] },
         "type": {
@@ -25,7 +26,8 @@
             "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
 
           }
-        }
+        },
+        "links": { "allOf": [{ "$ref": "common/link.json" }] }
       }
     }
   }

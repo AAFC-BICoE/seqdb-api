@@ -14,6 +14,7 @@
       "items": {
 
         "required": ["id", "type", "attributes"],
+        "additionalProperties": false,
         "properties": {
 
           "id": { "allOf": [{ "$ref": "common/id.json" }] },
@@ -21,7 +22,7 @@
             "const": "preLibraryPrep",
             "description": "The type of data being returned."
           },
-          "attribute": {
+          "attributes": {
             "allOf": [{ "$ref": "definitions/prelibraryprep.json" }]
           },
           "relationships": {
@@ -33,7 +34,8 @@
               "product": { "allOf": [{ "$ref": "common/relationship.json" }] }
 
             }
-          }
+          },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
         }
       }
     },

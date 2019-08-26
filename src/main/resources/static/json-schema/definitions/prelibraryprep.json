@@ -3,6 +3,7 @@
   "type": "object",
   "description": "The properties of the PreLibraryPrep object.",
   "required": ["preLibraryPrepType"],
+  "additionalProperties": false,
   "properties": {
   
     "preLibraryPrepType": {

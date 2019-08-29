@@ -32,8 +32,6 @@ public class PcrPrimerDto {
 
   private Integer version;
   
-  private Date designDate;
-
   private String direction;
 
   private String tmCalculated;

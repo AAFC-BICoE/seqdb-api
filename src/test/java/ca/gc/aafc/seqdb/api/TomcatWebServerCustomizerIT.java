@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.IOException;
 
 import org.apache.commons.codec.binary.Base64;
@@ -12,9 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.TestPropertySource;
 
-@TestPropertySource(properties="import-sample-accounts=true")
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
 
   /**
@@ -34,6 +32,7 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
   @Test
   public void sendRequestToRegionEndpoint_withAuthentication_statusCode200()
        throws ClientProtocolException, IOException {
+    
     HttpClient client = HttpClientBuilder.create().build();
     HttpGet request = new HttpGet("http://localhost:" + testPort + "/api/region?page[limit]=10");
 

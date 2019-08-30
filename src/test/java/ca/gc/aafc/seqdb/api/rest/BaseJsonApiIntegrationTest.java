@@ -1,9 +1,5 @@
 package ca.gc.aafc.seqdb.api.rest;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,28 +9,34 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.apache.http.client.utils.URIBuilder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.CharStreams;
 
-import org.apache.http.client.utils.URIBuilder;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
 import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
+
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import lombok.extern.slf4j.Slf4j;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * 
@@ -47,7 +49,6 @@ import lombok.extern.slf4j.Slf4j;
  * - Helper methods to build JSON API compliant Map ({@link BaseJsonApiIntegrationTest#toJsonAPIMap(String, Map)}
  *
  */
-@TestPropertySource(properties="import-sample-accounts=true")
 @Slf4j
 public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest {
   
@@ -71,14 +72,15 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     IT_OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
   }
 
-  
   public static final String API_BASE_PATH = "/api";
   public static final String SCHEMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
+
 	@BeforeEach
 	public final void before() {
+
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;

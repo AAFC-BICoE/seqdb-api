@@ -24,11 +24,11 @@
       ]
     },
     "quantity": {
-      "type": "string",
+      "type": "number",
       "description": "The quantity of the Reaction Component",
       "maxLength": 50,
       "examples": [
-        "6.82"
+        6.82
       ]
     }
   }

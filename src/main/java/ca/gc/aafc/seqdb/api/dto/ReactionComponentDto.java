@@ -16,7 +16,7 @@ public class ReactionComponentDto {
 
   private String concentration;
 
-  private String quantity;
+  private Float quantity;
 
   @JsonApiRelation(opposite = "reactionComponents")
   private ProtocolDto protocol;

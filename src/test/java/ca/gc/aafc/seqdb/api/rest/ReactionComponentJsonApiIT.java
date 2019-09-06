@@ -40,7 +40,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
     return new ImmutableMap.Builder<String, Object>()
       .put("name", "testReactionComponent")
       .put("concentration", "20mg/mL")
-      .put("quantity", "6.82").build();
+      .put("quantity", 6.82F).build();
   }
 
   @Override
@@ -58,7 +58,7 @@ public class ReactionComponentJsonApiIT extends BaseJsonApiIntegrationTest {
     return new ImmutableMap.Builder<String, Object>()
       .put("name", "updatedReactionComponent")
       .put("concentration", "45mg/mL")
-      .put("quantity", "9.37").build();
+      .put("quantity", 9.37F).build();
   }
 
   /*

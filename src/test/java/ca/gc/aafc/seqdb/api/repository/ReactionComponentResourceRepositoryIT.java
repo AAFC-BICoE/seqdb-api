@@ -46,7 +46,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     testComponent = ReactionComponentFactory.newReactionComponent()
         .name(TEST_COMPONENT_NAME)
         .concentration("testConcentration")
-        .quantity("4")
+        .quantity(4F)
         .protocol(testProtocol)
         .build();
     persist(testComponent);

@@ -20,7 +20,7 @@ public class LibraryPrepBatchDto {
 
   private String cleanUpNotes;
 
-  private String yieldnotes;
+  private String yieldNotes;
 
   @JsonApiRelation
   private ProductDto product;

@@ -18,6 +18,8 @@ import ca.gc.aafc.seqdb.api.dto.ChainDto;
 import ca.gc.aafc.seqdb.api.dto.ChainStepTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
+import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
+import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
@@ -39,6 +41,8 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.LibraryPrep;
+import ca.gc.aafc.seqdb.entities.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
@@ -112,6 +116,8 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
     jpaEntities.put(SampleDto.class, Sample.class);
     jpaEntities.put(PreLibraryPrepDto.class, PreLibraryPrep.class);
+    jpaEntities.put(LibraryPrepBatchDto.class, LibraryPrepBatch.class);
+    jpaEntities.put(LibraryPrepDto.class, LibraryPrep.class);
 
     return new JpaDtoMapper(jpaEntities);
   }

@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -74,7 +74,7 @@ public class PcrPrimerDto {
 
   private String supplier;
   
-  private Date dateOrdered;
+  private LocalDate dateOrdered;
 
   private String purification;
 

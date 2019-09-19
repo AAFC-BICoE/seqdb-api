@@ -512,4 +512,18 @@ public class ResourceRepositoryConfig {
         metaInformationProvider
     );
   }
+  
+  @Bean
+  public JpaRelationshipRepository<LibraryPrepBatchDto, LibraryPrepDto> libraryPrepBatchToLibraryPrepRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(
+        LibraryPrepBatchDto.class,
+        LibraryPrepDto.class,
+        dtoRepository,
+        Arrays.asList(
+            rsqlFilterHandler
+        ),
+        metaInformationProvider
+    );
+  }
 }

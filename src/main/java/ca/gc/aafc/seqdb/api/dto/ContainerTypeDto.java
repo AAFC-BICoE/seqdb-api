@@ -18,9 +18,13 @@ public class ContainerTypeDto {
 
   private String name;
 
+  private String baseType;
+
   private Integer numberOfColumns;
 
   private Integer numberOfRows;
+
+  private Integer numberOfWells;
 
   private Timestamp lastModified;
 

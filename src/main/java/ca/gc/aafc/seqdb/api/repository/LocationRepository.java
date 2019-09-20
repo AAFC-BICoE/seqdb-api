@@ -33,24 +33,26 @@ public class LocationRepository extends JpaResourceRepository<LocationDto> {
 
   @Override
   public <S extends LocationDto> S save(S resource) {
-    this.validateCoordinates(resource);
-    return super.save(resource);
+    S location = super.save(resource);
+    this.validateCoordinates(location);
+    return location;
   }
 
   @Override
   public <S extends LocationDto> S create(S resource) {
-    this.validateCoordinates(resource);
-    return super.create(resource);
+    S location = super.create(resource);
+    this.validateCoordinates(location);
+    return location;
   }
   
   private void validateCoordinates(LocationDto location) {
     EntityManager em = this.dtoRepository.getEntityManager();
-    // is container id always available?
+
     Container container = em.find(
         Container.class,
         location.getContainer().getContainerId()
     );
-    
+
     ContainerType cType = container.getContainerType();
 
     Integer rows = cType.getNumberOfRows();
@@ -58,7 +60,7 @@ public class LocationRepository extends JpaResourceRepository<LocationDto> {
 
     String row = location.getWellRow();
     Integer col = location.getWellColumn();
-    
+
     // Checks that the coordinates match the integer followed by letter pattern
     if (!Pattern.matches("[a-zA-Z]*", row)) {
       throw new ValidationException("Well row must be in a letter format. (e.g: D)");
@@ -68,18 +70,18 @@ public class LocationRepository extends JpaResourceRepository<LocationDto> {
     if (col <= 0) {
       throw new ValidationException(String.format("Well column %s is less than 1.", col));
     }
-    
+
     if (col > cols) {
       throw new ValidationException(
           String.format("Well column %s exceeds container's number of columns.", col)
       );
     }
-    
+
     if (NumberLetterMappingUtils.getNumber(row) > rows) {
       throw new ValidationException(
           String.format("Row letter %s exceeds container's number of rows.", row)
       );
     }
   }
-  
+
 }

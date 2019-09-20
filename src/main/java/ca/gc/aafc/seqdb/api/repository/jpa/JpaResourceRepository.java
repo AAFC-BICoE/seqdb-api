@@ -42,7 +42,7 @@ public class JpaResourceRepository<D>
   private final Class<D> resourceClass;
   
   @NonNull
-  private final JpaDtoRepository dtoRepository;
+  protected final JpaDtoRepository dtoRepository;
 
   @NonNull
   private final List<FilterHandler> filterHandlers;

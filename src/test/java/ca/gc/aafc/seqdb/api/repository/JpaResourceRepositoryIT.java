@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import com.google.common.collect.Comparators;
-
 import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.Comparators;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
@@ -30,8 +30,8 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
-import ca.gc.aafc.seqdb.factories.RegionFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;

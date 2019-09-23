@@ -18,6 +18,10 @@ public class LibraryPrepDto {
 
   private String size;
 
+  private Integer wellColumn;
+
+  private String wellRow;
+
   @JsonApiRelation
   private LibraryPrepBatchDto libraryPrepBatch;
   

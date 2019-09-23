@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;

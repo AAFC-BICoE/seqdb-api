@@ -535,4 +535,18 @@ public class ResourceRepositoryConfig {
         metaInformationProvider
     );
   }
+
+  @Bean
+  public JpaRelationshipRepository<ContainerDto, LocationDto> containerToLocationRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(ContainerDto.class, LocationDto.class, dtoRepository,
+        Arrays.asList(rsqlFilterHandler), metaInformationProvider);
+  }
+  
+  @Bean
+  public JpaRelationshipRepository<LocationDto, ContainerDto> locationToContainerRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(LocationDto.class, ContainerDto.class, dtoRepository,
+        Arrays.asList(rsqlFilterHandler), metaInformationProvider);
+  }
 }

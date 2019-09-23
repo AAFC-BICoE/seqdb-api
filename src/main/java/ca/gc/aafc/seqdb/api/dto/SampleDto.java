@@ -102,4 +102,7 @@ public class SampleDto {
   @JsonApiRelation
   private ProtocolDto protocol;
   
+  @JsonApiRelation
+  private LocationDto location;
+  
 }

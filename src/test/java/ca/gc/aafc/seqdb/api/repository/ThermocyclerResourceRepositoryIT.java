@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
-import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;

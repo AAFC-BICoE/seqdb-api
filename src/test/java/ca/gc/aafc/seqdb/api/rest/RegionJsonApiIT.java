@@ -3,7 +3,7 @@ package ca.gc.aafc.seqdb.api.rest;
 import java.util.Map;
 
 import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.factories.RegionFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
 
 /**
  * Integration test for the region resource.

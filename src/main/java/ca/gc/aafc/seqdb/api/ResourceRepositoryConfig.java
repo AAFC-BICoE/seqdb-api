@@ -20,9 +20,11 @@ import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
+import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.LocationDto;
+import ca.gc.aafc.seqdb.api.dto.NgsIndexDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
@@ -46,8 +48,6 @@ import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFac
 import ca.gc.aafc.seqdb.entities.Container;
 import ca.gc.aafc.seqdb.entities.ContainerType;
 import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.LibraryPrep;
-import ca.gc.aafc.seqdb.entities.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.entities.Location;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
@@ -59,6 +59,10 @@ import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.ReactionComponent;
 import ca.gc.aafc.seqdb.entities.Region;
 import ca.gc.aafc.seqdb.entities.Sample;
+import ca.gc.aafc.seqdb.entities.libraryprep.IndexSet;
+import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrep;
+import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex;
 import ca.gc.aafc.seqdb.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.entities.workflow.ChainStepTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.ChainTemplate;
@@ -127,6 +131,8 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ContainerTypeDto.class, ContainerType.class);
     jpaEntities.put(ContainerDto.class, Container.class);
     jpaEntities.put(LocationDto.class, Location.class);
+    jpaEntities.put(IndexSetDto.class, IndexSet.class);
+    jpaEntities.put(NgsIndexDto.class, NgsIndex.class);
     
     return new JpaDtoMapper(jpaEntities);
   }
@@ -547,6 +553,13 @@ public class ResourceRepositoryConfig {
   public JpaRelationshipRepository<LocationDto, ContainerDto> locationToContainerRepository(
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(LocationDto.class, ContainerDto.class, dtoRepository,
+        Arrays.asList(rsqlFilterHandler), metaInformationProvider);
+  }
+
+  @Bean
+  public JpaRelationshipRepository<IndexSetDto, NgsIndexDto> indexSetToNgsIndexesRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(IndexSetDto.class, NgsIndexDto.class, dtoRepository,
         Arrays.asList(rsqlFilterHandler), metaInformationProvider);
   }
 }

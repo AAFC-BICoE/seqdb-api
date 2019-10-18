@@ -17,9 +17,9 @@ import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.entities.ContainerType;
 import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepBatchFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
@@ -111,13 +111,13 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
      );
     newDto.setProduct(
         productRepository.findOne(
-            testContainerType.getId(),
+            testProduct.getId(),
             new QuerySpec(ProductDto.class)
         )
     );
     newDto.setProtocol(
         protocolRepository.findOne(
-            testContainerType.getId(),
+            testProtocol.getId(),
             new QuerySpec(ProtocolDto.class)
         )
     );

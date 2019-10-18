@@ -29,9 +29,9 @@ public class LibraryPrepDto {
   private SampleDto sample;
 
   @JsonApiRelation
-  private PcrPrimerDto indexI5;
+  private NgsIndexDto indexI5;
 
   @JsonApiRelation
-  private PcrPrimerDto indexI7;
+  private NgsIndexDto indexI7;
 
 }

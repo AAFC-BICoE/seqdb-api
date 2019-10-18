@@ -27,9 +27,15 @@ public class LibraryPrepBatchDto {
 
   @JsonApiRelation
   private ProtocolDto protocol;
-  
+
   @JsonApiRelation
   private ContainerTypeDto containerType;
+
+  @JsonApiRelation
+  private ThermocyclerProfileDto thermocyclerProfile;
+
+  @JsonApiRelation
+  private IndexSetDto indexSet;
 
   @JsonApiRelation(opposite = "libraryPrepBatch")
   private List<LibraryPrepDto> libraryPreps;

@@ -23,7 +23,7 @@
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.36-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.37-SNAPSHOT</seqdb.dbi.version>
     
     <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
     <spotbugs.version>3.1.12</spotbugs.version>

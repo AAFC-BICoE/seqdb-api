@@ -27,7 +27,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
   
   private void createTestIndexSet() {
     testIndexSet = IndexSetFactory.newIndexSet().build();
-    testIndexSet.setName("tset index set");
+    testIndexSet.setName("test index set");
     persist(testIndexSet);
   }
   
@@ -44,7 +44,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
     );
     
     assertNotNull(dto);
-    assertEquals("tset index set", testIndexSet.getName());
+    assertEquals("test index set", testIndexSet.getName());
   }
   
   @Test

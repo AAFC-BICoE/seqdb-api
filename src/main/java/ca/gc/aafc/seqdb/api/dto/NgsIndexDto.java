@@ -9,7 +9,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "indexPrimer")
+@JsonApiResource(type = "ngsIndex")
 public class NgsIndexDto {
   @JsonApiId
   private Integer ngsIndexId;

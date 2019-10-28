@@ -20,9 +20,6 @@ public class IndexSetDto {
 
   private String reverseAdapter;
 
-  @JsonApiRelation
-  private GroupDto group;
-
   @JsonApiRelation(opposite = "indexSet")
   private List<NgsIndexDto> ngsIndexes;
 

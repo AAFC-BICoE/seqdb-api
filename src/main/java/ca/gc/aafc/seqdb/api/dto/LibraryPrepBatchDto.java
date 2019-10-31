@@ -14,6 +14,8 @@ public class LibraryPrepBatchDto {
   @JsonApiId
   private Integer libraryPrepBatchId;
 
+  private String name;
+
   private Double totalLibraryYieldNm;
 
   private String notes;

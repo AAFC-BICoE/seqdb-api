@@ -70,6 +70,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     persist(testProtocol);
     
     testBatch = LibraryPrepBatchFactory.newLibraryPrepBatch()
+        .name("test batch")
         .containerType(testContainerType)
         .product(testProduct)
         .protocol(testProtocol)
@@ -100,6 +101,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   @Test
   public void createBatch_onSuccess_batchCreated() {
     LibraryPrepBatchDto newDto = new LibraryPrepBatchDto();
+    newDto.setName("new test batch");
     newDto.setNotes("notes");
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");

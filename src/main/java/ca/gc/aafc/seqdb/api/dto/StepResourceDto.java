@@ -64,4 +64,7 @@ public class StepResourceDto {
   @JsonApiRelation
   private PreLibraryPrepDto preLibraryPrep;
   
+  @JsonApiRelation
+  private LibraryPrepBatchDto libraryPrepBatch;
+  
 }

@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.rest;
 
+import static io.restassured.RestAssured.given;
+
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
@@ -11,9 +13,7 @@ import com.google.common.collect.ImmutableMap;
 import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.factories.PreLibraryPrepFactory;
-
-import static io.restassured.RestAssured.given;
+import ca.gc.aafc.seqdb.testsupport.factories.PreLibraryPrepFactory;
 
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 

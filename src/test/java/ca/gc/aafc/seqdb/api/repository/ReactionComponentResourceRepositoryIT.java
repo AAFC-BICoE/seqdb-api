@@ -16,8 +16,8 @@ import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.entities.ReactionComponent;
-import ca.gc.aafc.seqdb.factories.ProtocolFactory;
-import ca.gc.aafc.seqdb.factories.ReactionComponentFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.ReactionComponentFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -46,7 +46,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     testComponent = ReactionComponentFactory.newReactionComponent()
         .name(TEST_COMPONENT_NAME)
         .concentration("testConcentration")
-        .quantity("4")
+        .quantity(4F)
         .protocol(testProtocol)
         .build();
     persist(testComponent);

@@ -17,7 +17,10 @@ import org.springframework.context.annotation.DependsOn;
 import ca.gc.aafc.seqdb.api.dto.ChainDto;
 import ca.gc.aafc.seqdb.api.dto.ChainStepTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
+import ca.gc.aafc.seqdb.api.dto.ContainerDto;
+import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
+import ca.gc.aafc.seqdb.api.dto.LocationDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
@@ -38,7 +41,10 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.entities.Container;
+import ca.gc.aafc.seqdb.entities.ContainerType;
 import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.Location;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
@@ -112,6 +118,9 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
     jpaEntities.put(SampleDto.class, Sample.class);
     jpaEntities.put(PreLibraryPrepDto.class, PreLibraryPrep.class);
+    jpaEntities.put(ContainerTypeDto.class, ContainerType.class);
+    jpaEntities.put(ContainerDto.class, Container.class);
+    jpaEntities.put(LocationDto.class, Location.class);
 
     return new JpaDtoMapper(jpaEntities);
   }

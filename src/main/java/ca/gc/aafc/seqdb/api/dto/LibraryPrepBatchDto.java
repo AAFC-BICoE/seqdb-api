@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -23,6 +24,8 @@ public class LibraryPrepBatchDto {
   private String cleanUpNotes;
 
   private String yieldNotes;
+  
+  private LocalDate dateUsed;
 
   @JsonApiRelation
   private ProductDto product;

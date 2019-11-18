@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -15,6 +16,10 @@ public class LibraryPoolDto {
   private Integer libraryPoolId;
 
   private String name;
+  
+  private LocalDate dateUsed;
+  
+  private String notes;
 
   @JsonApiRelation(opposite = "libraryPool")
   private List<LibraryPoolContentDto> contents;

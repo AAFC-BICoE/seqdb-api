@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;

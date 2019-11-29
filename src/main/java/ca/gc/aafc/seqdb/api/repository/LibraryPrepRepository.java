@@ -105,16 +105,6 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
       Integer rows = cType.getNumberOfRows();
       Integer cols = cType.getNumberOfColumns();
       
-      // Checks that the coordinates match the integer followed by letter pattern
-      if (!Pattern.matches("[a-zA-Z]*", row)) {
-        throw new ValidationException("Well row must be in a letter format. (e.g: D)");
-      }
-      
-      // Checks that the well column number is not 0
-      if (col <= 0) {
-        throw new ValidationException(String.format("Well column %s is less than 1.", col));
-      }
-      
       if (col > cols) {
         throw new ValidationException(
             String.format("Well column %s exceeds container's number of columns.", col)

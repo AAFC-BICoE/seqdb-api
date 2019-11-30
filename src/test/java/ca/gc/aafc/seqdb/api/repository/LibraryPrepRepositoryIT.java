@@ -205,10 +205,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         ValidationException.class,
         () -> libraryPrepRepository.save(dto)
     );
-    assertEquals(
-        "Well row must be in a letter format. (e.g: D)",
-        exception.getMessage()
-    );
   }
   
   @Test
@@ -240,10 +236,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     ValidationException exception = assertThrows(
         ValidationException.class,
         () -> libraryPrepRepository.save(dto)
-    );
-    assertEquals(
-        "Well column 0 is less than 1.",
-        exception.getMessage()
     );
   }
 

@@ -46,9 +46,6 @@ public class StepResourceDto {
 //  private ProductDto product;
   
   @JsonApiRelation
-  private RegionDto region;
-  
-  @JsonApiRelation
   private PcrPrimerDto primer;
   
 //  @JsonApiRelation

@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import com.google.common.collect.Iterables;
 
 import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository.FindAllParams;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
@@ -59,15 +60,16 @@ public class JpaResourceRepository<D>
     // Use the findAll method, but limit the result size to 1.
     querySpec.setLimit(Long.valueOf(1));
     ResourceList<D> resultSet = dtoRepository.findAll(
-        this.resourceClass, querySpec, this.resourceRegistry, this.metaInformationProvider,
-        // Filter by ID.
-        (root, query, cb) -> cb.equal(
-            this.dtoRepository.getSelectionHandler()
-                .getIdExpression(root, resourceClass, resourceRegistry),
-            id
-        ),
-        // Not searching across a relationship, so no root change is required.
-        null
+        FindAllParams.builder()
+            .sourceDtoClass(this.resourceClass)
+            .querySpec(querySpec)
+            .resourceRegistry(this.resourceRegistry)
+            .customFilter((root, query, cb) -> cb.equal(
+                this.dtoRepository.getSelectionHandler()
+                    .getIdExpression(root, resourceClass, resourceRegistry),
+                id
+            ))
+            .build()
     );
     
     // Throw the 404 exception if the resource is not found.
@@ -90,29 +92,32 @@ public class JpaResourceRepository<D>
   public ResourceList<D> findAll(@Nullable Collection<Serializable> ids, QuerySpec querySpec) {
     
     return dtoRepository.findAll(
-        this.resourceClass, querySpec, this.resourceRegistry, this.metaInformationProvider,
-        (root, query, cb) -> {
-          List<Predicate> restrictions = new ArrayList<>();
-          
-          // Add the filter handler's restriction.
-          for (FilterHandler filterHandler : this.filterHandlers) {
-            restrictions.add(filterHandler.getRestriction(querySpec, root, query, cb));
-          }
-          
-          // If the list of IDs is given, filter by ID.
-          if (ids != null) {
-            restrictions.add(
-                this.dtoRepository.getSelectionHandler()
-                    .getIdExpression(root, resourceClass, resourceRegistry)
-                .in(Iterables.toArray(ids, Object.class))
-            );
-          }
-          
-          // Combine the restrictions in an 'and' operation.
-          return cb.and(restrictions.stream().toArray(Predicate[]::new));
-        },
-        // Not searching across a relationship, so no root change is required.
-        null
+        FindAllParams.builder()
+            .sourceDtoClass(this.resourceClass)
+            .querySpec(querySpec)
+            .resourceRegistry(this.resourceRegistry)
+            .metaInformationProvider(this.metaInformationProvider)
+            .customFilter((root, query, cb) -> {
+              List<Predicate> restrictions = new ArrayList<>();
+              
+              // Add the filter handler's restriction.
+              for (FilterHandler filterHandler : this.filterHandlers) {
+                restrictions.add(filterHandler.getRestriction(querySpec, root, query, cb));
+              }
+              
+              // If the list of IDs is given, filter by ID.
+              if (ids != null) {
+                restrictions.add(
+                    this.dtoRepository.getSelectionHandler()
+                        .getIdExpression(root, resourceClass, resourceRegistry)
+                    .in(Iterables.toArray(ids, Object.class))
+                );
+              }
+              
+              // Combine the restrictions in an 'and' operation.
+              return cb.and(restrictions.stream().toArray(Predicate[]::new));
+            })
+        .build()
     );
     
   }

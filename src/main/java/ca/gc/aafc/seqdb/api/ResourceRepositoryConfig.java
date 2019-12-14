@@ -21,6 +21,8 @@ import ca.gc.aafc.seqdb.api.dto.ContainerDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.GroupDto;
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
+import ca.gc.aafc.seqdb.api.dto.LibraryPoolContentDto;
+import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.LocationDto;
@@ -63,6 +65,8 @@ import ca.gc.aafc.seqdb.entities.libraryprep.IndexSet;
 import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex;
+import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPool;
+import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPoolContent;
 import ca.gc.aafc.seqdb.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.entities.workflow.ChainStepTemplate;
 import ca.gc.aafc.seqdb.entities.workflow.ChainTemplate;
@@ -133,6 +137,8 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(LocationDto.class, Location.class);
     jpaEntities.put(IndexSetDto.class, IndexSet.class);
     jpaEntities.put(NgsIndexDto.class, NgsIndex.class);
+    jpaEntities.put(LibraryPoolDto.class, LibraryPool.class);
+    jpaEntities.put(LibraryPoolContentDto.class, LibraryPoolContent.class);
     
     return new JpaDtoMapper(jpaEntities);
   }
@@ -561,5 +567,19 @@ public class ResourceRepositoryConfig {
       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
     return new JpaRelationshipRepository<>(IndexSetDto.class, NgsIndexDto.class, dtoRepository,
         Arrays.asList(rsqlFilterHandler), metaInformationProvider);
+  }
+
+  @Bean
+  public JpaRelationshipRepository<LibraryPoolDto, LibraryPoolContentDto> libraryPoolToContentRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(LibraryPoolDto.class, LibraryPoolContentDto.class,
+        dtoRepository, Arrays.asList(rsqlFilterHandler), metaInformationProvider);
+  }
+
+  @Bean
+  public JpaRelationshipRepository<LibraryPoolContentDto, LibraryPoolDto> libraryPoolContentToPoolRepository(
+      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
+    return new JpaRelationshipRepository<>(LibraryPoolContentDto.class, LibraryPoolDto.class,
+        dtoRepository, Arrays.asList(rsqlFilterHandler), metaInformationProvider);
   }
 }

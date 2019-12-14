@@ -200,10 +200,10 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("!");
-    assertThrows(
+    dto.setWellColumn(1);
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well row must be in a letter format. (e.g: D)"
+        () -> libraryPrepRepository.save(dto)
     );
   }
   
@@ -215,10 +215,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow("C");
     dto.setWellColumn(null);
-    assertThrows(
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well column cannot be null when well row is set."
+        () -> libraryPrepRepository.save(dto)
+    );
+    assertEquals(
+        "Well column cannot be null when well row is set.",
+        exception.getMessage()
     );
   }
   
@@ -228,11 +231,11 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         testLibPrep.getId(),
         new QuerySpec(LibraryPrepDto.class)
     );
+    dto.setWellRow("A");
     dto.setWellColumn(0);
-    assertThrows(
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well column 0 is less than 1."
+        () -> libraryPrepRepository.save(dto)
     );
   }
 
@@ -244,10 +247,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow("A");
     dto.setWellColumn(100);
-    assertThrows(
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well column 100 exceeds container's number of columns."
+        () -> libraryPrepRepository.save(dto)
+    );
+    assertEquals(
+        "Well column 100 exceeds container's number of columns.",
+        exception.getMessage()
     );
   }
   
@@ -259,10 +265,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow("Z");
     dto.setWellColumn(5);
-    assertThrows(
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well row Z exceeds container's number of rows."
+        () -> libraryPrepRepository.save(dto)
+    );
+    assertEquals(
+        "Row letter Z exceeds container's number of rows.",
+        exception.getMessage()
     );
   }
 
@@ -274,10 +283,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow(null);
     dto.setWellColumn(8);
-    assertThrows(
+    ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> libraryPrepRepository.save(dto),
-        "Well row cannot be null when well column is set."
+        () -> libraryPrepRepository.save(dto)
+    );
+    assertEquals(
+        "Well row cannot be null when well column is set.",
+        exception.getMessage()
     );
   }
   

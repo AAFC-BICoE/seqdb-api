@@ -34,3 +34,7 @@ crnk:
 keycloak:
   # Disable Keycloak by default.
   enabled: false
+
+logging:
+  level:
+    com.github.tennaito.rsql: ERROR

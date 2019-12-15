@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Function;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -17,6 +16,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.annotation.RequestScope;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
@@ -30,31 +30,39 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Intercepts calls to the "findOne", "create", "save" and "delete" methods of JpaResourceRepository
  * to apply authorization permission checks.
  */
 @Named
+@RequestScope
 @Transactional
-@RequiredArgsConstructor(onConstructor_ = @Inject, access = AccessLevel.PACKAGE)
 @Aspect
 public class GroupAuthorizationAspect {
 
-  @NonNull
   private final EntityManager entityManager;
-  
-  @NonNull
-  private final AccountRepository accountRepository;
-  
-  @NonNull
   private final AccountsGroupRepository accountsGroupRepository;
-  
-  @NonNull
   private final JpaDtoMapper jpaDtoMapper;
+  private final Account currentAccount;
+  
+  public GroupAuthorizationAspect(
+      @NonNull EntityManager entityManager,
+      @NonNull AccountRepository accountRepository,
+      @NonNull AccountsGroupRepository accountsGroupRepository,
+      @NonNull JpaDtoMapper jpaDtoMapper
+  ) {
+    this.entityManager = entityManager;
+    this.accountsGroupRepository = accountsGroupRepository;
+    this.jpaDtoMapper = jpaDtoMapper;
+
+    String currentUsername = Optional
+        .ofNullable(SecurityContextHolder.getContext().getAuthentication())
+        .map(Authentication::getName).orElse(null);
+
+    this.currentAccount = accountRepository.findByAccountNameIgnoreCase(currentUsername);
+  }
   
   /**
    * Intercepts the findOne operation to apply Group-based authorization.
@@ -188,19 +196,12 @@ public class GroupAuthorizationAspect {
       Function<AccountsGroup, Boolean> permissionChecker,
       ResourceRegistry resourceRegistry
   ) {
-    String currentUsername = Optional
-        .ofNullable(SecurityContextHolder.getContext().getAuthentication())
-        .map(Authentication::getName)
-        .orElse(null);
-
-    Account account = accountRepository.findByAccountNameIgnoreCase(currentUsername);
-  
-    if (account == null) {
+    if (currentAccount == null) {
       throw new UnauthorizedException("The user must be logged in to write data.");
     }
     
     // Admins automatically get authorization.
-    if ("admin".equalsIgnoreCase(account.getAccountType())) {
+    if ("admin".equalsIgnoreCase(currentAccount.getAccountType())) {
       return;
     }
   
@@ -225,7 +226,7 @@ public class GroupAuthorizationAspect {
     }
 
     // Get the permissions object for the current user and the entity's access group.
-    AccountsGroup ag = accountsGroupRepository.findByAccountAndGroup(account, group);
+    AccountsGroup ag = accountsGroupRepository.findByAccountAndGroup(currentAccount, group);
 
     // Check the user's permission and throw the ForbiddenException if the user does not have the
     // required permission.

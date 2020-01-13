@@ -6,7 +6,7 @@ cache:
 
 script: 
   - mvn verify checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check jacoco:check
- 
+
 jdk:
   - openjdk8
   - openjdk10

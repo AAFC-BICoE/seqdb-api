@@ -12,13 +12,14 @@ import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
+import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository.FindAllParams;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.engine.registry.ResourceRegistryAware;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.RelationshipRepositoryV2;
+import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.resource.list.ResourceList;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,7 +36,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 //CHECKSTYLE:OFF AnnotationUseStyle
 public class JpaRelationshipRepository<S, T>
-    implements RelationshipRepositoryV2<S, Serializable, T, Serializable>, ResourceRegistryAware {
+    implements RelationshipRepository<S, Serializable, T, Serializable>, ResourceRegistryAware {
 
   @NonNull
   @Getter(onMethod_ = @Override)
@@ -75,7 +76,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void setRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void setRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,
@@ -95,7 +96,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void addRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void addRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,
@@ -112,7 +113,7 @@ public class JpaRelationshipRepository<S, T>
   }
 
   @Override
-  public void removeRelations(S source, Iterable<Serializable> targetIds, String fieldName) {
+  public void removeRelations(S source, Collection<Serializable> targetIds, String fieldName) {
     this.dtoRepository.modifyRelation(
         this.findEntityFromDto(source),
         targetIds,
@@ -157,43 +158,44 @@ public class JpaRelationshipRepository<S, T>
 
     @SuppressWarnings("unchecked")
     ResourceList<T> resultSet = (ResourceList<T>) dtoRepository.findAll(
-        sourceResourceClass,
-        querySpec,
-        resourceRegistry,
-        metaInformationProvider,
-        // Add the filters to the target entity's path.
-        (targetPath, query, cb) -> {
-          From<?, ?> sourcePath = sourcePathHolder[0];
+        FindAllParams.builder()
+            .sourceDtoClass(sourceResourceClass)
+            .querySpec(querySpec)
+            .resourceRegistry(resourceRegistry)
+            .metaInformationProvider(metaInformationProvider)
+            .customFilter((targetPath, query, cb) -> {
+              From<?, ?> sourcePath = sourcePathHolder[0];
 
-          List<Predicate> restrictions = new ArrayList<>();
+              List<Predicate> restrictions = new ArrayList<>();
 
-          // Add the filter handler's restriction.
-          for (FilterHandler filterHandler : this.filterHandlers) {
-            restrictions.add(filterHandler.getRestriction(querySpec, targetPath, query, cb));
-          }
+              // Add the filter handler's restriction.
+              for (FilterHandler filterHandler : this.filterHandlers) {
+                restrictions.add(filterHandler.getRestriction(querySpec, targetPath, query, cb));
+              }
 
-          // Restrict the source entity to the given sourceId.
-          restrictions.add(
-              cb.equal(
-                  sourcePath.get(
-                      dtoRepository.getEntityManager()
-                          .getMetamodel()
-                          .entity(sourceEntityClass)
-                          .getId(Serializable.class)
-                  ),
-                  sourceId
-              )
-          );
+              // Restrict the source entity to the given sourceId.
+              restrictions.add(
+                  cb.equal(
+                      sourcePath.get(
+                          dtoRepository.getEntityManager()
+                              .getMetamodel()
+                              .entity(sourceEntityClass)
+                              .getId(Serializable.class)
+                      ),
+                      sourceId
+                  )
+              );
 
-          // Combine predicates in an 'and' operation.
-          return cb.and(restrictions.stream().toArray(Predicate[]::new));
-        },
-        sourcePath -> {
-          // Get the reference to the source entity's path.
-          sourcePathHolder[0] = sourcePath;
-          // Create the Join to the target entity.
-          return sourcePath.join(fieldName);
-        }
+              // Combine predicates in an 'and' operation.
+              return cb.and(restrictions.stream().toArray(Predicate[]::new));
+            })
+            .customRoot(sourcePath -> {
+              // Get the reference to the source entity's path.
+              sourcePathHolder[0] = sourcePath;
+              // Create the Join to the target entity.
+              return sourcePath.join(fieldName);
+            })
+            .build()
     );
 
     return resultSet;

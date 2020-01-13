@@ -1,15 +1,16 @@
 package ca.gc.aafc.seqdb.api.security.trustedservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,7 @@ public class TrustedServiceAuthenticationProviderTest {
   
   private Account testAccount;
   
-  @Before
+  @BeforeEach
   public void init() {
     authProvider = new TrustedServiceAuthenticationProvider(
         TRUSTED_SERVICE_API_KEYS,
@@ -96,11 +97,12 @@ public class TrustedServiceAuthenticationProviderTest {
     fail("No AuthenticationServiceException thrown");
   }
   
-  @Test(expected = UsernameNotFoundException.class)
+  @Test
   public void authenticate_whenApiKeyIsCorrectAndUserDoesNotExist_throwUsernameNotFoundException() {
-    Authentication authentication = new TrustedServiceAuthenticationToken("thisUserDoesntExist",
-        API_KEY_1);
-    authProvider.authenticate(authentication);
+    assertThrows(UsernameNotFoundException.class, () -> {
+      Authentication authentication = new TrustedServiceAuthenticationToken("thisUserDoesntExist", API_KEY_1);
+      authProvider.authenticate(authentication);
+    });
   }
   
   @Test

@@ -1,11 +1,13 @@
 package ca.gc.aafc.seqdb.api.repository.meta;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
@@ -35,7 +37,7 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
   /**
    * Persist example data for these tests.
    */
-  @Before
+  @BeforeEach
   public void persistTestRegions() {
     for (int i = 1; i <= NUMBER_OF_REGION_TO_CREATE; i++) {
       Region region = new Region();
@@ -69,7 +71,7 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
     PcrBatch testBatch = persistTestPcrBatchWith22Reactions("test-batch");
     
     QuerySpec querySpec = new QuerySpec(PcrReactionDto.class);
-    querySpec.addFilter(new FilterSpec(Arrays.asList("pcrName"), FilterOperator.EQ, "reaction5"));
+    querySpec.addFilter(new FilterSpec(Arrays.asList("tubeNumber"), FilterOperator.EQ, 5));
     ResourceList<PcrReactionDto> reactions = pcrBatchToReactionRepository
         .findManyTargets(testBatch.getPcrBatchId(), "reactions", querySpec);
     DefaultPagedMetaInformation meta = (DefaultPagedMetaInformation) reactions.getMeta();

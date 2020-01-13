@@ -1,0 +1,48 @@
+{
+  "$comment": "All of the attributes for the PreLibraryPrep object can be found here.",
+  "type": "object",
+  "description": "The properties of the PreLibraryPrep object.",
+  "required": ["preLibraryPrepType"],
+  "additionalProperties": false,
+  "properties": {
+  
+    "preLibraryPrepType": {
+      "type": "string",
+      "description": "The type of preLibraryPrep.",
+      "enum": ["SHEARING", "SIZE_SELECTION"],
+      "examples": ["SHEARING"]
+    },
+  
+    "inputAmount": {
+      "type": ["number", "null"],
+      "description": "The input amount of the preLibraryPrep."
+    },
+    
+    "targetDpSize": {
+      "type": ["number", "null"],
+      "description": "The target dp size of the preLibraryPrep."
+    },
+    
+    "averageFragmentSize": {
+      "type": ["number", "null"],
+      "description": "The average fragment size of the preLibraryPrep."
+    },
+    
+    "concentration": {
+      "type": ["number", "null"],
+      "description": "The concentration of the preLibraryPrep."
+    },
+    
+    "quality" : {
+      "type" : "string",
+      "description" : "The description of the quality of the preLibraryPrep",
+      "examples" : ["Excellent condition."]
+    },
+   
+    "notes" : {
+      "type" : "string",
+      "description" : "Additional notes for the preLibraryPrep"
+    }
+    
+  }
+}

@@ -1,14 +1,17 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import io.crnk.core.exception.MethodNotAllowedException;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
@@ -39,29 +42,29 @@ public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
     assertTrue(resultDto.equals(primerType));
   }
   
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void findOne_QueryNonExistantID_ThrowResourceNotFoundException() {
-    BaseVocabularyDto resultDto = readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class));
+    assertThrows(ResourceNotFoundException.class,
+        () -> readOnlyRepo.findOne("mumbo jumbo", new QuerySpec(BaseVocabularyDto.class)));
   }
-  
-  @Test(expected = UnsupportedOperationException.class)
+
+  @Test
   public void save_ValidDto_ThrowUnsupportedOperationException() {
-    Object[] objectArray = {"Winter", "is", "Comin"};
+    Object[] objectArray = { "Winter", "is", "Comin" };
     BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
-    readOnlyRepo.save(newDto);
+    assertThrows(MethodNotAllowedException.class, () -> readOnlyRepo.save(newDto));
   }
-  
-  @Test(expected = UnsupportedOperationException.class)
+
+  @Test
   public void create_ValidDto_ThrowUnsupportedOperationException() {
-    Object[] objectArray = {"Winter", "is", "Comin"};
+    Object[] objectArray = { "Winter", "is", "Comin" };
     BaseVocabularyDto newDto = new BaseVocabularyDto("validDto", objectArray);
-    readOnlyRepo.create(newDto);
+    assertThrows(MethodNotAllowedException.class, () -> readOnlyRepo.create(newDto));
   }
-  
-  @Test(expected = UnsupportedOperationException.class)
+
+  @Test
   public void delete_ExistingDtoID_ThrowUnsupportedOperationException() {
-    readOnlyRepo.delete(PrimerType.class.getSimpleName());
+    assertThrows(MethodNotAllowedException.class, () -> readOnlyRepo.delete(PrimerType.class.getSimpleName()));
   }
-  
-  
+
 }

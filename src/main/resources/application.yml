@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1 ;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS seqdb
+    url: jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS seqdb\;SET SCHEMA seqdb
   jpa:
     properties.hibernate:
       # Ehcache enabled to improve Hibernate performance.
@@ -11,7 +11,6 @@ spring:
         # when testing 
         region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
       # The default schema is only compatible with postgres (not mysql)
-      default_schema: seqdb
     hibernate:
       naming:
         # Naming strategies specified to allow @Column/@Table name property.
@@ -20,7 +19,6 @@ spring:
       use-new-id-generator-mappings: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
-    defaultSchema: seqdb
     # on existing database use "schema-change" only
     contexts: schema-change, initial-data
 crnk:
@@ -29,7 +27,14 @@ crnk:
   defaultPageLimit: 20
   maxPageLimit: 1000
   allow-unknown-attributes: true
+  # The "include" query-string param is handled by our code and incorporated into the database
+  # query, so we don't let Crnk automatically call findOneTarget for each null relation.
+  config.lookup.behavior.default: NONE
 
 keycloak:
   # Disable Keycloak by default.
   enabled: false
+
+logging:
+  level:
+    com.github.tennaito.rsql: ERROR

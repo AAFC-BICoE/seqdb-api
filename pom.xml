@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>seqdb.api</name>
@@ -12,55 +11,64 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <crnk.version>2.10.20181129142450</crnk.version>
+    <crnk.version>3.1.20190810073916</crnk.version>
     <modelmapper.version>1.1.3</modelmapper.version>
     <guava.version>24.0-jre</guava.version>
     <javax.inject.version>1</javax.inject.version>
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
     <local-javax-jaxb.version>2.3.0.1</local-javax-jaxb.version>
     <javax.activation.version>1.1.1</javax.activation.version>
+    <javax.interceptor-api>1.2.2</javax.interceptor-api>
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.33-SNAPSHOT</seqdb.dbi.version>
-    
-    <!-- We need to skip 1.4.197 (currently provided by SpringBoot 2.1)  -->
-    <h2.version>1.4.198</h2.version>
+    <seqdb.dbi.version>3.38-SNAPSHOT</seqdb.dbi.version>
     
     <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
     <spotbugs.version>3.1.12</spotbugs.version>
     <jcip-annotations.version>1.0</jcip-annotations.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-    <dependency-check-maven.version>3.2.1</dependency-check-maven.version>
+    <dependency-check-maven.version>5.1.0</dependency-check-maven.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-    <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <checkstyle.version>8.18</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
-    <!-- rest assured 4.0.0 is required for API testing-->
-    <rest-assured.version>4.0.0</rest-assured.version>
-	<justify.version>0.16.0</justify.version>    
+    <justify.version>0.17.0</justify.version>
 	<javax.json.version>1.1.3</javax.json.version>
 	<commons.beanutils.version>1.9.3</commons.beanutils.version>
   </properties>
 
-
   <repositories>
-    <!-- Required for Crnk 2.8 -->
+    <!-- Required for Crnk 3.0 -->
     <repository>
       <id>spring-libs-release</id>
       <url>https://repo.spring.io/libs-release</url>
+    </repository>
+    
+    <!-- Crnk has the latest maven artifacts stored in bintray. -->
+    <repository>
+        <id>bintray-crnk-project-mavenLatest</id>
+        <name>bintray</name>
+        <url>https://dl.bintray.com/crnk-project/mavenLatest</url>
     </repository>
   </repositories>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.3.RELEASE</version>
+    <version>2.2.1.RELEASE</version>
   </parent>
+
+  <scm>
+    <connection>scm:git:git://github.com/AAFC-BICoE/seqdb-api.git</connection>
+    <developerConnection>scm:git:git@github.com:AAFC-BICoE/seqdb-api.git</developerConnection>
+    <url>https://github.com/AAFC-BICoE/seqdb-api</url>
+    <tag>seqdb.api-1.3.0</tag>
+  </scm>
   
-    <dependencies>
+  <dependencies>
   
     <!-- Spring -->
     <dependency>
@@ -159,11 +167,6 @@
       <version>${guava.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.modelmapper</groupId>
-      <artifactId>modelmapper</artifactId>
-      <version>${modelmapper.version}</version>
-    </dependency>
-    <dependency>
       <groupId>com.jayway.jsonpath</groupId>
       <artifactId>json-path</artifactId>
     </dependency>
@@ -210,6 +213,11 @@
     </dependency>
     
     <dependency>
+	    <groupId>com.fasterxml.jackson.datatype</groupId>
+	    <artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
+    
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
     </dependency>
@@ -238,6 +246,13 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>
     </dependency>
+
+    <!-- used in dbi jar -->
+    <dependency>
+      <groupId>com.vladmihalcea</groupId>
+      <artifactId>hibernate-types-52</artifactId>
+      <version>2.3.5</version>
+    </dependency>
     
     <!-- TEST Scope -->
     <dependency>
@@ -248,19 +263,16 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-path</artifactId>
-      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-schema-validator</artifactId>
-      <version>${rest-assured.version}</version>
       <scope>test</scope>
 	</dependency>
     <dependency>
@@ -290,6 +302,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <includeSystemScope>true</includeSystemScope>
+          <fork>false</fork>
         </configuration>
       </plugin>
       <plugin>
@@ -393,6 +406,28 @@
               <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
             </configuration>
           </execution>
+          <execution>
+            <id>default-cli</id>
+            <phase>none</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+            <dataFile>${project.build.directory}/aggregate.exec</dataFile>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>INSTRUCTION</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.92</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -432,7 +467,27 @@
 				</goals>
 			</execution>
 		</executions>
-	</plugin> 
+	</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-release-plugin</artifactId>
+		<configuration>
+			<tagNameFormat>v@{project.version}</tagNameFormat>
+		</configuration>
+	</plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-javadoc-plugin</artifactId>
+		<configuration>
+			<additionalDependencies>
+				<additionalDependency>
+					<groupId>javax.interceptor</groupId>
+					<artifactId>javax.interceptor-api</artifactId>
+					<version>${javax.interceptor-api}</version>
+				</additionalDependency>
+			</additionalDependencies>
+		</configuration>
+	</plugin>
     </plugins>
   </build>
 

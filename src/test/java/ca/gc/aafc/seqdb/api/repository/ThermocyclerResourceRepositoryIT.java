@@ -1,19 +1,24 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.entities.PcrProfile;
-import ca.gc.aafc.seqdb.factories.PcrProfileFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
@@ -23,7 +28,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_PROFILE_CYCLE = "Cycle";
   
   @Inject
-  private ResourceRepositoryV2<ThermocyclerProfileDto, Serializable> thermoRepository;
+  private ResourceRepository<ThermocyclerProfileDto, Serializable> thermoRepository;
   
   
   private PcrProfile testPcrProfile;
@@ -93,7 +98,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
 
   }
   
-  @Before
+  @BeforeEach
   public void setup() {
     createTestProfile();
   }
@@ -170,12 +175,12 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     assertNull(entityManager.find(PcrProfile.class, testPcrProfile.getId()));
     
   }
-  
-  @Test(expected = ResourceNotFoundException.class)
+
+  @Test
   public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
-    thermoRepository.delete(42);
+    assertThrows(ResourceNotFoundException.class, () -> thermoRepository.delete(42));
   }
-  
+
   @Test
   public void listThermocyclerProfile_APIResponse_schemaValidates() throws IOException {
     JsonSchemaAssertions.assertJsonSchema(

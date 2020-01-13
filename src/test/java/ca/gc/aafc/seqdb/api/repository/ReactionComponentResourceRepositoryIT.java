@@ -1,29 +1,32 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.entities.ReactionComponent;
-import ca.gc.aafc.seqdb.factories.ProtocolFactory;
-import ca.gc.aafc.seqdb.factories.ReactionComponentFactory;
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
+import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.entities.ReactionComponent;
+import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.ReactionComponentFactory;
+import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
   
   private static final String TEST_COMPONENT_NAME = "test component";
   
   @Inject
-  private ResourceRepositoryV2<ReactionComponentDto, Serializable> componentRepository;
+  private ResourceRepository<ReactionComponentDto, Serializable> componentRepository;
   
   private ReactionComponent testComponent;
   
@@ -43,7 +46,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     testComponent = ReactionComponentFactory.newReactionComponent()
         .name(TEST_COMPONENT_NAME)
         .concentration("testConcentration")
-        .quantity("4")
+        .quantity(4F)
         .protocol(testProtocol)
         .build();
     persist(testComponent);
@@ -58,7 +61,7 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getProtocol().getProtocolId(), entity.getProtocol().getProtocolId());
   }
   
-  @Before
+  @BeforeEach
   public void setup() {
     createTestComponent();
   }
@@ -87,19 +90,5 @@ public class ReactionComponentResourceRepositoryIT extends BaseRepositoryTest{
     assertNull(componentDto.getConcentration());
     assertNull(componentDto.getQuantity());
   }
-  
-  @Test
-  public void deleteReactionComponent_callRepositoryDeleteOnId_reactionComponentNotFound() {
-    // Removes reactionComponent and attempts to find it using entity's id
-    componentRepository.delete(testComponent.getId());
-    assertNull(entityManager.find(ReactionComponent.class, testComponent.getId()));
-  }
-  
-  @Test(expected = ResourceNotFoundException.class)
-  // Attempts to find a reactionComponent that does not exist
-  public void deleteReactionComponent_callRepositoryDeleteOnInvalidId_reactionComponentNotFound() {
-    componentRepository.delete(123);
-  }
-  
   
 }

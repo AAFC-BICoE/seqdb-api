@@ -14,18 +14,18 @@ https://www.liquibase.org/documentation/generating_changelogs.html[Adding Liquib
 
 == Liquibase Contexts
 
-When developing for SeqDB certain data is needed for the application to run properly and to make testing easier. Which is why we seperate our database migrations into categories known as contexts. The two main contexts are as follows:
+When developing for SeqDB certain data is needed for the application to run properly and to make testing easier. Which is why we separate our database migrations into categories known as contexts. The two main contexts are as follows:
 
 * schema-change
 ** Changes to the schema such as adding new columns, changing table names, adding new tables.
 * initial-data
-** Test data for developers, this should not be ran on PROD/UAT since it's used for inserting test data for developers.
+** Initial data for developers, this should not be ran on PROD/UAT since it's used for inserting initial data for developers and the data is already in PROD/UAT databases.
 
 For development purposes, it should automatically run the initial-data when running the application.
 
-For production/UAT purposes, the context can be changed by editing the application.yml file which has all of the liquibase configurations. The contexts are a comma separated list of all of the contexts to be performed.
+For PROD/UAT purposes, the context can be changed by editing the application.yml file which has all of the liquibase configurations. The contexts are a comma separated list of all of the contexts to be performed.
 
-WARNING: Running initial-data on production/UAT will cause liquibase to fail. The initial-data should only be set when you want to create initial data for development purposes.
+WARNING: Running initial-data on production/UAT will cause liquibase to fail. The initial-data should only be set when you want to create initial data for development purposes or an initial setup of SeqDB.
 
 == Liquibase migration file convention
 
@@ -35,6 +35,7 @@ The following convention should be followed by all Liquibase database migration 
 * Filename should follow the convention `<UNIQUE_INCREMENTAL_ID>-<ISSUE_TITLE>.xml` (e.g. `2-new_specimen_field_PHAC_containment_level.xml`)
 * A new migration file's path should be added in an "include" tag of `src/main/resources/db/changelog/db.changelog-master.xml` (`seqdb-dbi` module)
 * The context of a `changeSet` in the migration xml file should always be set to `context="schema-change"` or `context="initial-data"`
+* The `<id>` should use the filename convention without the file extension `<UNIQUE_INCREMENTAL_ID>-<ISSUE_TITLE>` if the file only includes 1 changeset, otherwise the following convention should be used: `<UNIQUE_INCREMENTAL_ID>-<ISSUE_TITLE>-<WHAT_THE_CHANGESET_DOES>` (ex: `id="11-Implement_new_workflow_entitie-Create_enum_types"`)
 * The `<comment>` tag should be used to add a reference to the Redmine issue
 
 When merging code to dev, we need to make sure the incremental number is always unique. If we have a duplicate, we should be reassigned a new identifier and update the `db.changelog-master.xml`.

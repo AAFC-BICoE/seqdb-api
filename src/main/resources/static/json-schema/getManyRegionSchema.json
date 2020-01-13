@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://localhost:8080/json-schema/getManyRegionSchema.json",
+  "title": "The region GET Response Schema",
+  "description": "The schema for the GET request response for region",
+  "base": "http://localhost:8080/api",
+  "type": "object",
+  "required": [ "data", "meta" ],
+  "additionalProperties": false,
+  "properties": {
+    "data": {
+      "type": "array",
+      "description": "each element is a region object, the number of elements can range from 1, for a specific query, or all instances in the database.",
+      "items": {
+        "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "allOf": [{ "$ref": "common/id.json" }] },
+          "type": {
+            "const": "region",
+            "description": "The type of the object."
+          },
+          "attributes": { "allOf": [{ "$ref": "definitions/region.json" }] },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
+        }
+      }
+    },
+    "meta": { "allOf": [{ "$ref": "common/meta.json" }] }
+  }
+}

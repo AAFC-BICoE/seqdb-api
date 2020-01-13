@@ -1,19 +1,24 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.io.Serializable;
+
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Sample;
-
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class SampleResourceRepositoryIT extends BaseRepositoryTest {
 
@@ -28,7 +33,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_SAMPLE_NAME_UPDATE = "update name";
   
   @Inject
-  private ResourceRepositoryV2<SampleDto, Serializable> sampleRepository;
+  private ResourceRepository<SampleDto, Serializable> sampleRepository;
   
   private Sample testSample;
   
@@ -46,7 +51,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     return testSample;
   }
   
-  @Before
+  @BeforeEach
   public void setup() {
     createTestSample();
   }
@@ -152,14 +157,13 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
   /**
    * Test the behavior if the sample could not be found when trying to delete it.
    */
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void deleteSample_onSampleNotFound_throwResourceNotFoundException() {
-    sampleRepository.delete(1000);
+    assertThrows(ResourceNotFoundException.class, () -> sampleRepository.delete(1000));
   }
-  
+
   @Test
   public void listSample_APIResponse_schemaValidates() throws IOException {
-
     JsonSchemaAssertions.assertJsonSchema(
         BaseRepositoryTest.newClasspathResourceReader("static/json-schema/GETsampleJSONSchema.json"),
         BaseRepositoryTest.newClasspathResourceReader("realSampleResponse-all.json"));

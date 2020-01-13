@@ -1,21 +1,24 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.factories.ProtocolFactory;
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
+import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.entities.Product;
+import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import io.crnk.core.queryspec.QuerySpec;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
 
@@ -24,7 +27,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   private static final ProtocolType TEST_PROTOCOL_TYPE = ProtocolType.COLLECTION_EVENT;
   
   @Inject
-  private ResourceRepositoryV2<ProtocolDto, Serializable> protocolRepository;
+  private ResourceRepository<ProtocolDto, Serializable> protocolRepository;
   
   private Protocol testProtocol;
   
@@ -75,7 +78,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getKit().getProductId(), entity.getKit().getProductId());
   }
   
-  @Before
+  @BeforeEach
   public void setup() {
     createTestProtocol();
   }
@@ -123,18 +126,5 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     // Check that the entity has the new desc value.
     assertEquals("new desc", testProtocol.getDescription());
   }
-  
-  @Test
-  public void deleteProtocol_callRepositoryDeleteOnID_protocolNotFound() {
-    // Remove protocol and attempt to find it using entity's id
-    protocolRepository.delete(testProtocol.getId());
-    assertNull(entityManager.find(Protocol.class, testProtocol.getId()));
-  }
-  
-  @Test (expected = ResourceNotFoundException.class)
-  public void deleteProtocol_callRepositoryDeleteOnInvalidId_protocolNotFound() {
-    // Attempt to find a protocol that does not exist
-    protocolRepository.delete(999);
-  }
-  
+ 
 }

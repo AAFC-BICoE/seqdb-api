@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.exceptionmapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,14 +10,14 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.error.ErrorResponse;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class ConstraintViolationExceptionMapperIT extends BaseRepositoryTest {
 
@@ -22,7 +25,7 @@ public class ConstraintViolationExceptionMapperIT extends BaseRepositoryTest {
   private ConstraintViolationExceptionMapper constraintViolationExceptionMapper;
   
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Test
   public void persistPcrBatch_whenNameIsTooLongAndPlateSizeIsNull_mapperCreatesReadableErrorMessages() {

@@ -1,11 +1,13 @@
 package ca.gc.aafc.seqdb.api.security.authorization;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.Serializable;
 import java.util.Collections;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,13 +19,13 @@ import ca.gc.aafc.seqdb.entities.AccountsGroup;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;
 
 public class ReadableGroupFilterHandlerIT extends BaseRepositoryTest {
   
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Test
   public void findAll_whenNoFilterIsSpecified_filterByReadableGroups() {

@@ -1,11 +1,13 @@
 package ca.gc.aafc.seqdb.api.security.authorization;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.Serializable;
 import java.util.Collections;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -22,17 +24,17 @@ import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
 
   @Inject
-  private ResourceRepositoryV2<PcrBatchDto, Serializable> pcrBatchRepository;
+  private ResourceRepository<PcrBatchDto, Serializable> pcrBatchRepository;
   
   @Inject
-  private ResourceRepositoryV2<GroupDto, Serializable> groupRepository;
+  private ResourceRepository<GroupDto, Serializable> groupRepository;
   
-  @Test(expected = ForbiddenException.class)
+  @Test
   public void findOne_whenResourceExistsButUserDoesNotHaveReadAccess_throwForbiddenException() {
     // User account
     Account testAccount = new Account();
@@ -61,7 +63,7 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     batch.setGroup(testGroup);
     
     QuerySpec querySpec = new QuerySpec(PcrBatchDto.class);
-    this.pcrBatchRepository.findOne(batch.getPcrBatchId(), querySpec);
+    assertThrows(ForbiddenException.class, ()-> this.pcrBatchRepository.findOne(batch.getPcrBatchId(), querySpec));
   }
   
   @Test
@@ -69,12 +71,12 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testCreate("1001");
   }
   
-  @Test(expected = ForbiddenException.class)
+  @Test
   public void createPcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
-    this.testCreate("1000");
+    assertThrows(ForbiddenException.class, ()-> this.testCreate("1000"));
   }
   
-  @Test(expected = UnauthorizedException.class)
+  @Test
   public void createPcrBatch_whenUserIsNotLoggedIn_throwUnauthorizedException() {
     // Set authentication with a name that does not correspond to a persisted Account.
     SecurityContextHolder.getContext().setAuthentication(
@@ -89,7 +91,7 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     batchDto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     
     // Try to persist the batch dto without being authenticated as a persisted Account.
-    pcrBatchRepository.create(batchDto);
+    assertThrows(UnauthorizedException.class, ()-> pcrBatchRepository.create(batchDto));
   }
   
   @Test
@@ -115,9 +117,9 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testSave("1100");
   }
   
-  @Test(expected = ForbiddenException.class)
+  @Test
   public void savePcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
-    this.testSave("1000");
+    assertThrows(ForbiddenException.class, () -> this.testSave("1000"));
   }
   
   @Test
@@ -145,9 +147,9 @@ public class GroupAuthorizationAspectIT extends BaseRepositoryTest {
     this.testDelete("1010");
   }
   
-  @Test(expected = ForbiddenException.class)
+  @Test
   public void deletePcrBatch_whenUserIsNotAuthorized_throwForbiddenException() {
-    this.testDelete("1000");
+    assertThrows(ForbiddenException.class, () -> this.testDelete("1000"));
   }
   
   /**

@@ -1,5 +1,9 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -11,7 +15,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +49,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
    * By default, run as an admin user to avoid dealing with Group-based authorization for tests that
    * don't involve it.
    */
-  @Before
+  @BeforeEach
   public void runAsAdminUser() {
     // Create the admin account.
     Account testAdminAccount = new Account();
@@ -98,7 +103,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     
     for (int i = 1; i <= 22; i++) {
       PcrReaction reaction = new PcrReaction();
-      reaction.setPcrName("reaction" + i);
+      reaction.setTubeNumber(i);
       
       assertNull(reaction.getId());
       
@@ -111,7 +116,7 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
     assertNotNull(batch.getId());
     
     assertEquals(22, batch.getReactions().size());
-    batch.getReactions().forEach(BaseRepositoryTest::assertNotNull);
+    batch.getReactions().forEach(Assertions::assertNotNull);
     
     return batch;
   };

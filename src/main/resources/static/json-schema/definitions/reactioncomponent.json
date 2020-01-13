@@ -1,0 +1,35 @@
+{
+  "$comment": "All of the attributes for the Reaction Component object can be found here.",
+  "type": "object",
+  "description": "The properties of the Reaction Component object.",
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name given to the Reaction Component.",
+      "maxLength": 50,
+      "examples": [
+        "Sterile HPLC Water H20"
+      ]
+    },
+    "concentration": {
+      "type": "string",
+      "description": "The concentration of the Reaction Component",
+      "maxLength": 50,
+      "examples": [
+        "20mg/mL"
+      ]
+    },
+    "quantity": {
+      "type": "number",
+      "description": "The quantity of the Reaction Component",
+      "maxLength": 50,
+      "examples": [
+        6.82
+      ]
+    }
+  }
+}

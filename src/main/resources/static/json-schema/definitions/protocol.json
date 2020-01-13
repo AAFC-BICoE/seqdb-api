@@ -1,0 +1,120 @@
+{
+  "$comment": "All of the attributes for the Protocol object can be found here.",
+  "type": "object",
+  "description": "The properties of the Protocol object.",
+  "required": [
+    "name",
+    "type"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name given to the Protocol.",
+      "maxLength": 50,
+      "examples": [
+        "PCR Standardized for Sequencing (10ul), +BSA"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of protocol.",
+      "enum": [
+        "COLLECTION_EVENT",
+        "SPECIMEN_PREPARATION",
+        "DNA_EXTRACTION",
+        "PCR_REACTION",
+        "SEQ_REACTION"
+      ],
+      "examples": [
+        "PCR_REACTION"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "The version letter of the protocol",
+      "maxLength": 5,
+      "examples": [
+        "A"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the protocol",
+      "maxLength": 200,
+      "examples": [
+        "Sequencing using PCR templates and 20mM primers"
+      ]
+    },
+    "steps": {
+      "type": "string",
+      "description": "The method used to administer the protocol",
+      "examples": [
+        "BDT sequencing V 3.1 using PCR templates revised July 19, 2005 ND"
+      ]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes specific to the protocol",
+      "maxLength": 200,
+      "examples": [
+        "Transfered from lab CCFC"
+      ]
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference of where the protocol was adapted from.",
+      "maxLength": 100,
+      "examples": [
+        "Adapted from Mollar et al., 1992, modified by Dave Chitty, Kasia Dadej"
+      ]
+    },
+    "equipment": {
+      "type": "string",
+      "description": "The type of equipment used",
+      "maxLength": 50,
+      "examples": [
+        "Sanger 3730xl"
+      ]
+    },
+    "forwardPrimerConcentration": {
+      "type": "string",
+      "description": "The concentration of the forward primer ",
+      "maxLength": 50,
+      "examples": [
+        "20mM"
+      ]
+    },
+    "reversePrimerConcentration": {
+      "type": "string",
+      "description": "The concentration of the reverse primer ",
+      "maxLength": 50,
+      "examples": [
+        "20mM"
+      ]
+    },
+    "reactionMixVolume": {
+      "type": "string",
+      "description": "The volume of the reaction mix",
+      "maxLength": 50,
+      "examples": [
+        "10"
+      ]
+    },
+    "reactionMixVolumePerTube": {
+      "type": "string",
+      "description": "The volume of the reaction mix per tube of the protocol",
+      "maxLength": 50,
+      "examples": [
+        "9"
+      ]
+    },
+    "lastModified": {
+      "type": "string",
+      "description": "Last modified date of the protocol.",
+      "examples": [
+        "1998-05-19"
+      ]
+    }
+  }
+}

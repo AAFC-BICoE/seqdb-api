@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import ca.gc.aafc.seqdb.entities.Sample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -83,6 +84,10 @@ public class SampleDto {
   private String fermentationTime;
   
   private String extractionSolvent;
+  
+  private LocalDate dateDiscarded;
+  
+  private String discardedNotes;
 
   private Timestamp lastModified;
   
@@ -96,5 +101,8 @@ public class SampleDto {
   
   @JsonApiRelation
   private ProtocolDto protocol;
+  
+  @JsonApiRelation
+  private LocationDto location;
   
 }

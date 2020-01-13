@@ -1,0 +1,42 @@
+{
+  "$id": "http://localhost:8080/json-schema/getManyProtocolSchema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The Protocol GET Response Schema",
+  "description": "The schema for the GET response to retrieve an array of Protocols",
+  "base": "http://localhost:8080/api",
+  "type": "object",
+  "required": [ "data", "meta" ],
+  "additionalProperties": false,
+  "properties": {
+  
+    "data": {
+      "type": "array",
+      "description": "Each element is a Protocol object, the number of elements can range from 1, for a specific query, or all instances in the database.",
+      "items": {
+        "required": [ "id", "type", "attributes" ],
+        "additionalProperties": false,
+        "properties": {
+        
+          "id": { "allOf": [{ "$ref": "common/id.json" }] },
+          "type": {
+            "const": "protocol",
+            "description": "The type of data being returned."
+          },
+          "attributes": { "allOf": [{ "$ref": "definitions/protocol.json" }] },
+          "relationships": {
+            "properties": {
+
+              "reactionComponents": { "allOf": [{ "$ref": "common/relationship.json" }] },
+              "kit": { "allOf": [{ "$ref": "common/relationship.json" }] },
+              "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
+
+            }
+          },
+          "links": { "allOf": [{ "$ref": "common/link.json" }] }
+          
+        }
+      }
+    },
+    "meta": { "allOf": [{ "$ref": "common/meta.json" }] }
+  }
+}

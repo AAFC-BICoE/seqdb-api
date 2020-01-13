@@ -5,7 +5,7 @@ cache:
   - $HOME/.m2
 
 script: 
-  - mvn install checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check
+  - mvn verify checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check jacoco:check
 
 jdk:
   - openjdk8

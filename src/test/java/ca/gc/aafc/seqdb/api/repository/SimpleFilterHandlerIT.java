@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -7,20 +9,20 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepositoryV2;
+import io.crnk.core.repository.ResourceRepository;
 
 public class SimpleFilterHandlerIT extends BaseRepositoryTest {
   
   @Inject
-  private ResourceRepositoryV2<PcrPrimerDto, Serializable> primerRepository;
+  private ResourceRepository<PcrPrimerDto, Serializable> primerRepository;
   
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {

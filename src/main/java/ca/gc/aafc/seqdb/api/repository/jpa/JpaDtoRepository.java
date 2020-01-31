@@ -276,7 +276,7 @@ public class JpaDtoRepository {
   }
 
   /**
-   * Gets a Map<String, Object> from a JPA Tuple. This is used to convert JPA's data-fetching output
+   * Gets a Map&lt;String, Object&gt; from a JPA Tuple. This is used to convert JPA's data-fetching output
    * to an object-graph-like structure that can more easily be deserialized to DTOs
    *
    * @param tuple

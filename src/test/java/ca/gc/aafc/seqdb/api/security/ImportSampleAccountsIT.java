@@ -1,250 +1,134 @@
 package ca.gc.aafc.seqdb.api.security;
 
-import java.util.List;
-import java.util.function.Predicate;
-import javax.inject.Inject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import ca.gc.aafc.seqdb.MapBackedEntityManager;
-import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
+import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.entities.Account;
 import ca.gc.aafc.seqdb.entities.AccountsGroup;
 
-import static org.junit.Assert.*;
-
 /**
- * Contains a bunch of different testing environments for testing the Import Sample Account
- * functionality. This test takes advantage of the MapBackedEntityManager which will mock the
- * EnityManager to just persist data into memory. This allows us to create separate testing
- * environments to see how the Import Sample Account performs in each.
- *
- * Each test has it's own TestConfiguration which will override some beans that way we can test
- * specific situations.
+ * Scope of this test is to ensure inserting sample accounts works properly. Calling either the
+ * insertUserAccount should create the account in the entity manager.
  */
-@RunWith(Enclosed.class)
-public class ImportSampleAccountsIT {
+public class ImportSampleAccountsIT extends BaseIntegrationTest {
 
+  private ImportSampleAccounts importSampleAccounts;
+
+  @Autowired
+  private EntityManager entityManager;
+  
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  
   /**
-   * Testing environment where import sample accounts is enabled, the accounts do not exist, so they
-   * should be persisted.
+   * Create the import sample account with entity manager and password encoder.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
-  @SpringBootTest(classes = ImportSampleAccountsEnabledIT.EnableImportSampleAccountsTestConfig.class)
-  public static class ImportSampleAccountsEnabledIT {
-
-    /**
-     * Mocked entity manager to use instead of the real entity manager. The reason were using this
-     * is so the changes don't persist into the real database. We just want to test to make sure it
-     * triggers the persist.
-     */
-    private static final EntityManager ENTITY_MANAGER = new MapBackedEntityManager();
-
-    @Inject
-    private PasswordEncoder passwordEncoder;
-
-    @TestConfiguration
-    @Import(SeqdbApiLauncher.class)
-    public static class EnableImportSampleAccountsTestConfig {
-
-      @Inject
-      private PasswordEncoder passwordEncoder;
-
-      /**
-       * Instead of running it with the property we just apply this bean with mocked methods to
-       * avoid the hibernate queries from being performed.
-       *
-       * This is what also activates the bean to run which so it does not need the conditional on
-       * property since the bean is being explicitly ran here.
-       */
-      @Bean
-      @Primary
-      public ImportSampleAccounts mockedBean() {
-        return new ImportSampleAccountsStub(ENTITY_MANAGER, passwordEncoder, false);
-      }
-
-      /**
-       * Instead of running it with the property we just apply this bean with mocked methods to
-       * avoid the Hibernate queries from being performed.
-       */
-      @Bean
-      @Primary
-      public EntityManager mockEntityManager() {
-        return ENTITY_MANAGER;
-      }
-    }
-
-    /**
-     * Test to ensure that data is persisted whenever the import sample accounts is activated.
-     *
-     * @see TestConfig - Configuration to activate the import sample account and mocking of the
-     *      entity manager.
-     */
-    @Test
-    public void startApp_whenImportSampleAccountsTrue_sampleAccountsAvailable() {
-
-      assertAccount(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME,
-          ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME, ImportSampleAccountsStub.USER_GROUP_NAME,
-          Account.Type.USER);
-
-      assertAccount(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME,
-          ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME,
-          ImportSampleAccountsStub.ADMIN_GROUP_NAME, Account.Type.ADMIN);
-    }
-
-    private void assertAccount(String userName, String password, String accountGroup,
-        Account.Type accountType) {
-
-      // Retrieve a list of persisted accounts.
-      List<Object> persistedAccounts = ((MapBackedEntityManager) ENTITY_MANAGER)
-          .getPersistedEntities(Account.class);
-
-      // Check if the user was inserted properly.
-      Account account = extractFromList(persistedAccounts,
-          a -> a.getAccountName().equals(userName));
-
-      assertNotNull(account);
-      assertTrue(passwordEncoder.matches(password, account.getAccountPw()));
-      assertEquals(accountType.toString(), account.getAccountType());
-      assertEquals(Account.Status.ACTIVE.toString(), account.getAccountStatus());
-
-      // Check the associated Group
-      List<Object> persistedAccountsGroups = ((MapBackedEntityManager) ENTITY_MANAGER)
-          .getPersistedEntities(AccountsGroup.class);
-      AccountsGroup ag = extractFromList(persistedAccountsGroups,
-          a -> a.getGroup().getGroupName().equals(accountGroup));
-      assertNotNull(ag);
-    }
+  @BeforeEach
+  public void setup() {
+    importSampleAccounts = new ImportSampleAccounts(entityManager, passwordEncoder);
   }
-
+  
   /**
-   * Testing environment where import sample accounts is disabled, so no account data should be
-   * persisted in this case.
+   * Test the insert user account to make the account is created and can be found in the entity
+   * manager. And also ensures all of the values are valid.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
-  @SpringBootTest(classes = ImportSampleAccountsDisabledIT.DisableImportSampleAccountsTestConfig.class)
-  public static class ImportSampleAccountsDisabledIT {
+  @Test
+  public void importSampleAccounts_insertUserAccount_successfullyCreateUserAccount() {
+    // Invoke the create user accounts
+    importSampleAccounts.insertUserAccounts();
 
-    /**
-     * Mocked entity manager to use instead of the real entity manager. The reason were using this
-     * is so the changes don't persist into the real database. We just want to test to make sure it
-     * triggers the persist.
-     */
-    private static final EntityManager ENTITY_MANAGER = new MapBackedEntityManager();
+    // Check if the account exists on the entity manager...
+    Account userAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
 
-    @TestConfiguration
-    @Import(SeqdbApiLauncher.class)
-    public static class DisableImportSampleAccountsTestConfig {
+    assertNotNull(userAccount);
+    assertNotNull(userAccount.getAccountId());
+    assertEquals(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME, userAccount.getAccountName());
+    assertTrue(passwordEncoder.matches(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME,
+        userAccount.getAccountPw()));
+    assertEquals(Account.Type.USER.toString(), userAccount.getAccountType());
+    assertEquals(Account.Status.ACTIVE.toString(), userAccount.getAccountStatus());
 
-      /**
-       * Instead of running it with the property we just apply this bean with mocked methods to
-       * avoid the hibernate queries from being performed.
-       */
-      @Bean
-      @Primary
-      public EntityManager mockEntityManager() {
-        return ENTITY_MANAGER;
-      }
-    }
+    // Retrieve the account group from the entity manager...
+    AccountsGroup accountGroup = retrieveAccountGroup(userAccount.getAccountId());
 
-    /**
-     * User data should not be stored in the database since the import sample accounts is not
-     * activated.
-     */
-    @Test
-    public void startApp_whenImportSampleAccountsNotSet_sampleAccountsNotAvailable() {
-      // Retrieve a list of persisted accounts.
-      List<Object> persistedAccounts = ((MapBackedEntityManager) ENTITY_MANAGER)
-          .getPersistedEntities(Account.class);
-
-      // No accounts should be persisted.
-      assertNull(persistedAccounts);
-    }
+    assertNotNull(accountGroup);
+    assertEquals(ImportSampleAccounts.IMPORTED_ACCOUNT_RIGHTS, accountGroup.getRights());
+    assertTrue(accountGroup.getAdmin());
+    assertEquals(importSampleAccounts.retrieveGroup(ImportSampleAccounts.USER_GROUP_NAME),
+        accountGroup.getGroup());
   }
-
+  
   /**
-   * Testing environment where the import sample accounts is enabled, but the accounts already
-   * exist. This test will be ensuring that no data is persisted in this case.
+   * Test the insert admin account to make the account is created and can be found in the entity
+   * manager. And also ensures all of the values are valid.
    */
-  @RunWith(SpringJUnit4ClassRunner.class)
-  @SpringBootTest(classes = ImportSampleAccountsEnabledAccountsExistIT.EnableImportSampleAccountsAlreadyExistTestConfig.class)
-  public static class ImportSampleAccountsEnabledAccountsExistIT {
-    /**
-     * Mocked entity manager to use instead of the real entity manager. The reason were using this
-     * is so the changes don't persist into the real database. We just want to test to make sure it
-     * triggers the persist.
-     */
-    private static final EntityManager ENTITY_MANAGER = new MapBackedEntityManager();
+  @Test
+  public void importSampleAccounts_insertAdminAccount_successfullyCreateAdminAccount() {
+    // Invoke the create user accounts
+    importSampleAccounts.insertUserAccounts();
 
-    @TestConfiguration
-    @Import(SeqdbApiLauncher.class)
-    public static class EnableImportSampleAccountsAlreadyExistTestConfig {
+    // Check if the account exists on the entity manager...
+    Account adminAccount = retrieveAccount(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME);
 
-      @Inject
-      private PasswordEncoder passwordEncoder;
+    assertNotNull(adminAccount);
+    assertNotNull(adminAccount.getAccountId());
+    assertEquals(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME, adminAccount.getAccountName());
+    assertTrue(passwordEncoder.matches(ImportSampleAccounts.IMPORTED_ADMIN_ACCOUNT_NAME,
+        adminAccount.getAccountPw()));
+    assertEquals(Account.Type.ADMIN.toString(), adminAccount.getAccountType());
+    assertEquals(Account.Status.ACTIVE.toString(), adminAccount.getAccountStatus());
 
-      /**
-       * Instead of running it with the property we just apply this bean with mocked methods to
-       * avoid the hibernate queries from being performed.
-       *
-       * This is what also activates the bean to run which so it does not need the conditional on
-       * property since the bean is being explicitly ran here.
-       */
-      @Bean
-      @Primary
-      public ImportSampleAccounts mockedBean() {
-        return new ImportSampleAccountsStub(ENTITY_MANAGER, passwordEncoder, true);
-      }
+    // Retrieve the account group from the entity manager...
+    AccountsGroup accountGroup = retrieveAccountGroup(adminAccount.getAccountId());
 
-      /**
-       * Instead of running it with the property we just apply this bean with mocked methods to
-       * avoid the hibernate queries from being performed.
-       */
-      @Bean
-      @Primary
-      public EntityManager mockEntityManager() {
-        return ENTITY_MANAGER;
-      }
-    }
-
-    /**
-     * User data should not be stored in the database since the import sample accounts is not
-     * activated.
-     */
-    @Test
-    public void startApp_whenImportSampleAccountsSet_sampleAccountsAlreadyExist() {
-      // Retrieve a list of persisted accounts.
-      List<Object> persistedAccounts = ((MapBackedEntityManager) ENTITY_MANAGER)
-          .getPersistedEntities(Account.class);
-
-      // No accounts should be persisted.
-      assertNull(persistedAccounts);
-    }
+    assertNotNull(accountGroup);
+    assertEquals(ImportSampleAccounts.IMPORTED_ACCOUNT_RIGHTS, accountGroup.getRights());
+    assertTrue(accountGroup.getAdmin());
+    assertEquals(importSampleAccounts.retrieveGroup(ImportSampleAccounts.ADMIN_GROUP_NAME),
+        accountGroup.getGroup());
   }
-
+  
   /**
-   * Look at the persisted data and retrieve a object based on the provided Predicate. The List is
-   * expected to only contains types that can be casted to T.
+   * Retrieve an account that is in the database.
    *
-   * @param listOfPersisted
-   *          the persisted data to search against
-   * @param predicate
-   *          Predicate to use to find the right object
-   * @return if an object is found, the object will be returned. Otherwise, null is returned.
+   * @param accountName string of the account name to retrieve. (Case sensitive)
+   * @return the account from the entityManager. Null if it does not exist.
    */
-  @SuppressWarnings("unchecked")
-  private static <T> T extractFromList(List<Object> listOfPersisted, Predicate<T> predicate) {
-    return listOfPersisted.stream().map(obj -> (T) obj).filter(predicate).findFirst().orElse(null);
-  }
+  private Account retrieveAccount(String accountName) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+    Root<Account> root = criteria.from(Account.class);
 
+    criteria.where(criteriaBuilder.equal(root.get("accountName"), accountName));
+
+    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
+  }
+  
+  /**
+   * Retrieve the account group based on the account id.
+   * 
+   * @param accountId the id of the account to find the account group on.
+   * @return the accountsGroup from the entityManager. Null if it does not exist.
+   */
+  private AccountsGroup retrieveAccountGroup(int accountId) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<AccountsGroup> criteria = criteriaBuilder.createQuery(AccountsGroup.class);
+    Root<AccountsGroup> root = criteria.from(AccountsGroup.class);
+
+    criteria.where(criteriaBuilder.equal(root.join("account").get("accountId"), accountId));
+
+    return entityManager.createQuery(criteria).getResultList().stream().findFirst().orElse(null);
+  }
 }

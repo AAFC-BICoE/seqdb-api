@@ -1,5 +1,11 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +15,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Comparators;
 
@@ -24,8 +30,8 @@ import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
-import ca.gc.aafc.seqdb.factories.RegionFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
@@ -187,9 +193,9 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNull(primerDto.getRegion());
   }
   
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void findOnePrimer_onPrimerNotFound_throwsResourceNotFoundException() {
-    primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class));
+    assertThrows(ResourceNotFoundException.class, () -> primerRepository.findOne(1, new QuerySpec(PcrPrimerDto.class)));
   }
   
   @Test
@@ -240,13 +246,13 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     ResourceList<RegionDto> regionsWithAscendingNames = regionRepository
         .findAll(querySpecAscending);
     assertTrue(
-        "Names must be sorted alphabetically (ascending)",
         Comparators.isInOrder(
             regionsWithAscendingNames.stream()
                 .map(RegionDto::getName)
                 .collect(Collectors.toList()),
             String::compareTo
-        )
+        ),
+        "Names must be sorted alphabetically (ascending)"
     );
     
     QuerySpec querySpecDescending = new QuerySpec(RegionDto.class);
@@ -256,13 +262,13 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     ResourceList<RegionDto> regionsWithDescendingNames = regionRepository
         .findAll(querySpecDescending);
     assertTrue(
-        "Names must be sorted alphabetically (descending)",
         Comparators.isInOrder(
             regionsWithDescendingNames.stream()
                 .map(RegionDto::getName)
                 .collect(Collectors.toList()),
             (a, b) -> b.compareTo(a)
-        )
+        ),
+        "Names must be sorted alphabetically (descending)"
     );
   }
   
@@ -472,9 +478,9 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNull(entityManager.find(PcrPrimer.class, primer.getId()));
   }
 
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void deletePrimer_onPrimerNotFound_throwResourceNotFoundException() {
-    primerRepository.delete(1);
+    assertThrows(ResourceNotFoundException.class, () -> primerRepository.delete(1));
   }
 
 }

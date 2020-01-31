@@ -1,5 +1,10 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
@@ -18,11 +23,11 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.entities.PcrBatch;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
 import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.factories.PcrPrimerFactory;
-import ca.gc.aafc.seqdb.factories.RegionFactory;
 import ca.gc.aafc.seqdb.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.entities.PcrReaction;
 import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
@@ -92,13 +97,13 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     assertNull(region.getSymbol());
   }
   
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void findOneTargetRegionFromSourcePrimer_whenPrimerExistsAndRegionDoesNotExist_throwResourceNotFoundException() {
     PcrPrimer primer = PcrPrimerFactory.newPcrPrimer().build();
     persist(primer);
-    
     QuerySpec targetQuerySpec = new QuerySpec(RegionDto.class);
-    primerToRegionRepository.findOneTarget(primer.getId(), "region", targetQuerySpec);
+    assertThrows(ResourceNotFoundException.class,
+        () -> primerToRegionRepository.findOneTarget(primer.getId(), "region", targetQuerySpec));
   }
   
   @Test

@@ -1,8 +1,10 @@
 package ca.gc.aafc.seqdb.api.security.ldap;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import javax.inject.Inject;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;

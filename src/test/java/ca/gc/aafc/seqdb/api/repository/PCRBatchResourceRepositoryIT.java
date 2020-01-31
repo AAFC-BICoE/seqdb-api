@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PCRBatchResourceRepositoryIT {
 

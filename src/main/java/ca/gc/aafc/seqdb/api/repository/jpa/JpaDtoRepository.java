@@ -31,10 +31,12 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.Streams;
 
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
+import ca.gc.aafc.seqdb.api.repository.links.NoLinkInformation;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
 import ca.gc.aafc.seqdb.interfaces.UniqueObj;
@@ -46,6 +48,7 @@ import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -67,9 +70,13 @@ public class JpaDtoRepository {
   @NonNull
   @Getter
   private final JpaDtoMapper dtoJpaMapper;
+  
+  /* Forces CRNK to not display any top-level links. */
+  private static final NoLinkInformation NO_LINK_INFORMATION = new NoLinkInformation();
 
   private static final ObjectMapper MAPPER = new ObjectMapper()
-      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+      .registerModule(new JavaTimeModule()); // Provides support for LocalDate and other Java 8 date/time types. 
 
   /**
    * Query the DTO repository backed by a JPA datasource for a list of DTOs.
@@ -88,14 +95,17 @@ public class JpaDtoRepository {
    *          a request like localhost:8080/api/pcrBatch/10/reactions
    * @return the resource list
    */
-  public <D> ResourceList<D> findAll(@NonNull Class<D> sourceDtoClass, @NonNull QuerySpec querySpec,
-      @NonNull ResourceRegistry resourceRegistry,
-      @NonNull JpaMetaInformationProvider metaInformationProvider,
-      @Nullable TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter,
-      @Nullable Function<From<?, ?>, From<?, ?>> customRoot) {
+  public <D> ResourceList<D> findAll(FindAllParams options) {
+    QuerySpec querySpec = options.getQuerySpec();
+    Class<?> sourceDtoClass = options.getSourceDtoClass();
+    Function<From<?, ?>, From<?, ?>> customRoot = options.getCustomRoot();
+    ResourceRegistry resourceRegistry = options.getResourceRegistry();
+    TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter = options.getCustomFilter();
+    JpaMetaInformationProvider metaInformationProvider = options.getMetaInformationProvider();
+    
     @SuppressWarnings("unchecked")
     Class<D> targetDtoClass = (Class<D>) querySpec.getResourceClass();
-
+    
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<Tuple> criteriaQuery = cb.createTupleQuery();
     From<?, ?> sourcePath = criteriaQuery.from(dtoJpaMapper.getEntityClassForDto(sourceDtoClass));
@@ -138,7 +148,7 @@ public class JpaDtoRepository {
         metaInformationProvider.getMetaInformation(
             JpaMetaInformationParams.builder().sourceResourceClass(sourceDtoClass)
                 .customRoot(customRoot).customFilter(customFilter).build()),
-        null);
+        NO_LINK_INFORMATION);
   }
 
   /**
@@ -403,6 +413,25 @@ public class JpaDtoRepository {
    */
   public interface TriFunction<A, B, C, R> {
     R apply(A a, B b, C c);
+  }
+  
+  /**
+   * Named parameters for the "findAll" method.
+   */
+  @Builder
+  @Getter
+  public static class FindAllParams {
+    @NonNull private Class<?> sourceDtoClass;
+    @NonNull private QuerySpec querySpec;
+    @NonNull private ResourceRegistry resourceRegistry;
+    
+    // Provide a null "meta" section by default:
+    @NonNull
+    @Builder.Default
+    private JpaMetaInformationProvider metaInformationProvider = params -> null;
+    
+    @Nullable private TriFunction<From<?, ?>, CriteriaQuery<?>, CriteriaBuilder, Predicate> customFilter;
+    @Nullable private Function<From<?, ?>, From<?, ?>> customRoot;
   }
 
 }

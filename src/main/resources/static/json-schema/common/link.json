@@ -1,0 +1,9 @@
+{
+  "$comment": "Link information that comes along with the request.",
+  "additionalProperties": false,
+  "properties": {
+    "self": {
+      "type": "string"
+    }
+  }
+}

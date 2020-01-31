@@ -1,8 +1,5 @@
 package ca.gc.aafc.seqdb.api.rest;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,12 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.http.client.utils.URIBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,11 +27,16 @@ import com.google.common.io.CharStreams;
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
 import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
+
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import lombok.extern.slf4j.Slf4j;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * 
@@ -46,7 +49,6 @@ import lombok.extern.slf4j.Slf4j;
  * - Helper methods to build JSON API compliant Map ({@link BaseJsonApiIntegrationTest#toJsonAPIMap(String, Map)}
  *
  */
-@TestPropertySource(properties="import-sample-accounts=true")
 @Slf4j
 public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest {
   
@@ -70,14 +72,15 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     IT_OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
   }
 
-  
   public static final String API_BASE_PATH = "/api";
   public static final String SCHEMA_BASE_PATH = "/json-schema";
   
   private static final String JSON_SCHEMA_FOLDER = "static/json-schema";
 
-	@Before
+
+	@BeforeEach
 	public final void before() {
+
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;
@@ -117,7 +120,14 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 	
 	protected abstract Map<String, Object> buildUpdateAttributeMap();
 	
-	protected abstract Map<String, Object> buildRelationshipMap();
+  /**
+   * Override if a relationship map is required.
+   * 
+   * @return relationship map or null if none
+   */
+  protected Map<String, Object> buildRelationshipMap() {
+    return null;
+  }
 
 	/**
 	 * Load a JSON Schema as String.
@@ -214,8 +224,17 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   public void resourceUnderTest_whenIdExists_returnOkAndBody()
       throws IOException, URISyntaxException {
     int id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
+    
+    // Test with the crnk-compact header.
+    ValidatableResponse responseCompact = given().header("crnk-compact", "true").when()
+        .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
+    
+    validateJsonSchemaByURL(getGetOneSchemaFilename(), responseCompact.extract().body().asString());
+    
+    // Test without the crnk-compact header.
     ValidatableResponse response = given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
+    
     validateJsonSchemaByURL(getGetOneSchemaFilename(), response.extract().body().asString());
 
     // cleanup
@@ -228,9 +247,16 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     int id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     int id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
 
+    // Test with the crnk-compact header.
+    ValidatableResponse responseCompact = given().header("crnk-compact", "true").when()
+        .get(getResourceUnderTest()).then().statusCode(HttpStatus.OK.value());
+
+    validateJsonSchemaByURL(getGetManySchemaFilename(), responseCompact.extract().body().asString());
+    
+    // Test without the crnk-compact header.
     ValidatableResponse response = given().when().get(getResourceUnderTest()).then()
         .statusCode(HttpStatus.OK.value());
-
+    
     validateJsonSchemaByURL(getGetManySchemaFilename(), response.extract().body().asString());
 
     // cleanup
@@ -274,7 +300,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendGet(int id) {
-    return given().when().get(getResourceUnderTest() + "/" + id).then()
+    return given().header("crnk-compact", "true").when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
   }
 
@@ -290,15 +316,27 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   }
 
   /**
-   * Sends a POST to the resource under test for the provided id. Asserts that it returns HTTP
+   * Sends a POST to the resource under test. Asserts that it returns HTTP
    * CREATED 201. Extracts the newly assigned id and returns it.
    * 
    * @param dataMap body of the POST as Map
    * @return id of the newly created resource
    */
   protected int sendPost(Map<String, Object> dataMap) {
-    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
-        .post(getResourceUnderTest());
+    return sendPost(getResourceUnderTest(), dataMap);
+  }
+  
+  /**
+   * Sends a POST to the resourceName. Asserts that it returns HTTP
+   * CREATED 201. Extracts the newly assigned id and returns it.
+   * 
+   * @resourceName name of the resource to POST to
+   * @param dataMap body of the POST as Map
+   * @return id of the newly created resource
+   */
+  protected int sendPost(String resourceName, Map<String, Object> dataMap) {
+    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+        .post(resourceName);
     response.then().statusCode(HttpStatus.CREATED.value());
     String id = (String) response.body().jsonPath().get("data.id");
     int idInt = Integer.parseInt(id);
@@ -313,7 +351,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendPatch(int id, Map<String, Object> dataMap) {
-    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
         .patch(getResourceUnderTest() + "/" + id);
     return response.then().statusCode(HttpStatus.OK.value());
   }

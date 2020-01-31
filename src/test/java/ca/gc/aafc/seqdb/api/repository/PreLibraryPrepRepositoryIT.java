@@ -1,21 +1,26 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import java.sql.SQLException;
+
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
-import ca.gc.aafc.seqdb.factories.PreLibraryPrepFactory;
-
+import ca.gc.aafc.seqdb.testsupport.factories.PreLibraryPrepFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-
-import static org.junit.Assume.assumeTrue;
 
 /**
  * Integration test for PreLibraryPrep Repository.
@@ -58,18 +63,18 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
    * Since H2 does not support creating enum types, the integration tests will only work using
    * postgresql. If you are using another dbms it will ignore all of the tests.
    */
-  @Before
+  @BeforeEach
   public void setup() {
-    // Assume that the tests are running only on postgresql, if not the tests will be ignored.
+    // Assume that the tests are running only on postgresql, if not the tests will
+    // be ignored.
     try {
       assumeTrue(
-          "PreLibraryPrep tests were ignored since the test environment is not running on PostgreSQL.",
-          "PostgreSQL".equals(datasource.getConnection().getMetaData().getDatabaseProductName())
-      );
+          "PostgreSQL".equals(datasource.getConnection().getMetaData().getDatabaseProductName()),
+          "PreLibraryPrep tests were ignored since the test environment is not running on PostgreSQL.");
     } catch (SQLException e) {
       fail("Datasource could not be found. Make sure your connection is setup properly.");
     }
-    
+
     createTestPreLibraryPrep();
   }
   
@@ -153,8 +158,8 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     assertNull(entityManager.find(PreLibraryPrep.class, testPreLibraryPrep.getId()));
   }
 
-  @Test(expected = ResourceNotFoundException.class)
+  @Test
   public void deletePreLibraryPrep_onPreLibraryPrepNotFound_throwResourceNotFoundException() {
-    preLibraryPrepRepository.delete(1000);
-  } 
+    assertThrows(ResourceNotFoundException.class, () -> preLibraryPrepRepository.delete(1000));
+  }
 }

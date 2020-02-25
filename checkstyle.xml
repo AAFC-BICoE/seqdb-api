@@ -94,6 +94,16 @@ limitations under the License.
       <property name="severity" value="ignore"/>
     </module>
 
+      <!-- Checks for Size Violations.                    -->
+      <!-- See http://checkstyle.sf.net/config_sizes.html -->
+      <module name="LineLength">
+        <property name="max" value="100"/>
+        <!-- Ignore import statements and javadoc comments and variables -->
+        <property name="ignorePattern" value='^(import.*$|^ *\*( |[^\/]) *.*)|((.*)=( |)"(.*)"(.*))'/>
+        <!-- severity is at ignore until we fix the other issues -->
+        <property name="severity" value="ignore"/>
+      </module>
+
     <module name="TreeWalker">
     
       <!-- Indent Checks -->    
@@ -163,20 +173,12 @@ limitations under the License.
       <!-- Checks for Javadoc comments.                     -->
       <!-- See http://checkstyle.sf.net/config_javadoc.html -->
       <module name="JavadocMethod">
-      <property name="severity" value="ignore"/>
-        <!-- don't require javadoc for methods shorter than or equal to
-        this many lines (including opening & closing brace lines) -->
-        <property name="minLineCount" value="5"/>
+        <property name="severity" value="ignore"/>
 
         <!-- javadoc doesn't need one @param, @return, @throws tags -->
         <property name="scope" value="public"/>
-      <property name="allowUndeclaredRTE" value="true"/>
         <property name="allowMissingParamTags" value="true"/>
-        <property name="allowMissingThrowsTags" value="true"/>
         <property name="allowMissingReturnTag" value="true"/>
-
-        <!-- simple set/get methods don't need javadoc comments -->
-        <property name="allowMissingPropertyJavadoc" value="true" />
 
         <!-- Allow tags for runtime exceptions that are not explicitly declared -->
 
@@ -273,16 +275,6 @@ limitations under the License.
         <message key="import.ordering"
                  value="Wrong order for ''{0}'' import. Order should be: java, javax, org, com, 
                  ca.gc.aafc. Each group should be separated by a single blank line." />
-      </module>
-
-      <!-- Checks for Size Violations.                    -->
-      <!-- See http://checkstyle.sf.net/config_sizes.html -->
-      <module name="LineLength">
-        <property name="max" value="100"/>
-        <!-- Ignore import statements and javadoc comments and variables -->
-        <property name="ignorePattern" value='^(import.*$|^ *\*( |[^\/]) *.*)|((.*)=( |)"(.*)"(.*))'/>
-        <!-- severity is at ignore until we fix the other issues -->
-        <property name="severity" value="ignore"/>
       </module>
       
       <module name="OuterTypeNumber"/>

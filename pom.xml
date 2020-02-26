@@ -23,7 +23,7 @@
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.38-SNAPSHOT</seqdb.dbi.version>
+    <seqdb.dbi.version>3.39</seqdb.dbi.version>
     
     <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
     <spotbugs.version>3.1.12</spotbugs.version>
@@ -252,7 +252,7 @@
     <dependency>
       <groupId>com.vladmihalcea</groupId>
       <artifactId>hibernate-types-52</artifactId>
-      <version>2.3.5</version>
+      <version>2.4.4</version>
     </dependency>
     
     <!-- TEST Scope -->

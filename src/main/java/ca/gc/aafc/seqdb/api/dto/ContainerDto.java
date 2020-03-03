@@ -19,8 +19,6 @@ public class ContainerDto {
 
   private String containerNumber;
 
-  private Boolean fillByRow;
-
   private Timestamp lastModified;
 
   @JsonApiRelation

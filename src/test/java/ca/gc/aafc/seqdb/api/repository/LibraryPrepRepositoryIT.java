@@ -19,11 +19,13 @@ import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.entities.ContainerType;
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
 import ca.gc.aafc.seqdb.entities.Sample;
 import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrep;
+import ca.gc.aafc.seqdb.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
@@ -53,14 +55,10 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   
   private LibraryPrep createTestLibraryPrep() {
-    testContainerType = new ContainerType();
-    testContainerType.setName("test ct");
-    testContainerType.setBaseType("basetype");
-    testContainerType.setNumberOfColumns(8);
-    testContainerType.setNumberOfRows(12);
-    testContainerType.setNumberOfWells(
-        testContainerType.getNumberOfRows() * testContainerType.getNumberOfColumns()
-    );
+    
+    testContainerType = ContainerTypeFactory.newContainerType()
+        .fillDirection(FillDirection.BY_COLUMN)
+        .build();
     
     persist(testContainerType);
     

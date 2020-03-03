@@ -16,11 +16,11 @@ Unit tests:
 mvn clean test
 ----
 
-All tests (Integration + Unit):
+All tests (Integration + Unit, PostgreSQL required):
 
 [source,bash]
 ----
-mvn clean verify
+mvn clean verify -Dspring.datasource.url=jdbc:postgresql://localhost:5432/seqdb_api_test?currentSchema=seqdb -Dspring.datasource.username=test -Dspring.datasource.password=test
 ----
 
 == To package

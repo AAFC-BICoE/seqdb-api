@@ -1,5 +1,8 @@
 language: java
 
+addons:
+  postgresql: "9.6"
+
 cache:
   directories:
   - $HOME/.m2

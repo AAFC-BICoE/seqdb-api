@@ -1,4 +1,12 @@
+
+-- Revoke privileges for PUBLIC user
+REVOKE CONNECT ON DATABASE seqdb_api_test FROM PUBLIC;
+REVOKE CREATE ON SCHEMA seqdb FROM PUBLIC;
+
+-- Create schema
+CREATE SCHEMA IF NOT EXISTS seqdb;
 CREATE USER test WITH PASSWORD 'test';
-CREATE SCHEMA seqdb;
-GRANT ALL PRIVILEGES ON DATABASE seqdb_api_test TO test;
+GRANT CONNECT ON DATABASE seqdb_api_test TO test;
 GRANT USAGE, CREATE ON SCHEMA seqdb TO test;
+GRANT ALL PRIVILEGES ON DATABASE seqdb_api_test TO test;
+

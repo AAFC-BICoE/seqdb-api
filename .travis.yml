@@ -12,7 +12,7 @@ before_script:
   - psql -f src/test/resources/create-test-users.sql -U postgres
 
 script: 
-  - mvn verify -Dspring.datasource.url=jdbc:postgresql://localhost/seqdb_api_test?currentSchema=seqdb -Dspring.datasource.username=test -Dspring.datasource.password=test checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check jacoco:check
+  - mvn verify -Dspring.datasource.url=jdbc:postgresql://localhost/seqdb_api_test?currentSchema=seqdb -Dspring.datasource.username=test -Dspring.datasource.password=test -Dspring.liquibase.url=jdbc:postgresql://localhost/seqdb_api_test checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check jacoco:check
 
 jdk:
   - openjdk8

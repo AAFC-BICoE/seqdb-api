@@ -11,6 +11,7 @@ Currently under development, see [Release Notes](RELEASE_NOTES.md) for details.
 
 * Java 1.8+
 * Maven 3.2+
+* PostgreSQL 9.6
 
 ## Run
 
@@ -28,3 +29,9 @@ mvn clean compile
 ```
 
 The single HTML page will be available at `target/generated-docs/index.html`
+
+## Testing
+
+For testing purpose or local development a [Docker Compose](https://docs.docker.com/compose/) file is available in the `local` folder.
+
+

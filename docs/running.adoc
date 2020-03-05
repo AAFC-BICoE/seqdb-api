@@ -20,7 +20,7 @@ All tests (Integration + Unit, PostgreSQL required):
 
 [source,bash]
 ----
-mvn clean verify -Dspring.datasource.url=jdbc:postgresql://localhost:5432/seqdb_api_test?currentSchema=seqdb -Dspring.datasource.username=test -Dspring.datasource.password=test
+mvn clean verify -Dspring.config.additional-location=src/test/resources/test-db-configuration.yml
 ----
 
 == To package

@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/seqdb_api_test?currentSchema=seqdb
+    username: test_user
+    password: test
+  liquibase:
+    # To run migration as another user
+    url: jdbc:postgresql://localhost/seqdb_api_test?currentSchema=seqdb
+    user: test_migration
+    password: test

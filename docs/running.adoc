@@ -16,11 +16,11 @@ Unit tests:
 mvn clean test
 ----
 
-All tests (Integration + Unit):
+All tests (Integration + Unit, PostgreSQL required):
 
 [source,bash]
 ----
-mvn clean verify
+mvn clean verify -Dspring.config.additional-location=src/test/resources/test-db-configuration.yml
 ----
 
 == To package

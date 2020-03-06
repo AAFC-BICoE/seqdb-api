@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db:
+    image: "postgres:9.6"
+    container_name: "seqdbapi_test_postgres"
+    environment:
+      POSTGRES_DB: seqdb_api_test
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - ./src/test/resources/create-test-users.sql:/docker-entrypoint-initdb.d/1-init-schema.sql
+    ports:
+      - "5432:5432"
+        

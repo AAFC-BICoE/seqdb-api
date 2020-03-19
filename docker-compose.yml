@@ -1,0 +1,12 @@
+version: '3'
+services:
+  database:
+    image: 'postgres:9.6'
+    env_file:
+     - ./postgres_env_var.txt
+  api:
+    image: 'seqdb-api:latest'
+    env_file:
+     - ./seqdb_env_var.txt
+    links:
+     - database

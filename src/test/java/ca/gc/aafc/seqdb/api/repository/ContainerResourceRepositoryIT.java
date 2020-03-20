@@ -15,6 +15,7 @@ import ca.gc.aafc.seqdb.api.dto.ContainerDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.entities.Container;
 import ca.gc.aafc.seqdb.entities.ContainerType;
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -36,6 +37,7 @@ public class ContainerResourceRepositoryIT extends BaseRepositoryTest {
     testContainerType = new ContainerType();
     testContainerType.setName("test ct");
     testContainerType.setBaseType("basetype");
+    testContainerType.setFillDirection(FillDirection.BY_ROW);
     testContainerType.setNumberOfColumns(8);
     testContainerType.setNumberOfRows(12);
     testContainerType.setNumberOfWells(
@@ -47,7 +49,6 @@ public class ContainerResourceRepositoryIT extends BaseRepositoryTest {
     testContainer = new Container();
     testContainer.setContainerType(testContainerType);
     testContainer.setContainerNumber(TEST_CONTAINER_NAME);
-    testContainer.setFillByRow(TEST_FILLBYROW);
     
     persist(testContainer);
     
@@ -74,7 +75,6 @@ public class ContainerResourceRepositoryIT extends BaseRepositoryTest {
   public void createContainer_onSuccess_containerPersisted() {
     ContainerDto newDto = new ContainerDto();
     newDto.setContainerNumber(TEST_CONTAINER_NAME);
-    newDto.setFillByRow(TEST_FILLBYROW);
     newDto.setContainerType(
         ctRepository.findOne(
             testContainerType.getId(),
@@ -86,7 +86,6 @@ public class ContainerResourceRepositoryIT extends BaseRepositoryTest {
     
     assertNotNull(created.getContainerId());
     assertEquals(TEST_CONTAINER_NAME, created.getContainerNumber());
-    assertEquals(TEST_FILLBYROW, created.getFillByRow());
   }
   
   @Test

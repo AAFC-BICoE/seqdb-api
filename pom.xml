@@ -23,7 +23,7 @@
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.39</seqdb.dbi.version>
+    <seqdb.dbi.version>3.40.1</seqdb.dbi.version>
     
     <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
     <spotbugs.version>3.1.12</spotbugs.version>
@@ -59,7 +59,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.1.RELEASE</version>
+    <version>2.2.4.RELEASE</version>
   </parent>
 
   <scm>
@@ -138,10 +138,6 @@
     
     <!-- Database -->
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      </dependency>
-    <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
     </dependency>
@@ -212,6 +208,11 @@
     <dependency>
 	    <groupId>com.fasterxml.jackson.datatype</groupId>
 	    <artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
+	<!-- Required support for JAXB annotations as of the latest version of liquibase. Redmine Issue: #18647-->
+	<dependency>
+		<groupId>com.fasterxml.jackson.module</groupId>
+		<artifactId>jackson-module-jaxb-annotations</artifactId>		
 	</dependency>
     
     <dependency>

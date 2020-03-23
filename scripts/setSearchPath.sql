@@ -1,2 +1,2 @@
-ALTER ROLE $spring.datasource.username SET search_path TO $spring.liquibase.defaultSchema,public;
+ALTER ROLE $spring_datasource_username SET search_path TO $spring_liquibase_defaultSchema,public;
 

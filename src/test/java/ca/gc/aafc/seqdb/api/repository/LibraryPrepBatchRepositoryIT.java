@@ -19,7 +19,9 @@ import ca.gc.aafc.seqdb.entities.ContainerType;
 import ca.gc.aafc.seqdb.entities.Group;
 import ca.gc.aafc.seqdb.entities.Product;
 import ca.gc.aafc.seqdb.entities.Protocol;
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepBatchFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
@@ -48,14 +50,9 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   private ResourceRepository<ProtocolDto, Serializable> protocolRepository;
 
   private LibraryPrepBatch createTestBatch() {
-    testContainerType = new ContainerType();
-    testContainerType.setName("test ct");
-    testContainerType.setBaseType("basetype");
-    testContainerType.setNumberOfColumns(8);
-    testContainerType.setNumberOfRows(12);
-    testContainerType.setNumberOfWells(
-        testContainerType.getNumberOfRows() * testContainerType.getNumberOfColumns()
-    );
+    testContainerType = ContainerTypeFactory.newContainerType()
+        .fillDirection(FillDirection.BY_COLUMN)
+        .build();
     
     persist(testContainerType);
     

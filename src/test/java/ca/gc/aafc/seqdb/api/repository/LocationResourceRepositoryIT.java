@@ -18,6 +18,7 @@ import ca.gc.aafc.seqdb.api.dto.LocationDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.entities.Container;
 import ca.gc.aafc.seqdb.entities.ContainerType;
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import ca.gc.aafc.seqdb.entities.Location;
 import ca.gc.aafc.seqdb.entities.Sample;
 import io.crnk.core.queryspec.QuerySpec;
@@ -53,6 +54,7 @@ public class LocationResourceRepositoryIT extends BaseRepositoryTest {
     testContainerType = new ContainerType();
     testContainerType.setName("test ct");
     testContainerType.setBaseType("basetype");
+    testContainerType.setFillDirection(FillDirection.BY_ROW);
     testContainerType.setNumberOfColumns(8);
     testContainerType.setNumberOfRows(12);
     testContainerType.setNumberOfWells(
@@ -64,7 +66,6 @@ public class LocationResourceRepositoryIT extends BaseRepositoryTest {
     testContainer = new Container();
     testContainer.setContainerType(testContainerType);
     testContainer.setContainerNumber(TEST_CONTAINER_NAME);
-    testContainer.setFillByRow(TEST_FILLBYROW);
     
     persist(testContainer);
     

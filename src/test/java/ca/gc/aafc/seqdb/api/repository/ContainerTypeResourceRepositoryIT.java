@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.entities.ContainerType;
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -32,6 +33,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     testContainerType = new ContainerType();
     testContainerType.setName(TEST_CONTAINERTYPE_NAME);
     testContainerType.setBaseType(TEST_CONTAINERTYPE_BASETYPE);
+    testContainerType.setFillDirection(FillDirection.BY_ROW);
     testContainerType.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     testContainerType.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
     testContainerType.setNumberOfWells(TEST_CONTAINERTYPE_COLS * TEST_CONTAINERTYPE_ROWS);
@@ -63,6 +65,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     newDto.setBaseType(TEST_CONTAINERTYPE_BASETYPE);
     newDto.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     newDto.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
+    newDto.setFillDirection(FillDirection.BY_ROW);
     
     ContainerTypeDto created = ctRepository.create(newDto);
     
@@ -71,6 +74,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(TEST_CONTAINERTYPE_BASETYPE, created.getBaseType());
     assertEquals(TEST_CONTAINERTYPE_COLS, created.getNumberOfColumns());
     assertEquals(TEST_CONTAINERTYPE_ROWS, created.getNumberOfRows());
+    assertEquals(FillDirection.BY_ROW, created.getFillDirection());
     
     // The number of wells should be automatically set.
     assertEquals(

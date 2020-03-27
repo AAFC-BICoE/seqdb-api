@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 
+import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -19,12 +20,17 @@ public class ContainerTypeDto {
   private String name;
 
   private String baseType;
+  
+  private FillDirection fillDirection;
 
   private Integer numberOfColumns;
 
   private Integer numberOfRows;
 
   private Integer numberOfWells;
+  
+  private Integer heightInMM;
+  private Integer widthInMM;
 
   private Timestamp lastModified;
 

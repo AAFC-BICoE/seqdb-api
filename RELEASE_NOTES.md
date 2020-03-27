@@ -1,3 +1,10 @@
+# Version 1.4
+2020-03-26
+
+* Support for Library Preparation, Pooled library
+* Support Container, Container Type and Location
+* Dependencies update
+
 # Version 1.3
 2019-07-29
 

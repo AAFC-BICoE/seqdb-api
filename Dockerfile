@@ -18,7 +18,6 @@ USER user
 EXPOSE 8080
 WORKDIR /app
 
-ENV spring.datasource.url=jdbc:postgresql://localhost/object_store?currentSchema=seqdb
 ENV spring.datasource.username=springuser
 ENV spring.datasource.password=springcreds
 ENV spring.liquibase.user=liquibaseuser

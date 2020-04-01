@@ -1,12 +1,13 @@
 #!/bin/bash
 cd /app
 
-echo "appending translated env var"
+echo "Appending env var translated from dot to underscore"
 eval $(awk -f ./addEnvForDotWithUnderscore.awk)
+
+echo "application = $APPLICATION, database = $POSTGRES_DB, schema = $spring_liquibase_defaultSchema"
 
 ./waitForDatabase.sh
 
-echo "checking for users"
 ./checkUsers.sh
 
 ./checkAccounts.sh

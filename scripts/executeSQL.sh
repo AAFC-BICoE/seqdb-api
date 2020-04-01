@@ -1,1 +1,1 @@
-echo $1 | tee | psql -qtAX -U $POSTGRES_USER -h $POSTGRES_HOST
+echo $1 | psql -qtAX -U postgres -h $POSTGRES_HOST

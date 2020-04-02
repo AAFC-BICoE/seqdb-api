@@ -6,7 +6,7 @@ export PGPASSWORD="$POSTGRES_PASSWORD"
 for i in {1..30}
    do
       ./executeSQL.sh "SELECT 0"
-      if [ 0 == $? ]; then
+      if [ 0 == "$?" ]; then
          echo 'database connected'
          exit 0
       fi

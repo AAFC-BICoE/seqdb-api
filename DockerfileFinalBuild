@@ -1,0 +1,33 @@
+FROM scratch as build-stage
+
+WORKDIR /app
+COPY /wildfly/standalone/deployments/ /app
+COPY /opt/app-root/src/ /app
+
+FROM openjdk:8-jre-slim
+RUN mkdir /app
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y postgresql-client-11
+RUN apt-get install -y curl
+RUN apt-get install gettext-base
+
+COPY --from=build-stage /app /app
+RUN cp deployments/*.jar .
+RUN cp scripts/* .
+RUN cp src/pom.xml .
+RUN chmod +x *.sh
+EXPOSE 8080
+WORKDIR /app
+
+ENV spring.datasource.username=springuser
+ENV spring.datasource.password=springcreds
+ENV spring.liquibase.user=liquibaseuser
+ENV spring.liquibase.password=liquibasecreds
+ENV spring.liquibase.defaultSchema=seqdb
+ENV POSTGRES_DB=object_store
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=databasecreds
+ENV POSTGRES_HOST=localhost
+ENV spring.http.log-request-details=true
+ENTRYPOINT ["bash","/app/launch.sh","seqdb.api"]

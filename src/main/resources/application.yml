@@ -23,6 +23,7 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.xml
     # on existing database use "schema-change" only
     contexts: schema-change, initial-data
+    enabled: false
 crnk:
   pathPrefix: /api
   domainName: ""

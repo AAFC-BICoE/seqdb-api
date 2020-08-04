@@ -16,9 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
-import ca.gc.aafc.seqdb.testsupport.factories.PreLibraryPrepFactory;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 

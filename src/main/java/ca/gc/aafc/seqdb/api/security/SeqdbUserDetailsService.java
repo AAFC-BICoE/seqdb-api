@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

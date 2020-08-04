@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 
 public class SeqdbDaoAuthenticationProviderIT extends BaseIntegrationTest {
 

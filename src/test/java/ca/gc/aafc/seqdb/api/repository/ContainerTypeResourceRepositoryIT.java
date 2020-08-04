@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 

@@ -18,14 +18,10 @@ import org.springframework.ldap.support.LdapUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Address;
-import ca.gc.aafc.seqdb.entities.EmailAddr;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.People;
-import ca.gc.aafc.seqdb.entities.PeopleAddress;
 
 public class SeqdbLdapUserDetailsMapperIT extends BaseIntegrationTest {
 
@@ -37,10 +33,6 @@ public class SeqdbLdapUserDetailsMapperIT extends BaseIntegrationTest {
   
   @Test
   public void mapUserFromContext_whenUserDoesNotExistInLocalDb_createLocalAccountRecord() {
-    JpaSpecificationExecutor<EmailAddr> emailRepo =
-        new SimpleJpaRepository<>(EmailAddr.class, entityManager);
-    JpaSpecificationExecutor<PeopleAddress> peopleAddressRepo =
-        new SimpleJpaRepository<>(PeopleAddress.class, entityManager);
     JpaSpecificationExecutor<AccountsGroup> accountsGroupRepo =
         new SimpleJpaRepository<>(AccountsGroup.class, entityManager);
     
@@ -61,26 +53,6 @@ public class SeqdbLdapUserDetailsMapperIT extends BaseIntegrationTest {
         newAccount.getLdapDn()
     );
     
-    People newPerson = newAccount.getPeople();
-    assertEquals("Mat", newPerson.getNameGiven());
-    assertEquals("Poff", newPerson.getNameFamily());
-    assertTrue(
-        newPerson.getNote().contains(
-            "Auto-generated LDAP user for " + newAccount.getAccountName() + " on "
-        )
-    );
-    EmailAddr newEmail = emailRepo
-        .findOne((root, query, cb) -> cb.equal(root.get("people"), newPerson)).get();
-    assertEquals("mat@example.com", newEmail.getEmailAddr());
-    assertEquals("Work", newEmail.getEmailType());
-    assertTrue(newEmail.getPrimaryEmail());
-    
-    PeopleAddress newPeopleAddress = peopleAddressRepo
-        .findOne((root, query, cb) -> cb.equal(root.get("people"), newPerson)).get();
-    assertEquals("Work", newPeopleAddress.getAddrType());
-    
-    Address newAddress = newPeopleAddress.getAddress();
-    assertEquals("960 Carling" + System.getProperty("line.separator") + "100", newAddress.getStreet());
     
     AccountsGroup newGroupOwnerPermissions = accountsGroupRepo
         .findOne((root, query, cb) -> cb.equal(root.get("account"), newAccount)).get();

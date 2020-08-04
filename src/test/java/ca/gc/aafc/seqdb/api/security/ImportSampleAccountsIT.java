@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
 
 /**
  * Scope of this test is to ensure inserting sample accounts works properly. Calling either the

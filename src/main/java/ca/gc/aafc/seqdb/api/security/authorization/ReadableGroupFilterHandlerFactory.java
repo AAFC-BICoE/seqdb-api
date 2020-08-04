@@ -8,8 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Path;
 
+import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Group;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 

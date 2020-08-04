@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchPlateSize;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchType;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import io.crnk.core.exception.MethodNotAllowedException;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;

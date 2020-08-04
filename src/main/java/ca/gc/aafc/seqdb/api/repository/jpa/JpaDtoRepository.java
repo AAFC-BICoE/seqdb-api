@@ -39,7 +39,7 @@ import ca.gc.aafc.seqdb.api.repository.handlers.SelectionHandler;
 import ca.gc.aafc.seqdb.api.repository.links.NoLinkInformation;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider.JpaMetaInformationParams;
-import ca.gc.aafc.seqdb.interfaces.UniqueObj;
+
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.internal.utils.PropertyUtils;
@@ -176,7 +176,7 @@ public class JpaDtoRepository {
    * @return the created resource's ID
    */
   public Serializable create(Object resource, ResourceRegistry resourceRegistry) {
-    Object entity = (UniqueObj) BeanUtils
+    Object entity = BeanUtils
         .instantiate(this.dtoJpaMapper.getEntityClassForDto(resource.getClass()));
 
     this.applyDtoToEntity(resource, entity, resourceRegistry);

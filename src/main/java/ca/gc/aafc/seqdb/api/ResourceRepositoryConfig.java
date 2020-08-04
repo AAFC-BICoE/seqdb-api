@@ -39,6 +39,31 @@ import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.dto.StepResourceDto;
 import ca.gc.aafc.seqdb.api.dto.StepTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.entities.Container;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.Group;
+import ca.gc.aafc.seqdb.api.entities.Location;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.PcrProfile;
+import ca.gc.aafc.seqdb.api.entities.PcrReaction;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.ReactionComponent;
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
+import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
+import ca.gc.aafc.seqdb.api.entities.workflow.ChainStepTemplate;
+import ca.gc.aafc.seqdb.api.entities.workflow.ChainTemplate;
+import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
+import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
@@ -47,31 +72,6 @@ import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
-import ca.gc.aafc.seqdb.entities.Container;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Location;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrProfile;
-import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.ReactionComponent;
-import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.entities.Sample;
-import ca.gc.aafc.seqdb.entities.libraryprep.IndexSet;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPool;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPoolContent;
-import ca.gc.aafc.seqdb.entities.workflow.Chain;
-import ca.gc.aafc.seqdb.entities.workflow.ChainStepTemplate;
-import ca.gc.aafc.seqdb.entities.workflow.ChainTemplate;
-import ca.gc.aafc.seqdb.entities.workflow.StepResource;
-import ca.gc.aafc.seqdb.entities.workflow.StepTemplate;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
@@ -80,7 +80,7 @@ import io.crnk.spring.jpa.SpringTransactionRunner;
 @Configuration
 //Restricted to repository package so it won't affect tests with bean mocking/overriding.
 @ComponentScan("ca.gc.aafc.seqdb.api.repository")
-@EntityScan("ca.gc.aafc.seqdb.entities")
+@EntityScan("ca.gc.aafc.seqdb.api.entities")
 // Must explicitly depend on "querySpecUrlMapper" so Spring can inject it into this class'
 // initQuerySpecUrlMapper method.
 @DependsOn("querySpecUrlMapper")

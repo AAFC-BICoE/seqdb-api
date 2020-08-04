@@ -20,14 +20,14 @@ import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchPlateSize;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchType;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.PcrReaction;
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
@@ -145,9 +145,9 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(),
         new QuerySpec(PcrPrimerDto.class));
 
-    primerToRegionRepository.setRelation(testPrimerDto, newRegion.getId(), "region");
+    primerToRegionRepository.setRelation(testPrimerDto, newRegion.getRegionId(), "region");
 
-    assertEquals(newRegion.getId(), testPrimer.getRegion().getId());
+    assertEquals(newRegion.getRegionId(), testPrimer.getRegion().getRegionId());
   }
   
   @Test
@@ -275,7 +275,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     // Remove the primer's link to the region.
     primerToRegionRepository.removeRelations(
         primerDto,
-        Arrays.asList(testPrimer.getRegion().getId()),
+        Arrays.asList(testPrimer.getRegion().getRegionId()),
         "region"
     );
     

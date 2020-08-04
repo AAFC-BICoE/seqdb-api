@@ -18,14 +18,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.annotation.RequestScope;
 
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
+import ca.gc.aafc.seqdb.api.entities.RestrictedByGroup;
 import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountsGroupRepository;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.interfaces.RestrictedByGroup;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.exception.ForbiddenException;
 import io.crnk.core.exception.UnauthorizedException;

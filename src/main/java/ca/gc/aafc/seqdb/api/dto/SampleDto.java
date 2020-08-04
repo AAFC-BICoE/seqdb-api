@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import ca.gc.aafc.seqdb.entities.Sample.SampleType;
+import ca.gc.aafc.seqdb.api.entities.Sample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;

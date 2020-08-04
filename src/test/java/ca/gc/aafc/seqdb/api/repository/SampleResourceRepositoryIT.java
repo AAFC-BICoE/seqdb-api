@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Sample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;

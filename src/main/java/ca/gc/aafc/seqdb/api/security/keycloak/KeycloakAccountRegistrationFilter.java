@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api.security.keycloak;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -14,16 +13,14 @@ import javax.transaction.Transactional;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.representations.AccessToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.People;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -66,22 +63,6 @@ public class KeycloakAccountRegistrationFilter extends GenericFilterBean {
 
         KeycloakAuthenticationToken authToken = (KeycloakAuthenticationToken) authentication;
         KeycloakPrincipal<?> principal = (KeycloakPrincipal<?>) authToken.getPrincipal();
-        AccessToken accessToken = principal.getKeycloakSecurityContext().getToken();
-
-        People newPerson = new People();
-        newPerson.setNameGiven(accessToken.getGivenName());
-        newPerson.setNameFamily(accessToken.getFamilyName());
-        newPerson.setNote(
-            "Auto-generated Keycloak user for " + accountName + " on " + new Date().toString()
-        );
-        entityManager.persist(newPerson);
-
-        // Create the Account
-        dbAccount.setAccountName(accountName);
-        dbAccount.setAccountType("User");
-        dbAccount.setAccountStatus("Active");
-        dbAccount.setPeople(newPerson);
-        entityManager.persist(dbAccount);
 
         // Create the Account's Group.
         Group defaultGroup = new Group();

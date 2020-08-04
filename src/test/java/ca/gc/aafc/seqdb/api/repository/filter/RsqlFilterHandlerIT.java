@@ -17,7 +17,7 @@ import com.google.common.collect.Sets;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
-import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PcrPrimerFactory;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;

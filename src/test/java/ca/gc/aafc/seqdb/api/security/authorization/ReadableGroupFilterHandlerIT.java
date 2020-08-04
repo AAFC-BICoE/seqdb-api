@@ -14,10 +14,10 @@ import org.springframework.security.core.userdetails.User;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.list.ResourceList;

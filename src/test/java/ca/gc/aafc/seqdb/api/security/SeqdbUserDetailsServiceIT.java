@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 
 public class SeqdbUserDetailsServiceIT extends BaseIntegrationTest {
 

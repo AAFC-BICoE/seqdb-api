@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPool;
-import ca.gc.aafc.seqdb.testsupport.factories.LibraryPoolFactory;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
+import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPoolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 

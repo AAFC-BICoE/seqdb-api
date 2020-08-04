@@ -10,10 +10,10 @@ import org.springframework.http.HttpStatus;
 
 import com.google.common.collect.ImmutableMap;
 
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.testsupport.factories.PreLibraryPrepFactory;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 

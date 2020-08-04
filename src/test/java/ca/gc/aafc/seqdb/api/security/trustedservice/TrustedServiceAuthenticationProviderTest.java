@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ca.gc.aafc.seqdb.api.security.trustedservice.TrustedServiceAuthenticationProvider;
 import ca.gc.aafc.seqdb.api.security.trustedservice.TrustedServiceAuthenticationToken;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 
 /**
  * Unit tests related to {@link TrustedServiceAuthenticationProvider}

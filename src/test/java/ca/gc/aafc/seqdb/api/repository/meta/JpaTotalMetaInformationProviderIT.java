@@ -15,8 +15,8 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.repository.BaseRepositoryTest;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.Region;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.Region;
 import io.crnk.core.queryspec.FilterOperator;
 import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
@@ -41,8 +41,8 @@ public class JpaTotalMetaInformationProviderIT extends BaseRepositoryTest {
   public void persistTestRegions() {
     for (int i = 1; i <= NUMBER_OF_REGION_TO_CREATE; i++) {
       Region region = new Region();
-      region.setName("test region " + i);
-      region.setDescription("desc");
+      // region.setName("test region " + i);
+      // region.setDescription("desc");
       region.setSymbol("symbol");
       entityManager.persist(region);
     }

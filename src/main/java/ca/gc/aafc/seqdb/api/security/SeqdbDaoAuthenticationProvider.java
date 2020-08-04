@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 import lombok.NonNull;
 
 /**

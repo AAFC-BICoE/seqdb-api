@@ -15,23 +15,23 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.jupiter.api.Test;
-
 import com.google.common.collect.Comparators;
+
+import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
-import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.testsupport.factories.PcrPrimerFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchPlateSize;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch.PcrBatchType;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.api.entities.PcrReaction;
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PcrPrimerFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.RegionFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.Direction;
 import io.crnk.core.queryspec.QuerySpec;
@@ -306,7 +306,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     }
     
     final int offset = 15;
-    final Integer expectedRegionId = newRegions.get(offset).getId();
+    final Integer expectedRegionId = newRegions.get(offset).getRegionId();
     assertNotNull(expectedRegionId);
 
     
@@ -331,9 +331,9 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     }
     
     Collection<Serializable> expectedIds = Arrays.asList(
-        newRegions.get(2).getId(),
-        newRegions.get(4).getId(),
-        newRegions.get(6).getId()
+        newRegions.get(2).getRegionId(),
+        newRegions.get(4).getRegionId(),
+        newRegions.get(6).getRegionId()
     );
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
@@ -365,7 +365,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(primerEntity.getPcrPrimerId());
     assertEquals(TEST_PRIMER_NAME, primerEntity.getName());
     assertEquals(TEST_PRIMER_LOT_NUMBER, primerEntity.getLotNumber());
-    assertEquals(ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType.PRIMER, primerEntity.getType());
+    assertEquals(ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType.PRIMER, primerEntity.getType());
     assertEquals(TEST_PRIMER_SEQ, primerEntity.getSeq());
   }
   
@@ -435,23 +435,23 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     // Change the test primer's region to the new region.
     RegionDto newRegionDto = new RegionDto();
-    newRegionDto.setTagId(testRegion.getId());
+    newRegionDto.setTagId(testRegion.getRegionId());
     testPrimerDto.setRegion(newRegionDto);
     
     // Save the DTO using the repository.
     PcrPrimerDto updatedPrimerDto = primerRepository.save(testPrimerDto);
     
     // Check that the updated primer has the new region id.
-    assertNotNull(testPrimer.getRegion().getTagId());
-    assertEquals(testRegion.getTagId(), updatedPrimerDto.getRegion().getTagId());
-    assertEquals(testRegion.getTagId(), testPrimer.getRegion().getTagId());
+    assertNotNull(testPrimer.getRegion().getRegionId());
+    assertEquals(testRegion.getRegionId(), updatedPrimerDto.getRegion().getTagId());
+    assertEquals(testRegion.getRegionId(), testPrimer.getRegion().getRegionId());
   }
   
   @Test
   public void saveExistingPrimerAndRemoveLinkedRegion_onSuccess_primerEntityIsModified() {
     PcrPrimer testPrimer = createPersistedPcrPrimerWithRegion();
     
-    assertNotNull(testPrimer.getRegion().getTagId());
+    assertNotNull(testPrimer.getRegion().getRegionId());
     
     // Get the test primer's DTO.
     QuerySpec querySpec = new QuerySpec(PcrPrimerDto.class);

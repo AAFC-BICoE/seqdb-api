@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.dto.NgsIndexDto;
-import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex;
-import ca.gc.aafc.seqdb.testsupport.factories.NgsIndexFactory;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
+import ca.gc.aafc.seqdb.api.testsupport.factories.NgsIndexFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 

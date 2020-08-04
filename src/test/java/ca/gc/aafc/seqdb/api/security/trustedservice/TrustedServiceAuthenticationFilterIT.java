@@ -22,7 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.TestPropertySource;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
-import ca.gc.aafc.seqdb.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.Account;
 
 @TestPropertySource(
     properties = "seqdb.trusted-service-api-keys = test-api-key, another-test-api-key"

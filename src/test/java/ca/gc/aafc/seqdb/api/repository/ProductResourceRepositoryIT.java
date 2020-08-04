@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;

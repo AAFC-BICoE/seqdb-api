@@ -25,11 +25,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.People;
 
 public class KeycloakAccountRegistrationFilterIT extends BaseIntegrationTest {
 
@@ -63,15 +62,6 @@ public class KeycloakAccountRegistrationFilterIT extends BaseIntegrationTest {
     Account newAccount = accountRepository.findByAccountNameIgnoreCase(TEST_ACCOUNT_NAME);
     assertEquals(TEST_ACCOUNT_NAME, newAccount.getAccountName());
     assertEquals("Active", newAccount.getAccountStatus());
-    
-    People newPerson = newAccount.getPeople();
-    assertEquals("Mat", newPerson.getNameGiven());
-    assertEquals("Poff", newPerson.getNameFamily());
-    assertTrue(
-        newPerson.getNote().contains(
-            "Auto-generated Keycloak user for " + newAccount.getAccountName() + " on "
-        )
-    );
     
     AccountsGroup newGroupOwnerPermissions = accountsGroupRepo
         .findOne((root, query, cb) -> cb.equal(root.get("account"), newAccount)).get();

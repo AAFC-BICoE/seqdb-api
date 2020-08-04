@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.rest;
 
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 
 import com.google.common.collect.ImmutableMap;
 import io.restassured.response.Response;

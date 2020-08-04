@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 
 /**
  * Integration test for the region resource.

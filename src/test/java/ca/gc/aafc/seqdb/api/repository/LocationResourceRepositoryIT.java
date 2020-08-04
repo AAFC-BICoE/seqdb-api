@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 import ca.gc.aafc.seqdb.api.dto.ContainerDto;
 import ca.gc.aafc.seqdb.api.dto.LocationDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
-import ca.gc.aafc.seqdb.entities.Container;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
-import ca.gc.aafc.seqdb.entities.Location;
-import ca.gc.aafc.seqdb.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.Container;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
+import ca.gc.aafc.seqdb.api.entities.Location;
+import ca.gc.aafc.seqdb.api.entities.Sample;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 

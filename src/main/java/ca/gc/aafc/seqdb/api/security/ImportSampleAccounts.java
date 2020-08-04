@@ -15,9 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
 
 import lombok.extern.slf4j.Slf4j;
 

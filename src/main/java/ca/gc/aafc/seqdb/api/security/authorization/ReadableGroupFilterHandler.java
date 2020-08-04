@@ -15,11 +15,11 @@ import javax.persistence.criteria.Subquery;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import ca.gc.aafc.seqdb.api.entities.Account;
+import ca.gc.aafc.seqdb.api.entities.AccountsGroup;
+import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.repository.filter.FilterHandler;
 import ca.gc.aafc.seqdb.api.security.SecurityRepositories.AccountRepository;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.AccountsGroup;
-import ca.gc.aafc.seqdb.entities.Group;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

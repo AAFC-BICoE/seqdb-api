@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
 
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;

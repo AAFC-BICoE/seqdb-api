@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
+import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;

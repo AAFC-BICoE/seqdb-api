@@ -18,9 +18,6 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import ca.gc.aafc.seqdb.api.entities.Account;
@@ -43,27 +40,6 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   public static Reader newClasspathResourceReader(String classpathResourcePath) throws IOException {
     return new InputStreamReader(new ClassPathResource(classpathResourcePath).getInputStream(),
         StandardCharsets.UTF_8);
-  }
-  
-  /**
-   * By default, run as an admin user to avoid dealing with Group-based authorization for tests that
-   * don't involve it.
-   */
-  @BeforeEach
-  public void runAsAdminUser() {
-    // Create the admin account.
-    Account testAdminAccount = new Account();
-    testAdminAccount.setAccountName("testAdminAccount");
-    testAdminAccount.setAccountType("Admin");
-    entityManager.persist(testAdminAccount);
-    
-    // Set the authentication in Spring's context.
-    SecurityContextHolder.getContext().setAuthentication(
-        new TestingAuthenticationToken(
-            new User("testAdminAccount", "", Collections.emptyList()),
-            ""
-        )
-    );
   }
   
   /**

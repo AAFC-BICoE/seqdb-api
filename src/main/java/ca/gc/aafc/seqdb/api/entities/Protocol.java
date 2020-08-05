@@ -170,9 +170,6 @@ public class Protocol implements  RestrictedByGroup {
   /** The kit. */
   private Product kit;
 
-  /** The reaction components. */
-  private List<ReactionComponent> reactionComponents;
-
   /** The last modified. */
   private Timestamp lastModified;
 
@@ -595,36 +592,6 @@ public class Protocol implements  RestrictedByGroup {
    */
   public void setKit(Product kit) {
     this.kit = kit;
-  }
-
-  /**
-   * Gets the reaction components.
-   *
-   * @return the reaction components
-   */
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "protocol")
-  @NotAudited
-  @OrderBy("ReactionComponentID")
-  public List<ReactionComponent> getReactionComponents() {
-    return reactionComponents;
-  }
-
-  /**
-   * Sets the reaction components.
-   *
-   * @param reactionComponents
-   *          the new reaction components
-   */
-  public void setReactionComponents(List<ReactionComponent> reactionComponents) {
-    if (this.reactionComponents == null) {
-      this.reactionComponents = reactionComponents;
-    } else {
-      this.reactionComponents.clear();
-      for (ReactionComponent reactionComponent : reactionComponents) {
-        reactionComponent.setProtocol(this);
-      }
-      this.reactionComponents.addAll(reactionComponents);
-    }
   }
 
   /**

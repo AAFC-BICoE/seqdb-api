@@ -45,9 +45,6 @@ public class ProtocolDto {
   
   private Timestamp lastModified;
 
-  @JsonApiRelation(opposite = "protocol")
-  private List<ReactionComponentDto> reactionComponents;
- 
   @JsonApiRelation
   private ProductDto kit;
 

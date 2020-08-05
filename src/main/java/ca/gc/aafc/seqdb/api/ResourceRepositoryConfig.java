@@ -32,7 +32,6 @@ import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.api.dto.ReactionComponentDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.dto.StepResourceDto;
@@ -49,7 +48,6 @@ import ca.gc.aafc.seqdb.api.entities.PcrReaction;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
-import ca.gc.aafc.seqdb.api.entities.ReactionComponent;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.entities.Sample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
@@ -122,7 +120,6 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
     jpaEntities.put(ProductDto.class, Product.class);
     jpaEntities.put(ProtocolDto.class, Protocol.class);
-    jpaEntities.put(ReactionComponentDto.class, ReactionComponent.class);
     jpaEntities.put(SampleDto.class, Sample.class);
     jpaEntities.put(PreLibraryPrepDto.class, PreLibraryPrep.class);
     jpaEntities.put(LibraryPrepBatchDto.class, LibraryPrepBatch.class);
@@ -274,32 +271,6 @@ public class ResourceRepositoryConfig {
     );
   }  
 
-   @Bean
-  public JpaRelationshipRepository<ProtocolDto, ReactionComponentDto> protocolToReactionComponentRepository(
-       JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(
-        ProtocolDto.class, 
-        ReactionComponentDto.class, 
-        dtoRepository,
-        Arrays.asList(
-            simpleFilterHandler, 
-            rsqlFilterHandler),
-        metaInformationProvider);
-  }
-
-  @Bean
-  public JpaRelationshipRepository<ReactionComponentDto, ProtocolDto> reactionComponentToProtocolRepository(
-      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(
-        ReactionComponentDto.class, 
-        ProtocolDto.class, 
-        dtoRepository,
-        Arrays.asList(
-            simpleFilterHandler, 
-            rsqlFilterHandler),
-        metaInformationProvider);
-  }
-  
   /**
    * Relationship Repository between a Chain and ChainTemplate.
    */

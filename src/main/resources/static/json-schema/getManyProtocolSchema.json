@@ -26,7 +26,6 @@
           "relationships": {
             "properties": {
 
-              "reactionComponents": { "allOf": [{ "$ref": "common/relationship.json" }] },
               "kit": { "allOf": [{ "$ref": "common/relationship.json" }] },
               "group": { "allOf": [{ "$ref": "common/relationship.json" }] }
 

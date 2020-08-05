@@ -10,13 +10,12 @@ import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 
 @Component
 public class ChainStepTemplateRepository extends JpaResourceRepository<ChainStepTemplateDto> {
 
   public ChainStepTemplateRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      RsqlFilterHandler rsqlFilterHandler,
       JpaMetaInformationProvider metaInformationProvider) {
     
     super(ChainStepTemplateDto.class, dtoRepository,

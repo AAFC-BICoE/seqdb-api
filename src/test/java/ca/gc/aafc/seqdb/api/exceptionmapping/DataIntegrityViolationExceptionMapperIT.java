@@ -49,13 +49,11 @@ public class DataIntegrityViolationExceptionMapperIT extends BaseRepositoryTest 
     PcrBatchDto batch1 = new PcrBatchDto();
     batch1.setName("batch");
     batch1.setType(PcrBatchType.SANGER);
-    batch1.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     batch1.setGroup(testGroupDto);
     
     PcrBatchDto batch2 = new PcrBatchDto();
     batch2.setName("batch");
     batch2.setType(PcrBatchType.SANGER);
-    batch2.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     batch2.setGroup(testGroupDto);
     
     this.pcrBatchRepository.create(batch1);

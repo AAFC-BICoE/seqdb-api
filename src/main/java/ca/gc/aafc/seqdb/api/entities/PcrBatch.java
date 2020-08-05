@@ -77,7 +77,7 @@ import lombok.Builder;
  * The Class PcrBatch.
  */
 @Entity
-@Audited
+
 @Table(name = "PcrBatchs", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -1061,7 +1061,7 @@ public class PcrBatch implements  RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -1074,7 +1074,7 @@ public class PcrBatch implements  RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }
@@ -1167,7 +1167,6 @@ public class PcrBatch implements  RestrictedByGroup {
    * 
    * @return ContainerType associated with this batch
    */
-  @NotNull
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "ContainerTypeID")
   public ContainerType getContainerType() {

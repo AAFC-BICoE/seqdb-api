@@ -20,8 +20,6 @@ public class PcrBatchDto {
   
   private PcrBatchType type;
   
-  private PcrBatchPlateSize plateSize;
-  
   @JsonApiRelation(opposite = "pcrBatch")
   private List<PcrReactionDto> reactions;
   

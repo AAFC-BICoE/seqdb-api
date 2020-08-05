@@ -26,7 +26,6 @@ import com.google.common.io.CharStreams;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 import ca.gc.aafc.seqdb.api.repository.JsonSchemaAssertions;
-import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
@@ -84,12 +83,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
 		RestAssured.port = testPort;
 		RestAssured.baseURI = IT_BASE_URI.toString();
 		RestAssured.basePath = API_BASE_PATH;
-		
-		//set basic auth with ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME
-		PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
-		authScheme.setUserName(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
-		authScheme.setPassword(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
-		RestAssured.authentication = authScheme;
 	}
 	
 	 /**

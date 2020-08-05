@@ -90,7 +90,4 @@ public class PcrPrimerDto {
   @JsonApiRelation
   private GroupDto group;
   
-  @JsonApiRelation
-  private LocationDto location;
-
 }

@@ -37,7 +37,7 @@ import lombok.Builder;
  *
  */
 @Entity
-@Audited
+
 @Table(name = "PreLibraryPreps")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")

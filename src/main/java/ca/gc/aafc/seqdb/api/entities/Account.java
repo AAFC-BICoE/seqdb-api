@@ -57,7 +57,6 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 @Entity
-@Audited
 @Table(name = "Accounts")
 public class Account implements java.io.Serializable {
 

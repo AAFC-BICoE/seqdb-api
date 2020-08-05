@@ -76,7 +76,7 @@ import lombok.Builder;
  * @author elkayssin
  */
 @Entity
-@Audited
+
 @Table(name = "Protocols", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "GroupID", "Name", "Type" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -558,7 +558,7 @@ public class Protocol implements  RestrictedByGroup {
    * @return the group
    */
   @NotNull
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -571,7 +571,7 @@ public class Protocol implements  RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

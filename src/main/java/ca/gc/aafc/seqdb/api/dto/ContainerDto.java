@@ -24,9 +24,6 @@ public class ContainerDto {
   @JsonApiRelation
   private ContainerTypeDto containerType;
 
-  @JsonApiRelation(opposite = "container")
-  private List<LocationDto> locations;
-
   @JsonApiRelation
   private GroupDto group;
 

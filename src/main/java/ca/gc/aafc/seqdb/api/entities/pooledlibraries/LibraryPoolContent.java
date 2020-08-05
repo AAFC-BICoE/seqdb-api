@@ -29,7 +29,7 @@ import lombok.Builder;
  * LibraryPrepBatch or a LibraryPool which is pooled by a LibraryPool.
  */
 @Entity
-@Audited
+
 @Table(name = "LibraryPoolContents")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPoolContent implements Serializable {

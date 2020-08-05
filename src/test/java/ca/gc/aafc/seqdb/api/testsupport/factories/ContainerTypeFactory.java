@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
 
 public class ContainerTypeFactory implements TestableEntityFactory<ContainerType> {
 
@@ -26,8 +25,7 @@ public class ContainerTypeFactory implements TestableEntityFactory<ContainerType
         .baseType(TestableEntityFactory.generateRandomName(10))
         .numberOfColumns(5)
         .numberOfRows(6)
-        .numberOfWells(30)
-        .fillDirection(FillDirection.BY_ROW);
+        .numberOfWells(30);
   }
     
   /**

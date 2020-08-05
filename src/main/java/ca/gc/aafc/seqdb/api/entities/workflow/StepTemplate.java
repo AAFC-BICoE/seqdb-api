@@ -30,8 +30,8 @@ import lombok.Builder;
 @Entity
 @Table(name = "StepTemplates")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-@TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
-    @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
+// @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
+//     @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
 public class StepTemplate {
 
   public StepTemplate() {
@@ -98,7 +98,8 @@ public class StepTemplate {
     this.name = name;
   }
 
-  @NotNull
+  @Transient
+  // @NotNull
   @Column(name = "Inputs")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getInputs() {
@@ -109,7 +110,8 @@ public class StepTemplate {
     this.inputs = inputs;
   }
 
-  @NotNull
+  @Transient
+  // @NotNull
   @Column(name = "Outputs")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getOutputs() {
@@ -120,6 +122,7 @@ public class StepTemplate {
     this.outputs = outputs;
   }
 
+  @Transient
   @Column(name = "Supports")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getSupports() {

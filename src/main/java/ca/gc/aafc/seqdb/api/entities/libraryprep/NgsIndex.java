@@ -32,7 +32,7 @@ import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import lombok.Builder;
 
 @Entity
-@Audited
+
 @Table(name = "NgsIndexes")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")

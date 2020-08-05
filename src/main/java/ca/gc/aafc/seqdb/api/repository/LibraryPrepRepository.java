@@ -21,7 +21,7 @@ import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+
 import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
 
 @Component
@@ -29,7 +29,6 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
 
   public LibraryPrepRepository(JpaDtoRepository dtoRepository,
       SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      ReadableGroupFilterHandlerFactory groupFilterFactory,
       JpaMetaInformationProvider metaInformationProvider) {
     super(LibraryPrepDto.class, dtoRepository,
         Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);

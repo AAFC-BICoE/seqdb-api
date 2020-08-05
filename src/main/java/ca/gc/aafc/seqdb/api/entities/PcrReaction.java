@@ -64,7 +64,7 @@ import lombok.Builder;
  * The Class PcrReaction.
  */
 @Entity
-@Audited
+
 @Table(name = "PcrReactions", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "TubeNumber", "PCRBatchID", "GroupID" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -624,7 +624,7 @@ public class PcrReaction implements RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -637,7 +637,7 @@ public class PcrReaction implements RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

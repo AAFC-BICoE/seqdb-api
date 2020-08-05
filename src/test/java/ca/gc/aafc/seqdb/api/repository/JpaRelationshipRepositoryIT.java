@@ -74,7 +74,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
 
     RegionDto region = primerToRegionRepository.findOneTarget(primer.getId(), "region", querySpec);
 
-    assertNotNull(region.getTagId());
+    assertNotNull(region.getRegionId());
     assertNotNull(region.getName());
     assertNotNull(region.getDescription());
     assertNotNull(region.getSymbol());
@@ -91,7 +91,7 @@ public class JpaRelationshipRepositoryIT extends BaseRepositoryTest {
     
     RegionDto region = primerToRegionRepository.findOneTarget(primer.getId(), "region", targetQuerySpec);
     
-    assertNotNull(region.getTagId());
+    assertNotNull(region.getRegionId());
     assertNotNull(region.getName());
     assertNotNull(region.getDescription());
     assertNull(region.getSymbol());

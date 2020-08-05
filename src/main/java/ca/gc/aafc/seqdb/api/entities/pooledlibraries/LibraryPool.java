@@ -23,7 +23,7 @@ import org.hibernate.envers.Audited;
 import lombok.Builder;
 
 @Entity
-@Audited
+
 @Table(name = "LibraryPools")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPool implements Serializable {

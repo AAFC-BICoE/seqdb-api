@@ -70,7 +70,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import lombok.Builder;
 
 @Entity
-@Audited
+
 @Table(name = "Samples", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "Version", "GroupID" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -947,7 +947,7 @@ public class Sample implements  RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -960,7 +960,7 @@ public class Sample implements  RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

@@ -65,7 +65,7 @@ import javax.validation.constraints.Size;
  * The Class PcrProfile.
  */
 @Entity
-@Audited
+
 @Table(name = "PcrProfiles", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
 public class PcrProfile implements  RestrictedByGroup {
@@ -691,7 +691,7 @@ public class PcrProfile implements  RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -704,7 +704,7 @@ public class PcrProfile implements  RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

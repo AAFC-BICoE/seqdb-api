@@ -35,7 +35,7 @@ import lombok.Builder;
  * A batch of library preps for samples.
  */
 @Entity
-@Audited
+
 @Table(name = "LibraryPrepBatchs")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPrepBatch implements Serializable {

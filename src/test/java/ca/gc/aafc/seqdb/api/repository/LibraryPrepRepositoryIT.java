@@ -19,7 +19,6 @@ import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
 import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
@@ -57,7 +56,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private LibraryPrep createTestLibraryPrep() {
     
     testContainerType = ContainerTypeFactory.newContainerType()
-        .fillDirection(FillDirection.BY_COLUMN)
         .build();
     
     persist(testContainerType);

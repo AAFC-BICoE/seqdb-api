@@ -59,7 +59,7 @@ import lombok.Builder;
  * The Class Region.
  */
 @Entity
-@Audited
+
 @Table(name = "Regions", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -71,6 +71,8 @@ public class Region implements RestrictedByGroup {
   private String symbol;
 
   private String name;
+
+  private String description;
 
   /** The aliases. */
   private String aliases;
@@ -112,6 +114,8 @@ public class Region implements RestrictedByGroup {
   @Builder
   public Region(String name, String description, Group group, Timestamp lastModified, int left,
       int right, String symbol, String aliases, String applicableOrganisms) {
+    this.name = name;
+    this.description = description;
     this.group = group;
     this.symbol = symbol;
     this.aliases = aliases;
@@ -154,7 +158,6 @@ public class Region implements RestrictedByGroup {
     this.symbol = symbol;
   }
 
-  @NotNull
   @Column(name = "Name")
   public String getName() {
     return name;
@@ -162,6 +165,15 @@ public class Region implements RestrictedByGroup {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Column(name = "Description")
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   /**
@@ -211,7 +223,7 @@ public class Region implements RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -224,7 +236,7 @@ public class Region implements RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

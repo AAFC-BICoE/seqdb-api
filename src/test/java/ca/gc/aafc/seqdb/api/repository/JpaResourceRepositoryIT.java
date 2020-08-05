@@ -97,7 +97,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(TEST_PRIMER_SEQ, primerDto.getSeq());
     
     // The region ID should be returned, but not the rest of the region's attributes.
-    assertNotNull(primerDto.getRegion().getTagId());
+    assertNotNull(primerDto.getRegion().getRegionId());
     assertNull(primerDto.getRegion().getName());
   }
 
@@ -148,7 +148,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNull(primerDto.getSeq());
     
     assertNotNull(primerDto.getRegion());
-    assertNotNull(primerDto.getRegion().getTagId());
+    assertNotNull(primerDto.getRegion().getRegionId());
     assertNotNull(primerDto.getRegion().getName());
     assertNotNull(primerDto.getRegion().getDescription());
     
@@ -171,7 +171,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(primerDto.getSeq());
     
     assertNotNull(primerDto.getRegion());
-    assertNotNull(primerDto.getRegion().getTagId());
+    assertNotNull(primerDto.getRegion().getRegionId());
     assertNotNull(primerDto.getRegion().getName());
     assertNotNull(primerDto.getRegion().getDescription());
     assertNotNull(primerDto.getRegion().getSymbol());
@@ -311,9 +311,9 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
 
     
     QuerySpec querySpec = new QuerySpec(RegionDto.class);
-    querySpec.setOffset(offset + 1); // + 1 since the root node is inserted by liquibase
+    querySpec.setOffset(offset);
     List<RegionDto> regionDtos = regionRepository.findAll(querySpec);
-    assertEquals(expectedRegionId, regionDtos.get(0).getTagId());
+    assertEquals(expectedRegionId, regionDtos.get(0).getRegionId());
   }
   
   @Test
@@ -341,7 +341,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     assertEquals(
         expectedIds,
-        regionDtos.stream().map(RegionDto::getTagId).collect(Collectors.toList())
+        regionDtos.stream().map(RegionDto::getRegionId).collect(Collectors.toList())
     );
   }
   
@@ -378,7 +378,6 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     // Set up a PcrBatchDto that will take all of the reactions from batch1.
     PcrBatchDto batch2Dto = new PcrBatchDto();
     batch2Dto.setName("batch2");
-    batch2Dto.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
     batch2Dto.setType(PcrBatchType.SANGER);
     batch2Dto.setReactions(
         // Set the reactions as PcrReactionDtos holding only the ID attribute required for linking.
@@ -435,7 +434,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     // Change the test primer's region to the new region.
     RegionDto newRegionDto = new RegionDto();
-    newRegionDto.setTagId(testRegion.getRegionId());
+    newRegionDto.setRegionId(testRegion.getRegionId());
     testPrimerDto.setRegion(newRegionDto);
     
     // Save the DTO using the repository.
@@ -443,7 +442,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     
     // Check that the updated primer has the new region id.
     assertNotNull(testPrimer.getRegion().getRegionId());
-    assertEquals(testRegion.getRegionId(), updatedPrimerDto.getRegion().getTagId());
+    assertEquals(testRegion.getRegionId(), updatedPrimerDto.getRegion().getRegionId());
     assertEquals(testRegion.getRegionId(), testPrimer.getRegion().getRegionId());
   }
   
@@ -458,7 +457,7 @@ public class JpaResourceRepositoryIT extends BaseRepositoryTest {
     PcrPrimerDto testPrimerDto = primerRepository.findOne(testPrimer.getId(), querySpec);
     
     // The primer's region id should not be null.
-    assertNotNull(testPrimerDto.getRegion().getTagId());
+    assertNotNull(testPrimerDto.getRegion().getRegionId());
     
     testPrimerDto.setRegion(null);
 

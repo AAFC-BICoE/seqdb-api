@@ -15,7 +15,6 @@ import ca.gc.aafc.seqdb.api.dto.ContainerDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.entities.Container;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.ContainerType.FillDirection;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -37,7 +36,6 @@ public class ContainerResourceRepositoryIT extends BaseRepositoryTest {
     testContainerType = new ContainerType();
     testContainerType.setName("test ct");
     testContainerType.setBaseType("basetype");
-    testContainerType.setFillDirection(FillDirection.BY_ROW);
     testContainerType.setNumberOfColumns(8);
     testContainerType.setNumberOfRows(12);
     testContainerType.setNumberOfWells(

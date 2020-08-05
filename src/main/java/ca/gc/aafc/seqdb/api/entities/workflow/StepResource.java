@@ -49,7 +49,7 @@ import lombok.Builder;
  * inside of the StepTemplate.
  */
 @Entity
-@Audited
+
 @Table(name = "StepResources")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -203,7 +203,7 @@ public class StepResource implements Serializable {
   @JoinColumns({
       @JoinColumn(name = "chainTemplateId", referencedColumnName = "chainTemplateId", insertable = true, updatable = false, nullable = false),
       @JoinColumn(name = "stepTemplateId", referencedColumnName = "stepTemplateId", insertable = true, updatable = false, nullable = false) })
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public ChainStepTemplate getChainStepTemplate() {
     return chainStepTemplate;
   }

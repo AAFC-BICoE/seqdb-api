@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.platform.commons.annotation.Testable;
 import org.springframework.http.HttpStatus;
 
 import com.google.common.collect.ImmutableMap;
@@ -15,6 +16,7 @@ import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
 import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 
+@Testable
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 
   private int protocolId;

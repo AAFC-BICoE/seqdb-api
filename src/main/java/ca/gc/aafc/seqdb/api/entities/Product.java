@@ -62,7 +62,7 @@ import javax.validation.constraints.Size;
  * The Class Product.
  */
 @Entity
-@Audited
+
 @Table(name = "Products", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "UPC", "GroupID" }) })
 public class Product implements  RestrictedByGroup {
@@ -245,7 +245,7 @@ public class Product implements  RestrictedByGroup {
    *
    * @return the group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
   public Group getGroup() {
@@ -258,7 +258,7 @@ public class Product implements  RestrictedByGroup {
    * @param group
    *          the new group
    */
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public void setGroup(Group group) {
     this.group = group;
   }

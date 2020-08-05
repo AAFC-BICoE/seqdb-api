@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @Entity
-@Audited
+
 @Table(name = "Chains", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "ChainID", "ChainTemplateID" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
@@ -88,7 +88,7 @@ public class Chain implements Serializable {
     this.dateCreated = dateCreated;
   }
 
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @NotNull
   @ManyToOne(cascade = {})
   @JoinColumn(name = "ChainTemplateID")
@@ -100,7 +100,7 @@ public class Chain implements Serializable {
     this.chainTemplate = chainTemplate;
   }
 
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   @NotNull
   @ManyToOne(cascade = {})
   @JoinColumn(name = "GroupID")

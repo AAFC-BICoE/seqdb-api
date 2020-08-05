@@ -78,8 +78,7 @@ import lombok.Builder;
  * The Class ContainerType.
  */
 @Entity
-@Audited
-@TypeDef(name = "fill_direction", typeClass = PostgreSQLEnumType.class)
+
 @Table(name = "ContainerTypes", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
 public class ContainerType
@@ -123,43 +122,6 @@ public class ContainerType
 
   private static final String DEFAULT_BASE_TYPE = "Default container type";
 
-  public static enum FillDirection {
-    BY_ROW("by row"), BY_COLUMN("by column");
-
-    /** String representation of enum */
-    private String text;
-    private static final Pattern COLUMN_REGEX = Pattern.compile("(?:by[_ ])?col(?:umn)?");
-    private static final Pattern ROW_REGEX = Pattern.compile("(?:by[_ ])?row");
-
-    FillDirection(String text) {
-      this.text = text;
-    }
-
-    public String getText() {
-      return this.text;
-    }
-
-    /**
-     * Null safe method that returns the FillDirection from a string input Optional container forces
-     * user to handle null values. Input string is not case sensitive.
-     * 
-     * @param text
-     *          input string, for example, "By row"
-     * @return Optional FillDirection object
-     */
-    public static Optional<FillDirection> fromString(String text) {
-      if(ROW_REGEX.matcher(text.toLowerCase()).matches()) {
-        return Optional.of(BY_ROW);
-      } else if (COLUMN_REGEX.matcher(text.toLowerCase()).matches()) {
-        return Optional.of(BY_COLUMN);
-      }
-      return Optional.empty();
-    }
-  }
-
-  /** Stores this container type's orientation **/
-  private FillDirection fillDirection;
-
   // Constructors
 
   /**
@@ -181,8 +143,6 @@ public class ContainerType
    *          the number of columns
    * @param numberOfRows
    *          the number of rows
-   * @param fillDirection
-   *          direction the container type is filled by
    * @param heightInMM
    *          the physical height in milimeters
    * @param widthInMM
@@ -191,14 +151,13 @@ public class ContainerType
    *          the group
    */
   public ContainerType(String name, String baseType, Integer numberOfWells, Integer numberOfColumns,
-      Integer numberOfRows, FillDirection fillDirection, Integer heightInMM, Integer widthInMM,
+      Integer numberOfRows, Integer heightInMM, Integer widthInMM,
       Group group) {
     this.name = name;
     this.baseType = baseType;
     this.numberOfWells = numberOfWells;
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
-    this.fillDirection = fillDirection;
     this.heightInMM = heightInMM;
     this.widthInMM = widthInMM;
     this.group = group;
@@ -230,14 +189,13 @@ public class ContainerType
    */
   @Builder
   public ContainerType(String name, String baseType, Integer numberOfWells, Integer numberOfColumns,
-      Integer numberOfRows, FillDirection fillDirection, Integer heightInMM, Integer widthInMM,
+      Integer numberOfRows, Integer heightInMM, Integer widthInMM,
       Group group, Set<Container> containers) {
     this.name = name;
     this.baseType = baseType;
     this.numberOfWells = numberOfWells;
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
-    this.fillDirection = fillDirection;
     this.heightInMM = heightInMM;
     this.widthInMM = widthInMM;
     this.group = group;
@@ -469,7 +427,7 @@ public class ContainerType
    */
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "GroupID")
-  @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+  
   public Group getGroup() {
     return group;
   }
@@ -504,40 +462,6 @@ public class ContainerType
    */
   public void setContainers(Set<Container> containers) {
     this.containers = containers;
-  }
-
-  /**
-   * Gets the orientation of this container type
-   * 
-   * @return FillDirection if the container type is filled by row or by column
-   */
-  @NotNull
-  @Column(name = "FillDirection")
-  @Type(type = "fill_direction")
-  @Enumerated(EnumType.STRING)
-  public FillDirection getFillDirection() {
-    return this.fillDirection;
-  }
-
-  /**
-   * Sets the orientation of this container type
-   * 
-   * @param fillDirection
-   *          fill BY_ROW or BY_COLUMN first
-   */
-  public void setFillDirection(FillDirection fillDirection) {
-    this.fillDirection = fillDirection;
-  }
-
-  /**
-   * Checks if this container type's fill direction is equal to the given direction
-   * 
-   * @param fillDirection
-   *          fill BY_ROW or BY_COLUMN first
-   * @return true if the fill directions are the same, false otherwise
-   */
-  public boolean isFilledBy(FillDirection fillDirection) {
-    return this.fillDirection == fillDirection;
   }
 
   @Override

@@ -29,7 +29,7 @@ import ca.gc.aafc.seqdb.api.entities.Group;
 import lombok.Builder;
 
 @Entity
-@Audited
+
 @Table(name = "IndexSets")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class IndexSet implements Serializable {

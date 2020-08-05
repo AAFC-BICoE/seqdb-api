@@ -25,7 +25,6 @@ import ca.gc.aafc.seqdb.api.dto.LibraryPoolContentDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
-import ca.gc.aafc.seqdb.api.dto.LocationDto;
 import ca.gc.aafc.seqdb.api.dto.NgsIndexDto;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
@@ -71,7 +70,6 @@ import ca.gc.aafc.seqdb.api.repository.handlers.JpaDtoMapper;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaRelationshipRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaTotalMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;
 import io.crnk.operations.server.OperationsModule;
 import io.crnk.operations.server.TransactionOperationFilter;
@@ -94,9 +92,6 @@ public class ResourceRepositoryConfig {
   
   @Inject
   private JpaTotalMetaInformationProvider metaInformationProvider;
-  
-  @Inject
-  private ReadableGroupFilterHandlerFactory groupFilterFactory;
   
   @Inject
   public void initQuerySpecUrlMapper(DefaultQuerySpecUrlMapper mapper) {
@@ -134,7 +129,6 @@ public class ResourceRepositoryConfig {
     jpaEntities.put(LibraryPrepDto.class, LibraryPrep.class);
     jpaEntities.put(ContainerTypeDto.class, ContainerType.class);
     jpaEntities.put(ContainerDto.class, Container.class);
-    jpaEntities.put(LocationDto.class, Location.class);
     jpaEntities.put(IndexSetDto.class, IndexSet.class);
     jpaEntities.put(NgsIndexDto.class, NgsIndex.class);
     jpaEntities.put(LibraryPoolDto.class, LibraryPool.class);
@@ -185,8 +179,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("group"))
+            rsqlFilterHandler
         ),
         metaInformationProvider
     );
@@ -201,8 +194,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("pcrBatch").get("group"))
+            rsqlFilterHandler
         ),
         metaInformationProvider
     );
@@ -217,8 +209,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> (Path<Group>) root)
+            rsqlFilterHandler
         ),
         metaInformationProvider
         );
@@ -233,8 +224,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> root.get("group"))
+            rsqlFilterHandler
         ),
         metaInformationProvider
     );
@@ -249,8 +239,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler,
-            rsqlFilterHandler,
-            groupFilterFactory.create(root -> (Path<Group>) root)
+            rsqlFilterHandler
         ),
         metaInformationProvider
     );
@@ -265,8 +254,8 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler
+        ),
         metaInformationProvider);
   }
   
@@ -279,8 +268,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)
+            rsqlFilterHandler
             ),
         metaInformationProvider
     );
@@ -295,8 +283,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler),
         metaInformationProvider);
   }
 
@@ -309,8 +296,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler),
         metaInformationProvider);
   }
   
@@ -442,8 +428,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler),
         metaInformationProvider);
   }
   
@@ -456,8 +441,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler),
         metaInformationProvider);
   }
   
@@ -470,8 +454,7 @@ public class ResourceRepositoryConfig {
         dtoRepository,
         Arrays.asList(
             simpleFilterHandler, 
-            rsqlFilterHandler, 
-            groupFilterFactory.create(root -> (Path<Group>) root)),
+            rsqlFilterHandler),
         metaInformationProvider);
   }
   
@@ -546,20 +529,6 @@ public class ResourceRepositoryConfig {
         ),
         metaInformationProvider
     );
-  }
-
-  @Bean
-  public JpaRelationshipRepository<ContainerDto, LocationDto> containerToLocationRepository(
-      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(ContainerDto.class, LocationDto.class, dtoRepository,
-        Arrays.asList(rsqlFilterHandler), metaInformationProvider);
-  }
-  
-  @Bean
-  public JpaRelationshipRepository<LocationDto, ContainerDto> locationToContainerRepository(
-      JpaDtoMapper dtoJpaMapper, JpaDtoRepository dtoRepository) {
-    return new JpaRelationshipRepository<>(LocationDto.class, ContainerDto.class, dtoRepository,
-        Arrays.asList(rsqlFilterHandler), metaInformationProvider);
   }
 
   @Bean

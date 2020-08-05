@@ -10,17 +10,16 @@ import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
 
 @Component
 public class ChainRepository extends JpaResourceRepository<ChainDto> {
 
   public ChainRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
+      RsqlFilterHandler rsqlFilterHandler,
       JpaMetaInformationProvider metaInformationProvider) {
     
-    super(ChainDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-        groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
+    super(ChainDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler
+        ), metaInformationProvider);
     
   }
   

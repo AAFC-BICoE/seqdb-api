@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,18 +16,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.envers.Audited;
 
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-
-
 import lombok.Builder;
 
 /**
- * Many-to-one joining entity to specify the contents of a LibraryPool. Links to either a
- * LibraryPrepBatch or a LibraryPool which is pooled by a LibraryPool.
+ * Many-to-one joining entity to specify the contents of a LibraryPool. Links to
+ * either a LibraryPrepBatch or a LibraryPool which is pooled by a LibraryPool.
  */
 @Entity
 
@@ -57,11 +53,7 @@ public class LibraryPoolContent implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "library-pool-content-sequence-generator")
-  @GenericGenerator(name = "library-pool-content-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "librarypoolcontents_librarypoolcontentid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "10") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "LibraryPoolContentID")
   public Integer getLibraryPoolContentId() {
     return libraryPoolContentId;

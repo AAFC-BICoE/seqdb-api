@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,29 +8,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import lombok.Builder;
 
 @Entity
 
 @Table(name = "IndexSets")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class IndexSet implements Serializable {
-
-  private static final long serialVersionUID = -8370045494938799080L;
+public class IndexSet {
 
   private Integer indexSetId;
 
@@ -47,8 +34,7 @@ public class IndexSet implements Serializable {
   }
 
   @Builder
-  public IndexSet(String name, String forwardAdapter, String reverseAdapter,
-      List<NgsIndex> ngsIndexes) {
+  public IndexSet(String name, String forwardAdapter, String reverseAdapter, List<NgsIndex> ngsIndexes) {
     super();
     this.name = name;
     this.forwardAdapter = forwardAdapter;
@@ -57,11 +43,7 @@ public class IndexSet implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "index-set-sequence-generator")
-  @GenericGenerator(name = "index-set-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "indexsets_indexsetid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "IndexSetID")
   public Integer getIndexSetId() {
     return indexSetId;

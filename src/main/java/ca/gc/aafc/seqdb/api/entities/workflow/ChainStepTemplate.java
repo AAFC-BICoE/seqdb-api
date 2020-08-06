@@ -1,9 +1,11 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,14 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-
-
 
 import lombok.Builder;
 
@@ -32,7 +26,6 @@ import lombok.Builder;
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class ChainStepTemplate implements Serializable {
 
   private static final long serialVersionUID = -3484692979076302405L;
@@ -42,11 +35,7 @@ public class ChainStepTemplate implements Serializable {
   private Integer stepNumber;
 
   @Id
-  @GeneratedValue(generator = "chain-step-template-sequence-generator")
-  @GenericGenerator(name = "chain-step-template-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "chainsteptemplates_chainsteptemplateid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ChainStepTemplateID")
   public Integer getChainStepTemplateId() {
     return chainStepTemplateId;

@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.entities.workflow;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -11,9 +12,6 @@ import javax.validation.constraints.Size;
 
 import com.vladmihalcea.hibernate.type.array.EnumArrayType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -29,9 +27,8 @@ import lombok.Builder;
  */
 @Entity
 @Table(name = "StepTemplates")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-// @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
-//     @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
+@TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
+    @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
 public class StepTemplate {
 
   public StepTemplate() {
@@ -73,11 +70,7 @@ public class StepTemplate {
   private StepResourceValue[] supports;
 
   @Id
-  @GeneratedValue(generator = "step-template-sequence-generator")
-  @GenericGenerator(name = "step-template-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "steptemplates_steptemplateid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "StepTemplateID")
   public Integer getStepTemplateId() {
     return stepTemplateId;
@@ -98,8 +91,7 @@ public class StepTemplate {
     this.name = name;
   }
 
-  @Transient
-  // @NotNull
+  @NotNull
   @Column(name = "Inputs")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getInputs() {
@@ -110,8 +102,7 @@ public class StepTemplate {
     this.inputs = inputs;
   }
 
-  @Transient
-  // @NotNull
+  @NotNull
   @Column(name = "Outputs")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getOutputs() {
@@ -122,7 +113,6 @@ public class StepTemplate {
     this.outputs = outputs;
   }
 
-  @Transient
   @Column(name = "Supports")
   @Type(type = "step-resource-value-array")
   public StepResourceValue[] getSupports() {

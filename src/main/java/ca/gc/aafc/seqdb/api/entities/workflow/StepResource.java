@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -18,10 +19,6 @@ import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -49,7 +46,6 @@ import lombok.Builder;
 
 @Table(name = "StepResources")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class StepResource implements Serializable {
 
   private static final long serialVersionUID = 883807436331928735L;
@@ -67,11 +63,7 @@ public class StepResource implements Serializable {
   private LibraryPool libraryPool;
 
   @Id
-  @GeneratedValue(generator = "step-resource-sequence-generator")
-  @GenericGenerator(name = "step-resource-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "stepresources_stepresourceid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "10") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "StepResourceID")
   public Integer getStepResourceId() {
     return stepResourceId;

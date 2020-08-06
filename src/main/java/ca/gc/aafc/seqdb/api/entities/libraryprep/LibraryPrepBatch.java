@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,19 +17,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
-
-
 import lombok.Builder;
 
 /**
@@ -37,7 +31,6 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "LibraryPrepBatchs")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPrepBatch implements Serializable {
 
   private static final long serialVersionUID = -397511264904370827L;
@@ -91,11 +84,7 @@ public class LibraryPrepBatch implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "library-prep-batch-sequence-generator")
-  @GenericGenerator(name = "library-prep-batch-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "libraryprepbatchs_libraryprepbatchid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "LibraryPrepBatchID")
   public Integer getLibraryPrepBatchId() {
     return libraryPrepBatchId;

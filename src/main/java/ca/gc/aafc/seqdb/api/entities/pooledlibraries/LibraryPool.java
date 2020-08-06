@@ -7,25 +7,17 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.envers.Audited;
-
-
 
 import lombok.Builder;
 
 @Entity
 
 @Table(name = "LibraryPools")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPool implements Serializable {
 
   private static final long serialVersionUID = -5278505617657013701L;
@@ -52,11 +44,7 @@ public class LibraryPool implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "library-pool-sequence-generator")
-  @GenericGenerator(name = "library-pool-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "librarypools_librarypoolid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "LibraryPoolID")
   public Integer getLibraryPoolId() {
     return libraryPoolId;

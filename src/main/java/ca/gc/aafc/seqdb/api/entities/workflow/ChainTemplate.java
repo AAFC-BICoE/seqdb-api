@@ -1,22 +1,14 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-
-
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,22 +23,16 @@ import lombok.RequiredArgsConstructor;
  */
 @Entity
 @Table(name = "ChainTemplates")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ChainTemplate implements Serializable {
+public class ChainTemplate {
 
-  private static final long serialVersionUID = 1L;
   private Integer chainTemplateId;
   private String name;
 
   @Id
-  @GeneratedValue(generator = "chain-template-sequence-generator")
-  @GenericGenerator(name = "chain-template-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "chaintemplates_chaintemplateid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ChainTemplateID")
   public Integer getChainTemplateId() {
     return chainTemplateId;

@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,18 +17,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
-
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.envers.NotAudited;
 
 import lombok.Builder;
 
@@ -68,11 +64,10 @@ public class NgsIndex implements Serializable {
   }
 
   @Builder
-  public NgsIndex(String name, Integer lotNumber, NgsIndexDirection direction, String purification,
-      String tmCalculated, LocalDate dateOrdered, LocalDate dateDestroyed, String application,
-      String reference, String supplier, String designedBy, String stockConcentration, String notes,
-      String litReference, String primerSequence, String miSeqHiSeqIndexSequence,
-      String miniSeqNextSeqIndexSequence, IndexSet indexSet) {
+  public NgsIndex(String name, Integer lotNumber, NgsIndexDirection direction, String purification, String tmCalculated,
+      LocalDate dateOrdered, LocalDate dateDestroyed, String application, String reference, String supplier,
+      String designedBy, String stockConcentration, String notes, String litReference, String primerSequence,
+      String miSeqHiSeqIndexSequence, String miniSeqNextSeqIndexSequence, IndexSet indexSet) {
     super();
     this.name = name;
     this.lotNumber = lotNumber;
@@ -95,11 +90,7 @@ public class NgsIndex implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "ngs-index-sequence-generator")
-  @GenericGenerator(name = "ngs-index-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "ngsindexes_ngsindexid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "10") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "NgsIndexID")
   public Integer getNgsIndexId() {
     return ngsIndexId;

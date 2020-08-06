@@ -1,11 +1,10 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,16 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.envers.Audited;
-
-import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.Sample;
-
-
 import lombok.Builder;
 
 /**
@@ -34,10 +24,8 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "LibraryPreps")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class LibraryPrep implements Serializable {
+public class LibraryPrep {
 
-  private static final long serialVersionUID = -6206657632793743020L;
   private Integer libraryPrepId;
 
   private Double inputNg;
@@ -78,11 +66,7 @@ public class LibraryPrep implements Serializable {
   }
 
   @Id
-  @GeneratedValue(generator = "library-prep-sequence-generator")
-  @GenericGenerator(name = "library-prep-sequence-generator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
-      @Parameter(name = "sequence_name", value = "librarypreps_libraryprepid_seq"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "10") })
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "LibraryPrepID")
   public Integer getLibraryPrepId() {
     return libraryPrepId;

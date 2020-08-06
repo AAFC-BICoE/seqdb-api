@@ -34,7 +34,6 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -49,17 +48,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
-
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-import lombok.Builder;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.Builder;
 
 /**
  * The Class PcrProfile.
@@ -67,8 +59,8 @@ import javax.validation.constraints.Size;
 @Entity
 
 @Table(name = "PcrProfiles", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
-public class PcrProfile implements  RestrictedByGroup {
+    @UniqueConstraint(columnNames = { "Name" }) })
+public class PcrProfile {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 2472713180924441324L;
@@ -136,9 +128,6 @@ public class PcrProfile implements  RestrictedByGroup {
   /** The region. */
   private Region region;
 
-  /** The group. */
-  private Group group;
-
   /**
    * Instantiates a new pcr profile.
    */
@@ -156,11 +145,10 @@ public class PcrProfile implements  RestrictedByGroup {
    * @param group
    *          the group
    */
-  public PcrProfile(String name, Region region, Group group) {
+  public PcrProfile(String name, Region region) {
     super();
     this.name = name;
     this.region = region;
-    this.group = group;
   }
 
   /**
@@ -213,7 +201,7 @@ public class PcrProfile implements  RestrictedByGroup {
   public PcrProfile(Integer pcrProfileId, String name, String application, String cycles,
       String step1, String step2, String step3, String step4, String step5, String step6,
       String step7, String step8, String step9, String step10, String step11, String step12,
-      String step13, String step14, String step15, Region region, Group group) {
+      String step13, String step14, String step15, Region region) {
     super();
     this.pcrProfileId = pcrProfileId;
     this.name = name;
@@ -235,7 +223,6 @@ public class PcrProfile implements  RestrictedByGroup {
     this.step14 = step14;
     this.step15 = step15;
     this.region = region;
-    this.group = group;
   }
 
   // Property accessors
@@ -686,29 +673,6 @@ public class PcrProfile implements  RestrictedByGroup {
     this.region = region;
   }
 
-  /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
   /*
    * (non-Javadoc)
    * 
@@ -726,13 +690,6 @@ public class PcrProfile implements  RestrictedByGroup {
    */
   public void setId(Integer id) {
     setPcrProfileId(id);
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
   }
 
 }

@@ -21,10 +21,6 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +46,6 @@ public class Chain implements Serializable {
   private String name;
   private Date dateCreated;
   private ChainTemplate chainTemplate;
-  private Group group;
 
   @Id
   @GeneratedValue(generator = "chain-sequence-generator")
@@ -98,18 +93,6 @@ public class Chain implements Serializable {
 
   public void setChainTemplate(ChainTemplate chainTemplate) {
     this.chainTemplate = chainTemplate;
-  }
-
-  
-  @NotNull
-  @ManyToOne(cascade = {})
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return group;
-  }
-
-  public void setGroup(Group group) {
-    this.group = group;
   }
 
   @Transient

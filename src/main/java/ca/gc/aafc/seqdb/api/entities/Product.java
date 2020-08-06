@@ -30,33 +30,21 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
-
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-
-import lombok.Builder;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.Builder;
 
 /**
  * The Class Product.
@@ -64,8 +52,8 @@ import javax.validation.constraints.Size;
 @Entity
 
 @Table(name = "Products", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "UPC", "GroupID" }) })
-public class Product implements  RestrictedByGroup {
+    @UniqueConstraint(columnNames = { "Name", "UPC" }) })
+public class Product {
 
   /** The product id. */
   private Integer productId;
@@ -81,9 +69,6 @@ public class Product implements  RestrictedByGroup {
 
   /** The description. */
   private String description;
-
-  /** The group. */
-  private Group group;
 
   /** The last modified. */
   private Timestamp lastModified;
@@ -104,10 +89,9 @@ public class Product implements  RestrictedByGroup {
    * @param group
    *          the group
    */
-  public Product(String name, String upc, Group group) {
+  public Product(String name, String upc) {
     this.name = name;
     this.upc = upc;
-    this.group = group;
   }
 
   /**
@@ -125,12 +109,11 @@ public class Product implements  RestrictedByGroup {
    *          the group
    */
   @Builder
-  public Product(String name, String upc, String type, String description, Group group) {
+  public Product(String name, String upc, String type, String description) {
     this.name = name;
     this.upc = upc;
     this.type = type;
     this.description = description;
-    this.group = group;
   }
 
   /**
@@ -240,29 +223,6 @@ public class Product implements  RestrictedByGroup {
     this.description = description;
   }
 
-  /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
   /*
    * (non-Javadoc)
    * 
@@ -305,13 +265,6 @@ public class Product implements  RestrictedByGroup {
    */
   public void setLastModified(Timestamp lastModified) {
     this.lastModified = lastModified;
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
   }
 
 }

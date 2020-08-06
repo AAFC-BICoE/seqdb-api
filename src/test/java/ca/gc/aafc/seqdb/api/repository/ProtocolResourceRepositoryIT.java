@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
@@ -33,17 +32,12 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   
   private Product testKit;
   
-  private Group testGroup;
-  
   private Protocol createTestProtocol() {
-    testGroup = new Group("group name");
-    persistGroup(testGroup);
-    testKit = new Product("testKit", "testF", testGroup);
+    testKit = new Product("testKit", "testF");
     persist(testKit);
     testProtocol = ProtocolFactory.newProtocol()
         .name(TEST_PROTOCOL_NAME)
         .type(TEST_PROTOCOL_TYPE)
-        .group(testGroup)
         .version("A")
         .description("testDescription")
         .steps("14")

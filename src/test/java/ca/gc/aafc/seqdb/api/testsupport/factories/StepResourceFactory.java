@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate;
 
@@ -20,30 +19,12 @@ public class StepResourceFactory implements TestableEntityFactory<StepResource> 
    * @return Pre-configured builder with all mandatory fields set
    */
   public static StepResource.StepResourceBuilder newStepResource() {
-    
-    return newStepResource(null);
-    
-  }
-  
-  /**
-   * Static method that can be called to return a configured builder that can be further customized
-   * to return the actual entity object, call the .build() method on a builder.
-   * 
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static StepResource.StepResourceBuilder newStepResource(Group group) {
 
     StepResource.StepResourceBuilder builder = StepResource.builder()
           .value(StepTemplate.StepResourceValue.PRODUCT)
           .chainStepTemplate(ChainStepTemplateFactory.newChainStepTemplate().build())
           .product(ProductFactory.newProduct().build());
       
-    if(group !=null) {
-      builder.chain(ChainFactory.newChain(group).build());      
-    }else {
-      builder.chain(ChainFactory.newChain().build());
-    }
-    
     return builder;    
   }  
     

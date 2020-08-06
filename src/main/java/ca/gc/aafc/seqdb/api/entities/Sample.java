@@ -33,9 +33,7 @@ package ca.gc.aafc.seqdb.api.entities;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,7 +46,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -56,25 +53,19 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.jni.Library;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import lombok.Builder;
 
 @Entity
 
 @Table(name = "Samples", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "Version", "GroupID" }) })
+    @UniqueConstraint(columnNames = { "Name", "Version" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class Sample implements  RestrictedByGroup {
+public class Sample {
 
   public enum SampleType {
 
@@ -201,12 +192,6 @@ public class Sample implements  RestrictedByGroup {
   /** The last modified. */
   private Timestamp lastModified;
 
-  /** The location. */
-  private Location location;
-
-  /** The group. */
-  private Group group;
-
   /** The kit. */
   private Product kit;
 
@@ -252,18 +237,6 @@ public class Sample implements  RestrictedByGroup {
    * Instantiates a new sample.
    */
   public Sample() {
-  }
-
-  /**
-   * Instantiates a new sample.
-   *
-   * @param name
-   *          the name
-   * @param group
-   *          the group
-   */
-  public Sample(String name, Group group) {
-    this.name = name;
   }
 
   /**
@@ -349,7 +322,7 @@ public class Sample implements  RestrictedByGroup {
       String extractionBatch, Double pelletSize, Double lysisBufferVolume, Double proteinaseKVolume,
       Double qubitDNAConcentration, Double ratio260_280, Double ratio260_230,
       String quantificationMethod, String growthMedia, String dnaNotes, String notes, String tubeId,
-      Boolean unusableDna, Product kit, Location location, Group group, Protocol protocol,
+      Boolean unusableDna, Product kit, Protocol protocol,
       SampleType sampleType, LocalDate inoculationDate, String fraction,
       Double fermentationTemperature, String fermentationTime, String extractionSolvent,
       String discardedNotes, LocalDate dateDiscarded,
@@ -380,8 +353,6 @@ public class Sample implements  RestrictedByGroup {
     this.notes = notes;
     this.tubeId = tubeId;
     this.unusableDna = unusableDna;
-    this.location = location;
-    this.group = group;
     this.protocol = protocol;
     this.sampleType = sampleType;
     this.inoculationDate = inoculationDate;
@@ -630,28 +601,6 @@ public class Sample implements  RestrictedByGroup {
    */
   public void setGrowthMedia(String growthMedia) {
     this.growthMedia = growthMedia;
-  }
-
-  /**
-   * Gets the location.
-   *
-   * @return the location
-   */
-  @NotAudited
-  @OneToOne(cascade = {}, fetch = FetchType.LAZY, mappedBy = "sample")
-  public Location getLocation() {
-    return location;
-  }
-
-  /**
-   * Sets the location.
-   *
-   * @param location
-   *          the new location
-   */
-  @NotAudited
-  public void setLocation(Location location) {
-    this.location = location;
   }
 
   /**
@@ -940,29 +889,6 @@ public class Sample implements  RestrictedByGroup {
    */
   public void setUnusableDna(Boolean unusableDna) {
     this.unusableDna = unusableDna;
-  }
-
-  /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return this.group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
   }
 
   /**
@@ -1287,24 +1213,6 @@ public class Sample implements  RestrictedByGroup {
    */
   public void setAlternativeContactInfo(String alternativeContactInfo) {
     this.alternativeContactInfo = alternativeContactInfo;
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  public String toString() {
-    return super.toString() + ": Id=" + sampleId + " / Name=" + name + " / Version=" + version
-        + " / GroupId=" + (group != null ? group.getGroupId() : "null") + " / LastModified="
-        + lastModified;
   }
 
 }

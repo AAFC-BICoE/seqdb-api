@@ -48,6 +48,4 @@ public class ProtocolDto {
   @JsonApiRelation
   private ProductDto kit;
 
-  @JsonApiRelation
-  private GroupDto group;
 }

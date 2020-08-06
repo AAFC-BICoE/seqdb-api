@@ -34,11 +34,8 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -49,8 +46,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -61,12 +56,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 import lombok.Builder;
 
@@ -78,9 +67,9 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "Protocols", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "GroupID", "Name", "Type" }) })
+    @UniqueConstraint(columnNames = { "Name", "Type" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class Protocol implements  RestrictedByGroup {
+public class Protocol {
 
   /**
    * The Enum ProtocolType.
@@ -164,9 +153,6 @@ public class Protocol implements  RestrictedByGroup {
   /** The reaction mix volume per tube. */
   private String reactionMixVolumePerTube;
 
-  /** The group. */
-  private Group group;
-
   /** The kit. */
   private Product kit;
 
@@ -204,7 +190,7 @@ public class Protocol implements  RestrictedByGroup {
    *          the kit
    */
   public Protocol(ProtocolType type, String name, String version, String description, String steps,
-      String notes, String reference, String equipment, Group group, Product kit) {
+      String notes, String reference, String equipment, Product kit) {
     this.type = type;
     this.name = name;
     this.version = version;
@@ -213,7 +199,6 @@ public class Protocol implements  RestrictedByGroup {
     this.notes = notes;
     this.reference = reference;
     this.equipment = equipment;
-    this.group = group;
     this.kit = kit;
   }
 
@@ -255,7 +240,7 @@ public class Protocol implements  RestrictedByGroup {
   public Protocol(Integer protocolId, ProtocolType type, String name, String version,
       String description, String steps, String notes, String reference, String equipment,
       String forwardPrimerConcentration, String reversePrimerConcentration,
-      String reactionMixVolume, String reactionMixVolumePerTube, Group group, Product kit) {
+      String reactionMixVolume, String reactionMixVolumePerTube, Product kit) {
     super();
     this.protocolId = protocolId;
     this.type = type;
@@ -270,7 +255,6 @@ public class Protocol implements  RestrictedByGroup {
     this.reversePrimerConcentration = reversePrimerConcentration;
     this.reactionMixVolume = reactionMixVolume;
     this.reactionMixVolumePerTube = reactionMixVolumePerTube;
-    this.group = group;
     this.kit = kit;
   }
 
@@ -550,30 +534,6 @@ public class Protocol implements  RestrictedByGroup {
   }
 
   /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  @NotNull
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return this.group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
-  /**
    * Gets the kit.
    *
    * @return the kit
@@ -635,13 +595,6 @@ public class Protocol implements  RestrictedByGroup {
    */
   public void setId(Integer id) {
     setProtocolId(id);
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
   }
 
 }

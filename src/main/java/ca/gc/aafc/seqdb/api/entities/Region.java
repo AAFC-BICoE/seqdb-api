@@ -34,24 +34,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import lombok.Builder;
 
@@ -61,9 +53,9 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "Regions", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
+    @UniqueConstraint(columnNames = { "Name" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class Region implements RestrictedByGroup {
+public class Region {
 
   private Integer regionId;
 
@@ -79,8 +71,6 @@ public class Region implements RestrictedByGroup {
 
   /** The applicable organisms. */
   private String applicableOrganisms;
-
-  private Group group;
 
   /**
    * Instantiates a new region.
@@ -112,11 +102,10 @@ public class Region implements RestrictedByGroup {
    *          the applicable organisms
    */
   @Builder
-  public Region(String name, String description, Group group, Timestamp lastModified, int left,
+  public Region(String name, String description, Timestamp lastModified, int left,
       int right, String symbol, String aliases, String applicableOrganisms) {
     this.name = name;
     this.description = description;
-    this.group = group;
     this.symbol = symbol;
     this.aliases = aliases;
     this.applicableOrganisms = applicableOrganisms;
@@ -216,36 +205,6 @@ public class Region implements RestrictedByGroup {
    */
   public void setApplicableOrganisms(String applicableOrganisms) {
     this.applicableOrganisms = applicableOrganisms;
-  }
-
-  /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return this.group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
   }
 
 }

@@ -1,10 +1,8 @@
 package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolBuilder;
 import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
@@ -17,16 +15,6 @@ public class ProtocolFactory implements TestableEntityFactory<Protocol> {
   }
 
   /**
-   * Static method that can be called to return a configured builder that can be further customized
-   * to return the actual entity object, call the .build() method on a builder.
-   * 
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static Protocol.ProtocolBuilder newProtocol() {
-    return newProtocol(new Group(Group.PUBLIC_GROUP_NAME));
-  }
-  
-  /**
    * Static method that can be called to return a configured builder that can
    * be further customized to return the actual entity object, call the
    * .build() method on a builder,with specified group passed on as parameter
@@ -35,12 +23,10 @@ public class ProtocolFactory implements TestableEntityFactory<Protocol> {
    * 
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static Protocol.ProtocolBuilder newProtocol(Group group) {
-    Objects.requireNonNull(group, "group must be provided");
+  public static Protocol.ProtocolBuilder newProtocol() {
     return Protocol.builder()
           .name(TestableEntityFactory.generateRandomName(10))
-          .type(ProtocolType.COLLECTION_EVENT)
-          .group(group);
+          .type(ProtocolType.COLLECTION_EVENT);
   }  
   
   /**

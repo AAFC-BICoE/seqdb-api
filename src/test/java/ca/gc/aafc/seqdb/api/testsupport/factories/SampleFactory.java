@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Sample;
 import ca.gc.aafc.seqdb.api.entities.Sample.SampleBuilder;
 
@@ -22,28 +21,14 @@ public class SampleFactory implements TestableEntityFactory<Sample> {
   /**
    * Static method that can be called to return a configured builder that can
    * be further customized to return the actual entity object, call the
-   * .build() method on a builder.
-   * 
+   * .build() method on a builder,with specified group passed on as parameter
    * @return Pre-configured builder with all mandatory fields set
    */
   public static Sample.SampleBuilder newSample() {
-
-    return newSample(null);
-  }
-
-  /**
-   * Static method that can be called to return a configured builder that can
-   * be further customized to return the actual entity object, call the
-   * .build() method on a builder,with specified group passed on as parameter
-   * @param group Group to be set on the {@link Sample}
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static Sample.SampleBuilder newSample(Group group) {
     
     Sample.SampleBuilder bldr = Sample.builder()
         .name(TestableEntityFactory.generateRandomName(10))
-        .version(TestableEntityFactory.generateRandomNameLettersOnly(1))
-        .group(group);
+        .version(TestableEntityFactory.generateRandomNameLettersOnly(1));
     
     return bldr;
 

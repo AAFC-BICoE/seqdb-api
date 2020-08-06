@@ -94,9 +94,6 @@ public class SampleDto {
   // Optional Relations
   
   @JsonApiRelation
-  private GroupDto group;
-  
-  @JsonApiRelation
   private ProductDto kit;
   
   @JsonApiRelation

@@ -19,7 +19,6 @@ import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Sample;
@@ -63,11 +62,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    Group testGroup = new Group("group name");
-    persistGroup(testGroup);
-    
-    testProtocol = ProtocolFactory.newProtocol(testGroup).build();
-    entityManager.persist(testProtocol.getGroup());
+    testProtocol = ProtocolFactory.newProtocol().build();
     persist(testProtocol);
     
     testSample = new Sample();

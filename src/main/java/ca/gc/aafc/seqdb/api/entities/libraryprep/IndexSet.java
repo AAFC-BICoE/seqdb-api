@@ -23,9 +23,6 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
-
-
 import lombok.Builder;
 
 @Entity

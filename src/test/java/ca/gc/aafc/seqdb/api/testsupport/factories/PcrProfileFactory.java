@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile.PcrProfileBuilder;
 
@@ -13,17 +12,6 @@ public class PcrProfileFactory implements TestableEntityFactory<PcrProfile> {
   public PcrProfile getEntityInstance() {
     return newPcrProfile().build();
   }
-
-  /**
-   * Static method that can be called to return a configured builder that can be further customized
-   * to return the actual entity object, call the .build() method on a builder.
-   * 
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static PcrProfile.PcrProfileBuilder newPcrProfile() {
-    
-    return newPcrProfile(null);    
-  }
   
   /**
    * Static method that can be called to return a configured builder that can be further customized
@@ -31,11 +19,10 @@ public class PcrProfileFactory implements TestableEntityFactory<PcrProfile> {
    * @param group Group to be set on the {@link PcrProfile}
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static PcrProfile.PcrProfileBuilder newPcrProfile(Group group) {
+  public static PcrProfile.PcrProfileBuilder newPcrProfile() {
     
     return PcrProfile.builder()
-        .name(TestableEntityFactory.generateRandomName(10))
-        .group(group);
+        .name(TestableEntityFactory.generateRandomName(10));
     
   }  
   

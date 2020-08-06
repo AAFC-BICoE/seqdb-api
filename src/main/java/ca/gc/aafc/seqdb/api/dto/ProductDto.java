@@ -28,6 +28,4 @@ public class ProductDto {
 
   private Timestamp lastModified;  
   
-  @JsonApiRelation
-  private GroupDto group;
 }

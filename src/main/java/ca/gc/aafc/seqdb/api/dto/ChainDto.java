@@ -23,7 +23,4 @@ public class ChainDto {
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;
   
-  @JsonApiRelation
-  private GroupDto group;
-  
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PcrPrimerBuilder;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
@@ -15,25 +14,13 @@ public class PcrPrimerFactory implements TestableEntityFactory<PcrPrimer> {
   public PcrPrimer getEntityInstance() {
     return newPcrPrimer().build();
   }
-
-  /**
-   * Static method that can be called to return a configured builder that can be further customized
-   * to return the actual entity object, call the .build() method on a builder.
-   * 
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static PcrPrimer.PcrPrimerBuilder newPcrPrimer() {
-    
-    return newPcrPrimer(null);    
-  }
   
   /**
    * Static method that can be called to return a configured builder that can be further customized
    * to return the actual entity object, call the .build() method on a builder.
-   * @param group Group to be set on the {@link PcrPrimer}
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static PcrPrimer.PcrPrimerBuilder newPcrPrimer(Group group) {
+  public static PcrPrimer.PcrPrimerBuilder newPcrPrimer() {
     
     return PcrPrimer.builder()
         .type(PrimerType.PRIMER)
@@ -41,7 +28,6 @@ public class PcrPrimerFactory implements TestableEntityFactory<PcrPrimer> {
         .seq("CTTGGTCATTTAGAGGAAGTAA")
         .direction("F")
         .lotNumber(1)
-        .group(group)
         .uuid(UUID.randomUUID());
     
   }  

@@ -33,24 +33,13 @@ package ca.gc.aafc.seqdb.api.entities;
 // Generated 10-May-2007 10:53:34 by Hibernate Tools 3.2.0.beta8
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -60,18 +49,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-
-
-
-
 import lombok.Builder;
 
 /**
@@ -80,9 +57,8 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "ContainerTypes", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "GroupID" }) })
-public class ContainerType
-    implements RestrictedByGroup {
+    @UniqueConstraint(columnNames = { "Name" }) })
+public class ContainerType {
 
   /** The container type id. */
   private Integer containerTypeId;
@@ -114,12 +90,6 @@ public class ContainerType
   /** The physical width of the container type */
   private Integer widthInMM;
 
-  /** The void setr family( taxon r family). */
-  private Group group;
-
-  /** The containers. */
-  private Set<Container> containers = new HashSet<Container>(0);
-
   private static final String DEFAULT_BASE_TYPE = "Default container type";
 
   // Constructors
@@ -150,47 +120,9 @@ public class ContainerType
    * @param group
    *          the group
    */
-  public ContainerType(String name, String baseType, Integer numberOfWells, Integer numberOfColumns,
-      Integer numberOfRows, Integer heightInMM, Integer widthInMM,
-      Group group) {
-    this.name = name;
-    this.baseType = baseType;
-    this.numberOfWells = numberOfWells;
-    this.numberOfColumns = numberOfColumns;
-    this.numberOfRows = numberOfRows;
-    this.heightInMM = heightInMM;
-    this.widthInMM = widthInMM;
-    this.group = group;
-  }
-
-  /**
-   * Instantiates a new container type.
-   *
-   * @param name
-   *          the name
-   * @param baseType
-   *          the base type
-   * @param numberOfWells
-   *          the number of wells
-   * @param numberOfColumns
-   *          the number of columns
-   * @param numberOfRows
-   *          the number of rows
-   * @param fillDirection
-   *          direction the container type is filled by
-   * @param heightInMM
-   *          the physical height in milimeters
-   * @param widthInMM
-   *          the physical width in milimeters
-   * @param group
-   *          the group
-   * @param containers
-   *          the containers
-   */
   @Builder
   public ContainerType(String name, String baseType, Integer numberOfWells, Integer numberOfColumns,
-      Integer numberOfRows, Integer heightInMM, Integer widthInMM,
-      Group group, Set<Container> containers) {
+      Integer numberOfRows, Integer heightInMM, Integer widthInMM) {
     this.name = name;
     this.baseType = baseType;
     this.numberOfWells = numberOfWells;
@@ -198,8 +130,6 @@ public class ContainerType
     this.numberOfRows = numberOfRows;
     this.heightInMM = heightInMM;
     this.widthInMM = widthInMM;
-    this.group = group;
-    this.containers = containers;
   }
 
   // Property accessors
@@ -418,57 +348,6 @@ public class ContainerType
    */
   public void setWidthInMM(Integer widthInMM) {
     this.widthInMM = widthInMM;
-  }
-
-  /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  
-  public Group getGroup() {
-    return group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new ${e.g(1).rsfl()}
-   */
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
-  /**
-   * Gets the containers.
-   *
-   * @return the containers
-   */
-  @OneToMany(cascade = {}, fetch = FetchType.LAZY, mappedBy = "containerType")
-  @OrderBy("containerNumber")
-  @NotAudited
-  public Set<Container> getContainers() {
-    return this.containers;
-  }
-
-  /**
-   * Sets the containers.
-   *
-   * @param containers
-   *          the new containers
-   */
-  public void setContainers(Set<Container> containers) {
-    this.containers = containers;
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
   }
 
   /**

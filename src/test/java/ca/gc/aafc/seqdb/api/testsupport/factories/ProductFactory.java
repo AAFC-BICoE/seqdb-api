@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Group;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Product.ProductBuilder;
 
@@ -17,23 +16,12 @@ public class ProductFactory implements TestableEntityFactory<Product> {
   /**
    * Static method that can be called to return a configured builder that can be further customized
    * to return the actual entity object, call the .build() method on a builder.
-   * 
-   * @return Pre-configured builder with all mandatory fields set
-   */
-  public static Product.ProductBuilder newProduct() {
-    return newProduct(null);
-  }
-  
-  /**
-   * Static method that can be called to return a configured builder that can be further customized
-   * to return the actual entity object, call the .build() method on a builder.
    * @param group Group to be set on the {@link Product}
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static Product.ProductBuilder newProduct(Group group) {
+  public static Product.ProductBuilder newProduct() {
     return Product.builder()
-        .name(TestableEntityFactory.generateRandomName(10))
-        .group(group);
+        .name(TestableEntityFactory.generateRandomName(10));
   }
   
   /**

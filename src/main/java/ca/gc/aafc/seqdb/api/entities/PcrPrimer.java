@@ -30,7 +30,6 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -46,9 +45,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -60,14 +57,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-
 
 import lombok.Builder;
 
@@ -77,9 +67,9 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "PcrPrimers", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "LotNumber", "GroupID" }) })
+    @UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class PcrPrimer implements  RestrictedByGroup {
+public class PcrPrimer {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 8053203319426929005L;
@@ -229,12 +219,6 @@ public class PcrPrimer implements  RestrictedByGroup {
   /** The region. */
   private Region region;
 
-  /** The group. */
-  private Group group;
-
-  /** The location. */
-  private Location location;
-
   /** The lit reference. */
   private String litReference;
 
@@ -294,7 +278,7 @@ public class PcrPrimer implements  RestrictedByGroup {
   public PcrPrimer(PrimerType type, String name, Integer version, String seq, String direction,
       String storage, Boolean used4sequencing, Boolean used4qrtpcr, Boolean used4nestedPcr,
       Boolean used4genotyping, Boolean used4cloning, Boolean used4stdPcr, String sequenceLength,
-      Region region, Group group, PcrPrimer pooledPrimer) {
+      Region region, PcrPrimer pooledPrimer) {
     this.type = type;
     this.name = name;
     this.version = version;
@@ -309,7 +293,6 @@ public class PcrPrimer implements  RestrictedByGroup {
     this.used4stdPcr = used4stdPcr;
     this.sequenceLength = sequenceLength;
     this.region = region;
-    this.group = group;
     this.pooledPrimer = pooledPrimer;
   }
 
@@ -404,8 +387,7 @@ public class PcrPrimer implements  RestrictedByGroup {
       Boolean used4cloning, Boolean used4stdPcr, String referenceSeqDir, String referenceSeqFile,
       String urllink, String note,
       String sequenceLength, String application, String reference, String targetSpecies,
-      String supplier, LocalDate dateOrdered, String purification, Region region, Group group,
-      Location location, String litReference, String designedBy, String stockConcentration,
+      String supplier, LocalDate dateOrdered, String purification, Region region, String litReference, String designedBy, String stockConcentration,
       Integer lotNumber, LocalDate dateDestroyed, PcrPrimer pooledPrimer, UUID uuid) {
     this.type = type;
     this.name = name;
@@ -435,8 +417,6 @@ public class PcrPrimer implements  RestrictedByGroup {
     this.application = application;
     this.reference = reference;
     this.region = region;
-    this.group = group;
-    this.location = location;
     this.litReference = litReference;
     this.designedBy = designedBy;
     this.stockConcentration = stockConcentration;
@@ -1080,29 +1060,6 @@ public class PcrPrimer implements  RestrictedByGroup {
   }
 
   /**
-   * Gets the group.
-   *
-   * @return the group
-   */
-  
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "GroupID")
-  public Group getGroup() {
-    return this.group;
-  }
-
-  /**
-   * Sets the group.
-   *
-   * @param group
-   *          the new group
-   */
-  
-  public void setGroup(Group group) {
-    this.group = group;
-  }
-
-  /**
    * Gets the pooled primer.
    *
    * @return the pooled primer.
@@ -1122,28 +1079,6 @@ public class PcrPrimer implements  RestrictedByGroup {
    */
   public void setPooledPrimer(PcrPrimer pooledPrimer) {
     this.pooledPrimer = pooledPrimer;
-  }
-
-  /**
-   * Gets the location.
-   *
-   * @return the location
-   */
-  @NotAudited
-  @OneToOne(cascade = {}, fetch = FetchType.LAZY, mappedBy = "pcrPrimer")
-  public Location getLocation() {
-    return location;
-  }
-
-  /**
-   * Sets the location.
-   *
-   * @param location
-   *          the new location
-   */
-  @NotAudited
-  public void setLocation(Location location) {
-    this.location = location;
   }
 
   /*
@@ -1267,23 +1202,6 @@ public class PcrPrimer implements  RestrictedByGroup {
    */
   public void setDateDestroyed(LocalDate dateDestroyed) {
     this.dateDestroyed = dateDestroyed;
-  }
-
-  @Override
-  @Transient
-  @JsonIgnore
-  public Group getAccessGroup() {
-    return getGroup();
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  public String toString() {
-    return super.toString() + ": Id=" + pcrPrimerId + " / Name=" + name + " / GroupId="
-        + (group != null ? group.getGroupId() : "null") + " / LastModified=" + lastModified;
   }
 
   /**

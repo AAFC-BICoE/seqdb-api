@@ -87,7 +87,4 @@ public class PcrPrimerDto {
   @JsonApiRelation
   private RegionDto region;
 
-  @JsonApiRelation
-  private GroupDto group;
-  
 }

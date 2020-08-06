@@ -16,18 +16,15 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
@@ -61,7 +58,6 @@ public class StepResource implements Serializable {
   private ChainStepTemplate chainStepTemplate;
   private Chain chain;
   private Sample sample;
-  private PcrBatch pcrBatch;
   private Product product;
   private PcrPrimer primer;
   private PcrProfile pcrProfile;
@@ -116,16 +112,6 @@ public class StepResource implements Serializable {
 
   public void setSample(Sample sample) {
     this.sample = sample;
-  }
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PcrBatchID")
-  public PcrBatch getPcrBatch() {
-    return pcrBatch;
-  }
-
-  public void setPcrBatch(PcrBatch pcrBatch) {
-    this.pcrBatch = pcrBatch;
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -251,13 +237,12 @@ public class StepResource implements Serializable {
   @Builder
   public StepResource(StepResourceValue value, ChainStepTemplate chainStepTemplate, Chain chain,
       
-      Sample sample, PcrBatch pcrBatch,
+      Sample sample,
       Product product, PcrPrimer primer, PcrProfile pcrProfile, Protocol protocol) {
     this.value = value;
     this.chainStepTemplate = chainStepTemplate;
     this.chain = chain;
     this.sample = sample;
-    this.pcrBatch = pcrBatch;
     this.product = product;
     this.primer = primer;
     this.pcrProfile = pcrProfile;

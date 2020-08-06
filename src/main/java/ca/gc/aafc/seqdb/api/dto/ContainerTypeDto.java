@@ -31,7 +31,4 @@ public class ContainerTypeDto {
 
   private Timestamp lastModified;
 
-  @JsonApiRelation
-  private GroupDto group;
-
 }

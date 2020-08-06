@@ -102,8 +102,10 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
    */
   @Test
   public void createSample_onSuccess_allFieldsHaveSetValueAfterPersisted() {
+    String newSampleName = "new sample";
+
     SampleDto newSample = new SampleDto();
-    newSample.setName(TEST_SAMPLE_NAME_CREATE);
+    newSample.setName(newSampleName);
     newSample.setVersion(TEST_SAMPLE_VERSION_CREATE);
     newSample.setExperimenter(TEST_SAMPLE_EXPERIMENTER_CREATE);
     
@@ -111,7 +113,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     
     //DTO has the set value
     assertNotNull(createdSample.getSampleId());
-    assertEquals(TEST_SAMPLE_NAME_CREATE, createdSample.getName());
+    assertEquals(newSampleName, createdSample.getName());
     assertEquals(TEST_SAMPLE_VERSION_CREATE, createdSample.getVersion());
     assertEquals(TEST_SAMPLE_EXPERIMENTER_CREATE, createdSample.getExperimenter());
     
@@ -119,7 +121,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     Sample sampleEntity = entityManager.find(Sample.class, createdSample.getSampleId());
     
     assertNotNull(sampleEntity.getId());
-    assertEquals(TEST_SAMPLE_NAME_CREATE, sampleEntity.getName());
+    assertEquals(newSampleName, sampleEntity.getName());
     assertEquals(TEST_SAMPLE_VERSION_CREATE, sampleEntity.getVersion());
     assertEquals(TEST_SAMPLE_EXPERIMENTER_CREATE, sampleEntity.getExperimenter());
   }

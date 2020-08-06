@@ -130,9 +130,11 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void createAndPersistPcrProfile_onSucess_allFieldsHavePersistedValues() {
+    String newThermocyclerProfileName = "new thermocycler profile";
+
     //set a base DTO
     ThermocyclerProfileDto baseDto = new ThermocyclerProfileDto();
-    baseDto.setName(TEST_PROFILE_NAME);
+    baseDto.setName(newThermocyclerProfileName);
     baseDto.setCycles(TEST_PROFILE_CYCLE);
     
     //create the DTO in the repository
@@ -140,14 +142,14 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     
     //Assert DTO has the set values
     assertNotNull(createdDto.getPcrProfileId());
-    assertEquals(TEST_PROFILE_NAME, createdDto.getName());
+    assertEquals(newThermocyclerProfileName, createdDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, createdDto.getCycles());
     verifyStepsAreEqual(baseDto, createdDto);
     
     //Assert Entity has the set values
     PcrProfile profileEntity = entityManager.find(PcrProfile.class, createdDto.getPcrProfileId());
     assertNotNull(profileEntity.getId());
-    assertEquals(TEST_PROFILE_NAME, profileEntity.getName());
+    assertEquals(newThermocyclerProfileName, profileEntity.getName());
     assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());
     verifyStepsAreEqual(profileEntity, baseDto);
       

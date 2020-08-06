@@ -58,8 +58,10 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void createContainerType_onSuccess_containerTypePersisted() {
+    String newContainerTypeName = "new container type";
+
     ContainerTypeDto newDto = new ContainerTypeDto();
-    newDto.setName(TEST_CONTAINERTYPE_NAME);
+    newDto.setName(newContainerTypeName);
     newDto.setBaseType(TEST_CONTAINERTYPE_BASETYPE);
     newDto.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     newDto.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
@@ -67,7 +69,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     ContainerTypeDto created = ctRepository.create(newDto);
     
     assertNotNull(created.getContainerTypeId());
-    assertEquals(TEST_CONTAINERTYPE_NAME, created.getName());
+    assertEquals(newContainerTypeName, created.getName());
     assertEquals(TEST_CONTAINERTYPE_BASETYPE, created.getBaseType());
     assertEquals(TEST_CONTAINERTYPE_COLS, created.getNumberOfColumns());
     assertEquals(TEST_CONTAINERTYPE_ROWS, created.getNumberOfRows());

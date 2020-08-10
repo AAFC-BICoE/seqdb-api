@@ -68,19 +68,9 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
       .put("version", "A")
       .build();
 
-    //Build group relationship for protocol
-    ImmutableMap.Builder<String, Object> protocolRelationships = new ImmutableMap.Builder<>();
-    protocolRelationships.put("type", "group").put("id", "2").build();
-
-    ImmutableMap.Builder<String, Object> dataBldr = new ImmutableMap.Builder<>();
-    dataBldr.put("data", protocolRelationships.build());
-
-    ImmutableMap.Builder<String, Object> relationshipBldr = new ImmutableMap.Builder<>();
-    relationshipBldr.put("group", dataBldr.build());
-
     //Put maps together and create one json map
     Map<String, Object> protocolMap = toJsonAPIMap(
-        "protocol", protocolAttributes.build(), relationshipBldr.build(), null);
+        "protocol", protocolAttributes.build(), null, null);
     protocolId = sendPost("protocol", protocolMap);
     
     // Build attributes for product

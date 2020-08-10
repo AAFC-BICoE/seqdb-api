@@ -42,7 +42,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-1">
         <createTable tableName="ngsindexes">
-            <column name="ngsindexid" type="INTEGER">
+            <column name="ngsindexid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ngsindexes_pkey"/>
             </column>
             <column name="application" type="VARCHAR(255)"/>
@@ -69,7 +69,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-2">
         <createTable tableName="libraryprepbatchs">
-            <column name="libraryprepbatchid" type="INTEGER">
+            <column name="libraryprepbatchid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="libraryprepbatchs_pkey"/>
             </column>
             <column name="cleanupnotes" type="VARCHAR(255)"/>
@@ -112,7 +112,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-4">
         <createTable tableName="librarypreps">
-            <column name="libraryprepid" type="INTEGER">
+            <column name="libraryprepid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypreps_pkey"/>
             </column>
             <column name="inputng" type="FLOAT8"/>
@@ -140,7 +140,7 @@
             <column name="inputamount" type="FLOAT8"/>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="notes" type="TEXT"/>
-            <column name="prelibrarypreptype" type="VARCHAR(255)">
+            <column name="prelibrarypreptype" type="prelibrarypreptype">
                 <constraints nullable="false"/>
             </column>
             <column name="quality" type="VARCHAR(255)"/>
@@ -161,7 +161,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-7">
         <createTable tableName="librarypools">
-            <column name="librarypoolid" type="INTEGER">
+            <column name="librarypoolid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypools_pkey"/>
             </column>
             <column name="dateused" type="date"/>
@@ -171,7 +171,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-8">
         <createTable tableName="librarypoolcontents">
-            <column name="librarypoolcontentid" type="INTEGER">
+            <column name="librarypoolcontentid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypoolcontents_pkey"/>
             </column>
             <column name="librarypoolid" type="INTEGER">
@@ -265,12 +265,35 @@
             <column name="protocolid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-12">
+    <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="h2" />
+        </preConditions>
         <createTable tableName="steptemplates">
             <column autoIncrement="true" name="steptemplateid" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
             </column>
-            <column name="name" type="VARCHAR(50)">
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inputs" type="array">
+                <constraints nullable="false"/>
+            </column>
+            <column name="outputs" type="array">
+                <constraints nullable="false"/>
+            </column>
+            <column name="supports" type="array"/>
+        </createTable>
+    </changeSet>
+    <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-PSQL" author="elkayssin">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="postgresql" />
+        </preConditions>
+        <createTable tableName="steptemplates">
+            <column autoIncrement="true" name="steptemplateid" type="SERIAL">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
+            </column>
+            <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="inputs" type="stepresourcevalue []">
@@ -284,7 +307,7 @@
     </changeSet>
     <changeSet author="mat (generated)" id="1596744623461-13">
         <createTable tableName="indexsets">
-            <column name="indexsetid" type="INTEGER">
+            <column name="indexsetid" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="indexsets_pkey"/>
             </column>
             <column name="forwardadapter" type="VARCHAR(255)"/>
@@ -591,24 +614,6 @@
     <changeSet author="mat (generated)" id="1596744623461-64">
         <addForeignKeyConstraint baseColumnNames="regionid" baseTableName="pcrprimers" constraintName="fkp2gffci4u9r6k5rvjb86hllwg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="regionid" referencedTableName="regions" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-65">
-        <createSequence sequenceName="indexsets_indexsetid_seq"/>
-    </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-66">
-        <createSequence sequenceName="librarypoolcontents_librarypoolcontentid_seq"/>
-    </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-67">
-        <createSequence sequenceName="librarypools_librarypoolid_seq"/>
-    </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-68">
-        <createSequence sequenceName="libraryprepbatchs_libraryprepbatchid_seq"/>
-    </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-69">
-        <createSequence sequenceName="librarypreps_libraryprepid_seq"/>
-    </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-70">
-        <createSequence sequenceName="ngsindexes_ngsindexid_seq"/>
-    </changeSet>
     <changeSet
       id="initial-workflow-data"
       context="schema-change"
@@ -649,10 +654,10 @@
             2
           );
         </sql>
-        <sql dbms="h2">
+        <!-- <sql dbms="h2">
           alter sequence chaintemplates_chaintemplateid_seq restart with 3;
           alter sequence steptemplates_steptemplateid_seq restart with 6;
           alter sequence chainsteptemplates_chainsteptemplateid_seq restart with 6;
-        </sql>
+        </sql> -->
     </changeSet>
 </databaseChangeLog>

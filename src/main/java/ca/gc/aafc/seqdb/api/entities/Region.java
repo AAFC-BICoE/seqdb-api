@@ -79,31 +79,9 @@ public class Region {
     super();
   }
 
-  /**
-   * Instantiates a new region tag.
-   *
-   * @param name
-   *          the name
-   * @param description
-   *          the description
-   * @param group
-   *          the group
-   * @param lastModified
-   *          the last modified
-   * @param left
-   *          the left
-   * @param right
-   *          the right
-   * @param symbol
-   *          the symbol
-   * @param aliases
-   *          the aliases
-   * @param applicableOrganisms
-   *          the applicable organisms
-   */
   @Builder
-  public Region(String name, String description, Timestamp lastModified, int left,
-      int right, String symbol, String aliases, String applicableOrganisms) {
+  public Region(String name, String description,
+      String symbol, String aliases, String applicableOrganisms) {
     this.name = name;
     this.description = description;
     this.symbol = symbol;

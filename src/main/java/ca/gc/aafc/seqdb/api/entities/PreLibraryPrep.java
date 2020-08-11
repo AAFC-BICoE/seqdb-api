@@ -20,7 +20,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.envers.Audited;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 

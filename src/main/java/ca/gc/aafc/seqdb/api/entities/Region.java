@@ -30,8 +30,6 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +51,7 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "Regions", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name" }) })
+    @UniqueConstraint(columnNames = "Name") })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class Region {
 

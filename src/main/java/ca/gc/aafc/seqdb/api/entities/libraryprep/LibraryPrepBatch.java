@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.envers.NotAudited;
-
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
@@ -169,7 +167,6 @@ public class LibraryPrepBatch implements Serializable {
     this.protocol = protocol;
   }
 
-  @NotAudited
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ContainerTypeID")
   public ContainerType getContainerType() {

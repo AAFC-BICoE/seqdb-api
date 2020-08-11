@@ -56,8 +56,10 @@ import lombok.Builder;
  */
 @Entity
 
-@Table(name = "ContainerTypes", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name" }) })
+@Table(
+  name = "ContainerTypes",
+  uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
+)
 public class ContainerType {
 
   /** The container type id. */
@@ -360,9 +362,7 @@ public class ContainerType {
    *         and rownumber
    */
   public boolean isValidLocation(int columnnumber, int rownumber) {
-
-    return (getNumberOfColumns() >= columnnumber && getNumberOfRows() >= rownumber);
-
+    return getNumberOfColumns() >= columnnumber && getNumberOfRows() >= rownumber;
   }
 
   @Transient

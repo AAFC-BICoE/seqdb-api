@@ -23,7 +23,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.envers.NotAudited;
 
 import lombok.Builder;
 
@@ -256,7 +255,6 @@ public class NgsIndex implements Serializable {
     this.miniSeqNextSeqIndexSequence = miniSeqNextSeqIndexSequence;
   }
 
-  @NotAudited
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IndexSetID")
   public IndexSet getIndexSet() {

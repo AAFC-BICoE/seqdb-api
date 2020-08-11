@@ -2,11 +2,14 @@ package ca.gc.aafc.seqdb.api.util;
 
 import java.util.regex.Pattern;
 
-public class NumberLetterMappingUtils {
+public final class NumberLetterMappingUtils {
     /**
    * regex for any character not in alphabet and capitalized.
    */
   private static final Pattern NON_ALPHABET_PATTERN = Pattern.compile("[^A-Z]");
+
+  /** Util class ; This class should not be constructed. */
+  private NumberLetterMappingUtils() {}
 
   /**
    * Generate the alphabetical value for a number, where the letters roll over after reaching Z.
@@ -18,8 +21,9 @@ public class NumberLetterMappingUtils {
    * @return the letter
    * @throws IllegalArgumentException the illegal argument exception
    */
-  public static String getLetter(Integer number) {
-  
+  public static String getLetter(Integer givenNumber) {
+    Integer number = givenNumber;
+
     if (number == null) {
       return null;
     }
@@ -53,8 +57,9 @@ public class NumberLetterMappingUtils {
    * @param letter the alphabetized number, A-Z alphabetical only
    * @return the number as an Integer
    */
-  public static Integer getNumber(String letter) {
-  
+  public static Integer getNumber(String givenLetter) {
+    String letter = givenLetter;
+
     // If nothing is given, nothing is given back.
     if (letter == null) {
       return null;

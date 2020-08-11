@@ -22,7 +22,6 @@ import lombok.Builder;
  * The library prep of a sample.
  */
 @Entity
-
 @Table(name = "LibraryPreps")
 public class LibraryPrep {
 

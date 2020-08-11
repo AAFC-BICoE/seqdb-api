@@ -57,12 +57,6 @@ public class SampleDto {
 
   private Double qubitDNAConcentration;
 
-  //CHECKSTYLE:OFF MemberName
-  private Double ratio260_280;
-
-  private Double ratio260_230;
-  //CHECKSTYLE:ON MemberName
-
   private String quantificationMethod;
 
   private String growthMedia;

@@ -248,8 +248,6 @@
             <column name="proteinasekvolume" type="FLOAT8"/>
             <column name="quantificationmethod" type="VARCHAR(100)"/>
             <column name="qubitdnaconcentration" type="FLOAT8"/>
-            <column name="ratio260_230" type="FLOAT8"/>
-            <column name="ratio260_280" type="FLOAT8"/>
             <column name="samplestorageconditions" type="VARCHAR(50)"/>
             <column name="samplestoragelocation" type="VARCHAR(50)"/>
             <column name="sampletype" type="VARCHAR(255)"/>

@@ -57,7 +57,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-import org.hibernate.envers.NotAudited;
 
 import lombok.Builder;
 
@@ -1209,7 +1208,6 @@ public class PcrPrimer {
    * @return the UUID
    */
   @Column(name = "uuid", unique = true)
-  @NotAudited
   @NotNull
   public UUID getUUID() {
     return uuid;

@@ -103,16 +103,6 @@
       "description": "Qubit DNA concentration of the sample."
     },
      
-    "ratio260_280": {
-      "type": "number",
-      "description": "ratio 260 280 of the sample."
-    },
-     
-    "ratio260_230": {
-      "type": "number",
-      "description": "ratio 260 230 of the sample."
-    },
-    
     "quantificationMethod": {
       "type": "string",
       "description": "Quantification method of the sample.",

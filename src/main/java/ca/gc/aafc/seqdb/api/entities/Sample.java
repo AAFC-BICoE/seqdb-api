@@ -54,17 +54,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import lombok.Builder;
 
 @Entity
-
 @Table(name = "Samples", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "Version" }) })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class Sample {
 
   public enum SampleType {
@@ -110,9 +106,6 @@ public class Sample {
       return Optional.empty();
     }
   }
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = -638229873932525828L;
 
   /** The sample id. */
   private Integer sampleId;
@@ -164,12 +157,6 @@ public class Sample {
 
   /** The qubit DNA concentration. */
   private Double qubitDNAConcentration;
-
-  /** The ratio 260 280. */
-  private Double ratio260_280;
-
-  /** The ratio 260 230. */
-  private Double ratio260_230;
 
   /** The quantification method. */
   private String quantificationMethod;
@@ -274,10 +261,6 @@ public class Sample {
    *          the proteinase K volume
    * @param qubitDNAConcentration
    *          the qubit DNA concentration
-   * @param ratio260_280
-   *          the ratio 260 280
-   * @param ratio260_230
-   *          the ratio 260 230
    * @param quantificationMethod
    *          the quantification method
    * @param growthMedia
@@ -320,7 +303,7 @@ public class Sample {
       String treatment, String source, String dnaConcentration, String dnaConcentrationNotes,
       String dnaConcentrationPerStartMaterial, Date date, String nuclAcidExt,
       String extractionBatch, Double pelletSize, Double lysisBufferVolume, Double proteinaseKVolume,
-      Double qubitDNAConcentration, Double ratio260_280, Double ratio260_230,
+      Double qubitDNAConcentration,
       String quantificationMethod, String growthMedia, String dnaNotes, String notes, String tubeId,
       Boolean unusableDna, Product kit, Protocol protocol,
       SampleType sampleType, LocalDate inoculationDate, String fraction,
@@ -345,8 +328,6 @@ public class Sample {
     this.lysisBufferVolume = lysisBufferVolume;
     this.proteinaseKVolume = proteinaseKVolume;
     this.qubitDNAConcentration = qubitDNAConcentration;
-    this.ratio260_280 = ratio260_280;
-    this.ratio260_230 = ratio260_230;
     this.quantificationMethod = quantificationMethod;
     this.growthMedia = growthMedia;
     this.dnaNotes = dnaNotes;
@@ -739,46 +720,6 @@ public class Sample {
    */
   public void setQubitDNAConcentration(Double qubitDNAConcentration) {
     this.qubitDNAConcentration = qubitDNAConcentration;
-  }
-
-  /**
-   * Gets the ratio 260 280.
-   *
-   * @return the ratio 260 280
-   */
-  @Column(name = "Ratio260_280")
-  public Double getRatio260_280() {
-    return ratio260_280;
-  }
-
-  /**
-   * Sets the ratio 260 280.
-   *
-   * @param ratio260_280
-   *          the new ratio 260 280
-   */
-  public void setRatio260_280(Double ratio260_280) {
-    this.ratio260_280 = ratio260_280;
-  }
-
-  /**
-   * Gets the ratio 260 230.
-   *
-   * @return the ratio 260 230
-   */
-  @Column(name = "Ratio260_230")
-  public Double getRatio260_230() {
-    return ratio260_230;
-  }
-
-  /**
-   * Sets the ratio 260 230.
-   *
-   * @param ratio260_230
-   *          the new ratio 260 230
-   */
-  public void setRatio260_230(Double ratio260_230) {
-    this.ratio260_230 = ratio260_230;
   }
 
   /**

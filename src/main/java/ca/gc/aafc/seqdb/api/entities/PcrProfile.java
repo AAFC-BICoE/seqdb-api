@@ -58,12 +58,11 @@ import lombok.Builder;
  */
 @Entity
 
-@Table(name = "PcrProfiles", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name" }) })
+@Table(
+  name = "PcrProfiles",
+  uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
+)
 public class PcrProfile {
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 2472713180924441324L;
 
   /** The pcr profile id. */
   private Integer pcrProfileId;

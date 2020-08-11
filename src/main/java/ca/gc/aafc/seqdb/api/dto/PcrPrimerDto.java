@@ -3,6 +3,8 @@ package ca.gc.aafc.seqdb.api.dto;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -13,6 +15,7 @@ import lombok.Data;
 @Data
 @JsonApiResource(type = "pcrPrimer")
 @SuppressFBWarnings(value="EI_EXPOSE_REP")
+@RelatedEntity(PcrPrimer.class)
 public class PcrPrimerDto {
 
   @JsonApiId

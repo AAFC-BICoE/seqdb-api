@@ -54,8 +54,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import lombok.Builder;
@@ -64,10 +62,8 @@ import lombok.Builder;
  * The Class PcrPrimer.
  */
 @Entity
-
 @Table(name = "PcrPrimers", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class PcrPrimer {
 
   /** The Constant serialVersionUID. */

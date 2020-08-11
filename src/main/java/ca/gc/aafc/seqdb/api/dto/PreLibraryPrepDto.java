@@ -1,7 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
-
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -9,6 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "preLibraryPrep")
+@RelatedEntity(PreLibraryPrep.class)
 public class PreLibraryPrepDto {
 
   @JsonApiId

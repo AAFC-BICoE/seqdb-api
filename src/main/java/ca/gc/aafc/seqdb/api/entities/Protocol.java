@@ -54,9 +54,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import lombok.Builder;
 
 /**
@@ -68,7 +65,6 @@ import lombok.Builder;
 
 @Table(name = "Protocols", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "Type" }) })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class Protocol {
 
   /**

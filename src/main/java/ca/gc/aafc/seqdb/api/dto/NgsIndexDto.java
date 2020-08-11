@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.LocalDate;
 
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex.NgsIndexDirection;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -10,6 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "ngsIndex")
+@RelatedEntity(NgsIndex.class)
 public class NgsIndexDto {
   @JsonApiId
   private Integer ngsIndexId;

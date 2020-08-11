@@ -40,19 +40,14 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import lombok.Builder;
 
 /**
  * The Class Region.
  */
 @Entity
-
 @Table(name = "Regions", uniqueConstraints = {
     @UniqueConstraint(columnNames = "Name") })
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class Region {
 
   private Integer regionId;

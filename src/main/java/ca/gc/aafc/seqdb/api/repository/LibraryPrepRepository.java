@@ -12,16 +12,15 @@ import com.google.common.base.Objects;
 
 import org.springframework.stereotype.Component;
 
+import ca.gc.aafc.dina.filter.RsqlFilterHandler;
+import ca.gc.aafc.dina.filter.SimpleFilterHandler;
+import ca.gc.aafc.dina.repository.JpaDtoRepository;
+import ca.gc.aafc.dina.repository.JpaResourceRepository;
+import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-
 import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
 
 @Component

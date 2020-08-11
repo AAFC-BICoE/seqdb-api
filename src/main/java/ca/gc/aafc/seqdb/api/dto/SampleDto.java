@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import ca.gc.aafc.seqdb.entities.Sample.SampleType;
+import ca.gc.aafc.seqdb.api.entities.Sample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -57,12 +57,6 @@ public class SampleDto {
 
   private Double qubitDNAConcentration;
 
-  //CHECKSTYLE:OFF MemberName
-  private Double ratio260_280;
-
-  private Double ratio260_230;
-  //CHECKSTYLE:ON MemberName
-
   private String quantificationMethod;
 
   private String growthMedia;
@@ -94,15 +88,9 @@ public class SampleDto {
   // Optional Relations
   
   @JsonApiRelation
-  private GroupDto group;
-  
-  @JsonApiRelation
   private ProductDto kit;
   
   @JsonApiRelation
   private ProtocolDto protocol;
-  
-  @JsonApiRelation
-  private LocationDto location;
   
 }

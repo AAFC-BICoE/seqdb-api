@@ -57,7 +57,4 @@ public class ThermocyclerProfileDto {
   @JsonApiRelation
   private RegionDto region;
 
-  @JsonApiRelation
-  private GroupDto group;
-
 }

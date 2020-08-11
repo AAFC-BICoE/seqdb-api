@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.LocalDate;
 
-import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex.NgsIndexDirection;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex.NgsIndexDirection;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;

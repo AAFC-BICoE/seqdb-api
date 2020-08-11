@@ -12,11 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -33,17 +32,12 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   
   private Product testKit;
   
-  private Group testGroup;
-  
   private Protocol createTestProtocol() {
-    testGroup = new Group("group name");
-    persistGroup(testGroup);
-    testKit = new Product("testKit", "testF", testGroup);
+    testKit = new Product("testKit", "testF");
     persist(testKit);
     testProtocol = ProtocolFactory.newProtocol()
         .name(TEST_PROTOCOL_NAME)
         .type(TEST_PROTOCOL_TYPE)
-        .group(testGroup)
         .version("A")
         .description("testDescription")
         .steps("14")

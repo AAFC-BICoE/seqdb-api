@@ -3,7 +3,7 @@ package ca.gc.aafc.seqdb.api.dto;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -86,11 +86,5 @@ public class PcrPrimerDto {
 
   @JsonApiRelation
   private RegionDto region;
-
-  @JsonApiRelation
-  private GroupDto group;
-  
-  @JsonApiRelation
-  private LocationDto location;
 
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 
 /**
  * Integration test for the region resource.
@@ -48,12 +48,7 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
 
   @Override
   protected Map<String, Object> buildRelationshipMap() {
-    ImmutableMap.Builder<String, Object> relationships = new ImmutableMap.Builder<>();
-    relationships.put("type", "group").put("id", "2").build();
-
-    ImmutableMap.Builder<String, Object> bldr = new ImmutableMap.Builder<>();
-    bldr.put("data", relationships.build());
-    return ImmutableMap.of("group", bldr.build());
+    return ImmutableMap.of();
   }
 
   @Override

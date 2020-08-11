@@ -9,7 +9,7 @@ import lombok.Data;
 public class RegionDto {
 
   @JsonApiId
-  private Integer tagId;
+  private Integer regionId;
 
   private String name;
 

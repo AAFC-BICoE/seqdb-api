@@ -2,14 +2,19 @@ package ca.gc.aafc.seqdb.api.rest;
 
 import java.util.Map;
 
-import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.testsupport.factories.RegionFactory;
+import org.junit.platform.commons.annotation.Testable;
+
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.testsupport.factories.RegionFactory;
 
 /**
  * Integration test for the region resource.
  *
  */
+@Testable
 public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
+
+  private int nameIncrementor = 1;
 
   @Override
   protected String getResourceUnderTest() {
@@ -30,14 +35,11 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   protected Map<String, Object> buildCreateAttributeMap() {
     
     Region region = RegionFactory.newRegion()
-    .name("test region")
+    .name("test region" + (nameIncrementor++))
     .description("test description")
     .symbol("test symbol").build();
     
     Map<String, Object> map = toAttributeMap(region);
-    // we should not be able to provide those fields but the API currently allows it
-    map.remove("lft");
-    map.remove("rgt");
     
     return map;
   }
@@ -50,9 +52,6 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
     .symbol("updated symbol").build();
     
     Map<String, Object> map = toAttributeMap(region);
-    // we should not be able to provide those fields but the API currently allows it
-    map.remove("lft");
-    map.remove("rgt");
     
     return map;
   }

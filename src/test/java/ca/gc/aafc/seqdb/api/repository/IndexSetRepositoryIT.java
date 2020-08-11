@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
-import ca.gc.aafc.seqdb.entities.libraryprep.IndexSet;
-import ca.gc.aafc.seqdb.testsupport.factories.IndexSetFactory;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
+import ca.gc.aafc.seqdb.api.testsupport.factories.IndexSetFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 

@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import ca.gc.aafc.seqdb.entities.workflow.StepTemplate.StepResourceValue;
+import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;

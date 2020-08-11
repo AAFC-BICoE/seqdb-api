@@ -2,10 +2,8 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
@@ -21,8 +19,6 @@ public class ContainerTypeDto {
 
   private String baseType;
   
-  private FillDirection fillDirection;
-
   private Integer numberOfColumns;
 
   private Integer numberOfRows;
@@ -33,8 +29,5 @@ public class ContainerTypeDto {
   private Integer widthInMM;
 
   private Timestamp lastModified;
-
-  @JsonApiRelation
-  private GroupDto group;
 
 }

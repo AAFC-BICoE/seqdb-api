@@ -15,16 +15,14 @@ import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.testsupport.factories.ContainerTypeFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepBatchFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepBatchFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -51,7 +49,6 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPrepBatch createTestBatch() {
     testContainerType = ContainerTypeFactory.newContainerType()
-        .fillDirection(FillDirection.BY_COLUMN)
         .build();
     
     persist(testContainerType);
@@ -59,11 +56,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    Group testGroup = new Group("group name");
-    persistGroup(testGroup);
-    
-    testProtocol = ProtocolFactory.newProtocol(testGroup).build();
-    entityManager.persist(testProtocol.getGroup());
+    testProtocol = ProtocolFactory.newProtocol().build();
     persist(testProtocol);
     
     testBatch = LibraryPrepBatchFactory.newLibraryPrepBatch()

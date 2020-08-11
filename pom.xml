@@ -22,9 +22,6 @@
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
-    <!-- seqdb.dbi & seqdb.testjar are pulled from lib/ folder -->
-    <seqdb.dbi.version>3.40.1</seqdb.dbi.version>
-    
     <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
     <spotbugs.version>3.1.12</spotbugs.version>
     <jcip-annotations.version>1.0</jcip-annotations.version>
@@ -85,14 +82,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-ldap</artifactId>
-    </dependency>
 
     <!-- crnk -->
     <dependency>
@@ -126,28 +115,22 @@
     <!-- Hibernate -->
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-envers</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-ehcache</artifactId>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-spatial</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.vladmihalcea</groupId>
+      <artifactId>hibernate-types-52</artifactId>
+      <version>2.4.4</version>
+    </dependency>
     
     <!-- Database -->
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
-    </dependency>
-
-    <!-- Keycloak -->
-    <dependency>
-      <groupId>org.keycloak</groupId>
-      <artifactId>keycloak-spring-boot-starter</artifactId>
-      <version>${keycloak-spring-boot-starter.version}</version>
     </dependency>
 
 	<!-- util -->
@@ -227,32 +210,6 @@
 		<version>${commons.beanutils.version}</version>
 	</dependency>
 
-    <!-- Seqdb -->
-    <dependency>
-      <groupId>ca.gc.aafc</groupId>
-      <artifactId>seqdb.dbi</artifactId>
-      <version>${seqdb.dbi.version}</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}.jar</systemPath>
-    </dependency>
-    
-    <!-- SeqDBfactory test jar -->
-    <dependency>
-      <groupId>ca.gc.aafc</groupId>
-      <artifactId>seqdb.dbi</artifactId>
-      <classifier>test-support</classifier>
-      <version>${seqdb.dbi.version}</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/seqdb.dbi-${seqdb.dbi.version}-test-support.jar</systemPath>
-    </dependency>
-
-    <!-- used in dbi jar -->
-    <dependency>
-      <groupId>com.vladmihalcea</groupId>
-      <artifactId>hibernate-types-52</artifactId>
-      <version>2.4.4</version>
-    </dependency>
-    
     <!-- TEST Scope -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -292,6 +249,11 @@
 		<version>${javax.json.version}</version>
 		<scope>test</scope>
 	</dependency>
+  <dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>test</scope>
+  </dependency>
   </dependencies>
 
   <build>

@@ -6,15 +6,17 @@ import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.platform.commons.annotation.Testable;
 import org.springframework.http.HttpStatus;
 
 import com.google.common.collect.ImmutableMap;
 
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.entities.PreLibraryPrep.PreLibraryPrepType;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.testsupport.factories.PreLibraryPrepFactory;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 
+@Testable
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 
   private int protocolId;
@@ -66,19 +68,9 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
       .put("version", "A")
       .build();
 
-    //Build group relationship for protocol
-    ImmutableMap.Builder<String, Object> protocolRelationships = new ImmutableMap.Builder<>();
-    protocolRelationships.put("type", "group").put("id", "2").build();
-
-    ImmutableMap.Builder<String, Object> dataBldr = new ImmutableMap.Builder<>();
-    dataBldr.put("data", protocolRelationships.build());
-
-    ImmutableMap.Builder<String, Object> relationshipBldr = new ImmutableMap.Builder<>();
-    relationshipBldr.put("group", dataBldr.build());
-
     //Put maps together and create one json map
     Map<String, Object> protocolMap = toJsonAPIMap(
-        "protocol", protocolAttributes.build(), relationshipBldr.build(), null);
+        "protocol", protocolAttributes.build(), null, null);
     protocolId = sendPost("protocol", protocolMap);
     
     // Build attributes for product

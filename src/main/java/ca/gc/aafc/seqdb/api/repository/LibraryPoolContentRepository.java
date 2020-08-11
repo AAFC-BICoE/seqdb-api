@@ -15,9 +15,9 @@ import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
 import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
 import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPool;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPoolContent;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
 
 @Named
 public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryPoolContentDto> {

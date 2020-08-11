@@ -6,7 +6,6 @@
       "attributes": {
         "versionDescription": "version description",
         "date": "2019-05-19",
-        "ratio260_280": 3.0,
         "treatment": "treatment",
         "dnaNotes": "dna notes",
         "notes": "main notes",
@@ -32,7 +31,6 @@
         "fermentationTime": "fermentation time",
         "name": "name",
         "lastModified": "2019-07-05T17:26:37.286+0000",
-        "ratio260_230": 3.2,
         "inoculationDate": "1998-05-19",
         "fermentationTemperature": 5.0
       },
@@ -66,7 +64,6 @@
       "attributes": {
         "versionDescription": "version description",
         "date": "2019-05-19",
-        "ratio260_280": 3.0,
         "treatment": "treatment",
         "dnaNotes": "dna notes",
         "notes": "main notes",
@@ -92,7 +89,6 @@
         "fermentationTime": "fermentation time",
         "name": "name 2",
         "lastModified": "2019-07-05T17:26:37.286+0000",
-        "ratio260_230": 3.2,
         "inoculationDate": "1998-05-19",
         "fermentationTemperature": 5.0
       },

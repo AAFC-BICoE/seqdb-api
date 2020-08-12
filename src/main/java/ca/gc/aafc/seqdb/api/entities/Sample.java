@@ -30,6 +30,7 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -61,7 +62,9 @@ import lombok.Builder;
 @Entity
 @Table(name = "Samples", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "Version" }) })
-public class Sample {
+public class Sample implements Serializable {
+
+  private static final long serialVersionUID = 606087986130661964L;
 
   public enum SampleType {
 

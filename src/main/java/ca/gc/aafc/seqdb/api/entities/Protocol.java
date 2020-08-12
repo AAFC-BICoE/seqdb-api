@@ -34,6 +34,7 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -69,7 +70,9 @@ import lombok.Builder;
 @Table(name = "Protocols", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "Type" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class Protocol {
+public class Protocol implements Serializable {
+
+  private static final long serialVersionUID = -7589139423289260352L;
 
   /**
    * The Enum ProtocolType.

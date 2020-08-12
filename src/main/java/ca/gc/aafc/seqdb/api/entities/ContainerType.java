@@ -30,6 +30,8 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
+
 // Generated 10-May-2007 10:53:34 by Hibernate Tools 3.2.0.beta8
 
 import java.sql.Timestamp;
@@ -60,7 +62,9 @@ import lombok.Builder;
   name = "ContainerTypes",
   uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
 )
-public class ContainerType {
+public class ContainerType  implements Serializable {
+
+  private static final long serialVersionUID = -6447058851121331627L;
 
   /** The container type id. */
   private Integer containerTypeId;

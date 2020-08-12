@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +31,9 @@ import lombok.Builder;
 @Table(name = "StepTemplates")
 @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
     @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
-public class StepTemplate {
+public class StepTemplate implements Serializable {
+
+  private static final long serialVersionUID = 6974482396989649772L;
 
   public StepTemplate() {
 

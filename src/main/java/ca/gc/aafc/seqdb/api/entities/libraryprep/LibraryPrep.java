@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +25,9 @@ import lombok.Builder;
  */
 @Entity
 @Table(name = "LibraryPreps")
-public class LibraryPrep {
+public class LibraryPrep implements Serializable {
+
+  private static final long serialVersionUID = 389829581674142176L;
 
   private Integer libraryPrepId;
 

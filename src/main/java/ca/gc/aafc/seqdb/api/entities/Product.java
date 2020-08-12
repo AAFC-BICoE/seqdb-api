@@ -30,6 +30,7 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -53,7 +54,9 @@ import lombok.Builder;
 
 @Table(name = "Products", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "UPC" }) })
-public class Product {
+public class Product implements Serializable {
+
+  private static final long serialVersionUID = 4397311433401996042L;
 
   /** The product id. */
   private Integer productId;

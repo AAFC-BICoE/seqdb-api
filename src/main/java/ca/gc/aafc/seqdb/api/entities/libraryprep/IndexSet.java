@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,7 +19,9 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "IndexSets")
-public class IndexSet {
+public class IndexSet implements Serializable {
+
+  private static final long serialVersionUID = -8515984662063014004L;
 
   private Integer indexSetId;
 

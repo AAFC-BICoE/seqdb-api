@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,8 +28,9 @@ import lombok.RequiredArgsConstructor;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ChainTemplate {
+public class ChainTemplate implements Serializable {
 
+  private static final long serialVersionUID = 3626266505087333453L;
   private Integer chainTemplateId;
   private String name;
 

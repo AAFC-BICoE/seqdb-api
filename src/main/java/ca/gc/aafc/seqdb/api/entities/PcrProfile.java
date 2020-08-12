@@ -34,6 +34,7 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -62,7 +63,9 @@ import lombok.Builder;
   name = "PcrProfiles",
   uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
 )
-public class PcrProfile {
+public class PcrProfile implements Serializable {
+
+  private static final long serialVersionUID = 1640726142986796781L;
 
   /** The pcr profile id. */
   private Integer pcrProfileId;

@@ -30,6 +30,8 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +55,9 @@ import lombok.Builder;
 @Table(name = "Regions", uniqueConstraints = {
     @UniqueConstraint(columnNames = "Name") })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class Region {
+public class Region implements Serializable {
+
+  private static final long serialVersionUID = -1006757795446154087L;
 
   private Integer regionId;
 

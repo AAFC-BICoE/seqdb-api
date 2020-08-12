@@ -15,6 +15,6 @@ script:
   - mvn verify -Dspring.config.additional-location=src/test/resources/test-db-configuration.yml checkstyle:check com.github.spotbugs:spotbugs-maven-plugin:check jacoco:check
 
 jdk:
-  - openjdk8
-  - openjdk10
   - openjdk11
+  - openjdk12
+  - openjdk13

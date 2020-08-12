@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import ca.gc.aafc.dina.DinaBaseApiAutoConfiguration;
+import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.filter.RsqlFilterHandler;
 import ca.gc.aafc.dina.filter.SimpleFilterHandler;
 import ca.gc.aafc.dina.jpa.BaseDAO;
@@ -21,10 +24,10 @@ import ca.gc.aafc.dina.mapper.JpaDtoMapper;
 import ca.gc.aafc.dina.repository.JpaDtoRepository;
 import ca.gc.aafc.dina.repository.JpaRelationshipRepository;
 import ca.gc.aafc.dina.repository.meta.JpaTotalMetaInformationProvider;
+import ca.gc.aafc.dina.util.ClassAnnotationHelper;
 import ca.gc.aafc.seqdb.api.dto.ChainDto;
 import ca.gc.aafc.seqdb.api.dto.ChainStepTemplateDto;
 import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
-import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolContentDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
@@ -39,26 +42,6 @@ import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
 import ca.gc.aafc.seqdb.api.dto.StepResourceDto;
 import ca.gc.aafc.seqdb.api.dto.StepTemplateDto;
-import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.api.entities.PcrProfile;
-import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.Protocol;
-import ca.gc.aafc.seqdb.api.entities.Region;
-import ca.gc.aafc.seqdb.api.entities.Sample;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
-import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
-import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
-import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
-import ca.gc.aafc.seqdb.api.entities.workflow.ChainStepTemplate;
-import ca.gc.aafc.seqdb.api.entities.workflow.ChainTemplate;
-import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
-import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate;
 import ca.gc.aafc.seqdb.api.repository.VocabularyReadOnlyRepository;
 
 @Configuration
@@ -81,30 +64,18 @@ public class ResourceRepositoryConfig {
    */
   @Bean
   public JpaDtoMapper dtoJpaMapper(BaseDAO baseDAO) {
-    Map<Class<?>, Class<?>> jpaEntities = new HashMap<>();
     Map<Class<?>, List<CustomFieldResolverSpec<?>>> customFieldResolvers = new HashMap<>();
 
-    jpaEntities.put(RegionDto.class, Region.class);
-    jpaEntities.put(PcrPrimerDto.class, PcrPrimer.class);
-    jpaEntities.put(ChainTemplateDto.class, ChainTemplate.class);
-    jpaEntities.put(StepTemplateDto.class, StepTemplate.class);
-    jpaEntities.put(ChainStepTemplateDto.class, ChainStepTemplate.class);
-    jpaEntities.put(ChainDto.class, Chain.class);
-    jpaEntities.put(StepResourceDto.class, StepResource.class);
-    jpaEntities.put(ThermocyclerProfileDto.class, PcrProfile.class);
-    jpaEntities.put(ProductDto.class, Product.class);
-    jpaEntities.put(ProtocolDto.class, Protocol.class);
-    jpaEntities.put(SampleDto.class, Sample.class);
-    jpaEntities.put(PreLibraryPrepDto.class, PreLibraryPrep.class);
-    jpaEntities.put(LibraryPrepBatchDto.class, LibraryPrepBatch.class);
-    jpaEntities.put(LibraryPrepDto.class, LibraryPrep.class);
-    jpaEntities.put(ContainerTypeDto.class, ContainerType.class);
-    jpaEntities.put(IndexSetDto.class, IndexSet.class);
-    jpaEntities.put(NgsIndexDto.class, NgsIndex.class);
-    jpaEntities.put(LibraryPoolDto.class, LibraryPool.class);
-    jpaEntities.put(LibraryPoolContentDto.class, LibraryPoolContent.class);
+    // Map all DTOs to their related Entities.
+    Map<Class<?>, Class<?>> entitiesMap = ClassAnnotationHelper
+      .findAnnotatedClasses(ChainDto.class, RelatedEntity.class)
+      .stream()
+      .collect(
+        Collectors.toMap(
+          Function.identity(),
+          clazz -> clazz.getAnnotation(RelatedEntity.class).value()));
     
-    return new JpaDtoMapper(jpaEntities, customFieldResolvers);
+    return new JpaDtoMapper(entitiesMap, customFieldResolvers);
   }
   
   @Bean

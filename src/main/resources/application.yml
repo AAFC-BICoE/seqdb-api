@@ -26,8 +26,14 @@ crnk:
   config.lookup.behavior.default: NONE
 
 keycloak:
-  # Disable Keycloak by default.
   enabled: false
+  realm: dina
+  auth-server-url: http://${KEYCLOAK_HOST_IP}:8080/auth
+  ssl-required: none
+  resource: seqdb
+  public-client: true
+  bearer-only: true
+  principal-attribute: preferred_username
 
 logging:
   level:

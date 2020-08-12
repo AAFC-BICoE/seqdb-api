@@ -49,17 +49,18 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
  * The Class ContainerType.
  */
 @Entity
-
 @Table(
   name = "ContainerTypes",
   uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
 )
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class ContainerType {
 
   /** The container type id. */

@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,9 +26,7 @@ import lombok.Builder;
 
 @Table(name = "LibraryPoolContents")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class LibraryPoolContent implements Serializable {
-
-  private static final long serialVersionUID = 1566766586169617857L;
+public class LibraryPoolContent {
 
   private Integer libraryPoolContentId;
 

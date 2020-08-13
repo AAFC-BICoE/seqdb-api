@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,9 +24,8 @@ import lombok.Builder;
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
-public class ChainStepTemplate implements Serializable {
+public class ChainStepTemplate {
 
-  private static final long serialVersionUID = -3484692979076302405L;
   private Integer chainStepTemplateId;
   private ChainTemplate chainTemplate;
   private StepTemplate stepTemplate;

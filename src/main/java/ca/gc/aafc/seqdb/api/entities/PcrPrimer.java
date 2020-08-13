@@ -30,6 +30,7 @@
  */
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -64,11 +65,10 @@ import lombok.Builder;
  * The Class PcrPrimer.
  */
 @Entity
-
 @Table(name = "PcrPrimers", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
+@UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class PcrPrimer {
+public class PcrPrimer implements Serializable {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 8053203319426929005L;

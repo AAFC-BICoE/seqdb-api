@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -46,9 +44,8 @@ import lombok.Builder;
 
 @Table(name = "StepResources")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
-public class StepResource implements Serializable {
+public class StepResource {
 
-  private static final long serialVersionUID = 883807436331928735L;
   private Integer stepResourceId;
   private StepResourceValue value;
   private ChainStepTemplate chainStepTemplate;

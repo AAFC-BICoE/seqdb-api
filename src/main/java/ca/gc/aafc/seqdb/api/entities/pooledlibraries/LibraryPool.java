@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,9 +17,7 @@ import lombok.Builder;
 @Entity
 
 @Table(name = "LibraryPools")
-public class LibraryPool implements Serializable {
-
-  private static final long serialVersionUID = -5278505617657013701L;
+public class LibraryPool {
 
   private Integer libraryPoolId;
 

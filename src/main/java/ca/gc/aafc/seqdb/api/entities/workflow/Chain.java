@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -35,9 +34,8 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class Chain implements Serializable {
+public class Chain {
 
-  private static final long serialVersionUID = -4501556733513556840L;
   private Integer chainId;
   private String name;
   private Date dateCreated;

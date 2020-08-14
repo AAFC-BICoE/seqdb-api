@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -31,9 +30,7 @@ import lombok.Builder;
 @Table(name = "NgsIndexes")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
-public class NgsIndex implements Serializable {
-
-  private static final long serialVersionUID = 8368749265881611133L;
+public class NgsIndex {
 
   public enum NgsIndexDirection {
     I5, I7, FORWARD, REVERSE

@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -39,12 +38,7 @@ import lombok.Builder;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class PreLibraryPrep implements Serializable {
-
-  /**
-   * Generated serial version.
-   */
-  private static final long serialVersionUID = -8583083748458701615L;
+public class PreLibraryPrep {
 
   public enum PreLibraryPrepType {
     SHEARING("Shearing"), SIZE_SELECTION("Size Selection");

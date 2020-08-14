@@ -56,6 +56,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
@@ -64,10 +65,8 @@ import lombok.Builder;
 @Entity
 @Table(name = "PcrPrimers", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class PcrPrimer {
-
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 8053203319426929005L;
 
   /** The Constant DIRECTION_FORWARD. */
   public static final String DIRECTION_FORWARD = "F";

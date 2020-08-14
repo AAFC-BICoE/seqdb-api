@@ -22,8 +22,8 @@
     <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
     <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
-    <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
-    <spotbugs.version>3.1.12</spotbugs.version>
+    <spotbugs-maven-plugin.version>4.0.4</spotbugs-maven-plugin.version>
+    <spotbugs.version>4.1.1</spotbugs.version>
     <jcip-annotations.version>1.0</jcip-annotations.version>
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
@@ -407,8 +407,8 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-	    <version>${spotbugs-maven-plugin.version}</version>
-	  </plugin>
+        <version>${spotbugs-maven-plugin.version}</version>
+      </plugin>
 	  
 	  <plugin>
         <groupId>org.owasp</groupId>

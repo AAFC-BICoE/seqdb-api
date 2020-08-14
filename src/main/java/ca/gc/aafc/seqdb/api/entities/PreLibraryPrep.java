@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -22,6 +21,7 @@ import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
@@ -32,15 +32,10 @@ import lombok.Builder;
  *
  */
 @Entity
-
 @Table(name = "PreLibraryPreps")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
-public class PreLibraryPrep implements Serializable {
-
-  /**
-   * Generated serial version.
-   */
-  private static final long serialVersionUID = -8583083748458701615L;
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
+public class PreLibraryPrep {
 
   public enum PreLibraryPrepType {
     SHEARING("Shearing"), SIZE_SELECTION("Size Selection");

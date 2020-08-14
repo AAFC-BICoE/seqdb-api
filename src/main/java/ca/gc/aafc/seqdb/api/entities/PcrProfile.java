@@ -51,17 +51,18 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
  * The Class PcrProfile.
  */
 @Entity
-
 @Table(
   name = "PcrProfiles",
   uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
 )
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class PcrProfile {
 
   /** The pcr profile id. */

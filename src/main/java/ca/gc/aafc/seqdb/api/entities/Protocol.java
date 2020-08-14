@@ -54,6 +54,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
@@ -62,9 +63,9 @@ import lombok.Builder;
  * @author elkayssin
  */
 @Entity
-
 @Table(name = "Protocols", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "Type" }) })
+@UniqueConstraint(columnNames = { "Name", "Type" }) })
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Protocol {
 
   /**

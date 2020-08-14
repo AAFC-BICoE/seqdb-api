@@ -56,11 +56,13 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Type;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 @Entity
 @Table(name = "Samples", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "Version" }) })
+@UniqueConstraint(columnNames = { "Name", "Version" }) })
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Sample {
 
   public enum SampleType {

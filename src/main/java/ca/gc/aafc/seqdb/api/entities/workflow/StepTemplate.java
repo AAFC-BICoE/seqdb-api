@@ -17,6 +17,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
@@ -28,7 +29,8 @@ import lombok.Builder;
 @Entity
 @Table(name = "StepTemplates")
 @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
-    @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
+@Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class StepTemplate {
 
   public StepTemplate() {

@@ -44,15 +44,16 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 /**
  * The Class Product.
  */
 @Entity
-
 @Table(name = "Products", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "Name", "UPC" }) })
+@UniqueConstraint(columnNames = { "Name", "UPC" }) })
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Product {
 
   /** The product id. */

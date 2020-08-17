@@ -103,22 +103,20 @@ limitations under the License.
         <!-- severity is at ignore until we fix the other issues -->
         <property name="severity" value="ignore"/>
       </module>
-
+      
     <module name="TreeWalker">
     
       <!-- Indent Checks -->    
-      <!-- How much spaces a tab is worth  -->
-      <property name="tabWidth" value="2"/>
 
       <!-- severity is at ignore until we fix the other issues -->
       <module name="Indentation">
         <property name="basicOffset" value="2"/>
         <property name="braceAdjustment" value="0"/>
         <property name="caseIndent" value="2"/>
-        <property name="throwsIndent" value="4"/>
-        <property name="lineWrappingIndentation" value="4"/>
+        <property name="throwsIndent" value="2"/>
+        <property name="lineWrappingIndentation" value="2"/>
         <property name="arrayInitIndent" value="2"/>
-        <property name="severity" value="ignore"/>
+        <property name="severity" value="error"/>
       </module>
 
       <!--
@@ -139,6 +137,11 @@ limitations under the License.
         This suppress will affect code one line above and below the line you
         put the comment on.
       -->
+      
+      <!-- Turn off the check on files under generated-sources folder -->
+     <module name="SuppressionXpathSingleFilter">
+        <property name="files" value="generated-sources"/>
+     </module>
      
       <!-- Turn off the line above it -->
       <module name="SuppressWithNearbyCommentFilter">
@@ -161,7 +164,7 @@ limitations under the License.
         <property name="severity" value="error"/>
       </module>
       <module name="MissingDeprecated">
-        <property name="severity" value="error"/>
+        <property name="severity" value="warning"/>
       </module>
       <module name="MissingOverride">
         <property name="severity" value="error"/>
@@ -173,7 +176,7 @@ limitations under the License.
       <!-- Checks for Javadoc comments.                     -->
       <!-- See http://checkstyle.sf.net/config_javadoc.html -->
       <module name="JavadocMethod">
-        <property name="severity" value="ignore"/>
+      <property name="severity" value="ignore"/>
 
         <!-- javadoc doesn't need one @param, @return, @throws tags -->
         <property name="scope" value="public"/>
@@ -234,6 +237,7 @@ limitations under the License.
         <property name="severity" value="error"/>
       </module>
       <module name="StaticVariableName">
+        <property name="format" value="^(([a-z][a-zA-Z0-9]*)|([A-Z][A-Z0-9]*(_[A-Z0-9]+)*))$" />
         <property name="severity" value="error"/>
       </module>
       <module name="TypeName">
@@ -276,7 +280,7 @@ limitations under the License.
                  value="Wrong order for ''{0}'' import. Order should be: java, javax, org, com, 
                  ca.gc.aafc. Each group should be separated by a single blank line." />
       </module>
-      
+
       <module name="OuterTypeNumber"/>
 
       <!-- Checks for whitespace                               -->
@@ -317,9 +321,9 @@ limitations under the License.
       
       <module name="WhitespaceAround">
         <!-- Intentionally excludes RCURLY (default) since it trips on anonymous
-             inner class declarations when chained with a method call.
-        -->
-        <property name="severity" value="ignore"/>
+             inner class declarations when chained with a method call.              
+         -->
+        <property name="severity" value="error"/>
         <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,
                                        BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,
                                        LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,
@@ -327,8 +331,7 @@ limitations under the License.
                                        LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,
                                        LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,
                                        NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SLIST,SL_ASSIGN,
-                                       SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
-        
+                                       SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>   
       </module>
 
       <!-- Modifier Checks                                    -->
@@ -361,6 +364,7 @@ limitations under the License.
       </module>
       
       <module name="RightCurly">
+        
         <property name="severity" value="error"/>
       </module>
 

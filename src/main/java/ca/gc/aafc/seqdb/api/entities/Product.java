@@ -51,8 +51,7 @@ import lombok.Builder;
  * The Class Product.
  */
 @Entity
-@Table(name = "Products", uniqueConstraints = {
-@UniqueConstraint(columnNames = { "Name", "UPC" }) })
+@Table(name = "Products", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "UPC" }) })
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Product {
 
@@ -83,12 +82,9 @@ public class Product {
   /**
    * Instantiates a new product.
    *
-   * @param name
-   *          the name
-   * @param upc
-   *          the upc
-   * @param group
-   *          the group
+   * @param name  the name
+   * @param upc   the upc
+   * @param group the group
    */
   public Product(String name, String upc) {
     this.name = name;
@@ -98,16 +94,11 @@ public class Product {
   /**
    * Instantiates a new product.
    *
-   * @param name
-   *          the name
-   * @param upc
-   *          the upc
-   * @param type
-   *          the type
-   * @param description
-   *          the description
-   * @param group
-   *          the group
+   * @param name        the name
+   * @param upc         the upc
+   * @param type        the type
+   * @param description the description
+   * @param group       the group
    */
   @Builder
   public Product(String name, String upc, String type, String description) {
@@ -132,8 +123,7 @@ public class Product {
   /**
    * Sets the product id.
    *
-   * @param productId
-   *          the new product id
+   * @param productId the new product id
    */
   public void setProductId(Integer productId) {
     this.productId = productId;
@@ -154,8 +144,7 @@ public class Product {
   /**
    * Sets the name.
    *
-   * @param name
-   *          the new name
+   * @param name the new name
    */
   public void setName(String name) {
     this.name = name;
@@ -175,8 +164,7 @@ public class Product {
   /**
    * Sets the upc.
    *
-   * @param upc
-   *          the new upc
+   * @param upc the new upc
    */
   public void setUpc(String upc) {
     this.upc = upc;
@@ -196,8 +184,7 @@ public class Product {
   /**
    * Sets the type.
    *
-   * @param type
-   *          the new type
+   * @param type the new type
    */
   public void setType(String type) {
     this.type = type;
@@ -217,8 +204,7 @@ public class Product {
   /**
    * Sets the description.
    *
-   * @param description
-   *          the new description
+   * @param description the new description
    */
   public void setDescription(String description) {
     this.description = description;
@@ -255,14 +241,14 @@ public class Product {
   }
 
   /*
-   * Note that with @Version defined for the lastModified field, every time this object is created
-   * or modified, lastModified is set automatically, so no explicit set is needed for this field.
+   * Note that with @Version defined for the lastModified field, every time this
+   * object is created or modified, lastModified is set automatically, so no
+   * explicit set is needed for this field.
    */
   /**
    * Sets the last modified.
    *
-   * @param lastModified
-   *          the new last modified
+   * @param lastModified the new last modified
    */
   public void setLastModified(Timestamp lastModified) {
     this.lastModified = lastModified;

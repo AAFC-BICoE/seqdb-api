@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "protocol")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Protocol.class)
 public class ProtocolDto {
 
@@ -43,7 +43,7 @@ public class ProtocolDto {
   private String reactionMixVolume;
 
   private String reactionMixVolumePerTube;
-  
+
   private Timestamp lastModified;
 
   @JsonApiRelation

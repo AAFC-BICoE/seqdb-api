@@ -79,7 +79,7 @@ public class ResourceRepositoryConfig {
   }
   
   @Bean
-  public VocabularyReadOnlyRepository vocabularyDto(){
+  public VocabularyReadOnlyRepository vocabularyDto() {
     return new VocabularyReadOnlyRepository();
   }
   

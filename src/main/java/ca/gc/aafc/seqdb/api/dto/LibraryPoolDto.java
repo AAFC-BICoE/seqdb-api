@@ -16,7 +16,7 @@ import lombok.Data;
 public class LibraryPoolDto {
 
   @JsonApiId
-  private Integer libraryPoolId;
+  private Integer id;
 
   private String name;
   

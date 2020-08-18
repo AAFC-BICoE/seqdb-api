@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -21,21 +19,40 @@ import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "NgsIndexes")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class NgsIndex {
 
   public enum NgsIndexDirection {
     I5, I7, FORWARD, REVERSE
   }
 
-  private Integer ngsIndexId;
+  @Getter(onMethod=@__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  }))
+  private Integer id;
+
+  @NotNull
   private String name;
+
   private Integer lotNumber;
+
+  @Type(type = "pgsql_enum")
+  @Enumerated(EnumType.STRING)
   private NgsIndexDirection direction;
+
   private String purification;
   private String tmCalculated;
   private LocalDate dateOrdered;
@@ -50,221 +67,11 @@ public class NgsIndex {
   private String primerSequence;
   private String miSeqHiSeqIndexSequence;
   private String miniSeqNextSeqIndexSequence;
+
+  @Getter(onMethod=@__({
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn
+  }))
   private IndexSet indexSet;
-
-  public NgsIndex() {
-  }
-
-  @Builder
-  public NgsIndex(String name, Integer lotNumber, NgsIndexDirection direction, String purification, String tmCalculated,
-      LocalDate dateOrdered, LocalDate dateDestroyed, String application, String reference, String supplier,
-      String designedBy, String stockConcentration, String notes, String litReference, String primerSequence,
-      String miSeqHiSeqIndexSequence, String miniSeqNextSeqIndexSequence, IndexSet indexSet) {
-    super();
-    this.name = name;
-    this.lotNumber = lotNumber;
-    this.direction = direction;
-    this.purification = purification;
-    this.tmCalculated = tmCalculated;
-    this.dateOrdered = dateOrdered;
-    this.dateDestroyed = dateDestroyed;
-    this.application = application;
-    this.reference = reference;
-    this.supplier = supplier;
-    this.designedBy = designedBy;
-    this.stockConcentration = stockConcentration;
-    this.notes = notes;
-    this.litReference = litReference;
-    this.primerSequence = primerSequence;
-    this.miSeqHiSeqIndexSequence = miSeqHiSeqIndexSequence;
-    this.miniSeqNextSeqIndexSequence = miniSeqNextSeqIndexSequence;
-    this.indexSet = indexSet;
-  }
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "NgsIndexID")
-  public Integer getNgsIndexId() {
-    return ngsIndexId;
-  }
-
-  public void setNgsIndexId(Integer ngsIndexId) {
-    this.ngsIndexId = ngsIndexId;
-  }
-
-  @NotNull
-  @Column(name = "Name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Column(name = "LotNumber")
-  public Integer getLotNumber() {
-    return lotNumber;
-  }
-
-  public void setLotNumber(Integer lotNumber) {
-    this.lotNumber = lotNumber;
-  }
-
-  @Type(type = "pgsql_enum")
-  @Enumerated(EnumType.STRING)
-  @Column(name = "Direction")
-  public NgsIndexDirection getDirection() {
-    return direction;
-  }
-
-  public void setDirection(NgsIndexDirection direction) {
-    this.direction = direction;
-  }
-
-  @Column(name = "Purification")
-  public String getPurification() {
-    return purification;
-  }
-
-  public void setPurification(String purification) {
-    this.purification = purification;
-  }
-
-  @Column(name = "TmCalculated")
-  public String getTmCalculated() {
-    return tmCalculated;
-  }
-
-  public void setTmCalculated(String tmCalculated) {
-    this.tmCalculated = tmCalculated;
-  }
-
-  @Column(name = "DateOrdered")
-  public LocalDate getDateOrdered() {
-    return dateOrdered;
-  }
-
-  public void setDateOrdered(LocalDate dateOrdered) {
-    this.dateOrdered = dateOrdered;
-  }
-
-  @Column(name = "DateDestroyed")
-  public LocalDate getDateDestroyed() {
-    return dateDestroyed;
-  }
-
-  public void setDateDestroyed(LocalDate dateDestroyed) {
-    this.dateDestroyed = dateDestroyed;
-  }
-
-  @Column(name = "Application")
-  public String getApplication() {
-    return application;
-  }
-
-  public void setApplication(String application) {
-    this.application = application;
-  }
-
-  @Column(name = "Reference")
-  public String getReference() {
-    return reference;
-  }
-
-  public void setReference(String reference) {
-    this.reference = reference;
-  }
-
-  @Column(name = "Supplier")
-  public String getSupplier() {
-    return supplier;
-  }
-
-  public void setSupplier(String supplier) {
-    this.supplier = supplier;
-  }
-
-  @Column(name = "DesignedBy")
-  public String getDesignedBy() {
-    return designedBy;
-  }
-
-  public void setDesignedBy(String designedBy) {
-    this.designedBy = designedBy;
-  }
-
-  @Column(name = "StockConcentration")
-  public String getStockConcentration() {
-    return stockConcentration;
-  }
-
-  public void setStockConcentration(String stockConcentration) {
-    this.stockConcentration = stockConcentration;
-  }
-
-  @Column(name = "Notes")
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
-
-  @Column(name = "LitReference")
-  public String getLitReference() {
-    return litReference;
-  }
-
-  public void setLitReference(String litReference) {
-    this.litReference = litReference;
-  }
-
-  @Column(name = "PrimerSequence")
-  public String getPrimerSequence() {
-    return primerSequence;
-  }
-
-  public void setPrimerSequence(String primerSequence) {
-    this.primerSequence = primerSequence;
-  }
-
-  @Column(name = "MiSeqHiSeqIndexSequence")
-  public String getMiSeqHiSeqIndexSequence() {
-    return miSeqHiSeqIndexSequence;
-  }
-
-  public void setMiSeqHiSeqIndexSequence(String miSeqHiSeqIndexSequence) {
-    this.miSeqHiSeqIndexSequence = miSeqHiSeqIndexSequence;
-  }
-
-  @Column(name = "MiniSeqNextSeqIndexSequence")
-  public String getMiniSeqNextSeqIndexSequence() {
-    return miniSeqNextSeqIndexSequence;
-  }
-
-  public void setMiniSeqNextSeqIndexSequence(String miniSeqNextSeqIndexSequence) {
-    this.miniSeqNextSeqIndexSequence = miniSeqNextSeqIndexSequence;
-  }
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "IndexSetID")
-  public IndexSet getIndexSet() {
-    return indexSet;
-  }
-
-  public void setIndexSet(IndexSet indexSet) {
-    this.indexSet = indexSet;
-  }
-
-  @Transient
-  public Integer getId() {
-    return this.ngsIndexId;
-  }
-
-  public void setId(Integer id) {
-    this.ngsIndexId = id;
-  }
 
 }

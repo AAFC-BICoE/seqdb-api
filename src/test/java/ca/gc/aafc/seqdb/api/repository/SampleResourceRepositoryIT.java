@@ -68,7 +68,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     );
     
     assertNotNull(sampleDto);
-    assertEquals(testSample.getId(), sampleDto.getSampleId());
+    assertEquals(testSample.getId(), sampleDto.getId());
     assertEquals(TEST_SAMPLE_NAME, sampleDto.getName());
     assertEquals(TEST_SAMPLE_VERSION, sampleDto.getVersion());
     assertEquals(TEST_SAMPLE_EXPERIMENTER, sampleDto.getExperimenter());
@@ -91,7 +91,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     );  
     
     assertNotNull(sampleDto);
-    assertEquals(testSample.getId(), sampleDto.getSampleId());
+    assertEquals(testSample.getId(), sampleDto.getId());
     assertEquals(TEST_SAMPLE_NAME, sampleDto.getName());
     assertEquals(TEST_SAMPLE_VERSION, sampleDto.getVersion());
     assertNull(sampleDto.getExperimenter());
@@ -112,13 +112,13 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     SampleDto createdSample = sampleRepository.create(newSample);
     
     //DTO has the set value
-    assertNotNull(createdSample.getSampleId());
+    assertNotNull(createdSample.getId());
     assertEquals(newSampleName, createdSample.getName());
     assertEquals(TEST_SAMPLE_VERSION_CREATE, createdSample.getVersion());
     assertEquals(TEST_SAMPLE_EXPERIMENTER_CREATE, createdSample.getExperimenter());
     
     //entity has the set value    
-    Sample sampleEntity = entityManager.find(Sample.class, createdSample.getSampleId());
+    Sample sampleEntity = entityManager.find(Sample.class, createdSample.getId());
     
     assertNotNull(sampleEntity.getId());
     assertEquals(newSampleName, sampleEntity.getName());

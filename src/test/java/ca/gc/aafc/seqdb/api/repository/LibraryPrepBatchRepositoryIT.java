@@ -116,12 +116,12 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepBatchDto created = libraryPrepBatchRepository.create(newDto);
     
-    assertNotNull(created.getLibraryPrepBatchId());
+    assertNotNull(created.getId());
     assertEquals("notes", created.getNotes());
     assertEquals("cleanup notes", created.getCleanUpNotes());
     assertEquals("yield notes", created.getYieldNotes());
-    assertEquals(testProduct.getProductId(), created.getProduct().getProductId());
-    assertEquals(testProtocol.getProtocolId(), created.getProtocol().getProtocolId());
+    assertEquals(testProduct.getId(), created.getProduct().getId());
+    assertEquals(testProtocol.getId(), created.getProtocol().getId());
   }
   
   @Test

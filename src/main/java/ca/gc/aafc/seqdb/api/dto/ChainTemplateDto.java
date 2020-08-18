@@ -12,7 +12,7 @@ import lombok.Data;
 public class ChainTemplateDto {
   
   @JsonApiId
-  private Integer chainTemplateId;
+  private Integer id;
   
   private String name;
   

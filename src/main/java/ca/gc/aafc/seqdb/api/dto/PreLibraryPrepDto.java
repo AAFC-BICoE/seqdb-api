@@ -14,7 +14,7 @@ import lombok.Data;
 public class PreLibraryPrepDto {
 
   @JsonApiId
-  private Integer preLibraryPrepId;
+  private Integer id;
 
   private PreLibraryPrepType preLibraryPrepType;
 

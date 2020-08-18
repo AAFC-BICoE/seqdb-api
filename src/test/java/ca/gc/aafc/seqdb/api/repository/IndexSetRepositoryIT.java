@@ -53,7 +53,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new index set");
     
     IndexSetDto created = indexSetRepository.create(newDto);
-    assertNotNull(created.getIndexSetId());
+    assertNotNull(created.getId());
     assertEquals("new index set", created.getName());
   }
   

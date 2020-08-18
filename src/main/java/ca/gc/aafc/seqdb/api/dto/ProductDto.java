@@ -16,7 +16,7 @@ import lombok.Data;
 public class ProductDto {
   
   @JsonApiId  
-  private Integer productId;
+  private Integer id;
   
   private String name;
   

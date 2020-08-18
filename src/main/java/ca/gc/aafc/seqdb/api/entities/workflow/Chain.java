@@ -2,15 +2,14 @@ package ca.gc.aafc.seqdb.api.entities.workflow;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,6 +17,7 @@ import javax.validation.constraints.Size;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -27,71 +27,31 @@ import lombok.RequiredArgsConstructor;
  *
  */
 @Entity
-
-@Table(name = "Chains", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "ChainID", "ChainTemplateID" }) })
+@Table(name = "Chains")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Chain {
 
-  private Integer chainId;
-  private String name;
-  private Date dateCreated;
-  private ChainTemplate chainTemplate;
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ChainID")
-  public Integer getChainId() {
-    return chainId;
-  }
-
-  public void setChainId(Integer chainId) {
-    this.chainId = chainId;
-  }
+  @Getter(onMethod=@__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  }))
+  private Integer id;
 
   @NotNull
   @Size(max = 50)
-  @Column(name = "Name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+  private String name;
 
   @NotNull
-  @Column(name = "DateCreated")
-  public Date getDateCreated() {
-    return dateCreated;
-  }
+  private Date dateCreated;
 
-  public void setDateCreated(Date dateCreated) {
-    this.dateCreated = dateCreated;
-  }
-
-  
-  @NotNull
-  @ManyToOne(cascade = {})
-  @JoinColumn(name = "ChainTemplateID")
-  public ChainTemplate getChainTemplate() {
-    return chainTemplate;
-  }
-
-  public void setChainTemplate(ChainTemplate chainTemplate) {
-    this.chainTemplate = chainTemplate;
-  }
-
-  @Transient
-  public Integer getId() {
-    return getChainId();
-  }
-
-  public void setId(Integer id) {
-    setChainId(id);
-  }
+  @Getter(onMethod=@__({
+    @NotNull,
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn
+  }))
+  private ChainTemplate chainTemplate;
 
 }

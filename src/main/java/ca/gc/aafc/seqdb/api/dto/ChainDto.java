@@ -17,7 +17,7 @@ import lombok.Data;
 public class ChainDto {
   
   @JsonApiId
-  private Integer chainId;
+  private Integer id;
   
   private String name;
   

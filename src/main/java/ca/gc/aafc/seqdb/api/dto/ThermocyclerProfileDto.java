@@ -17,7 +17,7 @@ import lombok.Data;
 public class ThermocyclerProfileDto {
 
   @JsonApiId
-  private Integer pcrProfileId;
+  private Integer id;
 
   private String name;
   

@@ -15,7 +15,7 @@ import lombok.Data;
 @RelatedEntity(NgsIndex.class)
 public class NgsIndexDto {
   @JsonApiId
-  private Integer ngsIndexId;
+  private Integer id;
 
   private String name;
   private Integer lotNumber;

@@ -18,7 +18,7 @@ import lombok.Data;
 public class ProtocolDto {
 
   @JsonApiId
-  private Integer protocolId;
+  private Integer id;
 
   private ProtocolType type;
 

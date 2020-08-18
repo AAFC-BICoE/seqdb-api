@@ -13,7 +13,7 @@ import lombok.Data;
 public class LibraryPrepDto {
   
   @JsonApiId
-  private Integer libraryPrepId;
+  private Integer id;
 
   private Double inputNg;
 

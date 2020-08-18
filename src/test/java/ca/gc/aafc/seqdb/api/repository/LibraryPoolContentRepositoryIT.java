@@ -88,7 +88,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
         new QuerySpec(LibraryPoolContentDto.class));
 
     assertNotNull(dto);
-    assertEquals(testLpc.getId(), dto.getLibraryPoolContentId());
+    assertEquals(testLpc.getId(), dto.getId());
   }
 
   @Test
@@ -103,12 +103,12 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
     LibraryPoolContentDto created = lpcRepository.create(dto);
-    assertNotNull(created.getLibraryPoolContentId());
+    assertNotNull(created.getId());
     // Assert parent pool:
-    assertEquals(testLpc.getLibraryPool().getId(), created.getLibraryPool().getLibraryPoolId());
+    assertEquals(testLpc.getLibraryPool().getId(), created.getLibraryPool().getId());
     // Assert pooled LibraryPrepBatch:
-    assertEquals(testBatchDtoUnpooled.getLibraryPrepBatchId(),
-        created.getPooledLibraryPrepBatch().getLibraryPrepBatchId());
+    assertEquals(testBatchDtoUnpooled.getId(),
+        created.getPooledLibraryPrepBatch().getId());
   }
 
   @Test
@@ -119,8 +119,8 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
     LibraryPoolContentDto updated = lpcRepository.save(dto);
-    assertEquals(testBatchDtoUnpooled.getLibraryPrepBatchId(),
-        updated.getPooledLibraryPrepBatch().getLibraryPrepBatchId());
+    assertEquals(testBatchDtoUnpooled.getId(),
+        updated.getPooledLibraryPrepBatch().getId());
   }
 
   @Test
@@ -268,7 +268,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     );
     
     LibraryPoolContentDto createdPooledPoolLpc2 = lpcRepository.create(pooledPoolLpc2);
-    assertNotNull(createdPooledPoolLpc2.getLibraryPoolContentId());
+    assertNotNull(createdPooledPoolLpc2.getId());
   }
   
   @Test

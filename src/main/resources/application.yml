@@ -4,13 +4,6 @@ spring:
  #   url: jdbc:postgresql://localhost:5532/seqdb
  #   username: postgres
  #   password: postgres
-  jpa:
-    hibernate:
-      naming:
-        # Naming strategies specified to allow @Column/@Table name property.
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
     # on existing database use "schema-change" only

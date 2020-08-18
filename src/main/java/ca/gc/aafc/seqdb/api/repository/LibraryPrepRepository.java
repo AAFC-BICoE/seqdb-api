@@ -59,12 +59,12 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
       EntityManager em = this.dtoRepository.getEntityManager();
       LibraryPrepBatch prepBatch = em.find(
           LibraryPrepBatch.class,
-          libraryPrepDto.getLibraryPrepBatch().getLibraryPrepBatchId()
+          libraryPrepDto.getLibraryPrepBatch().getId()
       );
       
       List<LibraryPrep> otherPreps = prepBatch.getLibraryPreps()
           .stream()
-          .filter(lp -> !lp.getId().equals(libraryPrepDto.getLibraryPrepId()))
+          .filter(lp -> !lp.getId().equals(libraryPrepDto.getId()))
           .collect(Collectors.toList());
       
       for (LibraryPrep otherPrep : otherPreps) {
@@ -95,7 +95,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
     // Validate well coordinates if they are set.
     if (libraryPrepDto.getWellColumn() != null && libraryPrepDto.getWellRow() != null) {
       EntityManager em = this.dtoRepository.getEntityManager();
-      LibraryPrep libraryPrep = em.find(LibraryPrep.class, libraryPrepDto.getLibraryPrepId());
+      LibraryPrep libraryPrep = em.find(LibraryPrep.class, libraryPrepDto.getId());
       
       ContainerType cType = libraryPrep.getLibraryPrepBatch().getContainerType();
       

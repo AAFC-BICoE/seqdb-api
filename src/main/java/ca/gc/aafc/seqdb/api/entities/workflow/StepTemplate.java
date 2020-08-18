@@ -1,12 +1,10 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +16,11 @@ import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Step Template describes a specific step in a specific workflow. Since a workflow is similar to a
@@ -31,107 +33,35 @@ import lombok.Builder;
 @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
 @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StepTemplate {
-
-  public StepTemplate() {
-
-  }
-
-  /**
-   * Builder constructor.
-   * 
-   * @param stepTemplateId
-   * @param name
-   * @param inputs
-   * @param outputs
-   * @param supports
-   */
-  @Builder
-  public StepTemplate(String name, StepResourceValue[] inputs, StepResourceValue[] outputs,
-      StepResourceValue[] supports) {
-    this.name = name;
-    this.inputs = inputs;
-    this.outputs = outputs;
-    this.supports = supports;
-  }
-
-  public StepTemplate(String name, StepResourceValue[] inputs, StepResourceValue[] outputs) {
-    this.name = name;
-    this.inputs = inputs;
-    this.outputs = outputs;
-  }
 
   public enum StepResourceValue {
     SPECIMEN, SPECIMEN_REPLICATE, MIXED_SPECIMEN, SAMPLE, PCR_BATCH, SEQ_BATCH, SEQ_SUBMISSION, PRODUCT, REGION, PRIMER, PCR_PROFILE, PROTOCOL, SHEARING, SIZE_SELECTION, LIBRARY_PREP_BATCH, LIBRARY_POOL;
   }
 
-  private Integer stepTemplateId;
-  private String name;
-  private StepResourceValue[] inputs;
-  private StepResourceValue[] outputs;
-  private StepResourceValue[] supports;
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "StepTemplateID")
-  public Integer getStepTemplateId() {
-    return stepTemplateId;
-  }
-
-  public void setStepTemplateId(Integer stepTemplateId) {
-    this.stepTemplateId = stepTemplateId;
-  }
+  @Getter(onMethod=@__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  }))
+  private Integer id;
 
   @NotNull
   @Size(max = 50)
-  @Column(name = "Name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+  private String name;
 
   @NotNull
-  @Column(name = "Inputs")
   @Type(type = "step-resource-value-array")
-  public StepResourceValue[] getInputs() {
-    return inputs;
-  }
-
-  public void setInputs(StepResourceValue[] inputs) {
-    this.inputs = inputs;
-  }
-
+  private StepResourceValue[] inputs;
+  
   @NotNull
-  @Column(name = "Outputs")
   @Type(type = "step-resource-value-array")
-  public StepResourceValue[] getOutputs() {
-    return outputs;
-  }
+  private StepResourceValue[] outputs;
 
-  public void setOutputs(StepResourceValue[] outputs) {
-    this.outputs = outputs;
-  }
-
-  @Column(name = "Supports")
   @Type(type = "step-resource-value-array")
-  public StepResourceValue[] getSupports() {
-    return supports;
-  }
-
-  public void setSupports(StepResourceValue[] supports) {
-    this.supports = supports;
-  }
-
-  @Transient
-  public Integer getId() {
-    return getStepTemplateId();
-  }
-
-  public void setId(Integer id) {
-    setStepTemplateId(id);
-  }
+  private StepResourceValue[] supports;
 
 }

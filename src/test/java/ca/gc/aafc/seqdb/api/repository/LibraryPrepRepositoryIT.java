@@ -134,15 +134,15 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
-    assertNotNull(created.getLibraryPrepId());
+    assertNotNull(created.getId());
     assertEquals("test size", created.getSize());
     assertEquals(
-        newSampleCreated.getSampleId(),
-        created.getSample().getSampleId()
+        newSampleCreated.getId(),
+        created.getSample().getId()
     );
     assertEquals(
         testLibPrep.getLibraryPrepBatch().getId(),
-        created.getLibraryPrepBatch().getLibraryPrepBatchId()
+        created.getLibraryPrepBatch().getId()
     );
   }
   
@@ -173,7 +173,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto createdPrep2 = libraryPrepRepository.create(prep2);
     LibraryPrepDto updatedPrep1 = libraryPrepRepository.findOne(
-        createdPrep1.getLibraryPrepId(),
+        createdPrep1.getId(),
         new QuerySpec(LibraryPrepDto.class)
     );
     

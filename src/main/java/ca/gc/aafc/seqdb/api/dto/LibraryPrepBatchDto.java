@@ -16,7 +16,7 @@ import lombok.Data;
 public class LibraryPrepBatchDto {
 
   @JsonApiId
-  private Integer libraryPrepBatchId;
+  private Integer id;
 
   private String name;
 

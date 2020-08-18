@@ -38,7 +38,7 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
   
   private void validateUniqueIndexSets(LibraryPoolContentDto newLpcDto, LibraryPoolDto targetPoolDto) {
     EntityManager em = this.dtoRepository.getEntityManager();
-    LibraryPool targetPool = em.find(LibraryPool.class, targetPoolDto.getLibraryPoolId());
+    LibraryPool targetPool = em.find(LibraryPool.class, targetPoolDto.getId());
     
     List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
     List<LibraryPrepBatch> alreadyPooledBatches = getBatches(targetPool);
@@ -75,12 +75,12 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
     
     if (lpc.getPooledLibraryPool() != null) {
       LibraryPool pooledPool = em
-          .find(LibraryPool.class, lpc.getPooledLibraryPool().getLibraryPoolId());
+          .find(LibraryPool.class, lpc.getPooledLibraryPool().getId());
       batchs.addAll(getBatches(pooledPool));
     }
     if (lpc.getPooledLibraryPrepBatch() != null) {
       LibraryPrepBatch pooledBatch = em
-          .find(LibraryPrepBatch.class, lpc.getPooledLibraryPrepBatch().getLibraryPrepBatchId());
+          .find(LibraryPrepBatch.class, lpc.getPooledLibraryPrepBatch().getId());
       batchs.add(pooledBatch);
     }
     

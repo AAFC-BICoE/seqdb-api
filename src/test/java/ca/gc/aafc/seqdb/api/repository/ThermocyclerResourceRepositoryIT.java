@@ -105,9 +105,9 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findThermocyclerProfile_whenNoFieldsAreSelected_productReturnedWithAllFields() {
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getPcrProfileId(), new QuerySpec(ThermocyclerProfileDto.class));
+    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getId(), new QuerySpec(ThermocyclerProfileDto.class));
     assertNotNull(thermoDto);
-    assertEquals(testPcrProfile.getId(), thermoDto.getPcrProfileId());
+    assertEquals(testPcrProfile.getId(), thermoDto.getId());
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, thermoDto.getCycles());
     verifyStepsAreEqual(testPcrProfile, thermoDto);
@@ -119,7 +119,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "step1"));
     
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getPcrProfileId(), querySpec);
+    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getId(), querySpec);
     assertNotNull(thermoDto);
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
     assertNull(thermoDto.getCycles());
@@ -141,13 +141,13 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     ThermocyclerProfileDto createdDto = thermoRepository.create(baseDto);
     
     //Assert DTO has the set values
-    assertNotNull(createdDto.getPcrProfileId());
+    assertNotNull(createdDto.getId());
     assertEquals(newThermocyclerProfileName, createdDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, createdDto.getCycles());
     verifyStepsAreEqual(baseDto, createdDto);
     
     //Assert Entity has the set values
-    PcrProfile profileEntity = entityManager.find(PcrProfile.class, createdDto.getPcrProfileId());
+    PcrProfile profileEntity = entityManager.find(PcrProfile.class, createdDto.getId());
     assertNotNull(profileEntity.getId());
     assertEquals(newThermocyclerProfileName, profileEntity.getName());
     assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());

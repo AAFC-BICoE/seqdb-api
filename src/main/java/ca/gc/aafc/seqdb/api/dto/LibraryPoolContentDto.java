@@ -13,7 +13,7 @@ import lombok.Data;
 public class LibraryPoolContentDto {
   
   @JsonApiId
-  private Integer libraryPoolContentId;
+  private Integer id;
   
   @JsonApiRelation
   private LibraryPoolDto libraryPool;

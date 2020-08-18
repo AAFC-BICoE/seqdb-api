@@ -19,7 +19,7 @@ import lombok.Data;
 public class PcrPrimerDto {
 
   @JsonApiId
-  private Integer pcrPrimerId;
+  private Integer id;
 
   // Required fields
 

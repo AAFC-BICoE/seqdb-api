@@ -15,7 +15,7 @@ import lombok.Data;
 public class StepTemplateDto {
   
   @JsonApiId
-  private Integer stepTemplateId;
+  private Integer id;
   
   private String name;
   

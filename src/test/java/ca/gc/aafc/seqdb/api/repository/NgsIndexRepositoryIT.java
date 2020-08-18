@@ -67,8 +67,8 @@ public class NgsIndexRepositoryIT extends BaseRepositoryTest {
     );
     
     NgsIndexDto created = ngsIndexRepository.create(newDto);
-    assertNotNull(created.getNgsIndexId());
-    assertNotNull(created.getIndexSet().getIndexSetId());
+    assertNotNull(created.getId());
+    assertNotNull(created.getIndexSet().getId());
     assertEquals("new index set", created.getName());
   }
   

@@ -56,7 +56,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
         new QuerySpec(ProductDto.class)
     );  
     assertNotNull(productDto);
-    assertEquals(testProduct.getId(), productDto.getProductId());
+    assertEquals(testProduct.getId(), productDto.getId());
     assertEquals(TEST_PRODUCT_NAME, productDto.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION, productDto.getDescription());
     assertEquals(TEST_PRODUCT_TYPE, productDto.getType());
@@ -73,7 +73,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
         testProduct.getId(),querySpec
     );  
     assertNotNull(productDto);
-    assertEquals(testProduct.getId(), productDto.getProductId());
+    assertEquals(testProduct.getId(), productDto.getId());
     assertEquals(TEST_PRODUCT_NAME, productDto.getName());
     assertEquals(TEST_PRODUCT_TYPE, productDto.getType());
     assertNull(productDto.getDescription());
@@ -89,12 +89,12 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     
     ProductDto createdProduct = productRepository.create(newProduct);
     //DTO has the set value
-    assertNotNull(createdProduct.getProductId());
+    assertNotNull(createdProduct.getId());
     assertEquals(TEST_PRODUCT_NAME_CREATE, createdProduct.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION_CREATE, createdProduct.getDescription());
     assertEquals(TEST_PRODUCT_TYPE_CREATE, createdProduct.getType());
     //entity has the set value    
-    Product productEntity = entityManager.find(Product.class, createdProduct.getProductId());
+    Product productEntity = entityManager.find(Product.class, createdProduct.getId());
     assertNotNull(productEntity.getId());
     assertEquals(TEST_PRODUCT_NAME_CREATE, productEntity.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION_CREATE, productEntity.getDescription());

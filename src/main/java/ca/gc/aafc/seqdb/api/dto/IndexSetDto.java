@@ -15,7 +15,7 @@ import lombok.Data;
 public class IndexSetDto {
 
   @JsonApiId
-  private Integer indexSetId;
+  private Integer id;
 
   private String name;
 

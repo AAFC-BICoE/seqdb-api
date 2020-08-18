@@ -52,7 +52,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new pool");
     
     LibraryPoolDto created = poolRepository.create(newDto);
-    assertNotNull(created.getLibraryPoolId());
+    assertNotNull(created.getId());
     assertEquals("new pool", created.getName());
   }
   

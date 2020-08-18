@@ -14,7 +14,7 @@ import lombok.Data;
 public class StepResourceDto {
 
   @JsonApiId
-  private Integer stepResourceId;
+  private Integer id;
 
   private StepResourceValue value;
 

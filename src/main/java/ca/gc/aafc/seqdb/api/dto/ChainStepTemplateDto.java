@@ -13,7 +13,7 @@ import lombok.Data;
 public class ChainStepTemplateDto {
   
   @JsonApiId
-  private Integer chainStepTemplateId;
+  private Integer id;
   
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;

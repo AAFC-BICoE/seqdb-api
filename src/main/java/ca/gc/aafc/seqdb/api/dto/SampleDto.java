@@ -20,7 +20,7 @@ import lombok.Data;
 public class SampleDto {
 
   @JsonApiId
-  private Integer sampleId;
+  private Integer id;
   
   // Required Fields
   

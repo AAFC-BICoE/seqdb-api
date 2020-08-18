@@ -19,7 +19,6 @@ import io.crnk.core.repository.ResourceRepository;
 public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
 
   private static final String TEST_CONTAINERTYPE_NAME = "test ct";
-  private static final String TEST_CONTAINERTYPE_BASETYPE = "test basetype";
   private static final Integer TEST_CONTAINERTYPE_COLS = 8;
   private static final Integer TEST_CONTAINERTYPE_ROWS = 12;
 
@@ -31,10 +30,8 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   private ContainerType createTestContainerType() {
     testContainerType = new ContainerType();
     testContainerType.setName(TEST_CONTAINERTYPE_NAME);
-    testContainerType.setBaseType(TEST_CONTAINERTYPE_BASETYPE);
     testContainerType.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     testContainerType.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
-    testContainerType.setNumberOfWells(TEST_CONTAINERTYPE_COLS * TEST_CONTAINERTYPE_ROWS);
     
     persist(testContainerType);
     return testContainerType;
@@ -62,23 +59,15 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
 
     ContainerTypeDto newDto = new ContainerTypeDto();
     newDto.setName(newContainerTypeName);
-    newDto.setBaseType(TEST_CONTAINERTYPE_BASETYPE);
     newDto.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     newDto.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
     
     ContainerTypeDto created = ctRepository.create(newDto);
     
-    assertNotNull(created.getContainerTypeId());
+    assertNotNull(created.getId());
     assertEquals(newContainerTypeName, created.getName());
-    assertEquals(TEST_CONTAINERTYPE_BASETYPE, created.getBaseType());
     assertEquals(TEST_CONTAINERTYPE_COLS, created.getNumberOfColumns());
     assertEquals(TEST_CONTAINERTYPE_ROWS, created.getNumberOfRows());
-    
-    // The number of wells should be automatically set.
-    assertEquals(
-        (Integer) (TEST_CONTAINERTYPE_COLS * TEST_CONTAINERTYPE_ROWS),
-        created.getNumberOfWells()
-    );
   }
   
   @Test

@@ -16,20 +16,13 @@ import lombok.Data;
 public class ContainerTypeDto {
 
   @JsonApiId
-  private Integer containerTypeId;
+  private Integer id;
 
   private String name;
 
-  private String baseType;
-  
   private Integer numberOfColumns;
 
   private Integer numberOfRows;
-
-  private Integer numberOfWells;
-  
-  private Integer heightInMM;
-  private Integer widthInMM;
 
   private Timestamp lastModified;
 

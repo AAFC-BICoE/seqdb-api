@@ -5,7 +5,7 @@
     xmlns:pro="http://www.liquibase.org/xml/ns/pro"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
-    <changeSet id="create-workflow-enum-types" author="poffm">
+    <changeSet context="schema-change" id="create-workflow-enum-types" author="poffm">
         <sql>
             CREATE TYPE stepresourcetype AS ENUM (
                 'INPUT',
@@ -40,7 +40,7 @@
             );
         </sql>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-1">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-1">
         <createTable tableName="ngsindexes">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ngsindexes_pkey"/>
@@ -64,10 +64,10 @@
             <column name="stockconcentration" type="VARCHAR(255)"/>
             <column name="supplier" type="VARCHAR(255)"/>
             <column name="tmcalculated" type="VARCHAR(255)"/>
-            <column name="indexset_id" type="INTEGER"/>
+            <column name="indexsetid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-2">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-2">
         <createTable tableName="libraryprepbatchs">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="libraryprepbatchs_pkey"/>
@@ -80,14 +80,14 @@
             <column name="notes" type="VARCHAR(255)"/>
             <column name="totallibraryyieldnm" type="FLOAT8"/>
             <column name="yieldnotes" type="VARCHAR(255)"/>
-            <column name="containertype_id" type="INTEGER"/>
-            <column name="indexset_id" type="INTEGER"/>
-            <column name="product_id" type="INTEGER"/>
-            <column name="protocol_id" type="INTEGER"/>
-            <column name="thermocyclerprofile_id" type="INTEGER"/>
+            <column name="containertypeid" type="INTEGER"/>
+            <column name="indexsetid" type="INTEGER"/>
+            <column name="productid" type="INTEGER"/>
+            <column name="protocolid" type="INTEGER"/>
+            <column name="thermocyclerprofileid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-3">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-3">
         <createTable tableName="protocols">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="protocols_pkey"/>
@@ -107,10 +107,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="VARCHAR(5)"/>
-            <column name="product_id" type="INTEGER"/>
+            <column name="productid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-4">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-4">
         <createTable tableName="librarypreps">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypreps_pkey"/>
@@ -120,17 +120,17 @@
             <column name="size" type="VARCHAR(255)"/>
             <column name="wellcolumn" type="INTEGER"/>
             <column name="wellrow" type="VARCHAR(2)"/>
-            <column name="indexi5_id" type="INTEGER"/>
-            <column name="indexi7_id" type="INTEGER"/>
-            <column name="libraryprepbatch_id" type="INTEGER">
+            <column name="indexi5id" type="INTEGER"/>
+            <column name="indexi7id" type="INTEGER"/>
+            <column name="libraryprepbatchid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="sample_id" type="INTEGER">
+            <column name="sampleid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-5">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-5">
         <createTable tableName="prelibrarypreps">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="prelibrarypreps_pkey"/>
@@ -145,11 +145,11 @@
             </column>
             <column name="quality" type="VARCHAR(255)"/>
             <column name="targetdpsize" type="FLOAT8"/>
-            <column name="product_id" type="INTEGER"/>
-            <column name="protocol_id" type="INTEGER"/>
+            <column name="productid" type="INTEGER"/>
+            <column name="protocolid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-6">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-6">
         <createTable tableName="chaintemplates">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chaintemplates_pkey"/>
@@ -159,7 +159,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-7">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-7">
         <createTable tableName="librarypools">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypools_pkey"/>
@@ -169,19 +169,19 @@
             <column name="notes" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-8">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-8">
         <createTable tableName="librarypoolcontents">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypoolcontents_pkey"/>
             </column>
-            <column name="librarypool_id" type="INTEGER">
+            <column name="librarypoolid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="pooledlibrarypool_id" type="INTEGER"/>
-            <column name="pooledlibraryprepbatch_id" type="INTEGER"/>
+            <column name="pooledlibrarypoolid" type="INTEGER"/>
+            <column name="pooledlibraryprepbatchid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-9">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-9">
         <createTable tableName="chainsteptemplates">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chainsteptemplates_pkey"/>
@@ -189,15 +189,15 @@
             <column name="stepnumber" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="chaintemplate_id" type="INTEGER">
+            <column name="chaintemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="steptemplate_id" type="INTEGER">
+            <column name="steptemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-10">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-10">
         <createTable tableName="chains">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chains_pkey"/>
@@ -208,12 +208,12 @@
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="chaintemplate_id" type="INTEGER">
+            <column name="chaintemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-11">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-11">
         <createTable tableName="samples">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="samples_pkey"/>
@@ -259,8 +259,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="versiondescription" type="VARCHAR(512)"/>
-            <column name="product_id" type="INTEGER"/>
-            <column name="protocol_id" type="INTEGER"/>
+            <column name="productid" type="INTEGER"/>
+            <column name="protocolid" type="INTEGER"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
@@ -303,7 +303,7 @@
             <column name="supports" type="stepresourcevalue []"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-13">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-13">
         <createTable tableName="indexsets">
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="indexsets_pkey"/>
@@ -315,7 +315,7 @@
             <column name="reverseadapter" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-14">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-14">
         <createTable tableName="containertypes">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="containertypes_pkey"/>
@@ -332,7 +332,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-15">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-15">
         <createTable tableName="stepresources">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="stepresources_pkey"/>
@@ -340,26 +340,26 @@
             <column name="value" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="chain_id" type="INTEGER">
+            <column name="chainid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="chaintemplate_id" type="INTEGER">
+            <column name="chaintemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="steptemplate_id" type="INTEGER">
+            <column name="steptemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="librarypool_id" type="INTEGER"/>
-            <column name="libraryprepbatch_id" type="INTEGER"/>
-            <column name="pcrprofile_id" type="INTEGER"/>
-            <column name="prelibraryprep_id" type="INTEGER"/>
-            <column name="primer_id" type="INTEGER"/>
-            <column name="product_id" type="INTEGER"/>
-            <column name="protocol_id" type="INTEGER"/>
-            <column name="sample_id" type="INTEGER"/>
+            <column name="librarypoolid" type="INTEGER"/>
+            <column name="libraryprepbatchid" type="INTEGER"/>
+            <column name="pcrprofileid" type="INTEGER"/>
+            <column name="prelibraryprepid" type="INTEGER"/>
+            <column name="primerid" type="INTEGER"/>
+            <column name="productid" type="INTEGER"/>
+            <column name="protocolid" type="INTEGER"/>
+            <column name="sampleid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-16">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-16">
         <createTable tableName="products">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="products_pkey"/>
@@ -373,7 +373,7 @@
             <column name="upc" type="VARCHAR(50)"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-17">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-17">
         <createTable tableName="pcrprimers">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprimers_pkey"/>
@@ -422,17 +422,17 @@
             <column name="used4sequencing" type="BOOLEAN"/>
             <column name="used4stdpcr" type="BOOLEAN"/>
             <column name="version" type="INTEGER"/>
-            <column name="pooledprimer_id" type="INTEGER"/>
-            <column name="region_id" type="INTEGER"/>
+            <column name="pooledprimerid" type="INTEGER"/>
+            <column name="regionid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-18">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-18">
         <createTable tableName="regions">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="regions_pkey"/>
             </column>
             <column name="aliases" type="VARCHAR(255)"/>
-            <column name="applicableorganisims" type="VARCHAR(255)"/>
+            <column name="applicableorganisms" type="VARCHAR(255)"/>
             <column name="description" type="VARCHAR(255)"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="symbol" type="VARCHAR(50)">
@@ -440,7 +440,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-19">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-19">
         <createTable tableName="pcrprofiles">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprofiles_pkey"/>
@@ -466,144 +466,143 @@
             <column name="step7" type="VARCHAR(50)"/>
             <column name="step8" type="VARCHAR(50)"/>
             <column name="step9" type="VARCHAR(50)"/>
-            <column name="region_id" type="INTEGER"/>
+            <column name="regionid" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-20">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-20">
         <addUniqueConstraint columnNames="name, type" constraintName="uk2p7j1eb1eprla37vagbpcye7q" tableName="protocols"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-21">
-        <addForeignKeyConstraint baseColumnNames="indexi5_id" baseTableName="librarypreps" constraintName="fk6b0oeuol92axhv8kvt3n3u453" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="ngsindexes" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-21">
+        <addForeignKeyConstraint baseColumnNames="indexi5id" baseTableName="librarypreps" constraintName="fk6b0oeuol92axhv8kvt3n3u453" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="ngsindexes" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-22">
-        <addForeignKeyConstraint baseColumnNames="libraryprepbatch_id" baseTableName="librarypreps" constraintName="fkfchn9lac6bsc8s5ritbg92mxr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-22">
+        <addForeignKeyConstraint baseColumnNames="libraryprepbatchid" baseTableName="librarypreps" constraintName="fkfchn9lac6bsc8s5ritbg92mxr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-23">
-        <addForeignKeyConstraint baseColumnNames="indexi7_id" baseTableName="librarypreps" constraintName="fkkpdamd2f72e28y886v00rsb2o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="ngsindexes" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-23">
+        <addForeignKeyConstraint baseColumnNames="indexi7id" baseTableName="librarypreps" constraintName="fkkpdamd2f72e28y886v00rsb2o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="ngsindexes" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-24">
-        <addForeignKeyConstraint baseColumnNames="protocol_id" baseTableName="prelibrarypreps" constraintName="fkfrhgu9veuooim9jwiseph4fto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-24">
+        <addForeignKeyConstraint baseColumnNames="protocolid" baseTableName="prelibrarypreps" constraintName="fkfrhgu9veuooim9jwiseph4fto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-25">
-        <addForeignKeyConstraint baseColumnNames="chaintemplate_id" baseTableName="chains" constraintName="fk9g3ndf7m0qpxu3aidyf2asg2r" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chaintemplates" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-25">
+        <addForeignKeyConstraint baseColumnNames="chaintemplateid" baseTableName="chains" constraintName="fk9g3ndf7m0qpxu3aidyf2asg2r" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chaintemplates" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-26">
-        <addForeignKeyConstraint baseColumnNames="chaintemplate_id" baseTableName="chainsteptemplates" constraintName="fkihpb622rcjhrbftgvcaab8u53" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chaintemplates" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-26">
+        <addForeignKeyConstraint baseColumnNames="chaintemplateid" baseTableName="chainsteptemplates" constraintName="fkihpb622rcjhrbftgvcaab8u53" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chaintemplates" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-27">
-        <addForeignKeyConstraint baseColumnNames="pooledlibrarypool_id" baseTableName="librarypoolcontents" constraintName="fk2jcnfhuiceehq016y4q24fj7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-27">
+        <addForeignKeyConstraint baseColumnNames="pooledlibrarypoolid" baseTableName="librarypoolcontents" constraintName="fk2jcnfhuiceehq016y4q24fj7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-28">
-        <addForeignKeyConstraint baseColumnNames="pooledlibraryprepbatch_id" baseTableName="librarypoolcontents" constraintName="fkheaswq5vbmnhw1hcxoswf2ybb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-28">
+        <addForeignKeyConstraint baseColumnNames="pooledlibraryprepbatchid" baseTableName="librarypoolcontents" constraintName="fkheaswq5vbmnhw1hcxoswf2ybb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-29">
-        <addForeignKeyConstraint baseColumnNames="librarypool_id" baseTableName="librarypoolcontents" constraintName="fklle27sxhbmor2a21jliq3rgg0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-29">
+        <addForeignKeyConstraint baseColumnNames="librarypoolid" baseTableName="librarypoolcontents" constraintName="fklle27sxhbmor2a21jliq3rgg0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-30">
-        <addUniqueConstraint columnNames="chaintemplate_id, steptemplate_id" constraintName="uk3cy2rm64lindm6rb8f4atrop5" tableName="chainsteptemplates"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-30">
+        <addUniqueConstraint columnNames="chaintemplateid, steptemplateid" constraintName="uk3cy2rm64lindm6rb8f4atrop5" tableName="chainsteptemplates"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-31">
-        <addUniqueConstraint columnNames="chaintemplate_id, stepnumber" constraintName="ukejmwekdr680wpsx197o2c8okj" tableName="chainsteptemplates"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-31">
+        <addUniqueConstraint columnNames="chaintemplateid, stepnumber" constraintName="ukejmwekdr680wpsx197o2c8okj" tableName="chainsteptemplates"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-32">
-        <addForeignKeyConstraint baseColumnNames="chain_id" baseTableName="stepresources" constraintName="fkrfej6rfvn9t8v7bxo6039gg23" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chains" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-32">
+        <addForeignKeyConstraint baseColumnNames="chainid" baseTableName="stepresources" constraintName="fkrfej6rfvn9t8v7bxo6039gg23" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="chains" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-34">
-        <addForeignKeyConstraint baseColumnNames="protocol_id" baseTableName="samples" constraintName="fkpl724dt8gtsau5ej5owj47vp9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-34">
+        <addForeignKeyConstraint baseColumnNames="protocolid" baseTableName="samples" constraintName="fkpl724dt8gtsau5ej5owj47vp9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-35">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-35">
         <addUniqueConstraint columnNames="name, version" constraintName="ukrfhna9ws4hu4v0t655m2j7voo" tableName="samples"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-36">
-        <addForeignKeyConstraint baseColumnNames="containertype_id" baseTableName="libraryprepbatchs" constraintName="fk3wxkinxf0jr1moeusy99f2e2q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="containertypes" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-36">
+        <addForeignKeyConstraint baseColumnNames="containertypeid" baseTableName="libraryprepbatchs" constraintName="fk3wxkinxf0jr1moeusy99f2e2q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="containertypes" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-37">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-37">
         <addUniqueConstraint columnNames="name" constraintName="uk5sqv6gnrvgkicoa29l2f9xpff" tableName="containertypes"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-38">
-        <addForeignKeyConstraint baseColumnNames="chaintemplate_id,steptemplate_id" baseTableName="stepresources" constraintName="fk4h1bjshlaac3145agnhv2qg10" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="chaintemplate_id,steptemplate_id" referencedTableName="chainsteptemplates" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-38">
+        <addForeignKeyConstraint baseColumnNames="chaintemplateid,steptemplateid" baseTableName="stepresources" constraintName="fk4h1bjshlaac3145agnhv2qg10" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="chaintemplateid,steptemplateid" referencedTableName="chainsteptemplates" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-39">
-        <addForeignKeyConstraint baseColumnNames="protocol_id" baseTableName="stepresources" constraintName="fk51yskjq8holgslgbw9vxtphqc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-39">
+        <addForeignKeyConstraint baseColumnNames="protocolid" baseTableName="stepresources" constraintName="fk51yskjq8holgslgbw9vxtphqc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-40">
-        <addForeignKeyConstraint baseColumnNames="librarypool_id" baseTableName="stepresources" constraintName="fk7k0j834ghdcfqlhk3d4d9mpo5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-40">
+        <addForeignKeyConstraint baseColumnNames="librarypoolid" baseTableName="stepresources" constraintName="fk7k0j834ghdcfqlhk3d4d9mpo5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="librarypools" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-41">
-        <addForeignKeyConstraint baseColumnNames="libraryprepbatch_id" baseTableName="stepresources" constraintName="fkiysskqdt56wdl0cudh65rrt6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-41">
+        <addForeignKeyConstraint baseColumnNames="libraryprepbatchid" baseTableName="stepresources" constraintName="fkiysskqdt56wdl0cudh65rrt6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="libraryprepbatchs" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-42">
-        <addForeignKeyConstraint baseColumnNames="sample_id" baseTableName="stepresources" constraintName="fkl6q048kyfv5pxocqep1n4gpok" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="samples" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-42">
+        <addForeignKeyConstraint baseColumnNames="sampleid" baseTableName="stepresources" constraintName="fkl6q048kyfv5pxocqep1n4gpok" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="samples" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-43">
-        <addForeignKeyConstraint baseColumnNames="prelibraryprep_id" baseTableName="stepresources" constraintName="fkrk482jolk5li6ufkpp5jcuram" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="prelibrarypreps" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-43">
+        <addForeignKeyConstraint baseColumnNames="prelibraryprepid" baseTableName="stepresources" constraintName="fkrk482jolk5li6ufkpp5jcuram" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="prelibrarypreps" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-44">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-44">
         <addUniqueConstraint columnNames="name, upc" constraintName="ukghqihjt4y6foqkvg2nb7ikxba" tableName="products"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-45">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-45">
         <addUniqueConstraint columnNames="uuid" constraintName="uk_4jdw1aedf892tf51i695wqx5y" tableName="pcrprimers"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-46">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-46">
         <addUniqueConstraint columnNames="name, lotnumber" constraintName="uk5h8mqetht432o6gi2iprmd7c" tableName="pcrprimers"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-47">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-47">
         <addUniqueConstraint columnNames="name" constraintName="uks7k0km863cn8h4dvj8d43hrr6" tableName="regions"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-48">
-        <addForeignKeyConstraint baseColumnNames="region_id" baseTableName="pcrprofiles" constraintName="fkfc28namu5v0j979y239sy30m6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="regions" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-48">
+        <addForeignKeyConstraint baseColumnNames="regionid" baseTableName="pcrprofiles" constraintName="fkfc28namu5v0j979y239sy30m6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="regions" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-49">
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-49">
         <addUniqueConstraint columnNames="name" constraintName="ukj1gembhjaf755vvxs854ep20k" tableName="pcrprofiles"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-50">
-        <addForeignKeyConstraint baseColumnNames="indexset_id" baseTableName="ngsindexes" constraintName="fkp7lb1301ugdcb74pd17heqfo4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="indexsets" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-50">
+        <addForeignKeyConstraint baseColumnNames="indexsetid" baseTableName="ngsindexes" constraintName="fkp7lb1301ugdcb74pd17heqfo4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="indexsets" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-51">
-        <addForeignKeyConstraint baseColumnNames="thermocyclerprofile_id" baseTableName="libraryprepbatchs" constraintName="fk9fq67ap11qudobfafcd4ne10m" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprofiles" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-51">
+        <addForeignKeyConstraint baseColumnNames="thermocyclerprofileid" baseTableName="libraryprepbatchs" constraintName="fk9fq67ap11qudobfafcd4ne10m" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprofiles" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-52">
-        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="libraryprepbatchs" constraintName="fkf825pn14g17ulnua362csu2mq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-52">
+        <addForeignKeyConstraint baseColumnNames="productid" baseTableName="libraryprepbatchs" constraintName="fkf825pn14g17ulnua362csu2mq" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-53">
-        <addForeignKeyConstraint baseColumnNames="protocol_id" baseTableName="libraryprepbatchs" constraintName="fkflmuipa0lr4e68rnuoj71uk7o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-53">
+        <addForeignKeyConstraint baseColumnNames="protocolid" baseTableName="libraryprepbatchs" constraintName="fkflmuipa0lr4e68rnuoj71uk7o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="protocols" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-54">
-        <addForeignKeyConstraint baseColumnNames="indexset_id" baseTableName="libraryprepbatchs" constraintName="fkji3td483gspm1l8smmsan0upp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="indexsets" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-54">
+        <addForeignKeyConstraint baseColumnNames="indexsetid" baseTableName="libraryprepbatchs" constraintName="fkji3td483gspm1l8smmsan0upp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="indexsets" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-55">
-        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="protocols" constraintName="fko36vodqmj7netpwkal2jqdg34" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-55">
+        <addForeignKeyConstraint baseColumnNames="productid" baseTableName="protocols" constraintName="fko36vodqmj7netpwkal2jqdg34" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-56">
-        <addForeignKeyConstraint baseColumnNames="sample_id" baseTableName="librarypreps" constraintName="fkdyovrm1bi8awhshieaeyvvuto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="samples" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-56">
+        <addForeignKeyConstraint baseColumnNames="sampleid" baseTableName="librarypreps" constraintName="fkdyovrm1bi8awhshieaeyvvuto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="samples" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-57">
-        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="prelibrarypreps" constraintName="fkb5a2qcdctelkvun1wksry5fo8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-57">
+        <addForeignKeyConstraint baseColumnNames="productid" baseTableName="prelibrarypreps" constraintName="fkb5a2qcdctelkvun1wksry5fo8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-58">
-        <addForeignKeyConstraint baseColumnNames="steptemplate_id" baseTableName="chainsteptemplates" constraintName="fk95yhmood07pfi6ekll302wyxa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="steptemplates" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-58">
+        <addForeignKeyConstraint baseColumnNames="steptemplateid" baseTableName="chainsteptemplates" constraintName="fk95yhmood07pfi6ekll302wyxa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="steptemplates" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-59">
-        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="samples" constraintName="fkpfhv2y6lu18al3at0nx5xkb2d" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-59">
+        <addForeignKeyConstraint baseColumnNames="productid" baseTableName="samples" constraintName="fkpfhv2y6lu18al3at0nx5xkb2d" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-60">
-        <addForeignKeyConstraint baseColumnNames="primer_id" baseTableName="stepresources" constraintName="fk28hlav2c4wp4a6p728labdh2o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprimers" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-60">
+        <addForeignKeyConstraint baseColumnNames="primerid" baseTableName="stepresources" constraintName="fk28hlav2c4wp4a6p728labdh2o" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprimers" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-61">
-        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="stepresources" constraintName="fk8qwawalvdvunqavg3o3d5vb9k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-61">
+        <addForeignKeyConstraint baseColumnNames="productid" baseTableName="stepresources" constraintName="fk8qwawalvdvunqavg3o3d5vb9k" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-62">
-        <addForeignKeyConstraint baseColumnNames="pcrprofile_id" baseTableName="stepresources" constraintName="fkgvfmvljlsgmquaml91rjlx65p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprofiles" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-62">
+        <addForeignKeyConstraint baseColumnNames="pcrprofileid" baseTableName="stepresources" constraintName="fkgvfmvljlsgmquaml91rjlx65p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprofiles" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-63">
-        <addForeignKeyConstraint baseColumnNames="pooledprimer_id" baseTableName="pcrprimers" constraintName="fkoawukw0apeog0jxn7sthyh0p9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprimers" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-63">
+        <addForeignKeyConstraint baseColumnNames="pooledprimerid" baseTableName="pcrprimers" constraintName="fkoawukw0apeog0jxn7sthyh0p9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pcrprimers" validate="true"/>
     </changeSet>
-    <changeSet author="mat (generated)" id="1596744623461-64">
-        <addForeignKeyConstraint baseColumnNames="region_id" baseTableName="pcrprimers" constraintName="fkp2gffci4u9r6k5rvjb86hllwg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="regions" validate="true"/>
+    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-64">
+        <addForeignKeyConstraint baseColumnNames="regionid" baseTableName="pcrprimers" constraintName="fkp2gffci4u9r6k5rvjb86hllwg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="regions" validate="true"/>
     </changeSet>
-    <changeSet
+    <changeSet context="schema-change"
       id="initial-workflow-data"
-      context="schema-change"
       author="poffm">
         <sql>
           insert into ChainTemplates (name) values ('Whole Genome Sequencing');
@@ -615,36 +614,31 @@
           insert into StepTemplates (name, inputs, outputs) values ('Library Pooling', '{"LIBRARY_PREP_BATCH"}', '{"LIBRARY_POOL"}');
           insert into StepTemplates (name, inputs, outputs) values ('Submission', '{"LIBRARY_POOL"}', '{"SEQ_SUBMISSION"}');
           
-          insert into ChainStepTemplates (ChainTemplate_ID, StepTemplate_ID, StepNumber) values (
+          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Select Samples'),
             1
           );
-          insert into ChainStepTemplates (ChainTemplate_ID, StepTemplate_ID, StepNumber) values (
+          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Pre Library Prep'),
             2
           );
-          insert into ChainStepTemplates (ChainTemplate_ID, StepTemplate_ID, StepNumber) values (
+          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Library Prep'),
             3
           );
-          insert into ChainStepTemplates (ChainTemplate_ID, StepTemplate_ID, StepNumber) values (
+          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
             (select ID from StepTemplates where name = 'Library Pooling'),
             1
           );
-          insert into ChainStepTemplates (ChainTemplate_ID, StepTemplate_ID, StepNumber) values (
+          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
             (select ID from StepTemplates where name = 'Submission'),
             2
           );
         </sql>
-        <!-- <sql dbms="h2">
-          alter sequence chaintemplates_chaintemplateid_seq restart with 3;
-          alter sequence steptemplates_steptemplateid_seq restart with 6;
-          alter sequence chainsteptemplates_chainsteptemplateid_seq restart with 6;
-        </sql> -->
     </changeSet>
 </databaseChangeLog>

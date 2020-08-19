@@ -47,7 +47,9 @@ public class Product {
 
   private String description;
 
-  @Version
+  @Getter(onMethod=@__({
+    @Version
+  }))
   private Timestamp lastModified;
 
 }

@@ -70,7 +70,7 @@ public class NgsIndex {
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "indexsetid")
   }))
   private IndexSet indexSet;
 

@@ -38,19 +38,19 @@ public class LibraryPoolContent {
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "librarypoolid")
   }))
   private LibraryPool libraryPool;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "pooledlibraryprepbatchid")
   }))
   private LibraryPrepBatch pooledLibraryPrepBatch;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "pooledlibrarypoolid")
   }))
   private LibraryPool pooledLibraryPool;
 

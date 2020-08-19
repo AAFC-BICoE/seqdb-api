@@ -10,13 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "Chains")
 @Builder(toBuilder = true)
+@Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
@@ -50,7 +51,7 @@ public class Chain {
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "chaintemplateid")
   }))
   private ChainTemplate chainTemplate;
 

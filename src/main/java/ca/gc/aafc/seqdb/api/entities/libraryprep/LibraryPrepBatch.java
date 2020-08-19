@@ -56,31 +56,31 @@ public class LibraryPrepBatch {
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "productid")
   }))
   private Product product;
   
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "protocolid")
   }))
   private Protocol protocol;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "containertypeid")
   }))
   private ContainerType containerType;
   
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "thermocyclerprofile_id", referencedColumnName = "id")
+    @JoinColumn(name = "thermocyclerprofileid")
   }))
   private PcrProfile thermocyclerProfile;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "indexsetid")
   }))
   private IndexSet indexSet;
   

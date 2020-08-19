@@ -62,12 +62,14 @@ public class PcrProfile {
   private String step14;
   private String step15;
 
-  @Version
+  @Getter(onMethod=@__({
+    @Version
+  }))
   private Timestamp lastModified;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "regionid")
   }))
   private Region region;
 

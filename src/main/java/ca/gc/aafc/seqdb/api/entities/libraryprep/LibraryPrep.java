@@ -50,26 +50,26 @@ public class LibraryPrep {
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "libraryprepbatchid")
   }))
   private LibraryPrepBatch libraryPrepBatch;
   
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "sampleid")
   }))
   private Sample sample;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "IndexI5_ID", referencedColumnName = "id")
+    @JoinColumn(name = "Indexi5id")
   }))
   private NgsIndex indexI5;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "IndexI7_ID", referencedColumnName = "id")
+    @JoinColumn(name = "indexi7id")
   }))
   private NgsIndex indexI7;
 

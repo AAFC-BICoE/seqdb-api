@@ -78,17 +78,19 @@ public class PreLibraryPrep {
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "protocolid")
   }))
   private Protocol protocol;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "productid")
   }))
   private Product product;
 
-  @Version
+  @Getter(onMethod=@__({
+    @Version
+  }))
   private Timestamp lastModified;
 
 }

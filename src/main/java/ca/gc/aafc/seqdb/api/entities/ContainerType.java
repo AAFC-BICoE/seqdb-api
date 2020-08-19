@@ -47,7 +47,9 @@ public class ContainerType {
   @NotNull
   private Integer numberOfRows;
 
-  @Version
+  @Getter(onMethod=@__({
+    @Version
+  }))
   private Timestamp lastModified;
 
   /**

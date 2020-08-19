@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "ChainTemplate_ID", "StepNumber" }),
-    @UniqueConstraint(columnNames = { "ChainTemplate_ID", "StepTemplate_ID" }) })
+    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
+    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,14 +42,14 @@ public class ChainStepTemplate {
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "chaintemplateid")
   }))
   private ChainTemplate chainTemplate;
   
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "steptemplateid")
   }))
   private StepTemplate stepTemplate;
 

@@ -72,31 +72,31 @@ public class StepResource {
   @Getter(onMethod=@__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "chainid")
   }))
   private Chain chain;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "sampleid")
   }))
   private Sample sample;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "prelibraryprepid")
   }))
   private PreLibraryPrep preLibraryPrep;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "libraryprepbatchid")
   }))
   private LibraryPrepBatch libraryPrepBatch;
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "librarypoolid")
   }))
   private LibraryPool libraryPool;
 

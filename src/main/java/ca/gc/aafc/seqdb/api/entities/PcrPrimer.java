@@ -100,7 +100,9 @@ public class PcrPrimer {
   private String urllink;
   private String note;
 
-  @Version
+  @Getter(onMethod=@__({
+    @Version
+  }))
   private Timestamp lastModified;
 
   @Size(max = 200)
@@ -129,7 +131,7 @@ public class PcrPrimer {
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn
+    @JoinColumn(name = "regionid")
   }))
   private Region region;
   
@@ -140,7 +142,7 @@ public class PcrPrimer {
 
   @Getter(onMethod=@__({
     @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn()
+    @JoinColumn(name = "pooledprimerid")
   }))
   private PcrPrimer pooledPrimer;
 

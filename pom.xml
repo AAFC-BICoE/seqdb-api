@@ -72,10 +72,6 @@
 
     <!-- Hibernate -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-spatial</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.vladmihalcea</groupId>
       <artifactId>hibernate-types-52</artifactId>
       <version>${hibernate-types-52.version}</version>
@@ -202,7 +198,7 @@
   <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
-    <scope>test</scope>
+    <!-- <scope>test</scope> -->
   </dependency>
   </dependencies>
 

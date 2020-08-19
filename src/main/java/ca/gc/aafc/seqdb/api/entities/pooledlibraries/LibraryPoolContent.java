@@ -12,9 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import lombok.Builder;
 
@@ -23,9 +20,7 @@ import lombok.Builder;
  * either a LibraryPrepBatch or a LibraryPool which is pooled by a LibraryPool.
  */
 @Entity
-
 @Table(name = "LibraryPoolContents")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class LibraryPoolContent {
 
   private Integer libraryPoolContentId;

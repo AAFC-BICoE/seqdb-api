@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -11,6 +13,7 @@ import lombok.Data;
 @Data
 @JsonApiResource(type = "thermocyclerprofile")
 @SuppressFBWarnings(value="EI_EXPOSE_REP")
+@RelatedEntity(PcrProfile.class)
 public class ThermocyclerProfileDto {
 
   @JsonApiId

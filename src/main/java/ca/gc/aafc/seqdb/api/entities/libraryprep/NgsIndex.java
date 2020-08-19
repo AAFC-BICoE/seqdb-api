@@ -18,18 +18,14 @@ import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import lombok.Builder;
 
 @Entity
-
 @Table(name = "NgsIndexes")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "SAGESDataCache")
 public class NgsIndex {
 
   public enum NgsIndexDirection {

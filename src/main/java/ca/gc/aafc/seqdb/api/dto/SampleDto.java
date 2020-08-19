@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.Sample;
 import ca.gc.aafc.seqdb.api.entities.Sample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -14,6 +16,7 @@ import lombok.Data;
 @Data
 @JsonApiResource(type = "sample")
 @SuppressFBWarnings(value="EI_EXPOSE_REP")
+@RelatedEntity(Sample.class)
 public class SampleDto {
 
   @JsonApiId

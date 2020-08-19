@@ -6,8 +6,6 @@ services:
     environment:
       POSTGRES_DB: seqdb_api_test
       POSTGRES_PASSWORD: mypassword
-    volumes:
-      - ./src/test/resources/create-test-users.sql:/docker-entrypoint-initdb.d/1-init-schema.sql
     ports:
       - "5432:5432"
         

@@ -30,9 +30,6 @@ public class StepResourceDto {
   private SampleDto sample;
 
   @JsonApiRelation
-  private PcrPrimerDto primer;
-
-  @JsonApiRelation
   private PreLibraryPrepDto preLibraryPrep;
 
   @JsonApiRelation

@@ -24,7 +24,11 @@ crnk:
   # The "include" query-string param is handled by our code and incorporated into the database
   # query, so we don't let Crnk automatically call findOneTarget for each null relation.
   config.lookup.behavior.default: NONE
-
+#JaVers audit framework config:
+javers:
+  packagesToScan: ca.gc.aafc.seqdb.api
+  # Don't let Javers create its tables; let Liquibase create them:
+  sqlSchemaManagementEnabled: false
 keycloak:
   enabled: false
   realm: dina

@@ -60,23 +60,20 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 
 @Entity
-@Table(name = "Samples", uniqueConstraints = {
-@UniqueConstraint(columnNames = { "Name", "Version" }) })
+@Table(name = "Samples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) })
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Sample {
 
   public enum SampleType {
 
-    NO_TYPE("No Sample Type"), DNA("DNA"), RNA("RNA"), PROTEIN("Protein"), LIBRARY(
-        "Library"), CHEMICAL("Chemical");
+    NO_TYPE("No Sample Type"), DNA("DNA"), RNA("RNA"), PROTEIN("Protein"), LIBRARY("Library"), CHEMICAL("Chemical");
 
     private final String value;
 
     /**
      * Instantiates a new sample type.
      *
-     * @param value
-     *          the value
+     * @param value the value
      */
     SampleType(String value) {
       this.value = value;
@@ -92,11 +89,11 @@ public class Sample {
     }
 
     /**
-     * Returns the Sample Type ( Wrapped in an Optional )based off a case insensitive match of its
-     * value. Or an empty Optional if a match could not be made.
+     * Returns the Sample Type ( Wrapped in an Optional )based off a case
+     * insensitive match of its value. Or an empty Optional if a match could not be
+     * made.
      * 
-     * @param searchValue
-     *          - sample type to search
+     * @param searchValue - sample type to search
      * @return - the sample type or empty wrapped in an Optional
      */
     public static Optional<SampleType> getByValue(String searchValue) {
@@ -202,24 +199,24 @@ public class Sample {
   private String fermentationTime;
 
   private String extractionSolvent;
-  
+
   /** The Date Archived. */
   private String dateArchived;
-  
+
   /** The Sample Storage Location. */
-  private String sampleStorageLocation;  
-  
+  private String sampleStorageLocation;
+
   /** The Sample Storage Conditions. */
-  private String sampleStorageConditions;  
-  
+  private String sampleStorageConditions;
+
   /** The Amount Available. */
-  private String amountAvailable;    
-  
+  private String amountAvailable;
+
   /** The Pre-treatment . */
-  private String pretreatment;    
-  
+  private String pretreatment;
+
   /** The Alternative Contact Information. */
-  private String alternativeContactInfo ;      
+  private String alternativeContactInfo;
 
   // Constructors
   /**
@@ -231,87 +228,52 @@ public class Sample {
   /**
    * Instantiates a new sample.
    *
-   * @param name
-   *          the name
-   * @param experimenter
-   *          the experimenter
-   * @param version
-   *          the version
-   * @param versionDescription
-   *          the version description
-   * @param treatment
-   *          the treatment
-   * @param source
-   *          the source
-   * @param dnaConcentration
-   *          the dna concentration
-   * @param dnaConcentrationNotes
-   *          the dna concentration notes
-   * @param dnaConcentrationPerStartMaterial
-   *          the dna concentration per start material
-   * @param date
-   *          the date
-   * @param nuclAcidExt
-   *          the nucl acid ext
-   * @param extractionBatch
-   *          the extraction batch
-   * @param pelletSize
-   *          the pellet size
-   * @param lysisBufferVolume
-   *          the lysis buffer volume
-   * @param proteinaseKVolume
-   *          the proteinase K volume
-   * @param qubitDNAConcentration
-   *          the qubit DNA concentration
-   * @param quantificationMethod
-   *          the quantification method
-   * @param growthMedia
-   *          the growth media
-   * @param dnaNotes
-   *          the dna notes
-   * @param notes
-   *          the notes
-   * @param tubeId
-   *          the tube id
-   * @param unusableDna
-   *          the unusable dna
-   * @param kit
-   *          the kit
-   * @param specimenReplicate
-   *          the specimen replicate
-   * @param mixedSpecimen
-   *          the mixed specimen
-   * @param location
-   *          the location
-   * @param group
-   *          the group
-   * @param protocol
-   *          the protocol
-   * @param sampleType
-   *          the sample type
-   * @param inoculationDate
-   *          the inoculation date
-   * @param fraction
-   *          the fraction
-   * @param fermentationTemperature
-   *          the fermentation temperature
-   * @param fermentationTime
-   *          the fermentation time
-   * @param extractionSolvent
-   *          the extraction solvent
+   * @param name                             the name
+   * @param experimenter                     the experimenter
+   * @param version                          the version
+   * @param versionDescription               the version description
+   * @param treatment                        the treatment
+   * @param source                           the source
+   * @param dnaConcentration                 the dna concentration
+   * @param dnaConcentrationNotes            the dna concentration notes
+   * @param dnaConcentrationPerStartMaterial the dna concentration per start
+   *                                         material
+   * @param date                             the date
+   * @param nuclAcidExt                      the nucl acid ext
+   * @param extractionBatch                  the extraction batch
+   * @param pelletSize                       the pellet size
+   * @param lysisBufferVolume                the lysis buffer volume
+   * @param proteinaseKVolume                the proteinase K volume
+   * @param qubitDNAConcentration            the qubit DNA concentration
+   * @param quantificationMethod             the quantification method
+   * @param growthMedia                      the growth media
+   * @param dnaNotes                         the dna notes
+   * @param notes                            the notes
+   * @param tubeId                           the tube id
+   * @param unusableDna                      the unusable dna
+   * @param kit                              the kit
+   * @param specimenReplicate                the specimen replicate
+   * @param mixedSpecimen                    the mixed specimen
+   * @param location                         the location
+   * @param group                            the group
+   * @param protocol                         the protocol
+   * @param sampleType                       the sample type
+   * @param inoculationDate                  the inoculation date
+   * @param fraction                         the fraction
+   * @param fermentationTemperature          the fermentation temperature
+   * @param fermentationTime                 the fermentation time
+   * @param extractionSolvent                the extraction solvent
    */
   @Builder
-  public Sample(String name, String experimenter, String version, String versionDescription,
-      String treatment, String source, String dnaConcentration, String dnaConcentrationNotes,
-      String dnaConcentrationPerStartMaterial, Date date, String nuclAcidExt,
-      String extractionBatch, Double pelletSize, Double lysisBufferVolume, Double proteinaseKVolume,
-      Double qubitDNAConcentration,
-      String quantificationMethod, String growthMedia, String dnaNotes, String notes, String tubeId,
-      Boolean unusableDna, Product kit, Protocol protocol,
-      SampleType sampleType, LocalDate inoculationDate, String fraction,
-      Double fermentationTemperature, String fermentationTime, String extractionSolvent,
-      String discardedNotes, LocalDate dateDiscarded,
-      String dateArchived, String sampleStorageLocation, String sampleStorageConditions, String amountAvailable, String pretreatment, String alternativeContactInfo) {
+  public Sample(String name, String experimenter, String version, String versionDescription, String treatment,
+      String source, String dnaConcentration, String dnaConcentrationNotes, String dnaConcentrationPerStartMaterial,
+      Date date, String nuclAcidExt, String extractionBatch, Double pelletSize, Double lysisBufferVolume,
+      Double proteinaseKVolume, Double qubitDNAConcentration, String quantificationMethod, String growthMedia,
+      String dnaNotes, String notes, String tubeId, Boolean unusableDna, Product kit, Protocol protocol,
+      SampleType sampleType, LocalDate inoculationDate, String fraction, Double fermentationTemperature,
+      String fermentationTime, String extractionSolvent, String discardedNotes, LocalDate dateDiscarded,
+      String dateArchived, String sampleStorageLocation, String sampleStorageConditions, String amountAvailable,
+      String pretreatment, String alternativeContactInfo) {
     super();
     this.name = name;
     this.experimenter = experimenter;
@@ -369,8 +331,7 @@ public class Sample {
   /**
    * Sets the sample id.
    *
-   * @param sampleId
-   *          the new sample id
+   * @param sampleId the new sample id
    */
   public void setSampleId(Integer sampleId) {
     this.sampleId = sampleId;
@@ -391,8 +352,7 @@ public class Sample {
   /**
    * Sets the name.
    *
-   * @param name
-   *          the new name
+   * @param name the new name
    */
   public void setName(String name) {
     this.name = name;
@@ -412,8 +372,7 @@ public class Sample {
   /**
    * Sets the experimenter.
    *
-   * @param experimenter
-   *          the new experimenter
+   * @param experimenter the new experimenter
    */
   public void setExperimenter(String experimenter) {
     this.experimenter = experimenter;
@@ -434,8 +393,7 @@ public class Sample {
   /**
    * Sets the version.
    *
-   * @param version
-   *          the new version
+   * @param version the new version
    */
   public void setVersion(String version) {
     this.version = version;
@@ -455,8 +413,7 @@ public class Sample {
   /**
    * Sets the version description.
    *
-   * @param versionDescription
-   *          the new version description
+   * @param versionDescription the new version description
    */
   public void setVersionDescription(String versionDescription) {
     this.versionDescription = versionDescription;
@@ -476,8 +433,7 @@ public class Sample {
   /**
    * Sets the source.
    *
-   * @param source
-   *          the new source
+   * @param source the new source
    */
   public void setSource(String source) {
     this.source = source;
@@ -497,8 +453,7 @@ public class Sample {
   /**
    * Sets the dna concentration.
    *
-   * @param dnaConcentration
-   *          the new dna concentration
+   * @param dnaConcentration the new dna concentration
    */
   public void setDnaConcentration(String dnaConcentration) {
     this.dnaConcentration = dnaConcentration;
@@ -514,8 +469,7 @@ public class Sample {
   }
 
   /**
-   * @param dnaConcentrationNotes
-   *          the dnaConcentrationNotes to set
+   * @param dnaConcentrationNotes the dnaConcentrationNotes to set
    */
   public void setDnaConcentrationNotes(String dnaConcentrationNotes) {
     this.dnaConcentrationNotes = dnaConcentrationNotes;
@@ -535,8 +489,8 @@ public class Sample {
   /**
    * Sets the dna concentration per start material.
    *
-   * @param dnaConcentrationPerStartMaterial
-   *          the new dna concentration per start material
+   * @param dnaConcentrationPerStartMaterial the new dna concentration per start
+   *                                         material
    */
   public void setDnaConcentrationPerStartMaterial(String dnaConcentrationPerStartMaterial) {
     this.dnaConcentrationPerStartMaterial = dnaConcentrationPerStartMaterial;
@@ -558,8 +512,7 @@ public class Sample {
   /**
    * Sets the treatment.
    *
-   * @param treatment
-   *          the new treatment
+   * @param treatment the new treatment
    */
   public void setTreatment(String treatment) {
     this.treatment = treatment;
@@ -579,8 +532,7 @@ public class Sample {
   /**
    * Sets the growth media.
    *
-   * @param growthMedia
-   *          the new growth media
+   * @param growthMedia the new growth media
    */
   public void setGrowthMedia(String growthMedia) {
     this.growthMedia = growthMedia;
@@ -599,8 +551,7 @@ public class Sample {
   /**
    * Sets the date.
    *
-   * @param date
-   *          the new date
+   * @param date the new date
    */
   public void setDate(Date date) {
     this.date = date;
@@ -620,8 +571,7 @@ public class Sample {
   /**
    * Sets the nucl acid ext.
    *
-   * @param nuclAcidExt
-   *          the new nucl acid ext
+   * @param nuclAcidExt the new nucl acid ext
    */
   public void setNuclAcidExt(String nuclAcidExt) {
     this.nuclAcidExt = nuclAcidExt;
@@ -637,8 +587,7 @@ public class Sample {
   }
 
   /**
-   * @param extractionBatch
-   *          the extractionBatch to set
+   * @param extractionBatch the extractionBatch to set
    */
   public void setExtractionBatch(String extractionBatch) {
     this.extractionBatch = extractionBatch;
@@ -657,8 +606,7 @@ public class Sample {
   /**
    * Sets the pellet size.
    *
-   * @param pelletSize
-   *          the new pellet size
+   * @param pelletSize the new pellet size
    */
   public void setPelletSize(Double pelletSize) {
     this.pelletSize = pelletSize;
@@ -677,8 +625,7 @@ public class Sample {
   /**
    * Sets the lysis buffer volume.
    *
-   * @param lysisBufferVolume
-   *          the new lysis buffer volume
+   * @param lysisBufferVolume the new lysis buffer volume
    */
   public void setLysisBufferVolume(Double lysisBufferVolume) {
     this.lysisBufferVolume = lysisBufferVolume;
@@ -697,8 +644,7 @@ public class Sample {
   /**
    * Sets the proteinase K volume.
    *
-   * @param proteinaseKVolume
-   *          the new proteinase K volume
+   * @param proteinaseKVolume the new proteinase K volume
    */
   public void setProteinaseKVolume(Double proteinaseKVolume) {
     this.proteinaseKVolume = proteinaseKVolume;
@@ -717,8 +663,7 @@ public class Sample {
   /**
    * Sets the qubit DNA concentration.
    *
-   * @param qubitDNAConcentration
-   *          the new qubit DNA concentration
+   * @param qubitDNAConcentration the new qubit DNA concentration
    */
   public void setQubitDNAConcentration(Double qubitDNAConcentration) {
     this.qubitDNAConcentration = qubitDNAConcentration;
@@ -738,8 +683,7 @@ public class Sample {
   /**
    * Sets the quantification method.
    *
-   * @param quantificationMethod
-   *          the new quantification method
+   * @param quantificationMethod the new quantification method
    */
   public void setQuantificationMethod(String quantificationMethod) {
     this.quantificationMethod = quantificationMethod;
@@ -762,8 +706,7 @@ public class Sample {
   /**
    * Sets the notes.
    *
-   * @param notes
-   *          the new notes
+   * @param notes the new notes
    */
   public void setNotes(String notes) {
     this.notes = notes;
@@ -786,8 +729,7 @@ public class Sample {
   /**
    * Sets the dna notes.
    *
-   * @param dnaNotes
-   *          the new dna notes
+   * @param dnaNotes the new dna notes
    */
   public void setDnaNotes(String dnaNotes) {
     this.dnaNotes = dnaNotes;
@@ -807,8 +749,7 @@ public class Sample {
   /**
    * Sets the tube id.
    *
-   * @param tubeId
-   *          the new tube id
+   * @param tubeId the new tube id
    */
   public void setTubeId(String tubeId) {
     this.tubeId = tubeId;
@@ -827,8 +768,7 @@ public class Sample {
   /**
    * Sets the unusable dna.
    *
-   * @param unusableDna
-   *          the new unusable dna
+   * @param unusableDna the new unusable dna
    */
   public void setUnusableDna(Boolean unusableDna) {
     this.unusableDna = unusableDna;
@@ -848,8 +788,7 @@ public class Sample {
   /**
    * Sets the kit.
    *
-   * @param kit
-   *          the new kit
+   * @param kit the new kit
    */
   public void setKit(Product kit) {
     this.kit = kit;
@@ -869,8 +808,7 @@ public class Sample {
   /**
    * Sets the protocol.
    *
-   * @param protocol
-   *          the new protocol
+   * @param protocol the new protocol
    */
   public void setProtocol(Protocol protocol) {
     this.protocol = protocol;
@@ -906,14 +844,14 @@ public class Sample {
   }
 
   /*
-   * Note that with @Version defined for the lastModified field, every time this object is created
-   * or modified, lastModified is set automatically, so no explicit set is needed for this field.
+   * Note that with @Version defined for the lastModified field, every time this
+   * object is created or modified, lastModified is set automatically, so no
+   * explicit set is needed for this field.
    */
   /**
    * Sets the last modified.
    *
-   * @param lastModified
-   *          the new last modified
+   * @param lastModified the new last modified
    */
   public void setLastModified(Timestamp lastModified) {
     this.lastModified = lastModified;
@@ -952,8 +890,7 @@ public class Sample {
   /**
    * Sets the value of the sample type field
    * 
-   * @param sampleType
-   *          value of sample type to set
+   * @param sampleType value of sample type to set
    */
   public void setSampleType(SampleType sampleType) {
     this.sampleType = sampleType;
@@ -972,8 +909,7 @@ public class Sample {
   /**
    * Sets the value of the inoculation date field
    * 
-   * @param inoculationDate
-   *          value to set
+   * @param inoculationDate value to set
    */
   public void setInoculationDate(LocalDate inoculationDate) {
     this.inoculationDate = inoculationDate;
@@ -993,8 +929,7 @@ public class Sample {
   /**
    * Sets the value of the fraction field
    * 
-   * @param fraction
-   *          value to set
+   * @param fraction value to set
    */
   public void setFraction(String fraction) {
     this.fraction = fraction;
@@ -1013,8 +948,7 @@ public class Sample {
   /**
    * Sets the value of the fermentation temperature
    * 
-   * @param fermentationTemperature
-   *          - value to set
+   * @param fermentationTemperature - value to set
    */
   public void setFermentationTemperature(Double fermentationTemperature) {
     this.fermentationTemperature = fermentationTemperature;
@@ -1034,8 +968,7 @@ public class Sample {
   /**
    * Sets the value of the fermentation time field
    * 
-   * @param fermentationTime
-   *          - value to set
+   * @param fermentationTime - value to set
    */
   public void setFermentationTime(String fermentationTime) {
     this.fermentationTime = fermentationTime;
@@ -1055,8 +988,7 @@ public class Sample {
   /**
    * Sets value for the exraction solvent field
    * 
-   * @param extractionSolvent
-   *          - value to set
+   * @param extractionSolvent - value to set
    */
   public void setExtractionSolvent(String extractionSolvent) {
     this.extractionSolvent = extractionSolvent;
@@ -1066,7 +998,7 @@ public class Sample {
    * @return the dateArchived
    */
   @Size(max = 10)
-  @Column(name = "DateArchived")  
+  @Column(name = "DateArchived")
   public String getDateArchived() {
     return dateArchived;
   }
@@ -1082,7 +1014,7 @@ public class Sample {
    * @return the sampleStorageLocation
    */
   @Size(max = 50)
-  @Column(name = "SampleStorageLocation") 
+  @Column(name = "SampleStorageLocation")
   public String getSampleStorageLocation() {
     return sampleStorageLocation;
   }
@@ -1098,7 +1030,7 @@ public class Sample {
    * @return the sampleStorageConditions
    */
   @Size(max = 50)
-  @Column(name = "SampleStorageConditions")  
+  @Column(name = "SampleStorageConditions")
   public String getSampleStorageConditions() {
     return sampleStorageConditions;
   }
@@ -1114,7 +1046,7 @@ public class Sample {
    * @return the amountAvailable
    */
   @Size(max = 50)
-  @Column(name = "AmountAvailable") 
+  @Column(name = "AmountAvailable")
   public String getAmountAvailable() {
     return amountAvailable;
   }
@@ -1130,7 +1062,7 @@ public class Sample {
    * @return the pretreatment
    */
   @Size(max = 50)
-  @Column(name = "Pretreatment") 
+  @Column(name = "Pretreatment")
   public String getPretreatment() {
     return pretreatment;
   }
@@ -1146,7 +1078,7 @@ public class Sample {
    * @return the alternativeContactInfo
    */
   @Size(max = 100)
-  @Column(name = "AlternativeContactInfo") 
+  @Column(name = "AlternativeContactInfo")
   public String getAlternativeContactInfo() {
     return alternativeContactInfo;
   }

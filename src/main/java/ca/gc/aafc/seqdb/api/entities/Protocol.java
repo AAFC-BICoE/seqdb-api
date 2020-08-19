@@ -63,8 +63,7 @@ import lombok.Builder;
  * @author elkayssin
  */
 @Entity
-@Table(name = "Protocols", uniqueConstraints = {
-@UniqueConstraint(columnNames = { "Name", "Type" }) })
+@Table(name = "Protocols", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Type" }) })
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Protocol {
 
@@ -94,8 +93,7 @@ public class Protocol {
     /**
      * Instantiates a new protocol type.
      *
-     * @param value
-     *          the value
+     * @param value the value
      */
     ProtocolType(String value) {
       this.value = value;
@@ -165,29 +163,19 @@ public class Protocol {
   /**
    * Instantiates a new protocol.
    *
-   * @param type
-   *          the type
-   * @param name
-   *          the name
-   * @param version
-   *          the version
-   * @param description
-   *          the description
-   * @param steps
-   *          the steps
-   * @param notes
-   *          the notes
-   * @param reference
-   *          the reference
-   * @param equipment
-   *          the equipment
-   * @param group
-   *          the group
-   * @param kit
-   *          the kit
+   * @param type        the type
+   * @param name        the name
+   * @param version     the version
+   * @param description the description
+   * @param steps       the steps
+   * @param notes       the notes
+   * @param reference   the reference
+   * @param equipment   the equipment
+   * @param group       the group
+   * @param kit         the kit
    */
-  public Protocol(ProtocolType type, String name, String version, String description, String steps,
-      String notes, String reference, String equipment, Product kit) {
+  public Protocol(ProtocolType type, String name, String version, String description, String steps, String notes,
+      String reference, String equipment, Product kit) {
     this.type = type;
     this.name = name;
     this.version = version;
@@ -202,42 +190,26 @@ public class Protocol {
   /**
    * Instantiates a new protocol.
    *
-   * @param protocolId
-   *          the protocol id
-   * @param type
-   *          the type
-   * @param name
-   *          the name
-   * @param version
-   *          the version
-   * @param description
-   *          the description
-   * @param steps
-   *          the steps
-   * @param notes
-   *          the notes
-   * @param reference
-   *          the reference
-   * @param equipment
-   *          the equipment
-   * @param forwardPrimerConcentration
-   *          the forward primer concentration
-   * @param reversePrimerConcentration
-   *          the reverse primer concentration
-   * @param reactionMixVolume
-   *          the reaction mix volume
-   * @param reactionMixVolumePerTube
-   *          the reaction mix volume per tube
-   * @param group
-   *          the group
-   * @param kit
-   *          the kit
+   * @param protocolId                 the protocol id
+   * @param type                       the type
+   * @param name                       the name
+   * @param version                    the version
+   * @param description                the description
+   * @param steps                      the steps
+   * @param notes                      the notes
+   * @param reference                  the reference
+   * @param equipment                  the equipment
+   * @param forwardPrimerConcentration the forward primer concentration
+   * @param reversePrimerConcentration the reverse primer concentration
+   * @param reactionMixVolume          the reaction mix volume
+   * @param reactionMixVolumePerTube   the reaction mix volume per tube
+   * @param group                      the group
+   * @param kit                        the kit
    */
   @Builder
-  public Protocol(Integer protocolId, ProtocolType type, String name, String version,
-      String description, String steps, String notes, String reference, String equipment,
-      String forwardPrimerConcentration, String reversePrimerConcentration,
-      String reactionMixVolume, String reactionMixVolumePerTube, Product kit) {
+  public Protocol(Integer protocolId, ProtocolType type, String name, String version, String description, String steps,
+      String notes, String reference, String equipment, String forwardPrimerConcentration,
+      String reversePrimerConcentration, String reactionMixVolume, String reactionMixVolumePerTube, Product kit) {
     super();
     this.protocolId = protocolId;
     this.type = type;
@@ -270,8 +242,7 @@ public class Protocol {
   /**
    * Sets the protocol id.
    *
-   * @param protocolId
-   *          the new protocol id
+   * @param protocolId the new protocol id
    */
   public void setProtocolId(Integer protocolId) {
     this.protocolId = protocolId;
@@ -292,8 +263,7 @@ public class Protocol {
   /**
    * Sets the type.
    *
-   * @param type
-   *          the new type
+   * @param type the new type
    */
   public void setType(ProtocolType type) {
     this.type = type;
@@ -314,8 +284,7 @@ public class Protocol {
   /**
    * Sets the name.
    *
-   * @param name
-   *          the new name
+   * @param name the new name
    */
   public void setName(String name) {
     this.name = name;
@@ -335,8 +304,7 @@ public class Protocol {
   /**
    * Sets the version.
    *
-   * @param version
-   *          the new version
+   * @param version the new version
    */
   public void setVersion(String version) {
     this.version = version;
@@ -356,8 +324,7 @@ public class Protocol {
   /**
    * Sets the description.
    *
-   * @param description
-   *          the new description
+   * @param description the new description
    */
   public void setDescription(String description) {
     this.description = description;
@@ -376,8 +343,7 @@ public class Protocol {
   /**
    * Sets the steps.
    *
-   * @param steps
-   *          the new steps
+   * @param steps the new steps
    */
   public void setSteps(String steps) {
     this.steps = steps;
@@ -397,8 +363,7 @@ public class Protocol {
   /**
    * Sets the notes.
    *
-   * @param notes
-   *          the new notes
+   * @param notes the new notes
    */
   public void setNotes(String notes) {
     this.notes = notes;
@@ -418,8 +383,7 @@ public class Protocol {
   /**
    * Sets the reference.
    *
-   * @param reference
-   *          the new reference
+   * @param reference the new reference
    */
   public void setReference(String reference) {
     this.reference = reference;
@@ -439,8 +403,7 @@ public class Protocol {
   /**
    * Sets the equipment.
    *
-   * @param equipment
-   *          the new equipment
+   * @param equipment the new equipment
    */
   public void setEquipment(String equipment) {
     this.equipment = equipment;
@@ -460,8 +423,7 @@ public class Protocol {
   /**
    * Sets the forward primer concentration.
    *
-   * @param forwardPrimerConcentration
-   *          the new forward primer concentration
+   * @param forwardPrimerConcentration the new forward primer concentration
    */
   public void setForwardPrimerConcentration(String forwardPrimerConcentration) {
     this.forwardPrimerConcentration = forwardPrimerConcentration;
@@ -481,8 +443,7 @@ public class Protocol {
   /**
    * Sets the reverse primer concentration.
    *
-   * @param reversePrimerConcentration
-   *          the new reverse primer concentration
+   * @param reversePrimerConcentration the new reverse primer concentration
    */
   public void setReversePrimerConcentration(String reversePrimerConcentration) {
     this.reversePrimerConcentration = reversePrimerConcentration;
@@ -502,8 +463,7 @@ public class Protocol {
   /**
    * Sets the reaction mix volume.
    *
-   * @param reactionMixVolume
-   *          the new reaction mix volume
+   * @param reactionMixVolume the new reaction mix volume
    */
   public void setReactionMixVolume(String reactionMixVolume) {
     this.reactionMixVolume = reactionMixVolume;
@@ -523,8 +483,7 @@ public class Protocol {
   /**
    * Sets the reaction mix volume per tube.
    *
-   * @param reactionMixVolumePerTube
-   *          the new reaction mix volume per tube
+   * @param reactionMixVolumePerTube the new reaction mix volume per tube
    */
   public void setReactionMixVolumePerTube(String reactionMixVolumePerTube) {
     this.reactionMixVolumePerTube = reactionMixVolumePerTube;
@@ -544,8 +503,7 @@ public class Protocol {
   /**
    * Sets the kit.
    *
-   * @param kit
-   *          the new kit
+   * @param kit the new kit
    */
   public void setKit(Product kit) {
     this.kit = kit;
@@ -565,11 +523,11 @@ public class Protocol {
   /**
    * Sets the last modified.
    * 
-   * Note that with @Version defined for the lastModified field, every time this object is created
-   * or modified, lastModified is set automatically, so no explicit set is needed for this field.
+   * Note that with @Version defined for the lastModified field, every time this
+   * object is created or modified, lastModified is set automatically, so no
+   * explicit set is needed for this field.
    *
-   * @param lastModified
-   *          the new last modified
+   * @param lastModified the new last modified
    */
   public void setLastModified(Timestamp lastModified) {
     this.lastModified = lastModified;

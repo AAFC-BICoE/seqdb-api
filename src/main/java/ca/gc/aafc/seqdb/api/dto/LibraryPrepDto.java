@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -13,7 +15,7 @@ import lombok.Data;
 public class LibraryPrepDto {
   
   @JsonApiId
-  private Integer id;
+  private UUID uuid;
 
   private Double inputNg;
 

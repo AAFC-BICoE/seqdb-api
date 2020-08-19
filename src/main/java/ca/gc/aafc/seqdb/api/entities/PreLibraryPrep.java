@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,12 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -59,6 +62,12 @@ public class PreLibraryPrep {
   }))
   private Integer id;
 
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
+
   @NotNull
   @Type(type = "pgsql_enum")
   @Enumerated(EnumType.STRING)
@@ -92,5 +101,10 @@ public class PreLibraryPrep {
     @Version
   }))
   private Timestamp lastModified;
+
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
+  }
 
 }

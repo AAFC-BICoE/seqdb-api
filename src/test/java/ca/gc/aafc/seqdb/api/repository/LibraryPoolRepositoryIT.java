@@ -38,7 +38,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findPool_whenPoolExists_poolReturned() {
     LibraryPoolDto dto = poolRepository.findOne(
-        testPool.getId(),
+        testPool.getUuid(),
         new QuerySpec(LibraryPoolDto.class)
     );
     
@@ -52,14 +52,14 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new pool");
     
     LibraryPoolDto created = poolRepository.create(newDto);
-    assertNotNull(created.getId());
+    assertNotNull(created.getUuid());
     assertEquals("new pool", created.getName());
   }
   
   @Test
   public void updatePool_onSuccess_poolUpdated() {
     LibraryPoolDto dto = poolRepository.findOne(
-        testPool.getId(),
+        testPool.getUuid(),
         new QuerySpec(LibraryPoolDto.class)
     );
     
@@ -73,7 +73,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deletePool_onSuccess_poolDeleted() {
-    poolRepository.delete(testPool.getId());
+    poolRepository.delete(testPool.getUuid());
     assertNull(entityManager.find(LibraryPool.class, testPool.getId()));
   }
   

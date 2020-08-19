@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,11 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -53,6 +57,12 @@ public class StepResource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
   }))
   private Integer id;
+
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
 
   @NotNull
   @Column(name = "Value")
@@ -99,5 +109,10 @@ public class StepResource {
     @JoinColumn(name = "librarypoolid")
   }))
   private LibraryPool libraryPool;
+
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
+  }
 
 }

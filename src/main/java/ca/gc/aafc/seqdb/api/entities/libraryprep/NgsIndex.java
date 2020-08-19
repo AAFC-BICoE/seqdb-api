@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -43,6 +46,12 @@ public class NgsIndex {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
   }))
   private Integer id;
+
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
 
   @NotNull
   private String name;
@@ -73,5 +82,10 @@ public class NgsIndex {
     @JoinColumn(name = "indexsetid")
   }))
   private IndexSet indexSet;
+
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
+  }
 
 }

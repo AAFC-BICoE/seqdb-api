@@ -19,8 +19,8 @@ import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 @Testable
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 
-  private int protocolId;
-  private int productId;
+  private String protocolId;
+  private String productId;
   
   @Override
   protected String getResourceUnderTest() {

@@ -10,6 +10,7 @@ import javax.validation.ValidationException;
 
 import ca.gc.aafc.dina.filter.RsqlFilterHandler;
 import ca.gc.aafc.dina.filter.SimpleFilterHandler;
+import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.repository.JpaDtoRepository;
 import ca.gc.aafc.dina.repository.JpaResourceRepository;
 import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
@@ -22,11 +23,22 @@ import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
 @Named
 public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryPoolContentDto> {
 
-  public LibraryPoolContentRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(LibraryPoolContentDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
+  private final BaseDAO baseDao;
+
+  public LibraryPoolContentRepository(
+    JpaDtoRepository dtoRepository,
+    SimpleFilterHandler simpleFilterHandler,
+    RsqlFilterHandler rsqlFilterHandler,
+    JpaMetaInformationProvider metaInformationProvider,
+    BaseDAO baseDao
+  ) {
+    super(
+      LibraryPoolContentDto.class,
+      dtoRepository,
+      Arrays.asList(simpleFilterHandler, rsqlFilterHandler),
+      metaInformationProvider
+    );
+    this.baseDao = baseDao;
   }
   
   @Override
@@ -37,8 +49,7 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
   }
   
   private void validateUniqueIndexSets(LibraryPoolContentDto newLpcDto, LibraryPoolDto targetPoolDto) {
-    EntityManager em = this.dtoRepository.getEntityManager();
-    LibraryPool targetPool = em.find(LibraryPool.class, targetPoolDto.getId());
+    LibraryPool targetPool = baseDao.findOneByNaturalId(targetPoolDto.getUuid(), LibraryPool.class);
     
     List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
     List<LibraryPrepBatch> alreadyPooledBatches = getBatches(targetPool);
@@ -70,17 +81,16 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
   }
   
   private List<LibraryPrepBatch> getBatches(LibraryPoolContentDto lpc) {
-    EntityManager em = this.dtoRepository.getEntityManager();
     List<LibraryPrepBatch> batchs = new ArrayList<>();
     
     if (lpc.getPooledLibraryPool() != null) {
-      LibraryPool pooledPool = em
-          .find(LibraryPool.class, lpc.getPooledLibraryPool().getId());
+      LibraryPool pooledPool = baseDao
+          .findOneByNaturalId(lpc.getPooledLibraryPool().getUuid(), LibraryPool.class);
       batchs.addAll(getBatches(pooledPool));
     }
     if (lpc.getPooledLibraryPrepBatch() != null) {
-      LibraryPrepBatch pooledBatch = em
-          .find(LibraryPrepBatch.class, lpc.getPooledLibraryPrepBatch().getId());
+      LibraryPrepBatch pooledBatch = baseDao
+          .findOneByNaturalId(lpc.getPooledLibraryPrepBatch().getUuid(), LibraryPrepBatch.class);
       batchs.add(pooledBatch);
     }
     

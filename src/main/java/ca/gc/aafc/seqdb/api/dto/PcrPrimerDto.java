@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
@@ -19,7 +20,7 @@ import lombok.Data;
 public class PcrPrimerDto {
 
   @JsonApiId
-  private Integer id;
+  private UUID uuid;
 
   // Required fields
 

@@ -1,5 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,11 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.seqdb.api.entities.Sample;
 import lombok.AllArgsConstructor;
@@ -33,6 +38,12 @@ public class LibraryPrep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
   }))
   private Integer id;
+
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
 
   private Double inputNg;
 
@@ -72,5 +83,10 @@ public class LibraryPrep {
     @JoinColumn(name = "indexi7id")
   }))
   private NgsIndex indexI7;
+
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
+  }
 
 }

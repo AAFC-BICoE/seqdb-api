@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NaturalId;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +60,12 @@ public class PcrPrimer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
   }))
   private Integer id;
+  
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
 
   @NotNull
   @Enumerated(EnumType.STRING)
@@ -146,11 +154,9 @@ public class PcrPrimer {
   }))
   private PcrPrimer pooledPrimer;
 
-  @NotNull
-  private UUID uuid;
-
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
   }
+
 }

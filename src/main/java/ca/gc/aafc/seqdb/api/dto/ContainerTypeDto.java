@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
@@ -16,7 +17,7 @@ import lombok.Data;
 public class ContainerTypeDto {
 
   @JsonApiId
-  private Integer id;
+  private UUID uuid;
 
   private String name;
 

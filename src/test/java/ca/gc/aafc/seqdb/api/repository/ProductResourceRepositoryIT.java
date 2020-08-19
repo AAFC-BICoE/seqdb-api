@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
@@ -31,6 +32,9 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     
   @Inject
   private ResourceRepository<ProductDto, Serializable> productRepository;
+
+  @Inject
+  private BaseDAO baseDao;
   
   private Product testProduct;
   
@@ -52,11 +56,11 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void findProduct_whenNoFieldsAreSelected_productReturnedWithAllFields() {
     ProductDto productDto = productRepository.findOne(
-        testProduct.getId(),
+        testProduct.getUuid(),
         new QuerySpec(ProductDto.class)
     );  
     assertNotNull(productDto);
-    assertEquals(testProduct.getId(), productDto.getId());
+    assertEquals(testProduct.getUuid(), productDto.getUuid());
     assertEquals(TEST_PRODUCT_NAME, productDto.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION, productDto.getDescription());
     assertEquals(TEST_PRODUCT_TYPE, productDto.getType());
@@ -70,10 +74,10 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     // Returned DTO must have correct values: selected fields are present, non-selected
     // fields are null.
     ProductDto productDto = productRepository.findOne(
-        testProduct.getId(),querySpec
+        testProduct.getUuid(),querySpec
     );  
     assertNotNull(productDto);
-    assertEquals(testProduct.getId(), productDto.getId());
+    assertEquals(testProduct.getUuid(), productDto.getUuid());
     assertEquals(TEST_PRODUCT_NAME, productDto.getName());
     assertEquals(TEST_PRODUCT_TYPE, productDto.getType());
     assertNull(productDto.getDescription());
@@ -89,12 +93,12 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     
     ProductDto createdProduct = productRepository.create(newProduct);
     //DTO has the set value
-    assertNotNull(createdProduct.getId());
+    assertNotNull(createdProduct.getUuid());
     assertEquals(TEST_PRODUCT_NAME_CREATE, createdProduct.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION_CREATE, createdProduct.getDescription());
     assertEquals(TEST_PRODUCT_TYPE_CREATE, createdProduct.getType());
     //entity has the set value    
-    Product productEntity = entityManager.find(Product.class, createdProduct.getId());
+    Product productEntity = baseDao.findOneByNaturalId(createdProduct.getUuid(), Product.class);
     assertNotNull(productEntity.getId());
     assertEquals(TEST_PRODUCT_NAME_CREATE, productEntity.getName());
     assertEquals(TEST_PRODUCT_DESCRIPTION_CREATE, productEntity.getDescription());
@@ -107,7 +111,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ProductDto.class);
 
     ProductDto productDto = productRepository.findOne(
-        testProduct.getId(),querySpec);
+        testProduct.getUuid(),querySpec);
     
     // Change the DTO's desc value.
     productDto.setDescription("new desc");
@@ -121,7 +125,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   
   @Test
   public void deleteProduct_onProductLookup_productNotFound() {
-    productRepository.delete(testProduct.getId());
+    productRepository.delete(testProduct.getUuid());
     assertNull(entityManager.find(Product.class, testProduct.getId()));
   }
 

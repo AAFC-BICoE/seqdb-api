@@ -64,7 +64,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
         .indexSet(testIndexSet2)
         .build();
     persist(testBatchUnpooled);
-    testBatchDtoUnpooled = batchRepository.findOne(testBatchUnpooled.getId(),
+    testBatchDtoUnpooled = batchRepository.findOne(testBatchUnpooled.getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class));
 
     // This is needed in the tests to initialize the PersistentBags for the entities to-many list
@@ -84,11 +84,11 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void findLpc_whenExists_lpcReturned() {
-    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getId(),
+    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getUuid(),
         new QuerySpec(LibraryPoolContentDto.class));
 
     assertNotNull(dto);
-    assertEquals(testLpc.getId(), dto.getId());
+    assertEquals(testLpc.getUuid(), dto.getUuid());
   }
 
   @Test
@@ -96,36 +96,36 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto dto = new LibraryPoolContentDto();
 
     // Add to same pool as the test LPC.
-    dto.setLibraryPool(poolRepository.findOne(testLpc.getLibraryPool().getId(),
+    dto.setLibraryPool(poolRepository.findOne(testLpc.getLibraryPool().getUuid(),
         new QuerySpec(LibraryPoolDto.class)));
 
     // Pool a new batch.
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
     LibraryPoolContentDto created = lpcRepository.create(dto);
-    assertNotNull(created.getId());
+    assertNotNull(created.getUuid());
     // Assert parent pool:
-    assertEquals(testLpc.getLibraryPool().getId(), created.getLibraryPool().getId());
+    assertEquals(testLpc.getLibraryPool().getUuid(), created.getLibraryPool().getUuid());
     // Assert pooled LibraryPrepBatch:
-    assertEquals(testBatchDtoUnpooled.getId(),
-        created.getPooledLibraryPrepBatch().getId());
+    assertEquals(testBatchDtoUnpooled.getUuid(),
+        created.getPooledLibraryPrepBatch().getUuid());
   }
 
   @Test
   public void updateLpc_onSuccess_lpcUpdated() {
-    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getId(),
+    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getUuid(),
         new QuerySpec(LibraryPoolContentDto.class));
 
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
     LibraryPoolContentDto updated = lpcRepository.save(dto);
-    assertEquals(testBatchDtoUnpooled.getId(),
-        updated.getPooledLibraryPrepBatch().getId());
+    assertEquals(testBatchDtoUnpooled.getUuid(),
+        updated.getPooledLibraryPrepBatch().getUuid());
   }
 
   @Test
   public void deleteLpc_onSuccess_lpcDeleted() {
-    lpcRepository.delete(testLpc.getId());
+    lpcRepository.delete(testLpc.getUuid());
     assertNull(entityManager.find(LibraryPoolContent.class, testLpc.getId()));
   }
 
@@ -134,7 +134,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto newLpc = new LibraryPoolContentDto();
     newLpc.setLibraryPool(
         poolRepository.findOne(
-            testLpc.getLibraryPool().getId(),
+            testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
@@ -194,13 +194,13 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
         poolRepository.findOne(
-            testLpc.getLibraryPool().getId(),
+            testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
         poolRepository.findOne(
-            testSubPool2.getId(),
+            testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
@@ -256,19 +256,19 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
         poolRepository.findOne(
-            testLpc.getLibraryPool().getId(),
+            testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
         poolRepository.findOne(
-            testSubPool2.getId(),
+            testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     
     LibraryPoolContentDto createdPooledPoolLpc2 = lpcRepository.create(pooledPoolLpc2);
-    assertNotNull(createdPooledPoolLpc2.getId());
+    assertNotNull(createdPooledPoolLpc2.getUuid());
   }
   
   @Test
@@ -310,13 +310,13 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
         poolRepository.findOne(
-            testLpc.getLibraryPool().getId(),
+            testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
         poolRepository.findOne(
-            testSubPool2.getId(),
+            testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );

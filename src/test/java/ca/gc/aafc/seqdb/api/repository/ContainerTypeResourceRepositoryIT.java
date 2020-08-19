@@ -45,7 +45,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findContainerType_whenExists_containerTypeReturned() {
     ContainerTypeDto dto = ctRepository.findOne(
-        testContainerType.getId(),
+        testContainerType.getUuid(),
         new QuerySpec(ContainerTypeDto.class)
     );
     
@@ -64,7 +64,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     
     ContainerTypeDto created = ctRepository.create(newDto);
     
-    assertNotNull(created.getId());
+    assertNotNull(created.getUuid());
     assertEquals(newContainerTypeName, created.getName());
     assertEquals(TEST_CONTAINERTYPE_COLS, created.getNumberOfColumns());
     assertEquals(TEST_CONTAINERTYPE_ROWS, created.getNumberOfRows());
@@ -73,7 +73,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateContainerType_onSucess_containerTypeUpdated() {
     ContainerTypeDto dto = ctRepository.findOne(
-        testContainerType.getId(),
+        testContainerType.getUuid(),
         new QuerySpec(ContainerTypeDto.class)
     );
     
@@ -86,7 +86,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteContainerType_onSuccess_containerTypeDeleted() {
-    ctRepository.delete(testContainerType.getId());
+    ctRepository.delete(testContainerType.getUuid());
     assertNull(entityManager.find(ContainerType.class, testContainerType.getId()));
   }
 }

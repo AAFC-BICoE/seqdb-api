@@ -96,7 +96,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     }
     
     testBatchDto = libraryPrepBatchRepository.findOne(
-        testLibPrep.getLibraryPrepBatch().getId(),
+        testLibPrep.getLibraryPrepBatch().getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class)
     );
     
@@ -111,7 +111,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findLibPrep_whenLibPrepExists_libPrepReturned() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -134,15 +134,15 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
-    assertNotNull(created.getId());
+    assertNotNull(created.getUuid());
     assertEquals("test size", created.getSize());
     assertEquals(
-        newSampleCreated.getId(),
-        created.getSample().getId()
+        newSampleCreated.getUuid(),
+        created.getSample().getUuid()
     );
     assertEquals(
-        testLibPrep.getLibraryPrepBatch().getId(),
-        created.getLibraryPrepBatch().getId()
+        testLibPrep.getLibraryPrepBatch().getUuid(),
+        created.getLibraryPrepBatch().getUuid()
     );
   }
   
@@ -153,7 +153,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     prep1.setWellColumn(5);
     prep1.setSample(
         sampleRepository.findOne(
-            testSamples.get(0).getId(),
+            testSamples.get(0).getUuid(),
             new QuerySpec(SampleDto.class)
         )
     );
@@ -165,7 +165,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     prep2.setWellColumn(5);
     prep2.setSample(
         sampleRepository.findOne(
-            testSamples.get(1).getId(),
+            testSamples.get(1).getUuid(),
             new QuerySpec(SampleDto.class)
         )
     );
@@ -173,7 +173,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto createdPrep2 = libraryPrepRepository.create(prep2);
     LibraryPrepDto updatedPrep1 = libraryPrepRepository.findOne(
-        createdPrep1.getId(),
+        createdPrep1.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -187,7 +187,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenWellRowLetterInvalid_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("!");
@@ -201,7 +201,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenRowIsSetAndColumnIsNull_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("C");
@@ -219,7 +219,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnIs0_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("A");
@@ -233,7 +233,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnExceedsLimit_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("A");
@@ -251,7 +251,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenRowExceedsLimit_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("Z");
@@ -269,7 +269,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnIsSetAndRowIsNull_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow(null);
@@ -287,7 +287,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_onSuccess_libPrepUpdated() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -298,7 +298,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteLibPrep_onSuccess_libPrepDeleted() {
-    libraryPrepRepository.delete(testLibPrep.getId());
+    libraryPrepRepository.delete(testLibPrep.getUuid());
     assertNull(entityManager.find(LibraryPrep.class, testLibPrep.getId()));
   }
   

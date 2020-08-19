@@ -86,7 +86,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     
     assertNotNull(preLibraryPrepDto);
-    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getId());
+    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE, preLibraryPrepDto.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES, preLibraryPrepDto.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION, preLibraryPrepDto.getConcentration());
@@ -103,7 +103,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     
     assertNotNull(preLibraryPrepDto);
-    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getId());
+    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE, preLibraryPrepDto.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES, preLibraryPrepDto.getNotes());
     assertNull(preLibraryPrepDto.getConcentration());
@@ -119,14 +119,14 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     PreLibraryPrepDto createdPreLibraryPrep = preLibraryPrepRepository.create(newPreLibraryPrep);
     
     // DTO has the set value.
-    assertNotNull(createdPreLibraryPrep.getId());
+    assertNotNull(createdPreLibraryPrep.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE_CREATE, createdPreLibraryPrep.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, createdPreLibraryPrep.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, createdPreLibraryPrep.getConcentration());
     
     // Entity has the set value
-    PreLibraryPrep preLibraryPrepEntity = entityManager.find(PreLibraryPrep.class, createdPreLibraryPrep.getId());
-    assertNotNull(preLibraryPrepEntity.getId());
+    PreLibraryPrep preLibraryPrepEntity = entityManager.find(PreLibraryPrep.class, createdPreLibraryPrep.getUuid());
+    assertNotNull(preLibraryPrepEntity.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE_CREATE, preLibraryPrepEntity.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, preLibraryPrepEntity.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, preLibraryPrepEntity.getConcentration());

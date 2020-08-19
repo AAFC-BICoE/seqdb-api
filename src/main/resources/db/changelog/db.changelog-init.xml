@@ -45,6 +45,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ngsindexes_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="application" type="VARCHAR(255)"/>
             <column name="datedestroyed" type="date"/>
             <column name="dateordered" type="date"/>
@@ -72,6 +75,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="libraryprepbatchs_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="cleanupnotes" type="VARCHAR(255)"/>
             <column name="dateused" type="date"/>
             <column name="name" type="VARCHAR(255)">
@@ -92,6 +98,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="protocols_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="description" type="VARCHAR(200)"/>
             <column name="equipment" type="VARCHAR(50)"/>
             <column name="forwardprimerconcentration" type="VARCHAR(50)"/>
@@ -115,6 +124,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypreps_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="inputng" type="FLOAT8"/>
             <column name="quality" type="VARCHAR(255)"/>
             <column name="size" type="VARCHAR(255)"/>
@@ -135,6 +147,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="prelibrarypreps_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="averagefragmentsize" type="FLOAT8"/>
             <column name="concentration" type="FLOAT8"/>
             <column name="inputamount" type="FLOAT8"/>
@@ -154,6 +169,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chaintemplates_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
@@ -164,6 +182,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypools_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="dateused" type="date"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="notes" type="VARCHAR(255)"/>
@@ -174,6 +195,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypoolcontents_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="librarypoolid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
@@ -186,6 +210,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chainsteptemplates_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="stepnumber" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
@@ -202,6 +229,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chains_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="datecreated" type="date">
                 <constraints nullable="false"/>
             </column>
@@ -218,6 +248,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="samples_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="alternativecontactinfo" type="VARCHAR(100)"/>
             <column name="amountavailable" type="VARCHAR(50)"/>
             <column name="date" type="date"/>
@@ -271,6 +304,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
@@ -291,6 +327,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
@@ -308,6 +347,9 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="indexsets_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="forwardadapter" type="VARCHAR(255)"/>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -320,6 +362,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="containertypes_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -337,6 +382,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="stepresources_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="value" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -364,6 +412,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="products_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="description" type="VARCHAR(200)"/>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="name" type="VARCHAR(50)">
@@ -378,9 +429,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprimers_pkey"/>
             </column>
-            <column name="uuid" type="UUID">
-                <constraints nullable="false"/>
-            </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="application" type="VARCHAR(200)"/>
             <column name="datedestroyed" type="date"/>
             <column name="dateordered" type="date"/>
@@ -431,6 +482,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="regions_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="aliases" type="VARCHAR(255)"/>
             <column name="applicableorganisms" type="VARCHAR(255)"/>
             <column name="description" type="VARCHAR(255)"/>
@@ -445,6 +499,9 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprofiles_pkey"/>
             </column>
+            <column name="uuid" type="uuid">
+				<constraints nullable="false" unique="true" />
+			</column>
             <column name="application" type="VARCHAR(1024)"/>
             <column name="cycles" type="VARCHAR(50)"/>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
@@ -541,9 +598,6 @@
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-44">
         <addUniqueConstraint columnNames="name, upc" constraintName="ukghqihjt4y6foqkvg2nb7ikxba" tableName="products"/>
     </changeSet>
-    <changeSet context="schema-change" author="mat (generated)" id="1596744623461-45">
-        <addUniqueConstraint columnNames="uuid" constraintName="uk_4jdw1aedf892tf51i695wqx5y" tableName="pcrprimers"/>
-    </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-46">
         <addUniqueConstraint columnNames="name, lotnumber" constraintName="uk5h8mqetht432o6gi2iprmd7c" tableName="pcrprimers"/>
     </changeSet>
@@ -605,36 +659,41 @@
       id="initial-workflow-data"
       author="poffm">
         <sql>
-          insert into ChainTemplates (name) values ('Whole Genome Sequencing');
-          insert into ChainTemplates (name) values ('Whole Genome Sequencing Pooling');
+          insert into ChainTemplates (uuid, name) values ('ce91964c-e252-11ea-87d0-0242ac130003', 'Whole Genome Sequencing');
+          insert into ChainTemplates (uuid, name) values ('ce919872-e252-11ea-87d0-0242ac130003', 'Whole Genome Sequencing Pooling');
           
-          insert into StepTemplates (name, inputs, outputs) values ('Select Samples', '{"SAMPLE"}', '{"SAMPLE"}');
-          insert into StepTemplates (name, inputs, outputs) values ('Pre Library Prep', '{"SAMPLE"}', '{"SIZE_SELECTION"}');
-          insert into StepTemplates (name, inputs, outputs) values ('Library Prep', '{"SAMPLE"}', '{"LIBRARY_PREP_BATCH"}');
-          insert into StepTemplates (name, inputs, outputs) values ('Library Pooling', '{"LIBRARY_PREP_BATCH"}', '{"LIBRARY_POOL"}');
-          insert into StepTemplates (name, inputs, outputs) values ('Submission', '{"LIBRARY_POOL"}', '{"SEQ_SUBMISSION"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919962-e252-11ea-87d0-0242ac130003', 'Select Samples', '{"SAMPLE"}', '{"SAMPLE"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919a34-e252-11ea-87d0-0242ac130003', 'Pre Library Prep', '{"SAMPLE"}', '{"SIZE_SELECTION"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919c96-e252-11ea-87d0-0242ac130003', 'Library Prep', '{"SAMPLE"}', '{"LIBRARY_PREP_BATCH"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919d72-e252-11ea-87d0-0242ac130003', 'Library Pooling', '{"LIBRARY_PREP_BATCH"}', '{"LIBRARY_POOL"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919e30-e252-11ea-87d0-0242ac130003', 'Submission', '{"LIBRARY_POOL"}', '{"SEQ_SUBMISSION"}');
           
-          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'ce919ef8-e252-11ea-87d0-0242ac130003',
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Select Samples'),
             1
           );
-          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'ce919fb6-e252-11ea-87d0-0242ac130003',
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Pre Library Prep'),
             2
           );
-          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'ce91a196-e252-11ea-87d0-0242ac130003',
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
             (select ID from StepTemplates where name = 'Library Prep'),
             3
           );
-          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'ce91a2cc-e252-11ea-87d0-0242ac130003',
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
             (select ID from StepTemplates where name = 'Library Pooling'),
             1
           );
-          insert into ChainStepTemplates (ChainTemplateid, StepTemplateid, StepNumber) values (
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'ce91a4de-e252-11ea-87d0-0242ac130003',
             (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
             (select ID from StepTemplates where name = 'Submission'),
             2

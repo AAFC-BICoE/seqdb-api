@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.Product;
@@ -15,8 +16,8 @@ import lombok.Data;
 @RelatedEntity(Product.class)
 public class ProductDto {
   
-  @JsonApiId  
-  private Integer id;
+  @JsonApiId
+  private UUID uuid;
   
   private String name;
   

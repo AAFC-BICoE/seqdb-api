@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,11 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne ;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NaturalId;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -39,6 +43,12 @@ public class PcrProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
   }))
   private Integer id;
+
+  @Getter(onMethod=@__({
+    @NotNull,
+    @NaturalId
+  }))
+  private UUID uuid;
 
   @NotNull
   @Size(max = 50)
@@ -72,5 +82,10 @@ public class PcrProfile {
     @JoinColumn(name = "regionid")
   }))
   private Region region;
+
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
+  }
 
 }

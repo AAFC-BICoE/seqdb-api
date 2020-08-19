@@ -69,7 +69,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getReversePrimerConcentration(), entity.getReversePrimerConcentration());
     assertEquals(dto.getReactionMixVolume(), entity.getReactionMixVolume());
     assertEquals(dto.getReactionMixVolumePerTube(), entity.getReactionMixVolumePerTube());
-    assertEquals(dto.getKit().getId(), entity.getKit().getId());
+    assertEquals(dto.getKit().getUuid(), entity.getKit().getUuid());
   }
   
   @BeforeEach
@@ -80,7 +80,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void findProtocol_whenNoFieldsAreSelected_protocolReturnedWithAllFields() {
     // Searches for a protocol using entity's id
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getId(),
+    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getUuid(),
         new QuerySpec(ProtocolDto.class));
     assertNotNull(protocolDto);
     // Verifies entity was passed to dto properly
@@ -93,7 +93,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
     querySpec.setIncludedFields(includeFieldSpecs("name", "type"));
     
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getId(), querySpec);
+    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getUuid(), querySpec);
     assertNotNull(protocolDto);
     assertEquals(TEST_PROTOCOL_NAME, protocolDto.getName());
     assertNull(protocolDto.getSteps());
@@ -108,7 +108,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
 
     ProtocolDto protocolDto = protocolRepository.findOne(
-        testProtocol.getId(),querySpec);
+        testProtocol.getUuid(),querySpec);
     
     assertEquals("testDescription", protocolDto.getDescription());
     // Change the DTO's desc value.

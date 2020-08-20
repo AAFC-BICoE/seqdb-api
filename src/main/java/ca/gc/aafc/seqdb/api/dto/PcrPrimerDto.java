@@ -3,6 +3,11 @@ package ca.gc.aafc.seqdb.api.dto;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import org.javers.core.metamodel.annotation.Id;
+import org.javers.core.metamodel.annotation.PropertyName;
+import org.javers.core.metamodel.annotation.ShallowReference;
+import org.javers.core.metamodel.annotation.TypeName;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
@@ -13,18 +18,24 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "pcrPrimer")
+@JsonApiResource(type = PcrPrimerDto.TYPENAME)
 @SuppressFBWarnings(value="EI_EXPOSE_REP")
 @RelatedEntity(PcrPrimer.class)
+@TypeName(PcrPrimerDto.TYPENAME)
 public class PcrPrimerDto {
+  
+  public static final String TYPENAME = "PcrPrimer";  
 
   @JsonApiId
+  @Id
+  @PropertyName("id")  
   private Integer pcrPrimerId;
 
   // Required fields
 
   private String name;
 
+  @ShallowReference  
   private PrimerType type;
 
   private String seq;
@@ -86,7 +97,7 @@ public class PcrPrimerDto {
   private String stockConcentration;
 
   // Optional relations
-
+  @ShallowReference
   @JsonApiRelation
   private RegionDto region;
 

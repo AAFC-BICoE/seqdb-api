@@ -42,3 +42,6 @@ keycloak:
 logging:
   level:
     com.github.tennaito.rsql: ERROR
+dina:
+  auditing:
+    enabled: true

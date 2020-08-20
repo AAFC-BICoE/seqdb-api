@@ -36,10 +36,10 @@ public class SnapshotLoader {
   private void postConstruct() {
     Set<Class<?>> dtoClassList = ClassAnnotationHelper.findAnnotatedClasses(RegionDto.class, RelatedEntity.class);
     Map<Class<?>, BiFunction<Object, Class<?>,Object>> loader = new HashMap<Class<?>, BiFunction<Object, Class<?>,Object>>();
-    for( Class<?> dtoClass: dtoClassList)
-      loader.put(((Class<?>)jpaDtoMapper.getEntityClassForDto(dtoClass)), this::loadEntitySnapshot);
-        
-     loaders = ImmutableMap.<Class<?>, BiFunction<Object, Class<?>,Object>>builder()
+    for( Class<?> dtoClass: dtoClassList) {
+      loader.put((Class<?>)jpaDtoMapper.getEntityClassForDto(dtoClass), this::loadEntitySnapshot);
+    }        
+    loaders = ImmutableMap.<Class<?>, BiFunction<Object, Class<?>,Object>>builder()
          .putAll(loader)
          .build();  
   }    

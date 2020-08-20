@@ -38,3 +38,7 @@ keycloak:
 logging:
   level:
     com.github.tennaito.rsql: ERROR
+javers:
+  packagesToScan: ca.gc.aafc.seqdb.api
+  # Don't let Javers create its tables; let Liquibase create them:
+  sqlSchemaManagementEnabled: false

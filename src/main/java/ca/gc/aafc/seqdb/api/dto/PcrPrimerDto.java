@@ -44,28 +44,6 @@ public class PcrPrimerDto {
 
   private String position;
 
-  private String storage;
-
-  private String restrictionSite;
-
-  private Boolean used4sequencing;
-
-  private Boolean used4qrtpcr;
-
-  private Boolean used4nestedPcr;
-
-  private Boolean used4genotyping;
-
-  private Boolean used4cloning;
-
-  private Boolean used4stdPcr;
-
-  private String referenceSeqDir;
-
-  private String referenceSeqFile;
-
-  private String urllink;
-
   private String note;
   
   private Timestamp lastModified;

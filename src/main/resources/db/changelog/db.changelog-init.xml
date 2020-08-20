@@ -251,47 +251,17 @@
             <column name="uuid" type="uuid">
 				<constraints nullable="false" unique="true" />
 			</column>
-            <column name="alternativecontactinfo" type="VARCHAR(100)"/>
-            <column name="amountavailable" type="VARCHAR(50)"/>
-            <column name="date" type="date"/>
-            <column name="datearchived" type="VARCHAR(10)"/>
             <column name="datediscarded" type="date"/>
             <column name="discardednotes" type="VARCHAR(255)"/>
-            <column name="dnaconcentration" type="VARCHAR(50)"/>
-            <column name="dnaconcentrationnotes" type="VARCHAR(200)"/>
-            <column name="dnaconcentrationperstartmaterial" type="VARCHAR(50)"/>
-            <column name="dnanotes" type="TEXT"/>
-            <column name="experimenter" type="VARCHAR(50)"/>
-            <column name="extractionbatch" type="VARCHAR(100)"/>
-            <column name="extractionsolvent" type="VARCHAR(50)"/>
-            <column name="fermentationtemperature" type="FLOAT8"/>
-            <column name="fermentationtime" type="VARCHAR(50)"/>
-            <column name="fraction" type="VARCHAR(50)"/>
-            <column name="growthmedia" type="VARCHAR(50)"/>
-            <column name="inoculationdate" type="date"/>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="lysisbuffervolume" type="FLOAT8"/>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="notes" type="TEXT"/>
-            <column name="nuclacidext" type="VARCHAR(50)"/>
-            <column name="pelletsize" type="FLOAT8"/>
-            <column name="pretreatment" type="VARCHAR(50)"/>
-            <column name="proteinasekvolume" type="FLOAT8"/>
-            <column name="quantificationmethod" type="VARCHAR(100)"/>
-            <column name="qubitdnaconcentration" type="FLOAT8"/>
-            <column name="samplestorageconditions" type="VARCHAR(50)"/>
-            <column name="samplestoragelocation" type="VARCHAR(50)"/>
             <column name="sampletype" type="VARCHAR(255)"/>
-            <column name="source" type="VARCHAR(200)"/>
-            <column name="treatment" type="TEXT"/>
-            <column name="tubeid" type="VARCHAR(50)"/>
-            <column name="unusabledna" type="BOOLEAN"/>
             <column defaultValue="" name="version" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="versiondescription" type="VARCHAR(512)"/>
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
         </createTable>
@@ -438,7 +408,6 @@
             <column name="designedby" type="VARCHAR(50)"/>
             <column name="direction" type="VARCHAR(1)"/>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="litreference" type="VARCHAR(512)"/>
             <column name="lotnumber" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
@@ -449,15 +418,11 @@
             <column name="position" type="VARCHAR(10)"/>
             <column name="purification" type="VARCHAR(50)"/>
             <column name="reference" type="TEXT"/>
-            <column name="referenceseqdir" type="VARCHAR(255)"/>
-            <column name="referenceseqfile" type="VARCHAR(255)"/>
-            <column name="restrictionsite" type="TEXT"/>
             <column defaultValue="" name="seq" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="sequencelength" type="VARCHAR(50)"/>
             <column name="stockconcentration" type="VARCHAR(10)"/>
-            <column name="storage" type="VARCHAR(50)"/>
             <column name="supplier" type="VARCHAR(50)"/>
             <column name="targetspecies" type="VARCHAR(50)"/>
             <column name="tmcalculated" type="VARCHAR(11)"/>
@@ -465,13 +430,6 @@
             <column name="type" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="urllink" type="TEXT"/>
-            <column name="used4cloning" type="BOOLEAN"/>
-            <column name="used4genotyping" type="BOOLEAN"/>
-            <column name="used4nestedpcr" type="BOOLEAN"/>
-            <column name="used4qrtpcr" type="BOOLEAN"/>
-            <column name="used4sequencing" type="BOOLEAN"/>
-            <column name="used4stdpcr" type="BOOLEAN"/>
             <column name="version" type="INTEGER"/>
             <column name="pooledprimerid" type="INTEGER"/>
             <column name="regionid" type="INTEGER"/>

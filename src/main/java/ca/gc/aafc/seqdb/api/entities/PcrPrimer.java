@@ -94,18 +94,6 @@ public class PcrPrimer {
   @Size(max = 10)
   private String position;
 
-  @Size(max = 50)
-  private String storage;
-  private String restrictionSite;
-  private Boolean used4sequencing;
-  private Boolean used4qrtpcr;
-  private Boolean used4nestedPcr;
-  private Boolean used4genotyping;
-  private Boolean used4cloning;
-  private Boolean used4stdPcr;
-  private String referenceSeqDir;
-  private String referenceSeqFile;
-  private String urllink;
   private String note;
 
   @Getter(onMethod=@__({
@@ -143,9 +131,6 @@ public class PcrPrimer {
   }))
   private Region region;
   
-  @Size(max = 512)
-  private String litReference;
-
   private LocalDate dateDestroyed;
 
   @Getter(onMethod=@__({

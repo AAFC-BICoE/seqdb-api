@@ -89,44 +89,11 @@ public class Sample {
   @Size(max = 50)
   private String name;
 
-  @Size(max = 50)
-  private String experimenter;
-
   @NotNull
   @Size(max = 50)
   private String version;
-  private String versionDescription;
-  private String treatment;
-  private String source;
 
-  @Size(max = 50)
-  private String dnaConcentration;
-  private String dnaConcentrationNotes;
-
-  @Size(max = 50)
-  private String dnaConcentrationPerStartMaterial;
-  private Date date;
-
-  @Size(max = 50)
-  private String nuclAcidExt;
-
-  private String extractionBatch;
-  private Double pelletSize;
-  private Double lysisBufferVolume;
-  private Double proteinaseKVolume;
-  private Double qubitDNAConcentration;
-  private String quantificationMethod;
-
-  @Size(max = 50)
-  private String growthMedia;
-
-  private String dnaNotes;
   private String notes;
-
-  @Size(max = 50)
-  private String tubeId;
-
-  private Boolean unusableDna;
 
   @Getter(onMethod=@__({
     @Version
@@ -151,34 +118,6 @@ public class Sample {
   @Column(name = "SampleType")
   @Enumerated(EnumType.STRING)
   private SampleType sampleType;
-
-  private LocalDate inoculationDate;
-
-  @Size(max = 50)
-  private String fraction;
-
-  private Double fermentationTemperature;
-
-  @Size(max = 50)
-  private String fermentationTime;
-
-  @Size(max = 50)
-  private String extractionSolvent;
-  private String dateArchived;
-
-  @Size(max = 50)
-  private String sampleStorageLocation;  
-  
-  @Size(max = 50)
-  private String sampleStorageConditions;  
-  
-  @Size(max = 50)
-  private String amountAvailable;    
-  
-  @Size(max = 50)
-  private String pretreatment;    
-
-  private String alternativeContactInfo;
 
   @PrePersist
   public void prePersist() {

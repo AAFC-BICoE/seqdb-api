@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.inject.Inject;
@@ -25,11 +24,9 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
 
   private static final String TEST_SAMPLE_NAME = "sample name";
   private static final String TEST_SAMPLE_VERSION = "sample version";
-  private static final String TEST_SAMPLE_EXPERIMENTER = "sample experimenter";
   
   private static final String TEST_SAMPLE_NAME_CREATE = "sample name";
   private static final String TEST_SAMPLE_VERSION_CREATE = "sample version";
-  private static final String TEST_SAMPLE_EXPERIMENTER_CREATE = "sample experimenter";
   
   private static final String TEST_SAMPLE_NAME_UPDATE = "update name";
   
@@ -48,7 +45,6 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     testSample = new Sample();
     testSample.setName(TEST_SAMPLE_NAME);
     testSample.setVersion(TEST_SAMPLE_VERSION);
-    testSample.setExperimenter(TEST_SAMPLE_EXPERIMENTER);
     
     persist(testSample);
     
@@ -75,12 +71,11 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(testSample.getUuid(), sampleDto.getUuid());
     assertEquals(TEST_SAMPLE_NAME, sampleDto.getName());
     assertEquals(TEST_SAMPLE_VERSION, sampleDto.getVersion());
-    assertEquals(TEST_SAMPLE_EXPERIMENTER, sampleDto.getExperimenter());
   }
   
   /**
    * This test will try to retrieve the persisted entity, but this time only ask to retrieve
-   * specific fields. In this case, the experimenter should be null since it's not being
+   * specific fields. In this case, the notes should be null since it's not being
    * requested specifically.
    */
   @Test
@@ -98,7 +93,7 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(testSample.getUuid(), sampleDto.getUuid());
     assertEquals(TEST_SAMPLE_NAME, sampleDto.getName());
     assertEquals(TEST_SAMPLE_VERSION, sampleDto.getVersion());
-    assertNull(sampleDto.getExperimenter());
+    assertNull(sampleDto.getNotes());
   }
   
   /**
@@ -111,7 +106,6 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     SampleDto newSample = new SampleDto();
     newSample.setName(newSampleName);
     newSample.setVersion(TEST_SAMPLE_VERSION_CREATE);
-    newSample.setExperimenter(TEST_SAMPLE_EXPERIMENTER_CREATE);
     
     SampleDto createdSample = sampleRepository.create(newSample);
     
@@ -119,7 +113,6 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(createdSample.getUuid());
     assertEquals(newSampleName, createdSample.getName());
     assertEquals(TEST_SAMPLE_VERSION_CREATE, createdSample.getVersion());
-    assertEquals(TEST_SAMPLE_EXPERIMENTER_CREATE, createdSample.getExperimenter());
     
     //entity has the set value    
     Sample sampleEntity = baseDao.findOneByNaturalId(createdSample.getUuid(), Sample.class);
@@ -127,7 +120,6 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(sampleEntity.getId());
     assertEquals(newSampleName, sampleEntity.getName());
     assertEquals(TEST_SAMPLE_VERSION_CREATE, sampleEntity.getVersion());
-    assertEquals(TEST_SAMPLE_EXPERIMENTER_CREATE, sampleEntity.getExperimenter());
   }
   
   /**

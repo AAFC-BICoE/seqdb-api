@@ -68,7 +68,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     testSample = new Sample();
     testSample.setName("test sample");
     testSample.setVersion("a");
-    testSample.setExperimenter("Mat Poff");
     
     persist(testSample);
     
@@ -90,7 +89,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
       Sample sample = new Sample();
       sample.setName("sample " + i);
       sample.setVersion("a");
-      sample.setExperimenter("Mat Poff");
       testSamples.add(sample);
       persist(sample);
     }
@@ -124,7 +122,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     SampleDto newSample = new SampleDto();
     newSample.setName("new sample");
     newSample.setVersion("a");
-    newSample.setExperimenter("Mat Poff");
     SampleDto newSampleCreated = sampleRepository.create(newSample);
     
     LibraryPrepDto newDto = new LibraryPrepDto();

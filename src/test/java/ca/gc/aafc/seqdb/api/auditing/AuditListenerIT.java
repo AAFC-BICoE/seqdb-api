@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PcrPrimerFactory;
@@ -42,7 +43,7 @@ public class AuditListenerIT {
   @Test
   public void adda_whenAdded_snapshotCreated() {
     PcrPrimer pcrPrimer = addPcrPrimer();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimer.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getId(), PcrPrimerDto.class).get();
     assertEquals("INITIAL", latest.getType().toString()); // INITIAL snapshot created.
     assertEquals(1, snapshotCount(pcrPrimer));
   }
@@ -52,9 +53,9 @@ public class AuditListenerIT {
     PcrPrimer pcrPrimer = addPcrPrimer();
     pcrPrimer.setDesignedBy("BICOE");
     entityManager.flush();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimer.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimerDto.class).get();
     assertEquals("UPDATE", latest.getType().toString()); // UPDATE snapshot created.
-    assertEquals(Arrays.asList("designedBy"), latest.getChanged()); // UPDATE snapshot created.
+    assertEquals(Arrays.asList("lastModified", "designedBy"), latest.getChanged()); // UPDATE snapshot created.
     assertEquals(2, snapshotCount(pcrPrimer));
   }
     
@@ -63,7 +64,7 @@ public class AuditListenerIT {
     PcrPrimer pcrPrimer = addPcrPrimer();
     baseDao.delete(pcrPrimer);
     entityManager.flush();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimer.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimerDto.class).get();
     assertEquals("TERMINAL", latest.getType().toString()); // TERMINAL snapshot created.
     assertEquals(2, snapshotCount(pcrPrimer));
   }

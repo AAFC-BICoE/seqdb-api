@@ -20,6 +20,7 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.javers.core.Javers;
 import org.javers.repository.jql.GlobalIdDTO;
 import org.javers.repository.jql.InstanceIdDTO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -38,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @SuppressWarnings("serial")
 @SuppressFBWarnings("SE_BAD_FIELD")
+@Profile("!test")
 public class AuditListener implements PostUpdateEventListener, PostInsertEventListener, PreDeleteEventListener {
 
   private final Javers javers;

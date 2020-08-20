@@ -24,7 +24,7 @@ import lombok.Data;
 @TypeName(PcrPrimerDto.TYPENAME)
 public class PcrPrimerDto {
   
-  public static final String TYPENAME = "PcrPrimer";  
+  public static final String TYPENAME = "pcrPrimer";  
 
   @JsonApiId
   @Id

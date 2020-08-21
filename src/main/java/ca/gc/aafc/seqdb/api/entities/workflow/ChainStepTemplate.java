@@ -38,30 +38,30 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChainStepTemplate {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "chaintemplateid")
-  }))
+    }))
   private ChainTemplate chainTemplate;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "steptemplateid")
-  }))
+    }))
   private StepTemplate stepTemplate;
 
   @NotNull

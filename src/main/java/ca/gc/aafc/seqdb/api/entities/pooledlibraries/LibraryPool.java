@@ -29,16 +29,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPool {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
   
   @NotNull
@@ -48,9 +48,9 @@ public class LibraryPool {
   
   private String notes;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @OneToMany(mappedBy = "libraryPool")
-  }))
+    }))
   private List<LibraryPoolContent> contents;
 
   @PrePersist

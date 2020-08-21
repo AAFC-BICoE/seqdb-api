@@ -33,16 +33,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPrep {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   private Double inputNg;
@@ -58,30 +58,30 @@ public class LibraryPrep {
   @Pattern(regexp = "[a-zA-Z]")
   private String wellRow;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "libraryprepbatchid")
-  }))
+    }))
   private LibraryPrepBatch libraryPrepBatch;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "sampleid")
-  }))
+    }))
   private Sample sample;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "Indexi5id")
-  }))
+    }))
   private NgsIndex indexI5;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "indexi7id")
-  }))
+    }))
   private NgsIndex indexI7;
 
   @PrePersist

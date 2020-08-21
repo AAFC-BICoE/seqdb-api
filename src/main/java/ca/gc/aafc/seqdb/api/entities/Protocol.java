@@ -53,16 +53,16 @@ public class Protocol {
     private final String value;
   }
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -95,15 +95,15 @@ public class Protocol {
   @Size(max = 50)
   private String reactionMixVolumePerTube;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "productid")
-  }))
+    }))
   private Product kit;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Version
-  }))
+    }))
   private Timestamp lastModified;
 
   @PrePersist

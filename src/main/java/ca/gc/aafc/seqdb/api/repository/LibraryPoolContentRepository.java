@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.validation.ValidationException;
 
 import ca.gc.aafc.dina.filter.RsqlFilterHandler;

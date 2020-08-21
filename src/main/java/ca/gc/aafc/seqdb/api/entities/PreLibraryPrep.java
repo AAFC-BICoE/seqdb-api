@@ -56,23 +56,23 @@ public class PreLibraryPrep {
     private final String value;
   }
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @Type(type = "pgsql_enum"),
     @Enumerated(EnumType.STRING)
-  }))
+    }))
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;
@@ -87,21 +87,21 @@ public class PreLibraryPrep {
 
   private String notes;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "protocolid")
-  }))
+    }))
   private Protocol protocol;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "productid")
-  }))
+    }))
   private Product product;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Version
-  }))
+    }))
   private Timestamp lastModified;
 
   @PrePersist

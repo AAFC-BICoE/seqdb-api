@@ -1,8 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;

@@ -1,20 +1,15 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -24,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.NaturalId;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -32,12 +26,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(
   name = "Samples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
 )
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -74,16 +70,16 @@ public class Sample {
     }
   }
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -96,21 +92,21 @@ public class Sample {
 
   private String notes;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Version
-  }))
+    }))
   private Timestamp lastModified;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "productid")
-  }))
+    }))
   private Product kit;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "protocolid")
-  }))
+    }))
   private Protocol protocol;
 
   private String discardedNotes;

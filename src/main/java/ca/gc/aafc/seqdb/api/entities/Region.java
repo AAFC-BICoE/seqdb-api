@@ -26,22 +26,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Regions", uniqueConstraints = {
     @UniqueConstraint(columnNames = "Name") })
-    @Data
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Region {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull

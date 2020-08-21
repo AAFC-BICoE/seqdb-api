@@ -41,16 +41,16 @@ public class NgsIndex {
     I5, I7, FORWARD, REVERSE
   }
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -77,10 +77,10 @@ public class NgsIndex {
   private String miSeqHiSeqIndexSequence;
   private String miniSeqNextSeqIndexSequence;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "indexsetid")
-  }))
+    }))
   private IndexSet indexSet;
 
   @PrePersist

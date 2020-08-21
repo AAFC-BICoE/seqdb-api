@@ -29,16 +29,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class IndexSet {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
   
   @NotNull
@@ -48,9 +48,9 @@ public class IndexSet {
   
   private String reverseAdapter;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "indexSet")
-  }))
+    }))
   private List<NgsIndex> ngsIndexes;
 
   @PrePersist

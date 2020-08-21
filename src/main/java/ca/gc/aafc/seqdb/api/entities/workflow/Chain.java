@@ -39,16 +39,16 @@ import lombok.RequiredArgsConstructor;
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Chain {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -58,11 +58,11 @@ public class Chain {
   @NotNull
   private Date dateCreated;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "chaintemplateid")
-  }))
+    }))
   private ChainTemplate chainTemplate;
 
   @PrePersist

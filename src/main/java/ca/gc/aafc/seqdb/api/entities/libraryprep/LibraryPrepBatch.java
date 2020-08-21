@@ -39,16 +39,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPrepBatch {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -64,39 +64,39 @@ public class LibraryPrepBatch {
 
   private LocalDate dateUsed;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "productid")
-  }))
+    }))
   private Product product;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "protocolid")
-  }))
+    }))
   private Protocol protocol;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "containertypeid")
-  }))
+    }))
   private ContainerType containerType;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "thermocyclerprofileid")
-  }))
+    }))
   private PcrProfile thermocyclerProfile;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "indexsetid")
-  }))
+    }))
   private IndexSet indexSet;
   
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @OneToMany(mappedBy = "libraryPrepBatch")
-  }))
+    }))
   private List<LibraryPrep> libraryPreps;
 
   @PrePersist

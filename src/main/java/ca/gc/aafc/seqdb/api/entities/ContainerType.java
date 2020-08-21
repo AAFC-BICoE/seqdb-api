@@ -35,16 +35,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ContainerType {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -57,9 +57,9 @@ public class ContainerType {
   @NotNull
   private Integer numberOfRows;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Version
-  }))
+    }))
   private Timestamp lastModified;
 
   /**

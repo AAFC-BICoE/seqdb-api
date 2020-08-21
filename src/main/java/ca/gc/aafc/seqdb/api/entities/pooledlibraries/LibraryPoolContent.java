@@ -34,35 +34,35 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPoolContent {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "librarypoolid")
-  }))
+    }))
   private LibraryPool libraryPool;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "pooledlibraryprepbatchid")
-  }))
+    }))
   private LibraryPrepBatch pooledLibraryPrepBatch;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "pooledlibrarypoolid")
-  }))
+    }))
   private LibraryPool pooledLibraryPool;
 
   @PrePersist

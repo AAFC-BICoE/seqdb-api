@@ -35,16 +35,16 @@ import lombok.NoArgsConstructor;
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Product {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -57,9 +57,9 @@ public class Product {
 
   private String description;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Version
-  }))
+    }))
   private Timestamp lastModified;
 
   @PrePersist

@@ -52,16 +52,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StepResource {
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @Id,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  }))
+    }))
   private Integer id;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @NaturalId
-  }))
+    }))
   private UUID uuid;
 
   @NotNull
@@ -70,44 +70,44 @@ public class StepResource {
   @Type(type = "pgsql_enum")
   private StepResourceValue value;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumns({
       @JoinColumn(name = "chainTemplateId", referencedColumnName = "chainTemplateId", updatable = false),
       @JoinColumn(name = "stepTemplateId", referencedColumnName = "stepTemplateId", updatable = false) })
-  }))
+    }))
   private ChainStepTemplate chainStepTemplate;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @NotNull,
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "chainid")
-  }))
+    }))
   private Chain chain;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "sampleid")
-  }))
+    }))
   private Sample sample;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "prelibraryprepid")
-  }))
+    }))
   private PreLibraryPrep preLibraryPrep;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "libraryprepbatchid")
-  }))
+    }))
   private LibraryPrepBatch libraryPrepBatch;
 
-  @Getter(onMethod=@__({
+  @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "librarypoolid")
-  }))
+    }))
   private LibraryPool libraryPool;
 
   @PrePersist

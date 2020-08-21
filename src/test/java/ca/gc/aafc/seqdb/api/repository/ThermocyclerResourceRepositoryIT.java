@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -183,7 +184,10 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
-    assertThrows(ResourceNotFoundException.class, () -> thermoRepository.delete(42));
+    assertThrows(
+      ResourceNotFoundException.class,
+      () -> thermoRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+    );
   }
 
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -157,7 +158,10 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
    */
   @Test
   public void deleteSample_onSampleNotFound_throwResourceNotFoundException() {
-    assertThrows(ResourceNotFoundException.class, () -> sampleRepository.delete(1000));
+    assertThrows(
+      ResourceNotFoundException.class,
+      () -> sampleRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000")
+    ));
   }
 
 }

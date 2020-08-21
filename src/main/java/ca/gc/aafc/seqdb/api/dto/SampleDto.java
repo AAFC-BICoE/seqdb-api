@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "sample")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Sample.class)
 public class SampleDto {
 
@@ -24,25 +24,25 @@ public class SampleDto {
   private UUID uuid;
   
   // Required Fields
-  
+
   private String name;
-  
-  private String version;  
-  
+
+  private String version;
+
   // Optional Fields
-  
+
   private SampleType sampleType;
   
   private String notes;
 
   private Timestamp lastModified;
-  
+
   // Optional Relations
-  
+
   @JsonApiRelation
   private ProductDto kit;
-  
+
   @JsonApiRelation
   private ProtocolDto protocol;
-  
+
 }

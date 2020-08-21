@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrPrimer.class)
 public class PcrPrimerDto {
 
@@ -35,7 +35,7 @@ public class PcrPrimerDto {
   // Optional fields
 
   private Integer version;
-  
+
   private String direction;
 
   private String tmCalculated;
@@ -45,7 +45,7 @@ public class PcrPrimerDto {
   private String position;
 
   private String note;
-  
+
   private Timestamp lastModified;
 
   private String application;
@@ -55,7 +55,7 @@ public class PcrPrimerDto {
   private String targetSpecies;
 
   private String supplier;
-  
+
   private LocalDate dateOrdered;
 
   private String purification;

@@ -12,19 +12,19 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "stepTemplate")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(StepTemplate.class)
 public class StepTemplateDto {
-  
+
   @JsonApiId
   private UUID uuid;
   
   private String name;
-  
+
   private StepResourceValue[] inputs;
-  
+
   private StepResourceValue[] outputs;
-  
+
   private StepResourceValue[] supports;
-  
+
 }

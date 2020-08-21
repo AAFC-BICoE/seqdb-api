@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "product")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Product.class)
 public class ProductDto {
   
@@ -20,15 +20,15 @@ public class ProductDto {
   private UUID uuid;
   
   private String name;
-  
-  //Optional fields
-  
-  private String type;
-  
-  private String description;
-  
-  private String upc;  
 
-  private Timestamp lastModified;  
-  
+  // Optional fields
+
+  private String type;
+
+  private String description;
+
+  private String upc;
+
+  private Timestamp lastModified;
+
 }

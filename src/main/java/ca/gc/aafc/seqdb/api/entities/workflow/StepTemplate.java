@@ -27,15 +27,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * Step Template describes a specific step in a specific workflow. Since a workflow is similar to a
- * pipeline, for each step an input and an output must be specified or the workflow will break.
+ * Step Template describes a specific step in a specific workflow. Since a
+ * workflow is similar to a pipeline, for each step an input and an output must
+ * be specified or the workflow will break.
  * 
  * A step can also have an optional support step resource.
  */
 @Entity
 @Table(name = "StepTemplates")
 @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
-@Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
+    @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 @Data
 @NoArgsConstructor
@@ -44,7 +45,8 @@ import lombok.NoArgsConstructor;
 public class StepTemplate {
 
   public enum StepResourceValue {
-    SPECIMEN, SPECIMEN_REPLICATE, MIXED_SPECIMEN, SAMPLE, PCR_BATCH, SEQ_BATCH, SEQ_SUBMISSION, PRODUCT, REGION, PRIMER, PCR_PROFILE, PROTOCOL, SHEARING, SIZE_SELECTION, LIBRARY_PREP_BATCH, LIBRARY_POOL;
+    SPECIMEN, SPECIMEN_REPLICATE, MIXED_SPECIMEN, SAMPLE, PCR_BATCH, SEQ_BATCH, SEQ_SUBMISSION, PRODUCT, REGION, PRIMER,
+    PCR_PROFILE, PROTOCOL, SHEARING, SIZE_SELECTION, LIBRARY_PREP_BATCH, LIBRARY_POOL;
   }
 
   @Getter(onMethod=@__({

@@ -13,18 +13,18 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "chain")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Chain.class)
 public class ChainDto {
-  
+
   @JsonApiId
   private UUID uuid;
-  
+
   private String name;
-  
+
   private Date dateCreated;
-  
+
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;
-  
+
 }

@@ -24,8 +24,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Products", uniqueConstraints = {
-@UniqueConstraint(columnNames = { "Name", "UPC" }) })
+@Table(
+  name = "Products",
+  uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "UPC" }) }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,10 +51,8 @@ public class Product {
   @Size(max = 50)
   private String name;
 
-  @Size(max = 50)
   private String upc;
 
-  @Size(max = 50)
   private String type;
 
   private String description;

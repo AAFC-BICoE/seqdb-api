@@ -34,8 +34,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Samples", uniqueConstraints = {
-@UniqueConstraint(columnNames = { "Name", "Version" }) })
+@Table(
+  name = "Samples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -56,11 +57,11 @@ public class Sample {
     private final String value;
 
     /**
-     * Returns the Sample Type ( Wrapped in an Optional )based off a case insensitive match of its
-     * value. Or an empty Optional if a match could not be made.
+     * Returns the Sample Type ( Wrapped in an Optional )based off a case
+     * insensitive match of its value. Or an empty Optional if a match could not be
+     * made.
      * 
-     * @param searchValue
-     *          - sample type to search
+     * @param searchValue - sample type to search
      * @return - the sample type or empty wrapped in an Optional
      */
     public static Optional<SampleType> getByValue(String searchValue) {
@@ -115,7 +116,6 @@ public class Sample {
   private String discardedNotes;
   private LocalDate dateDiscarded;
 
-  @Column(name = "SampleType")
   @Enumerated(EnumType.STRING)
   private SampleType sampleType;
 

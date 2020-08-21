@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "thermocyclerprofile")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrProfile.class)
 public class ThermocyclerProfileDto {
 
@@ -21,11 +21,11 @@ public class ThermocyclerProfileDto {
   private UUID uuid;
 
   private String name;
-  
+
   private String application;
-  
+
   private String cycles;
-  
+
   private Timestamp lastModified;
 
   private String step1;

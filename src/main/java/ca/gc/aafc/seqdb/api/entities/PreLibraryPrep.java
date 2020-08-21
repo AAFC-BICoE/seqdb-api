@@ -68,9 +68,11 @@ public class PreLibraryPrep {
   }))
   private UUID uuid;
 
-  @NotNull
-  @Type(type = "pgsql_enum")
-  @Enumerated(EnumType.STRING)
+  @Getter(onMethod=@__({
+    @NotNull,
+    @Type(type = "pgsql_enum"),
+    @Enumerated(EnumType.STRING)
+  }))
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;

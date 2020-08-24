@@ -1,7 +1,9 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
@@ -16,9 +18,12 @@ import lombok.Data;
 public class LibraryPrepBatchDto {
 
   @JsonApiId
-  private Integer libraryPrepBatchId;
+  private UUID uuid;
 
   private String name;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private Double totalLibraryYieldNm;
 

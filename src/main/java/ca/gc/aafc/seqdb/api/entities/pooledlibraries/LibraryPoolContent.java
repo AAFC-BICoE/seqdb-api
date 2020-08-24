@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,12 +11,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
+
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Many-to-one joining entity to specify the contents of a LibraryPool. Links to
@@ -21,77 +30,51 @@ import lombok.Builder;
  */
 @Entity
 @Table(name = "LibraryPoolContents")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LibraryPoolContent {
 
-  private Integer libraryPoolContentId;
+  @Getter(onMethod = @__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    }))
+  private Integer id;
 
+  @Getter(onMethod = @__({
+    @NotNull,
+    @NaturalId
+    }))
+  private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
+
+  @Getter(onMethod = @__({
+    @NotNull,
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn(name = "librarypoolid")
+    }))
   private LibraryPool libraryPool;
 
+  @Getter(onMethod = @__({
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn(name = "pooledlibraryprepbatchid")
+    }))
   private LibraryPrepBatch pooledLibraryPrepBatch;
 
+  @Getter(onMethod = @__({
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn(name = "pooledlibrarypoolid")
+    }))
   private LibraryPool pooledLibraryPool;
 
-  public LibraryPoolContent() {
-  }
-
-  @Builder
-  public LibraryPoolContent(LibraryPool libraryPool, LibraryPrepBatch pooledLibraryPrepBatch,
-      LibraryPool pooledLibraryPool) {
-    super();
-    this.libraryPool = libraryPool;
-    this.pooledLibraryPrepBatch = pooledLibraryPrepBatch;
-    this.pooledLibraryPool = pooledLibraryPool;
-  }
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "LibraryPoolContentID")
-  public Integer getLibraryPoolContentId() {
-    return libraryPoolContentId;
-  }
-
-  public void setLibraryPoolContentId(Integer libraryPoolContentId) {
-    this.libraryPoolContentId = libraryPoolContentId;
-  }
-
-  @NotNull
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "LibraryPoolID")
-  public LibraryPool getLibraryPool() {
-    return libraryPool;
-  }
-
-  public void setLibraryPool(LibraryPool libraryPool) {
-    this.libraryPool = libraryPool;
-  }
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PooledLibraryPrepBatchID")
-  public LibraryPrepBatch getPooledLibraryPrepBatch() {
-    return pooledLibraryPrepBatch;
-  }
-
-  public void setPooledLibraryPrepBatch(LibraryPrepBatch pooledLibraryPrepBatch) {
-    this.pooledLibraryPrepBatch = pooledLibraryPrepBatch;
-  }
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PooledLibraryPoolID")
-  public LibraryPool getPooledLibraryPool() {
-    return pooledLibraryPool;
-  }
-
-  public void setPooledLibraryPool(LibraryPool pooledLibraryPool) {
-    this.pooledLibraryPool = pooledLibraryPool;
-  }
-
-  @Transient
-  public Integer getId() {
-    return libraryPoolContentId;
-  }
-
-  public void setId(Integer id) {
-    this.libraryPoolContentId = id;
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
   }
 
 }

@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
@@ -16,20 +18,16 @@ import lombok.Data;
 public class ContainerTypeDto {
 
   @JsonApiId
-  private Integer containerTypeId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
 
-  private String baseType;
-  
   private Integer numberOfColumns;
 
   private Integer numberOfRows;
-
-  private Integer numberOfWells;
-  
-  private Integer heightInMM;
-  private Integer widthInMM;
 
   private Timestamp lastModified;
 

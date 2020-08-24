@@ -1,18 +1,25 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NaturalId;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Chain Template is the definition of a workflow. It is the blueprint to how a workflow is
@@ -23,43 +30,36 @@ import lombok.RequiredArgsConstructor;
  */
 @Entity
 @Table(name = "ChainTemplates")
-@Builder(toBuilder = true)
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+@Builder
 public class ChainTemplate {
 
-  private Integer chainTemplateId;
-  private String name;
+  @Getter(onMethod = @__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    }))
+  private Integer id;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ChainTemplateID")
-  public Integer getChainTemplateId() {
-    return chainTemplateId;
-  }
+  @Getter(onMethod = @__({
+    @NotNull,
+    @NaturalId
+    }))
+  private UUID uuid;
 
-  public void setChainTemplateId(Integer chainTemplateId) {
-    this.chainTemplateId = chainTemplateId;
-  }
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @NotNull
   @Size(max = 50)
-  @Column(name = "Name")
-  public String getName() {
-    return name;
-  }
+  private String name;
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Transient
-  public Integer getId() {
-    return getChainTemplateId();
-  }
-
-  public void setId(Integer id) {
-    setChainTemplateId(id);
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
   }
 
 }

@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
@@ -15,8 +18,11 @@ import lombok.Data;
 public class StepTemplateDto {
 
   @JsonApiId
-  private Integer stepTemplateId;
+  private UUID uuid;
 
+  private String createdBy;
+  private OffsetDateTime createdOn;
+  
   private String name;
 
   private StepResourceValue[] inputs;

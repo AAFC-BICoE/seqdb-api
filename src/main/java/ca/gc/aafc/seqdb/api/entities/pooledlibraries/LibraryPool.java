@@ -1,7 +1,9 @@
 package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,91 +11,58 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-
 @Table(name = "LibraryPools")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LibraryPool {
 
-  private Integer libraryPoolId;
+  @Getter(onMethod = @__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    }))
+  private Integer id;
 
+  @Getter(onMethod = @__({
+    @NotNull,
+    @NaturalId
+    }))
+  private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
+  
+  @NotNull
   private String name;
-
+  
   private LocalDate dateUsed;
-
+  
   private String notes;
-
+  
+  @Getter(onMethod = @__({
+    @OneToMany(mappedBy = "libraryPool")
+    }))
   private List<LibraryPoolContent> contents;
 
-  public LibraryPool() {
-  }
-
-  @Builder
-  public LibraryPool(String name, LocalDate dateUsed, String notes) {
-    super();
-    this.name = name;
-    this.dateUsed = dateUsed;
-    this.notes = notes;
-  }
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "LibraryPoolID")
-  public Integer getLibraryPoolId() {
-    return libraryPoolId;
-  }
-
-  public void setLibraryPoolId(Integer libraryPoolId) {
-    this.libraryPoolId = libraryPoolId;
-  }
-
-  @Column(name = "Name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Column(name = "DateUsed")
-  public LocalDate getDateUsed() {
-    return dateUsed;
-  }
-
-  public void setDateUsed(LocalDate dateUsed) {
-    this.dateUsed = dateUsed;
-  }
-
-  @Column(name = "Notes")
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
-
-  @OneToMany(mappedBy = "libraryPool")
-  public List<LibraryPoolContent> getContents() {
-    return contents;
-  }
-
-  public void setContents(List<LibraryPoolContent> contents) {
-    this.contents = contents;
-  }
-
-  @Transient
-  public Integer getId() {
-    return libraryPoolId;
-  }
-
-  public void setId(Integer id) {
-    this.libraryPoolId = id;
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
   }
 
 }

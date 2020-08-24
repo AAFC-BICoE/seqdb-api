@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableMap;
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
 
 import io.restassured.RestAssured;
-import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;

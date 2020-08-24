@@ -39,7 +39,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findIndexSet_whenIndexSetEists_indexSetReturned() {
     IndexSetDto dto = indexSetRepository.findOne(
-        testIndexSet.getId(),
+        testIndexSet.getUuid(),
         new QuerySpec(IndexSetDto.class)
     );
     
@@ -53,14 +53,14 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new index set");
     
     IndexSetDto created = indexSetRepository.create(newDto);
-    assertNotNull(created.getIndexSetId());
+    assertNotNull(created.getUuid());
     assertEquals("new index set", created.getName());
   }
   
   @Test
   public void updateIndexSet_onSuccess_indexSetUpdated() {
     IndexSetDto dto = indexSetRepository.findOne(
-        testIndexSet.getId(),
+        testIndexSet.getUuid(),
         new QuerySpec(IndexSetDto.class)
     );
     
@@ -71,7 +71,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteIndexSet_onSuccess_indexSetDeleted() {
-    indexSetRepository.delete(testIndexSet.getId());
+    indexSetRepository.delete(testIndexSet.getUuid());
     assertNull(entityManager.find(IndexSet.class, testIndexSet.getId()));
   }
   

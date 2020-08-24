@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
@@ -15,7 +17,10 @@ import lombok.Data;
 public class IndexSetDto {
 
   @JsonApiId
-  private Integer indexSetId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
 

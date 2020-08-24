@@ -67,16 +67,16 @@
 
     <!-- Hibernate -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-spatial</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.vladmihalcea</groupId>
       <artifactId>hibernate-types-52</artifactId>
       <version>${hibernate-types-52.version}</version>
     </dependency>
     
     <!-- Database -->
+    <dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
@@ -148,11 +148,6 @@
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-path</artifactId>
-      <scope>test</scope>
-	</dependency>
-	<dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>json-schema-validator</artifactId>
       <scope>test</scope>
 	</dependency>
     <dependency>

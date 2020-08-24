@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import ca.gc.aafc.dina.filter.RsqlFilterHandler;
 import ca.gc.aafc.dina.filter.SimpleFilterHandler;
+import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.repository.JpaDtoRepository;
 import ca.gc.aafc.dina.repository.JpaResourceRepository;
 import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
@@ -26,11 +26,14 @@ import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
 @Component
 public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto> {
 
+  private final BaseDAO baseDao;
+
   public LibraryPrepRepository(JpaDtoRepository dtoRepository,
       SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider) {
+      JpaMetaInformationProvider metaInformationProvider, BaseDAO baseDao) {
     super(LibraryPrepDto.class, dtoRepository,
         Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
+    this.baseDao = baseDao;
   }
 
   @Transactional
@@ -56,15 +59,14 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
     Integer col = libraryPrepDto.getWellColumn();
     
     if (libraryPrepDto.getWellColumn() != null && libraryPrepDto.getWellRow() != null) {
-      EntityManager em = this.dtoRepository.getEntityManager();
-      LibraryPrepBatch prepBatch = em.find(
-          LibraryPrepBatch.class,
-          libraryPrepDto.getLibraryPrepBatch().getLibraryPrepBatchId()
+      LibraryPrepBatch prepBatch = baseDao.findOneByNaturalId(
+        libraryPrepDto.getLibraryPrepBatch().getUuid(),
+        LibraryPrepBatch.class
       );
       
       List<LibraryPrep> otherPreps = prepBatch.getLibraryPreps()
           .stream()
-          .filter(lp -> !lp.getId().equals(libraryPrepDto.getLibraryPrepId()))
+          .filter(lp -> !lp.getUuid().equals(libraryPrepDto.getUuid()))
           .collect(Collectors.toList());
       
       for (LibraryPrep otherPrep : otherPreps) {
@@ -74,7 +76,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
             && Objects.equal(row, otherPrep.getWellRow())) {
           otherPrep.setWellColumn(null);
           otherPrep.setWellRow(null);
-          em.flush();
+          this.dtoRepository.getEntityManager().flush();
         }
       }
     }
@@ -94,8 +96,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
 
     // Validate well coordinates if they are set.
     if (libraryPrepDto.getWellColumn() != null && libraryPrepDto.getWellRow() != null) {
-      EntityManager em = this.dtoRepository.getEntityManager();
-      LibraryPrep libraryPrep = em.find(LibraryPrep.class, libraryPrepDto.getLibraryPrepId());
+      LibraryPrep libraryPrep = baseDao.findOneByNaturalId(libraryPrepDto.getUuid(), LibraryPrep.class);
       
       ContainerType cType = libraryPrep.getLibraryPrepBatch().getContainerType();
       

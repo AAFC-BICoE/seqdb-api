@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -12,7 +15,10 @@ import lombok.Data;
 public class RegionDto {
 
   @JsonApiId
-  private Integer regionId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
 

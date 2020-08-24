@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
@@ -19,7 +21,10 @@ import lombok.Data;
 public class PcrPrimerDto {
 
   @JsonApiId
-  private Integer pcrPrimerId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   // Required fields
 
@@ -42,28 +47,6 @@ public class PcrPrimerDto {
   private Integer tmPe;
 
   private String position;
-
-  private String storage;
-
-  private String restrictionSite;
-
-  private Boolean used4sequencing;
-
-  private Boolean used4qrtpcr;
-
-  private Boolean used4nestedPcr;
-
-  private Boolean used4genotyping;
-
-  private Boolean used4cloning;
-
-  private Boolean used4stdPcr;
-
-  private String referenceSeqDir;
-
-  private String referenceSeqFile;
-
-  private String urllink;
 
   private String note;
 

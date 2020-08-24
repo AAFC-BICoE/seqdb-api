@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.ChainStepTemplate;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -13,7 +16,10 @@ import lombok.Data;
 public class ChainStepTemplateDto {
   
   @JsonApiId
-  private Integer chainStepTemplateId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
   
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;

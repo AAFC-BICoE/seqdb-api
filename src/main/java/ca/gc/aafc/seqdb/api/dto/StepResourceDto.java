@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
@@ -14,7 +17,10 @@ import lombok.Data;
 public class StepResourceDto {
 
   @JsonApiId
-  private Integer stepResourceId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private StepResourceValue value;
 
@@ -26,9 +32,6 @@ public class StepResourceDto {
 
   @JsonApiRelation
   private SampleDto sample;
-
-  @JsonApiRelation
-  private PcrPrimerDto primer;
 
   @JsonApiRelation
   private PreLibraryPrepDto preLibraryPrep;

@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
@@ -20,9 +20,10 @@ public class ChainDto {
   @JsonApiId
   private UUID uuid;
 
-  private String name;
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
-  private Date dateCreated;
+  private String name;
 
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;

@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
@@ -18,6 +19,9 @@ public class StepTemplateDto {
 
   @JsonApiId
   private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
   
   private String name;
 

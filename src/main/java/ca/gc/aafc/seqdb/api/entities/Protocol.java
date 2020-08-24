@@ -1,8 +1,10 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -64,6 +66,11 @@ public class Protocol {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @NotNull
   @Enumerated(EnumType.STRING)

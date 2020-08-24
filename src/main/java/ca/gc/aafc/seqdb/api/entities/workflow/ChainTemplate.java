@@ -1,7 +1,9 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,6 +47,11 @@ public class ChainTemplate {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @NotNull
   @Size(max = 50)

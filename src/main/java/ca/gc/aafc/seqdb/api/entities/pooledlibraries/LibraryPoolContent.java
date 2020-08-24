@@ -1,7 +1,9 @@
 package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -45,6 +47,11 @@ public class LibraryPoolContent {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @Getter(onMethod = @__({
     @NotNull,

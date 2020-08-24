@@ -1,8 +1,10 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
@@ -49,6 +51,11 @@ public class PcrProfile {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @NotNull
   @Size(max = 50)

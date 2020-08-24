@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,9 @@ public class LibraryPrepBatchDto {
   private UUID uuid;
 
   private String name;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private Double totalLibraryYieldNm;
 

@@ -1,7 +1,9 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,6 +46,11 @@ public class LibraryPrep {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   private Double inputNg;
 

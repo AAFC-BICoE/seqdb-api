@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -63,6 +64,11 @@ public class StepResource {
     @NaturalId
     }))
   private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
 
   @NotNull
   @Column(name = "Value")

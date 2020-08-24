@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
@@ -19,6 +20,9 @@ public class ThermocyclerProfileDto {
 
   @JsonApiId
   private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
 

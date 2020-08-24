@@ -68,6 +68,8 @@
             <column name="supplier" type="VARCHAR(255)"/>
             <column name="tmcalculated" type="VARCHAR(255)"/>
             <column name="indexsetid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-2">
@@ -91,6 +93,8 @@
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
             <column name="thermocyclerprofileid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-3">
@@ -117,6 +121,8 @@
             </column>
             <column name="version" type="VARCHAR(5)"/>
             <column name="productid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-4">
@@ -140,6 +146,8 @@
             <column name="sampleid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-5">
@@ -162,6 +170,8 @@
             <column name="targetdpsize" type="FLOAT8"/>
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-6">
@@ -175,6 +185,8 @@
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-7">
@@ -188,6 +200,8 @@
             <column name="dateused" type="date"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="notes" type="VARCHAR(255)"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-8">
@@ -203,6 +217,8 @@
             </column>
             <column name="pooledlibrarypoolid" type="INTEGER"/>
             <column name="pooledlibraryprepbatchid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-9">
@@ -222,6 +238,8 @@
             <column name="steptemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-10">
@@ -232,15 +250,14 @@
             <column name="uuid" type="uuid">
 				<constraints nullable="false" unique="true" />
 			</column>
-            <column name="datecreated" type="date">
-                <constraints nullable="false"/>
-            </column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="chaintemplateid" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-11">
@@ -264,6 +281,8 @@
             </column>
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
@@ -287,6 +306,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="supports" type="array"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-PSQL" author="elkayssin">
@@ -310,6 +331,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="supports" type="stepresourcevalue []"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-13">
@@ -325,6 +348,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="reverseadapter" type="VARCHAR(255)"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-14">
@@ -345,6 +370,8 @@
             <column name="numberofrows" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-15">
@@ -375,6 +402,8 @@
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
             <column name="sampleid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-16">
@@ -392,6 +421,8 @@
             </column>
             <column name="type" type="VARCHAR(50)"/>
             <column name="upc" type="VARCHAR(50)"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-17">
@@ -433,6 +464,8 @@
             <column name="version" type="INTEGER"/>
             <column name="pooledprimerid" type="INTEGER"/>
             <column name="regionid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-18">
@@ -450,6 +483,8 @@
             <column name="symbol" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-19">
@@ -482,6 +517,8 @@
             <column name="step8" type="VARCHAR(50)"/>
             <column name="step9" type="VARCHAR(50)"/>
             <column name="regionid" type="INTEGER"/>
+            <column name="createdby" type="VARCHAR(250)"/>
+            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-20">

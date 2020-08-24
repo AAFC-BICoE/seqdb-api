@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
+import ca.gc.aafc.dina.testsupport.DatabaseSupportService;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.Region;
@@ -28,7 +29,6 @@ import ca.gc.aafc.seqdb.api.testsupport.factories.RegionFactory;
 
 @Transactional
 @SpringBootTest
-@ActiveProfiles("test")
 public class AuditListenerIT {
 
   @Inject
@@ -39,9 +39,9 @@ public class AuditListenerIT {
 
   @Inject
   private EntityManager entityManager;
-
+  
   @Test
-  public void adda_whenAdded_snapshotCreated() {
+  public void addPcrPrimer_whenAdded_snapshotCreated() {
     PcrPrimer pcrPrimer = addPcrPrimer();
     CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getId(), PcrPrimerDto.class).get();
     assertEquals("INITIAL", latest.getType().toString()); // INITIAL snapshot created.
@@ -62,6 +62,9 @@ public class AuditListenerIT {
   @Test
   public void deletePcrPrimer_whenDeleted_snapshotCreated() {
     PcrPrimer pcrPrimer = addPcrPrimer();
+    Region r = pcrPrimer.getRegion();
+    pcrPrimer.setRegion(null);
+    baseDao.delete(r);    
     baseDao.delete(pcrPrimer);
     entityManager.flush();
     CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimerDto.class).get();
@@ -75,7 +78,8 @@ public class AuditListenerIT {
     entityManager.flush();
     
     PcrPrimer pcrPrimer = PcrPrimerFactory.newPcrPrimer()
-        .region(testRegion).build();
+        .region(testRegion)
+        .build();
     entityManager.persist(pcrPrimer);
     entityManager.flush();
     return pcrPrimer;

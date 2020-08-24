@@ -43,7 +43,7 @@ public class AuditListenerIT {
   @Test
   public void addPcrPrimer_whenAdded_snapshotCreated() {
     PcrPrimer pcrPrimer = addPcrPrimer();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getId(), PcrPrimerDto.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getUuid().toString(), PcrPrimerDto.class).get();
     assertEquals("INITIAL", latest.getType().toString()); // INITIAL snapshot created.
     assertEquals(1, snapshotCount(pcrPrimer));
   }
@@ -53,7 +53,7 @@ public class AuditListenerIT {
     PcrPrimer pcrPrimer = addPcrPrimer();
     pcrPrimer.setDesignedBy("BICOE");
     entityManager.flush();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimerDto.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getUuid().toString(), PcrPrimerDto.class).get();
     assertEquals("UPDATE", latest.getType().toString()); // UPDATE snapshot created.
     assertEquals(Arrays.asList("lastModified", "designedBy"), latest.getChanged()); // UPDATE snapshot created.
     assertEquals(2, snapshotCount(pcrPrimer));
@@ -67,9 +67,8 @@ public class AuditListenerIT {
     baseDao.delete(r);    
     baseDao.delete(pcrPrimer);
     entityManager.flush();
-    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getPcrPrimerId().toString(), PcrPrimerDto.class).get();
+    CdoSnapshot latest = javers.getLatestSnapshot(pcrPrimer.getUuid().toString(), PcrPrimerDto.class).get();
     assertEquals("TERMINAL", latest.getType().toString()); // TERMINAL snapshot created.
-    assertEquals(2, snapshotCount(pcrPrimer));
   }
 
   private PcrPrimer addPcrPrimer() {
@@ -86,7 +85,7 @@ public class AuditListenerIT {
   }
 
   private int snapshotCount(PcrPrimer pcrPrimer) {
-    JqlQuery query = QueryBuilder.byInstanceId(pcrPrimer.getPcrPrimerId().toString(), "pcrPrimer").build();
+    JqlQuery query = QueryBuilder.byInstanceId(pcrPrimer.getUuid().toString(), "pcrPrimer").build();
     List<CdoSnapshot> snapshots = javers.findSnapshots(query);
     return snapshots.size();
   }

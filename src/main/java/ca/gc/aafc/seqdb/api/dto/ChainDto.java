@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Date;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
@@ -12,18 +13,19 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "chain")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Chain.class)
 public class ChainDto {
-  
+
   @JsonApiId
-  private Integer chainId;
-  
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
+
   private String name;
-  
-  private Date dateCreated;
-  
+
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;
-  
+
 }

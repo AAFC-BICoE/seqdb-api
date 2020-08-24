@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
@@ -14,7 +17,10 @@ import lombok.Data;
 public class PreLibraryPrepDto {
 
   @JsonApiId
-  private Integer preLibraryPrepId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private PreLibraryPrepType preLibraryPrepType;
 

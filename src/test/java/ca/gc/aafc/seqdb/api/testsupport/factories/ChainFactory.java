@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.testsupport.factories;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -24,7 +22,6 @@ public class ChainFactory implements TestableEntityFactory<Chain> {
   public static Chain.ChainBuilder newChain() {
     return  Chain.builder()
         .name(TestableEntityFactory.generateRandomName(10))
-        .dateCreated(new Date(Calendar.getInstance().getTimeInMillis()))
         .chainTemplate(ChainTemplateFactory.newChainTemplate().build());
    }  
     

@@ -2,17 +2,19 @@ package ca.gc.aafc.seqdb.api;
 
 import java.util.function.Consumer;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import ca.gc.aafc.dina.testsupport.DatabaseSupportService;
 
 /**
  * 
@@ -29,8 +31,11 @@ public abstract class BaseIntegrationTest {
   protected EntityManager entityManager;
   
   // Should only be used with runInNewTransaction
-  @Autowired
+  @Inject
   private EntityManagerFactory entityManagerFactory;
+
+  @Inject
+  protected DatabaseSupportService service;
   
   /**
    * Accepts a {@link Consumer} of {@link EntityManager} that will be called in a new, unmanaged transaction.

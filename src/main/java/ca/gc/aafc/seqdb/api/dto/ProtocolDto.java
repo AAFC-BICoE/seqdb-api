@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
@@ -13,12 +15,15 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "protocol")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(Protocol.class)
 public class ProtocolDto {
 
   @JsonApiId
-  private Integer protocolId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private ProtocolType type;
 
@@ -43,7 +48,7 @@ public class ProtocolDto {
   private String reactionMixVolume;
 
   private String reactionMixVolumePerTube;
-  
+
   private Timestamp lastModified;
 
   @JsonApiRelation

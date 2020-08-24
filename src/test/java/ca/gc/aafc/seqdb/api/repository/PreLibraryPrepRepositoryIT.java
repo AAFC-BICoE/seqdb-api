@@ -4,17 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.sql.DataSource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
@@ -42,9 +40,9 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Inject
   private PreLibraryPrepRepository preLibraryPrepRepository;
-  
+
   @Inject
-  private DataSource datasource;
+  private BaseDAO baseDao;
   
   private PreLibraryPrep testPreLibraryPrep;
   
@@ -59,34 +57,20 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     return testPreLibraryPrep;
   }
 
-  /**
-   * Since H2 does not support creating enum types, the integration tests will only work using
-   * postgresql. If you are using another dbms it will ignore all of the tests.
-   */
   @BeforeEach
   public void setup() {
-    // Assume that the tests are running only on postgresql, if not the tests will
-    // be ignored.
-    try {
-      assumeTrue(
-          "PostgreSQL".equals(datasource.getConnection().getMetaData().getDatabaseProductName()),
-          "PreLibraryPrep tests were ignored since the test environment is not running on PostgreSQL.");
-    } catch (SQLException e) {
-      fail("Datasource could not be found. Make sure your connection is setup properly.");
-    }
-
     createTestPreLibraryPrep();
   }
   
   @Test
   public void findPreLibraryPrep_whenNoFieldsAreSelected_preLibraryPrepReturnedWithAllFields() {
     PreLibraryPrepDto preLibraryPrepDto = preLibraryPrepRepository.findOne(
-        testPreLibraryPrep.getId(), 
+        testPreLibraryPrep.getUuid(), 
         new QuerySpec(PreLibraryPrepDto.class)
     );
     
     assertNotNull(preLibraryPrepDto);
-    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getPreLibraryPrepId());
+    assertEquals(testPreLibraryPrep.getUuid(), preLibraryPrepDto.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE, preLibraryPrepDto.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES, preLibraryPrepDto.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION, preLibraryPrepDto.getConcentration());
@@ -98,12 +82,12 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     querySpec.setIncludedFields(includeFieldSpecs("preLibraryPrepType", "notes"));
     
     PreLibraryPrepDto preLibraryPrepDto = preLibraryPrepRepository.findOne(
-        testPreLibraryPrep.getId(), 
+        testPreLibraryPrep.getUuid(), 
         querySpec
     );
     
     assertNotNull(preLibraryPrepDto);
-    assertEquals(testPreLibraryPrep.getId(), preLibraryPrepDto.getPreLibraryPrepId());
+    assertEquals(testPreLibraryPrep.getUuid(), preLibraryPrepDto.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE, preLibraryPrepDto.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES, preLibraryPrepDto.getNotes());
     assertNull(preLibraryPrepDto.getConcentration());
@@ -119,14 +103,14 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     PreLibraryPrepDto createdPreLibraryPrep = preLibraryPrepRepository.create(newPreLibraryPrep);
     
     // DTO has the set value.
-    assertNotNull(createdPreLibraryPrep.getPreLibraryPrepId());
+    assertNotNull(createdPreLibraryPrep.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE_CREATE, createdPreLibraryPrep.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, createdPreLibraryPrep.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, createdPreLibraryPrep.getConcentration());
     
     // Entity has the set value
-    PreLibraryPrep preLibraryPrepEntity = entityManager.find(PreLibraryPrep.class, createdPreLibraryPrep.getPreLibraryPrepId());
-    assertNotNull(preLibraryPrepEntity.getId());
+    PreLibraryPrep preLibraryPrepEntity = baseDao.findOneByNaturalId(createdPreLibraryPrep.getUuid(), PreLibraryPrep.class);
+    assertNotNull(preLibraryPrepEntity.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE_CREATE, preLibraryPrepEntity.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, preLibraryPrepEntity.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, preLibraryPrepEntity.getConcentration());
@@ -138,7 +122,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
    QuerySpec querySpec = new QuerySpec(PreLibraryPrepDto.class);
 
    PreLibraryPrepDto preLibraryPrepDto = preLibraryPrepRepository.findOne(
-       testPreLibraryPrep.getId(), 
+       testPreLibraryPrep.getUuid(), 
        querySpec
    );
    
@@ -154,12 +138,15 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deletePreLibraryPrep_onPreLibraryPrepLookup_preLibraryPrepNotFound() {
-    preLibraryPrepRepository.delete(testPreLibraryPrep.getId());
+    preLibraryPrepRepository.delete(testPreLibraryPrep.getUuid());
     assertNull(entityManager.find(PreLibraryPrep.class, testPreLibraryPrep.getId()));
   }
 
   @Test
   public void deletePreLibraryPrep_onPreLibraryPrepNotFound_throwResourceNotFoundException() {
-    assertThrows(ResourceNotFoundException.class, () -> preLibraryPrepRepository.delete(1000));
+    assertThrows(
+      ResourceNotFoundException.class,
+      () -> preLibraryPrepRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+    );
   }
 }

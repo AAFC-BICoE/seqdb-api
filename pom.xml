@@ -11,16 +11,11 @@
 
   <properties>
     <java.version>11</java.version>
-    <crnk.version>3.1.20190810073916</crnk.version>
     <modelmapper.version>1.1.3</modelmapper.version>
     <guava.version>24.0-jre</guava.version>
     <javax.inject.version>1</javax.inject.version>
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
-    <local-javax-jaxb.version>2.3.0.1</local-javax-jaxb.version>
-    <javax.activation.version>1.1.1</javax.activation.version>
     <javax.interceptor-api>1.2.2</javax.interceptor-api>
-    <keycloak-spring-boot-starter.version>4.3.0.Final</keycloak-spring-boot-starter.version>
-    <rsql-jpa.version>2.0.2</rsql-jpa.version>
 	
     <spotbugs-maven-plugin.version>4.0.4</spotbugs-maven-plugin.version>
     <spotbugs.version>4.1.1</spotbugs.version>
@@ -28,7 +23,7 @@
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency-check-maven.version>5.1.0</dependency-check-maven.version>
-    <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version>
     <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <checkstyle.version>8.29</checkstyle.version>
     <asciidoctor-maven-plugin.version>1.5.7.1</asciidoctor-maven-plugin.version>
@@ -73,16 +68,16 @@
 
     <!-- Hibernate -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-spatial</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.vladmihalcea</groupId>
       <artifactId>hibernate-types-52</artifactId>
       <version>${hibernate-types-52.version}</version>
     </dependency>
     
     <!-- Database -->
+    <dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
@@ -123,28 +118,7 @@
       <version>${spotbugs.version}</version>
       <scope>provided</scope>
     </dependency>
-	
-     <!--  Required for Java >= 9 -->
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-core</artifactId>
-      <version>${local-javax-jaxb.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>${local-javax-jaxb.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.activation</groupId>
-      <artifactId>activation</artifactId>
-      <version>${javax.activation.version}</version>
-    </dependency>
-    
+
 	<!-- Required support for JAXB annotations as of the latest version of liquibase. Redmine Issue: #18647-->
 	<dependency>
 		<groupId>com.fasterxml.jackson.module</groupId>
@@ -182,11 +156,6 @@
 	<dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>json-path</artifactId>
-      <scope>test</scope>
-	</dependency>
-	<dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>json-schema-validator</artifactId>
       <scope>test</scope>
 	</dependency>
     <dependency>

@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
@@ -19,7 +21,7 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = PcrPrimerDto.TYPENAME)
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrPrimer.class)
 @TypeName(PcrPrimerDto.TYPENAME)
 public class PcrPrimerDto {
@@ -29,7 +31,10 @@ public class PcrPrimerDto {
   @JsonApiId
   @Id
   @PropertyName("id")  
-  private Integer pcrPrimerId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   // Required fields
 
@@ -45,7 +50,7 @@ public class PcrPrimerDto {
   // Optional fields
 
   private Integer version;
-  
+
   private String direction;
 
   private String tmCalculated;
@@ -54,30 +59,8 @@ public class PcrPrimerDto {
 
   private String position;
 
-  private String storage;
-
-  private String restrictionSite;
-
-  private Boolean used4sequencing;
-
-  private Boolean used4qrtpcr;
-
-  private Boolean used4nestedPcr;
-
-  private Boolean used4genotyping;
-
-  private Boolean used4cloning;
-
-  private Boolean used4stdPcr;
-
-  private String referenceSeqDir;
-
-  private String referenceSeqFile;
-
-  private String urllink;
-
   private String note;
-  
+
   private Timestamp lastModified;
 
   private String application;
@@ -87,7 +70,7 @@ public class PcrPrimerDto {
   private String targetSpecies;
 
   private String supplier;
-  
+
   private LocalDate dateOrdered;
 
   private String purification;

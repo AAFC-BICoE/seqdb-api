@@ -3,13 +3,13 @@ package ca.gc.aafc.seqdb.api.util;
 import java.util.regex.Pattern;
 
 public final class NumberLetterMappingUtils {
-    /**
+  /**
    * regex for any character not in alphabet and capitalized.
    */
   private static final Pattern NON_ALPHABET_PATTERN = Pattern.compile("[^A-Z]");
 
   /** Util class ; This class should not be constructed. */
-  private NumberLetterMappingUtils() {}
+  private NumberLetterMappingUtils() { }
 
   /**
    * Generate the alphabetical value for a number, where the letters roll over after reaching Z.

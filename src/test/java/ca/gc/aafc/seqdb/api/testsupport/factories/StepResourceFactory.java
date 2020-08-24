@@ -22,8 +22,7 @@ public class StepResourceFactory implements TestableEntityFactory<StepResource> 
 
     StepResource.StepResourceBuilder builder = StepResource.builder()
           .value(StepTemplate.StepResourceValue.PRODUCT)
-          .chainStepTemplate(ChainStepTemplateFactory.newChainStepTemplate().build())
-          .product(ProductFactory.newProduct().build());
+          .chainStepTemplate(ChainStepTemplateFactory.newChainStepTemplate().build());
       
     return builder;    
   }  

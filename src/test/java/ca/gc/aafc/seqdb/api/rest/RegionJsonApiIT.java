@@ -46,7 +46,7 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected Map<String, Object> buildUpdateAttributeMap() {
-    Region region = RegionFactory.newRegion()
+  Region region = RegionFactory.newRegion()
     .name("updated name")
     .description("updated description")
     .symbol("updated symbol").build();

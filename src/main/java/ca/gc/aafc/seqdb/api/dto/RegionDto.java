@@ -3,6 +3,8 @@ package ca.gc.aafc.seqdb.api.dto;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.Region;
@@ -21,7 +23,10 @@ public class RegionDto {
   @JsonApiId
   @Id
   @PropertyName("id")
-  private Integer regionId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
 

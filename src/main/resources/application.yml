@@ -1,20 +1,14 @@
 spring:
   datasource:
- #   url:  jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS seqdb\;SET SCHEMA seqdb
+    url:  jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS seqdb\;SET SCHEMA seqdb
  #   url: jdbc:postgresql://localhost:5532/seqdb
  #   username: postgres
  #   password: postgres
-  jpa:
-    hibernate:
-      naming:
-        # Naming strategies specified to allow @Column/@Table name property.
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
-    # on existing database use "schema-change" only
-    contexts: schema-change, initial-data
+    contexts: schema-change
+    # Physical naming strategy specified to allow @Table name property.
+  jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 crnk:
   pathPrefix: /api
   domainName: ""
@@ -24,11 +18,7 @@ crnk:
   # The "include" query-string param is handled by our code and incorporated into the database
   # query, so we don't let Crnk automatically call findOneTarget for each null relation.
   config.lookup.behavior.default: NONE
-#JaVers audit framework config:
-javers:
-  packagesToScan: ca.gc.aafc.seqdb.api
-  # Don't let Javers create its tables; let Liquibase create them:
-  sqlSchemaManagementEnabled: false
+
 keycloak:
   enabled: false
   realm: dina
@@ -45,3 +35,8 @@ logging:
 dina:
   auditing:
     enabled: true
+javers:
+  packagesToScan: ca.gc.aafc.seqdb.api
+  # Don't let Javers create its tables; let Liquibase create them:
+  sqlSchemaManagementEnabled: false
+

@@ -22,10 +22,8 @@ public class ContainerTypeFactory implements TestableEntityFactory<ContainerType
     
     return ContainerType.builder()
         .name(TestableEntityFactory.generateRandomName(10))
-        .baseType(TestableEntityFactory.generateRandomName(10))
         .numberOfColumns(5)
-        .numberOfRows(6)
-        .numberOfWells(30);
+        .numberOfRows(6);
   }
     
   /**

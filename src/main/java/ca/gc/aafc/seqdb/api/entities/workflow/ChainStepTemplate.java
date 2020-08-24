@@ -1,18 +1,28 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Since a workflow needs to have a specific set of steps (in a specific order), this is how steps
@@ -24,92 +34,49 @@ import lombok.Builder;
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
     @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ChainStepTemplate {
 
-  private Integer chainStepTemplateId;
+  @Getter(onMethod = @__({
+    @Id,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    }))
+  private Integer id;
+
+  @Getter(onMethod = @__({
+    @NotNull,
+    @NaturalId
+    }))
+  private UUID uuid;
+
+  private String createdBy;
+
+  @Column(insertable = false, updatable = false)
+  private OffsetDateTime createdOn;
+  
+  @Getter(onMethod = @__({
+    @NotNull,
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn(name = "chaintemplateid")
+    }))
   private ChainTemplate chainTemplate;
+  
+  @Getter(onMethod = @__({
+    @NotNull,
+    @ManyToOne(fetch = FetchType.LAZY),
+    @JoinColumn(name = "steptemplateid")
+    }))
   private StepTemplate stepTemplate;
+
+  @NotNull
   private Integer stepNumber;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ChainStepTemplateID")
-  public Integer getChainStepTemplateId() {
-    return chainStepTemplateId;
-  }
-
-  public void setChainStepTemplateId(Integer chainStepTemplateId) {
-    this.chainStepTemplateId = chainStepTemplateId;
-  }
-
-  @NotNull
-  @ManyToOne(cascade = {})
-  @JoinColumn(name = "ChainTemplateID")
-  public ChainTemplate getChainTemplate() {
-    return chainTemplate;
-  }
-
-  public void setChainTemplate(ChainTemplate chainTemplate) {
-    this.chainTemplate = chainTemplate;
-  }
-
-  @NotNull
-  @ManyToOne(cascade = {})
-  @JoinColumn(name = "StepTemplateID")
-  public StepTemplate getStepTemplate() {
-    return stepTemplate;
-  }
-
-  public void setStepTemplate(StepTemplate stepTemplate) {
-    this.stepTemplate = stepTemplate;
-  }
-
-  @NotNull
-  @Column(name = "StepNumber")
-  public Integer getStepNumber() {
-    return stepNumber;
-  }
-
-  public void setStepNumber(Integer stepNumber) {
-    this.stepNumber = stepNumber;
-  }
-
-  @Transient
-  public Integer getId() {
-    return getChainStepTemplateId();
-  }
-
-  public void setId(Integer id) {
-    setChainStepTemplateId(id);
-  }
-
-  // Constructors
-
-  /**
-   * Instantiates a new chain
-   */
-
-  public ChainStepTemplate() {
-
-  }
-
-  /**
-   * Instantiates a new ChainStepTemplate
-   * 
-   * @param chainTemplate
-   *          the chainsteptemplate
-   * @param stepTemplate
-   *          the steptempalte
-   * @param stepNumber
-   *          the step number on the specified steptemplate for current chain/workflow
-   */
-  @Builder
-  public ChainStepTemplate(ChainTemplate chainTemplate, StepTemplate stepTemplate,
-      Integer stepNumber) {
-    super();
-    this.chainTemplate = chainTemplate;
-    this.stepTemplate = stepTemplate;
-    this.stepNumber = stepNumber;
+  @PrePersist
+  public void prePersist() {
+    this.uuid = UUID.randomUUID();
   }
 
 }

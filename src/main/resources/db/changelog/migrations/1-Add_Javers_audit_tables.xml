@@ -22,7 +22,7 @@
 			<column name="author" type="VARCHAR(200)" />
 			<column name="commit_date" type="TIMESTAMP WITHOUT TIME ZONE" />
 			<column name="commit_date_instant" type="VARCHAR(30)" />
-			<column name="commit_id" type="numeric(22, 2)" />
+			<column name="commit_id" type="BIGINT" />
 		</createTable>
 	</changeSet>
 	<changeSet author="poffm (generated)" id="1584740432194-6">

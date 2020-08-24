@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
@@ -15,7 +17,10 @@ import lombok.Data;
 @RelatedEntity(NgsIndex.class)
 public class NgsIndexDto {
   @JsonApiId
-  private Integer ngsIndexId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
   private Integer lotNumber;

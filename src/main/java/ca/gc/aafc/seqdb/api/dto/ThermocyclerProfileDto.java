@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
@@ -12,19 +14,22 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "thermocyclerprofile")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrProfile.class)
 public class ThermocyclerProfileDto {
 
   @JsonApiId
-  private Integer pcrProfileId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
 
   private String name;
-  
+
   private String application;
-  
+
   private String cycles;
-  
+
   private Timestamp lastModified;
 
   private String step1;

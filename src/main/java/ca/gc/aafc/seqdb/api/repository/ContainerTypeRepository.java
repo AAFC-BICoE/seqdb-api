@@ -1,23 +1,34 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import ca.gc.aafc.dina.filter.RsqlFilterHandler;
-import ca.gc.aafc.dina.filter.SimpleFilterHandler;
-import ca.gc.aafc.dina.repository.JpaDtoRepository;
-import ca.gc.aafc.dina.repository.JpaResourceRepository;
-import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import lombok.NonNull;
 
-@Component
-public class ContainerTypeRepository extends JpaResourceRepository<ContainerTypeDto> {
+@Repository
+public class ContainerTypeRepository extends DinaRepository<ContainerTypeDto, ContainerType> {
 
-  public ContainerTypeRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(ContainerTypeDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
+  public ContainerTypeRepository(
+    @NonNull DinaService<ContainerType> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(ContainerTypeDto.class),
+      ContainerTypeDto.class,
+      ContainerType.class,
+      filterResolver);
   }
 
 }

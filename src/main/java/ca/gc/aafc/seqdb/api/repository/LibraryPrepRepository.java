@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -9,31 +9,43 @@ import javax.validation.ValidationException;
 
 import com.google.common.base.Objects;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import ca.gc.aafc.dina.filter.RsqlFilterHandler;
-import ca.gc.aafc.dina.filter.SimpleFilterHandler;
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.repository.JpaDtoRepository;
-import ca.gc.aafc.dina.repository.JpaResourceRepository;
-import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
+import lombok.NonNull;
 
-@Component
-public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto> {
+@Repository
+public class LibraryPrepRepository extends DinaRepository<LibraryPrepDto, LibraryPrep> {
 
-  private final BaseDAO baseDao;
+  private final BaseDAO baseDAO;
+  private final DinaService<LibraryPrep> libraryPrepService;
 
-  public LibraryPrepRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider, BaseDAO baseDao) {
-    super(LibraryPrepDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
-    this.baseDao = baseDao;
+  public LibraryPrepRepository(
+    @NonNull DinaService<LibraryPrep> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService,
+    BaseDAO baseDAO
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(LibraryPrepDto.class),
+      LibraryPrepDto.class,
+      LibraryPrep.class,
+      filterResolver);
+      this.baseDAO = baseDAO;
+      this.libraryPrepService = dinaService;
   }
 
   @Transactional
@@ -59,7 +71,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
     Integer col = libraryPrepDto.getWellColumn();
     
     if (libraryPrepDto.getWellColumn() != null && libraryPrepDto.getWellRow() != null) {
-      LibraryPrepBatch prepBatch = baseDao.findOneByNaturalId(
+      LibraryPrepBatch prepBatch = baseDAO.findOneByNaturalId(
         libraryPrepDto.getLibraryPrepBatch().getUuid(),
         LibraryPrepBatch.class
       );
@@ -76,7 +88,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
             && Objects.equal(row, otherPrep.getWellRow())) {
           otherPrep.setWellColumn(null);
           otherPrep.setWellRow(null);
-          this.dtoRepository.getEntityManager().flush();
+          this.libraryPrepService.update(otherPrep);
         }
       }
     }
@@ -96,7 +108,7 @@ public class LibraryPrepRepository extends JpaResourceRepository<LibraryPrepDto>
 
     // Validate well coordinates if they are set.
     if (libraryPrepDto.getWellColumn() != null && libraryPrepDto.getWellRow() != null) {
-      LibraryPrep libraryPrep = baseDao.findOneByNaturalId(libraryPrepDto.getUuid(), LibraryPrep.class);
+      LibraryPrep libraryPrep = baseDAO.findOneByNaturalId(libraryPrepDto.getUuid(), LibraryPrep.class);
       
       ContainerType cType = libraryPrep.getLibraryPrepBatch().getContainerType();
       

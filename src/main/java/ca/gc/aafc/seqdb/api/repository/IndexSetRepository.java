@@ -1,23 +1,34 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import ca.gc.aafc.dina.filter.RsqlFilterHandler;
-import ca.gc.aafc.dina.filter.SimpleFilterHandler;
-import ca.gc.aafc.dina.repository.JpaDtoRepository;
-import ca.gc.aafc.dina.repository.JpaResourceRepository;
-import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
+import lombok.NonNull;
 
+@Repository
+public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
 
-@Component
-public class IndexSetRepository extends JpaResourceRepository<IndexSetDto> {
-  public IndexSetRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(IndexSetDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
+  public IndexSetRepository(
+    @NonNull DinaService<IndexSet> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(IndexSetDto.class),
+      IndexSetDto.class,
+      IndexSet.class,
+      filterResolver);
   }
+
 }

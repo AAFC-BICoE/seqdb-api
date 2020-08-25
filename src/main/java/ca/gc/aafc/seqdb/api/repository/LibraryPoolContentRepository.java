@@ -1,45 +1,47 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import javax.inject.Named;
 import javax.validation.ValidationException;
 
-import ca.gc.aafc.dina.filter.RsqlFilterHandler;
-import ca.gc.aafc.dina.filter.SimpleFilterHandler;
+import org.springframework.stereotype.Repository;
+
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.repository.JpaDtoRepository;
-import ca.gc.aafc.dina.repository.JpaResourceRepository;
-import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolContentDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
+import lombok.NonNull;
 
-@Named
-public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryPoolContentDto> {
+@Repository
+public class LibraryPoolContentRepository extends DinaRepository<LibraryPoolContentDto, LibraryPoolContent> {
 
-  private final BaseDAO baseDao;
+  private final DinaService<LibraryPoolContent> libraryPoolService;
 
   public LibraryPoolContentRepository(
-    JpaDtoRepository dtoRepository,
-    SimpleFilterHandler simpleFilterHandler,
-    RsqlFilterHandler rsqlFilterHandler,
-    JpaMetaInformationProvider metaInformationProvider,
-    BaseDAO baseDao
+    @NonNull DinaService<LibraryPoolContent> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
   ) {
     super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(LibraryPoolContentDto.class),
       LibraryPoolContentDto.class,
-      dtoRepository,
-      Arrays.asList(simpleFilterHandler, rsqlFilterHandler),
-      metaInformationProvider
-    );
-    this.baseDao = baseDao;
+      LibraryPoolContent.class,
+      filterResolver);
+      this.libraryPoolService = dinaService;
   }
-  
+
   @Override
   public <S extends LibraryPoolContentDto> S create(S resource) {
     LibraryPoolContentDto newLpcDto = resource;
@@ -48,7 +50,7 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
   }
   
   private void validateUniqueIndexSets(LibraryPoolContentDto newLpcDto, LibraryPoolDto targetPoolDto) {
-    LibraryPool targetPool = baseDao.findOneByNaturalId(targetPoolDto.getUuid(), LibraryPool.class);
+    LibraryPool targetPool = libraryPoolService.findOne(targetPoolDto.getUuid(), LibraryPool.class);
     
     List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
     List<LibraryPrepBatch> alreadyPooledBatches = getBatches(targetPool);
@@ -83,13 +85,13 @@ public class LibraryPoolContentRepository extends JpaResourceRepository<LibraryP
     List<LibraryPrepBatch> batchs = new ArrayList<>();
     
     if (lpc.getPooledLibraryPool() != null) {
-      LibraryPool pooledPool = baseDao
-          .findOneByNaturalId(lpc.getPooledLibraryPool().getUuid(), LibraryPool.class);
+      LibraryPool pooledPool = libraryPoolService
+          .findOne(lpc.getPooledLibraryPool().getUuid(), LibraryPool.class);
       batchs.addAll(getBatches(pooledPool));
     }
     if (lpc.getPooledLibraryPrepBatch() != null) {
-      LibraryPrepBatch pooledBatch = baseDao
-          .findOneByNaturalId(lpc.getPooledLibraryPrepBatch().getUuid(), LibraryPrepBatch.class);
+      LibraryPrepBatch pooledBatch = libraryPoolService
+          .findOne(lpc.getPooledLibraryPrepBatch().getUuid(), LibraryPrepBatch.class);
       batchs.add(pooledBatch);
     }
     

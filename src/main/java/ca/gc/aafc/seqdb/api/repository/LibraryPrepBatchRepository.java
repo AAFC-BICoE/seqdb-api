@@ -1,25 +1,34 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import ca.gc.aafc.dina.filter.RsqlFilterHandler;
-import ca.gc.aafc.dina.filter.SimpleFilterHandler;
-import ca.gc.aafc.dina.repository.JpaDtoRepository;
-import ca.gc.aafc.dina.repository.JpaResourceRepository;
-import ca.gc.aafc.dina.repository.meta.JpaMetaInformationProvider;
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import lombok.NonNull;
 
+@Repository
+public class LibraryPrepBatchRepository extends DinaRepository<LibraryPrepBatchDto, LibraryPrepBatch> {
 
-@Component
-public class LibraryPrepBatchRepository extends JpaResourceRepository<LibraryPrepBatchDto> {
-
-  public LibraryPrepBatchRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(LibraryPrepBatchDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler), metaInformationProvider);
+  public LibraryPrepBatchRepository(
+    @NonNull DinaService<LibraryPrepBatch> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(LibraryPrepBatchDto.class),
+      LibraryPrepBatchDto.class,
+      LibraryPrepBatch.class,
+      filterResolver);
   }
 
 }

@@ -77,23 +77,6 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   }
   
   @Test
-  public void findPreLibraryPrep_whenFieldsAreSelected_preLibraryPrepReturnedWithSelectedFieldsOnly() {
-    QuerySpec querySpec = new QuerySpec(PreLibraryPrepDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("preLibraryPrepType", "notes"));
-    
-    PreLibraryPrepDto preLibraryPrepDto = preLibraryPrepRepository.findOne(
-        testPreLibraryPrep.getUuid(), 
-        querySpec
-    );
-    
-    assertNotNull(preLibraryPrepDto);
-    assertEquals(testPreLibraryPrep.getUuid(), preLibraryPrepDto.getUuid());
-    assertEquals(TEST_PRELIBRARYPREP_TYPE, preLibraryPrepDto.getPreLibraryPrepType());
-    assertEquals(TEST_PRELIBRARYPREP_NOTES, preLibraryPrepDto.getNotes());
-    assertNull(preLibraryPrepDto.getConcentration());
-  }
-  
-  @Test
   public void createPreLibraryPrep_onSuccess_allFieldsHaveSetValueAfterPersisted() {
     PreLibraryPrepDto newPreLibraryPrep = new PreLibraryPrepDto();
     newPreLibraryPrep.setPreLibraryPrepType(TEST_PRELIBRARYPREP_TYPE_CREATE);

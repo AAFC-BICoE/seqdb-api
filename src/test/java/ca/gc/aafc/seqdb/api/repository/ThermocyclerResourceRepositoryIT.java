@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -116,20 +115,6 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(TEST_PROFILE_CYCLE, thermoDto.getCycles());
     verifyStepsAreEqual(testPcrProfile, thermoDto);
 
-  }
-  
-  @Test
-  public void findThermocyclerProfile_whenFieldsAreSelected_pcrProfileReturnedWithSelectedFieldsOnly() {
-    QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "step1"));
-    
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getUuid(), querySpec);
-    assertNotNull(thermoDto);
-    assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
-    assertNull(thermoDto.getCycles());
-    assertEquals("1", thermoDto.getStep1());
-    assertNull(thermoDto.getStep2());
-    assertNull(thermoDto.getStep10());
   }
   
   @Test

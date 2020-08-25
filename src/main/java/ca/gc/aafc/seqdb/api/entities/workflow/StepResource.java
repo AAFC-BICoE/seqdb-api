@@ -14,8 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -24,6 +26,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.Sample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
@@ -51,7 +54,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StepResource {
+public class StepResource implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -105,13 +108,13 @@ public class StepResource {
   private PreLibraryPrep preLibraryPrep;
 
   @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
+    @OneToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "libraryprepbatchid")
     }))
   private LibraryPrepBatch libraryPrepBatch;
 
   @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
+    @OneToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "librarypoolid")
     }))
   private LibraryPool libraryPool;
@@ -119,6 +122,12 @@ public class StepResource {
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
+  }
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getChain().getGroup();
   }
 
 }

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.Sample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LibraryPrep {
+public class LibraryPrep implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -94,6 +96,12 @@ public class LibraryPrep {
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
+  }
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getLibraryPrepBatch().getGroup();
   }
 
 }

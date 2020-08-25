@@ -13,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +40,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChainStepTemplate {
+public class ChainStepTemplate implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -77,6 +79,12 @@ public class ChainStepTemplate {
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
+  }
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getChainTemplate().getGroup();
   }
 
 }

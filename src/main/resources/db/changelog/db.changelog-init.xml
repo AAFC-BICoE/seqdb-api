@@ -123,6 +123,7 @@
             <column name="productid" type="INTEGER"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-4">
@@ -187,6 +188,7 @@
             </column>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-7">
@@ -258,6 +260,7 @@
             </column>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-11">
@@ -283,6 +286,7 @@
             <column name="protocolid" type="INTEGER"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
@@ -308,6 +312,7 @@
             <column name="supports" type="array"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-PSQL" author="elkayssin">
@@ -333,6 +338,7 @@
             <column name="supports" type="stepresourcevalue []"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-13">
@@ -350,6 +356,7 @@
             <column name="reverseadapter" type="VARCHAR(255)"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-14">
@@ -372,6 +379,7 @@
             </column>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-15">
@@ -423,6 +431,7 @@
             <column name="upc" type="VARCHAR(50)"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-17">
@@ -466,6 +475,7 @@
             <column name="regionid" type="INTEGER"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-18">
@@ -485,6 +495,7 @@
             </column>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-19">
@@ -519,6 +530,7 @@
             <column name="regionid" type="INTEGER"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="groupname" type="varchar(255)"/>
         </createTable>
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-20">

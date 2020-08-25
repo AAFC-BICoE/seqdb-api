@@ -13,10 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +36,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LibraryPoolContent {
+public class LibraryPoolContent implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -75,6 +77,12 @@ public class LibraryPoolContent {
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
+  }
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getLibraryPool().getGroup();
   }
 
 }

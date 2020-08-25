@@ -20,6 +20,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StepTemplate {
+public class StepTemplate implements DinaEntity {
 
   public enum StepResourceValue {
     SPECIMEN, SPECIMEN_REPLICATE, MIXED_SPECIMEN, SAMPLE, PCR_BATCH, SEQ_BATCH, SEQ_SUBMISSION, PRODUCT, REGION, PRIMER,
@@ -67,6 +68,11 @@ public class StepTemplate {
 
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
+
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+  }))
+  private String group;
 
   @NotNull
   @Size(max = 50)

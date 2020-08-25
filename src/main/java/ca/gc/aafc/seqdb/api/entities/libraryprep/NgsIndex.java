@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -24,6 +25,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,7 +39,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NgsIndex {
+public class NgsIndex implements DinaEntity {
 
   public enum NgsIndexDirection {
     I5, I7, FORWARD, REVERSE
@@ -93,6 +95,12 @@ public class NgsIndex {
   @PrePersist
   public void prePersist() {
     this.uuid = UUID.randomUUID();
+  }
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getIndexSet().getGroup();
   }
 
 }

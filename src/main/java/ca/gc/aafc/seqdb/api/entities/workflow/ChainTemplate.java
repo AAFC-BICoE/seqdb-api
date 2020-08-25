@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChainTemplate {
+public class ChainTemplate implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -52,6 +53,11 @@ public class ChainTemplate {
 
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
+
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+  }))
+  private String group;
 
   @NotNull
   @Size(max = 50)

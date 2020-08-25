@@ -70,11 +70,6 @@ public class LibraryPool implements DinaEntity {
     }))
   private List<LibraryPoolContent> contents;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

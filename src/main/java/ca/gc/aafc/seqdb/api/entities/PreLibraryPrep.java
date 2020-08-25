@@ -112,9 +112,4 @@ public class PreLibraryPrep implements DinaEntity {
     }))
   private Timestamp lastModified;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

@@ -74,9 +74,4 @@ public class Chain implements DinaEntity {
     }))
   private ChainTemplate chainTemplate;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

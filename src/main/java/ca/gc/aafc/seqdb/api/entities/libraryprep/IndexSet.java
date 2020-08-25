@@ -66,9 +66,4 @@ public class IndexSet implements DinaEntity {
     }))
   private List<NgsIndex> ngsIndexes;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

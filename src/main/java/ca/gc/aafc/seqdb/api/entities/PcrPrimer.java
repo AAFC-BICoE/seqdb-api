@@ -153,9 +153,4 @@ public class PcrPrimer implements DinaEntity {
     }))
   private PcrPrimer pooledPrimer;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

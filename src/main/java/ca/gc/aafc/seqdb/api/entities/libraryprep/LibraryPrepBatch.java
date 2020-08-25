@@ -115,11 +115,6 @@ public class LibraryPrepBatch implements DinaEntity {
     }))
   private StepResource stepResource;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

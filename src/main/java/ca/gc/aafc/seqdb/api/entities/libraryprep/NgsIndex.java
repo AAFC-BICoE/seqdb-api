@@ -92,11 +92,6 @@ public class NgsIndex implements DinaEntity {
     }))
   private IndexSet indexSet;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

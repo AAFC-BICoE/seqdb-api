@@ -75,9 +75,4 @@ public class Product implements DinaEntity {
     }))
   private Timestamp lastModified;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

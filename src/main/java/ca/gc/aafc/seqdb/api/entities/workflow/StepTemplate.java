@@ -89,9 +89,4 @@ public class StepTemplate implements DinaEntity {
   @Type(type = "step-resource-value-array")
   private StepResourceValue[] supports;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

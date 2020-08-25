@@ -131,9 +131,4 @@ public class Sample implements DinaEntity {
   @Enumerated(EnumType.STRING)
   private SampleType sampleType;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

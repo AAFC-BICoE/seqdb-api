@@ -93,11 +93,6 @@ public class LibraryPrep implements DinaEntity {
     }))
   private NgsIndex indexI7;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

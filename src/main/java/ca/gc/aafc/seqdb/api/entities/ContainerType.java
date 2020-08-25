@@ -87,9 +87,4 @@ public class ContainerType implements DinaEntity {
   public boolean isValidLocation(int columnnumber, int rownumber) {
     return getNumberOfColumns() >= columnnumber && getNumberOfRows() >= rownumber;
   }
-
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
 }

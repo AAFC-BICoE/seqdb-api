@@ -76,11 +76,6 @@ public class ChainStepTemplate implements DinaEntity {
   @NotNull
   private Integer stepNumber;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

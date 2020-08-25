@@ -119,11 +119,6 @@ public class StepResource implements DinaEntity {
     }))
   private LibraryPool libraryPool;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
   @Transient
   @Override
   public String getGroup() {

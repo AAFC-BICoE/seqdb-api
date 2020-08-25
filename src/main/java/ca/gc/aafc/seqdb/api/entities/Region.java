@@ -67,9 +67,4 @@ public class Region implements DinaEntity {
   private String aliases;
   private String applicableOrganisms;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
-
 }

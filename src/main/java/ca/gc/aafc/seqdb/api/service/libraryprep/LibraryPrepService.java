@@ -65,10 +65,14 @@ public class LibraryPrepService extends DinaService<LibraryPrep> {
     Integer col = libraryPrep.getWellColumn();
     
     if (libraryPrep.getWellColumn() != null && libraryPrep.getWellRow() != null) {
-      LibraryPrepBatch prepBatch = baseDAO.findOneByNaturalId(
-        libraryPrep.getLibraryPrepBatch().getUuid(),
-        LibraryPrepBatch.class
-      );
+      LibraryPrepBatch prepBatch = libraryPrep.getLibraryPrepBatch();
+
+      // Flush and refresh the batch to make sure the list of LibraryPreps is up to date:
+      baseDAO.createWithEntityManager(em -> {
+        em.flush();
+        em.refresh(prepBatch);
+        return null;
+      });
       
       List<LibraryPrep> otherPreps = prepBatch.getLibraryPreps()
           .stream()
@@ -82,10 +86,7 @@ public class LibraryPrepService extends DinaService<LibraryPrep> {
             && Objects.equal(row, otherPrep.getWellRow())) {
           otherPrep.setWellColumn(null);
           otherPrep.setWellRow(null);
-          this.baseDAO.createWithEntityManager(em -> {
-            em.flush();
-            return null;
-          });
+          this.update(otherPrep);
         }
       }
     }

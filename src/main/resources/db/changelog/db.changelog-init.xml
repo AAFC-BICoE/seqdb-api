@@ -5,6 +5,9 @@
     xmlns:pro="http://www.liquibase.org/xml/ns/pro"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
+    <property name="uuid_function" value="random_uuid()" dbms="h2"/>
+
     <changeSet context="schema-change" id="create-workflow-enum-types" author="poffm">
         <sql>
             CREATE TYPE stepresourcetype AS ENUM (
@@ -45,7 +48,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ngsindexes_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="application" type="VARCHAR(255)"/>
@@ -77,7 +80,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="libraryprepbatchs_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="cleanupnotes" type="VARCHAR(255)"/>
@@ -102,7 +105,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="protocols_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="description" type="VARCHAR(200)"/>
@@ -130,7 +133,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypreps_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="inputng" type="FLOAT8"/>
@@ -155,7 +158,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="prelibrarypreps_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="averagefragmentsize" type="FLOAT8"/>
@@ -179,7 +182,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chaintemplates_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="name" type="VARCHAR(50)">
@@ -194,7 +197,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypools_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="dateused" type="date"/>
@@ -209,7 +212,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="librarypoolcontents_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="librarypoolid" type="INTEGER">
@@ -226,7 +229,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chainsteptemplates_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="stepnumber" type="INTEGER">
@@ -247,7 +250,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="chains_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="name" type="VARCHAR(50)">
@@ -265,7 +268,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="samples_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="datediscarded" type="date"/>
@@ -276,7 +279,7 @@
             </column>
             <column name="notes" type="TEXT"/>
             <column name="sampletype" type="VARCHAR(255)"/>
-            <column defaultValue="" name="version" type="VARCHAR(50)">
+            <column defaultValueComputed="${uuid_function}" name="version" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="productid" type="INTEGER"/>
@@ -293,7 +296,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="name" type="varchar(50)">
@@ -318,7 +321,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="name" type="varchar(50)">
@@ -340,7 +343,7 @@
             <column name="id" autoIncrement="true" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="indexsets_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="forwardadapter" type="VARCHAR(255)"/>
@@ -357,7 +360,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="containertypes_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="lastmodified" type="TIMESTAMP WITHOUT TIME ZONE"/>
@@ -379,7 +382,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="stepresources_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="value" type="VARCHAR(255)">
@@ -411,7 +414,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="products_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="description" type="VARCHAR(200)"/>
@@ -430,7 +433,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprimers_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="application" type="VARCHAR(200)"/>
@@ -449,7 +452,7 @@
             <column name="position" type="VARCHAR(10)"/>
             <column name="purification" type="VARCHAR(50)"/>
             <column name="reference" type="TEXT"/>
-            <column defaultValue="" name="seq" type="VARCHAR(255)">
+            <column defaultValueComputed="${uuid_function}" name="seq" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="sequencelength" type="VARCHAR(50)"/>
@@ -473,7 +476,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="regions_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="aliases" type="VARCHAR(255)"/>
@@ -492,7 +495,7 @@
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pcrprofiles_pkey"/>
             </column>
-            <column name="uuid" type="uuid">
+            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
 				<constraints nullable="false" unique="true" />
 			</column>
             <column name="application" type="VARCHAR(1024)"/>

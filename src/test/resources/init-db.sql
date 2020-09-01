@@ -15,3 +15,7 @@ GRANT USAGE ON SCHEMA seqdb TO test_user;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA seqdb TO test_user;
 ALTER DEFAULT PRIVILEGES FOR USER test_migration IN SCHEMA seqdb GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TABLES TO test_user;
 ALTER DEFAULT PRIVILEGES FOR USER test_migration IN SCHEMA seqdb GRANT SELECT, USAGE ON SEQUENCES TO test_user;
+
+-- Enable UUID extension:
+set schema 'seqdb';
+create extension if not exists "uuid-ossp";

@@ -21,8 +21,6 @@ public class LibraryPoolContentDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
-  private String group;
-  
   @JsonApiRelation
   private LibraryPoolDto libraryPool;
   

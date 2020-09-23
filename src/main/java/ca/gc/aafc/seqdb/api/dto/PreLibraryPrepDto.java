@@ -22,6 +22,8 @@ public class PreLibraryPrepDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;

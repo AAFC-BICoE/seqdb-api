@@ -22,6 +22,8 @@ public class StepResourceDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private StepResourceValue value;
 
   @JsonApiRelation

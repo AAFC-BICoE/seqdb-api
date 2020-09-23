@@ -25,6 +25,8 @@ public class ProtocolDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private ProtocolType type;
 
   private String name;

@@ -20,6 +20,8 @@ public class RegionDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private String name;
 
   private String description;

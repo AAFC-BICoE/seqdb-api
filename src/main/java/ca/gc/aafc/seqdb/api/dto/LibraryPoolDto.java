@@ -23,6 +23,8 @@ public class LibraryPoolDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private String name;
   
   private LocalDate dateUsed;

@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -11,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -40,7 +40,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChainStepTemplate implements DinaEntity {
+public class ChainStepTemplate implements DinaEntity, Serializable {
+
+  private static final long serialVersionUID = -5794571772289124902L;
 
   @Getter(onMethod = @__({
     @Id,

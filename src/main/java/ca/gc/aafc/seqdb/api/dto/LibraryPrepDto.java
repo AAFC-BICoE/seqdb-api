@@ -21,6 +21,8 @@ public class LibraryPrepDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private Double inputNg;
 
   private String quality;

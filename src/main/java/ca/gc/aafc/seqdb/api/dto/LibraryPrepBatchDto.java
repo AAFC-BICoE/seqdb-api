@@ -25,6 +25,8 @@ public class LibraryPrepBatchDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private Double totalLibraryYieldNm;
 
   private String notes;

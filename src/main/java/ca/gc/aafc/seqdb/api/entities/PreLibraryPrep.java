@@ -14,7 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +27,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -105,10 +108,22 @@ public class PreLibraryPrep implements DinaEntity {
     @JoinColumn(name = "productid")
     }))
   private Product product;
+  
+  @Getter(onMethod = @__({
+    @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
+    }))
+  private StepResource stepResource;
 
   @Getter(onMethod = @__({
     @Version
     }))
   private Timestamp lastModified;
+
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getStepResource().getChain().getGroup();
+  }
 
 }

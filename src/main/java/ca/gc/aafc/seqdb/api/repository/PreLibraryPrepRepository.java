@@ -23,7 +23,12 @@ public class PreLibraryPrepRepository extends DinaRepository<PreLibraryPrepDto, 
   ) {
     super(
       dinaService,
-      authService,
+      // Make an exception and allow creates when the group is null:
+      authService.map(auth -> new DinaAuthorizationService() {
+        public void authorizeCreate(Object entity) {};
+        public void authorizeDelete(Object entity) { auth.authorizeDelete(entity); };
+        public void authorizeUpdate(Object entity) { auth.authorizeUpdate(entity); };
+      }),
       Optional.empty(),
       new DinaMapper<>(PreLibraryPrepDto.class),
       PreLibraryPrepDto.class,

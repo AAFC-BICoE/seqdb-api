@@ -55,7 +55,7 @@ public class ChainTemplate implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Column(name = "groupname")
-  }))
+    }))
   private String group;
 
   @NotNull

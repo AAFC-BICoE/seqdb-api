@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +41,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SuppressFBWarnings(
+  value = "SE_BAD_FIELD",
+  justification = "ChainStepTemplate must implement Serializable or else ManyToOneType.hydrate fails when linking StepResources to a ChainStepTemplate.")
 public class ChainStepTemplate implements DinaEntity, Serializable {
 
   private static final long serialVersionUID = -5794571772289124902L;

@@ -77,7 +77,7 @@ public class PcrPrimer implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Column(name = "groupname")
-  }))
+    }))
   private String group;
 
   @NotNull

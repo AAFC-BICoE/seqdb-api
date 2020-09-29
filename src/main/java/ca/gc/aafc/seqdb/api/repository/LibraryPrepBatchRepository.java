@@ -25,9 +25,13 @@ public class LibraryPrepBatchRepository extends DinaRepository<LibraryPrepBatchD
       dinaService,
       // Make an exception and allow creates when the group is null:
       authService.map(auth -> new DinaAuthorizationService() {
-        public void authorizeCreate(Object entity) {};
-        public void authorizeDelete(Object entity) { auth.authorizeDelete(entity); };
-        public void authorizeUpdate(Object entity) { auth.authorizeUpdate(entity); };
+        public void authorizeCreate(Object entity) { };
+        public void authorizeDelete(Object entity) {
+          auth.authorizeDelete(entity);
+        };
+        public void authorizeUpdate(Object entity) {
+          auth.authorizeUpdate(entity);
+        };
       }),
       Optional.empty(),
       new DinaMapper<>(LibraryPrepBatchDto.class),

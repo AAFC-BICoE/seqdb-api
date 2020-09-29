@@ -59,7 +59,7 @@ public class PcrProfile implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Column(name = "groupname")
-  }))
+    }))
   private String group;
 
   @NotNull

@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.entities.libraryprep;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -117,7 +119,10 @@ public class LibraryPrepBatch implements DinaEntity {
   @Transient
   @Override
   public String getGroup() {
-    return this.getStepResource().getChain().getGroup();
+    return Optional.ofNullable(this.getStepResource())
+      .map(StepResource::getChain)
+      .map(Chain::getGroup)
+      .orElse(null);
   }
 
 }

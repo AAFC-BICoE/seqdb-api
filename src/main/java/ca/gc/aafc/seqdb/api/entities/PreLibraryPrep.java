@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -27,6 +28,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -123,7 +125,10 @@ public class PreLibraryPrep implements DinaEntity {
   @Transient
   @Override
   public String getGroup() {
-    return this.getStepResource().getChain().getGroup();
+    return Optional.ofNullable(this.getStepResource())
+      .map(StepResource::getChain)
+      .map(Chain::getGroup)
+      .orElse(null);
   }
 
 }

@@ -28,16 +28,6 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   @Override
-  protected String getGetOneSchemaFilename() {
-    return "getOnePreLibraryPrepSchema.json";
-  }
-
-  @Override
-  protected String getGetManySchemaFilename() {
-    return "getManyPreLibraryPrepSchema.json";
-  }
-  
-  @Override
   protected Map<String, Object> buildCreateAttributeMap() {
     PreLibraryPrep preLibraryPrep = PreLibraryPrepFactory.newPreLibraryPrep()
         .preLibraryPrepType(PreLibraryPrepType.SHEARING)

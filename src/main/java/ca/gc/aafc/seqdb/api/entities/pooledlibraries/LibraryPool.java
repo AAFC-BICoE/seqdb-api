@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -72,7 +74,10 @@ public class LibraryPool implements DinaEntity {
   @Transient
   @Override
   public String getGroup() {
-    return this.getStepResource().getGroup();
+    return Optional.ofNullable(this.getStepResource())
+      .map(StepResource::getChain)
+      .map(Chain::getGroup)
+      .orElse(null);
   }
 
 }

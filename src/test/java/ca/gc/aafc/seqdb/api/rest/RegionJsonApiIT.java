@@ -22,16 +22,6 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   @Override
-  protected String getGetOneSchemaFilename() {
-    return "getOneRegionSchema.json";
-  }
-
-  @Override
-  protected String getGetManySchemaFilename() {
-    return "getManyRegionSchema.json";
-  }
-  
-  @Override
   protected Map<String, Object> buildCreateAttributeMap() {
     
     Region region = RegionFactory.newRegion()

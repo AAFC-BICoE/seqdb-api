@@ -18,16 +18,6 @@ public class ProtocolJsonApiIT extends BaseJsonApiIntegrationTest {
   }
 
   @Override
-  protected String getGetOneSchemaFilename() {
-    return "getOneProtocolSchema.json";
-  }
-
-  @Override
-  protected String getGetManySchemaFilename() {
-    return "getManyProtocolSchema.json";
-  }
-
-  @Override
   protected Map<String, Object> buildCreateAttributeMap() {
     
     return new ImmutableMap.Builder<String, Object>()

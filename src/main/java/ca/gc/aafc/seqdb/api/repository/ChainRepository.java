@@ -28,7 +28,8 @@ public class ChainRepository extends DinaRepository<ChainDto, Chain> {
       new DinaMapper<>(ChainDto.class),
       ChainDto.class,
       Chain.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

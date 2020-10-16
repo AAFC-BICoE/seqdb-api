@@ -28,7 +28,8 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
       new DinaMapper<>(PcrPrimerDto.class),
       PcrPrimerDto.class,
       PcrPrimer.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

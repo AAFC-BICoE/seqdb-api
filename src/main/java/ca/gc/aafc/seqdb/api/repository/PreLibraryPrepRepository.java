@@ -37,7 +37,8 @@ public class PreLibraryPrepRepository extends DinaRepository<PreLibraryPrepDto, 
       new DinaMapper<>(PreLibraryPrepDto.class),
       PreLibraryPrepDto.class,
       PreLibraryPrep.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

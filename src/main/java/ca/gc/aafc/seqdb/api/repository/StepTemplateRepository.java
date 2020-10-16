@@ -28,7 +28,8 @@ public class StepTemplateRepository extends DinaRepository<StepTemplateDto, Step
       new DinaMapper<>(StepTemplateDto.class),
       StepTemplateDto.class,
       StepTemplate.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

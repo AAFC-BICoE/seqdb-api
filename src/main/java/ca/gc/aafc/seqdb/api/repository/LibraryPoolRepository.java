@@ -37,7 +37,8 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
       new DinaMapper<>(LibraryPoolDto.class),
       LibraryPoolDto.class,
       LibraryPool.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

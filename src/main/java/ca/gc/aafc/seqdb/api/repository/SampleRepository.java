@@ -28,7 +28,8 @@ public class SampleRepository extends DinaRepository<SampleDto, Sample> {
       new DinaMapper<>(SampleDto.class),
       SampleDto.class,
       Sample.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

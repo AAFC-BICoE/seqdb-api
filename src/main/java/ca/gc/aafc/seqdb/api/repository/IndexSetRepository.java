@@ -28,7 +28,8 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
       new DinaMapper<>(IndexSetDto.class),
       IndexSetDto.class,
       IndexSet.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

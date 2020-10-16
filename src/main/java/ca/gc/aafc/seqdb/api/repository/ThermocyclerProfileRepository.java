@@ -28,7 +28,8 @@ public class ThermocyclerProfileRepository extends DinaRepository<ThermocyclerPr
       new DinaMapper<>(ThermocyclerProfileDto.class),
       ThermocyclerProfileDto.class,
       PcrProfile.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

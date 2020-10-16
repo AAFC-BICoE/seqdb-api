@@ -28,7 +28,8 @@ public class ProductRepository extends DinaRepository<ProductDto, Product> {
       new DinaMapper<>(ProductDto.class),
       ProductDto.class,
       Product.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

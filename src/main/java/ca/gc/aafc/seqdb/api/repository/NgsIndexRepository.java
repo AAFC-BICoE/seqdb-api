@@ -28,7 +28,8 @@ public class NgsIndexRepository extends DinaRepository<NgsIndexDto, NgsIndex> {
       new DinaMapper<>(NgsIndexDto.class),
       NgsIndexDto.class,
       NgsIndex.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

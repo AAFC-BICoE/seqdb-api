@@ -28,7 +28,8 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
       new DinaMapper<>(RegionDto.class),
       RegionDto.class,
       Region.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

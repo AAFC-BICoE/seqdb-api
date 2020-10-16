@@ -28,7 +28,8 @@ public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
       new DinaMapper<>(ProtocolDto.class),
       ProtocolDto.class,
       Protocol.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

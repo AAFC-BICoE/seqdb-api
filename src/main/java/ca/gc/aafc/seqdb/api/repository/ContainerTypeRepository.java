@@ -28,7 +28,8 @@ public class ContainerTypeRepository extends DinaRepository<ContainerTypeDto, Co
       new DinaMapper<>(ContainerTypeDto.class),
       ContainerTypeDto.class,
       ContainerType.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

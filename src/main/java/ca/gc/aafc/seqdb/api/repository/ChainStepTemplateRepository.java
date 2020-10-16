@@ -28,7 +28,8 @@ public class ChainStepTemplateRepository extends DinaRepository<ChainStepTemplat
       new DinaMapper<>(ChainStepTemplateDto.class),
       ChainStepTemplateDto.class,
       ChainStepTemplate.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

@@ -37,7 +37,8 @@ public class LibraryPrepBatchRepository extends DinaRepository<LibraryPrepBatchD
       new DinaMapper<>(LibraryPrepBatchDto.class),
       LibraryPrepBatchDto.class,
       LibraryPrepBatch.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

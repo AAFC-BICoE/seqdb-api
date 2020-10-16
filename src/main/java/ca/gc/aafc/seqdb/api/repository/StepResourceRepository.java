@@ -28,7 +28,8 @@ public class StepResourceRepository extends DinaRepository<StepResourceDto, Step
       new DinaMapper<>(StepResourceDto.class),
       StepResourceDto.class,
       StepResource.class,
-      filterResolver);
+      filterResolver,
+      null);
   }
 
 }

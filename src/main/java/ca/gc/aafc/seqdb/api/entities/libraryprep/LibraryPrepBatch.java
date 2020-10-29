@@ -32,6 +32,7 @@ import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -114,6 +115,7 @@ public class LibraryPrepBatch implements DinaEntity {
   @Getter(onMethod = @__({
     @OneToOne(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
     }))
+  @EqualsAndHashCode.Exclude
   private StepResource stepResource;
 
   @Transient

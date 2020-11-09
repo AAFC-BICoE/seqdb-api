@@ -68,24 +68,6 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   }
   
   @Test
-  public void findProduct_whenFieldsAreSelected_productReturnedWithSelectedFieldsOnly() {
-    QuerySpec querySpec = new QuerySpec(ProductDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "type"));
-
-    // Returned DTO must have correct values: selected fields are present, non-selected
-    // fields are null.
-    ProductDto productDto = productRepository.findOne(
-        testProduct.getUuid(),querySpec
-    );  
-    assertNotNull(productDto);
-    assertEquals(testProduct.getUuid(), productDto.getUuid());
-    assertEquals(TEST_PRODUCT_NAME, productDto.getName());
-    assertEquals(TEST_PRODUCT_TYPE, productDto.getType());
-    assertNull(productDto.getDescription());
-   
-  }
-  
-  @Test
   public void createProduct_onSuccess_allFieldsHaveSetValueAfterPersisted() {
     ProductDto newProduct = new ProductDto();
     newProduct.setName(TEST_PRODUCT_NAME_CREATE);

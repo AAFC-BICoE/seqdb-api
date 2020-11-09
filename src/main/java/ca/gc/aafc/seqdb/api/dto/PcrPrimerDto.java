@@ -26,6 +26,8 @@ public class PcrPrimerDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   // Required fields
 
   private String name;

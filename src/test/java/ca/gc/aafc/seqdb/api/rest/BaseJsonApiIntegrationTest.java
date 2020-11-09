@@ -75,18 +75,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    */
   protected abstract String getResourceUnderTest();
   
-  /**
-   * Returns the JSON Schema for get-one of the resource under test.
-   * @return
-   */
-	protected abstract String getGetOneSchemaFilename();
-	
-  /**
-   * Returns the JSON Schema for get-many of the resource under test.
-   * @return
-   */
-	protected abstract String getGetManySchemaFilename();
-	
 	/**
 	 * Creates an attributes map to create a new entity.
 	 * If a field is unique it's to responsibility of the implementation to return a different one on each call.

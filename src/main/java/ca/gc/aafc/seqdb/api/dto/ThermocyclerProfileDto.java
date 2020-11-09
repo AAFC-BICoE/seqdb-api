@@ -24,6 +24,8 @@ public class ThermocyclerProfileDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private String name;
 
   private String application;

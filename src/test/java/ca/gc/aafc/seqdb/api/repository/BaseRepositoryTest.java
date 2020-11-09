@@ -10,8 +10,12 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.io.ClassPathResource;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
@@ -21,7 +25,9 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   
   @Inject
   protected ResourceRegistry resourceRegistry;
-  
+
+  @Inject
+  private ApplicationContext appCtx;
   
   public static Reader newClasspathResourceReader(String classpathResourcePath) throws IOException {
     return new InputStreamReader(new ClassPathResource(classpathResourcePath).getInputStream(),
@@ -33,9 +39,18 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
    * 
    * @param the entity to persist
    */
-  protected void persist(Object objectToPersist) {
+  @SuppressWarnings("unchecked")
+  protected <T extends DinaEntity> void persist(T objectToPersist) {
     // TODO add getId interface back? assertNull(objectToPersist.getId());
-    entityManager.persist(objectToPersist);
+
+    // Get the DinaService for this entity:
+    String[] serviceBeanNames = appCtx.getBeanNamesForType(
+      ResolvableType.forClassWithGenerics(DinaService.class, objectToPersist.getClass())
+    );
+    String serviceBeanName = serviceBeanNames[0];
+    DinaService<T> service = (DinaService<T>) appCtx.getBean(serviceBeanName);
+
+    service.create(objectToPersist);
     // New primer must have an ID.
     // TODO add getId interface back? assertNotNull(objectToPersist.getId());
   }

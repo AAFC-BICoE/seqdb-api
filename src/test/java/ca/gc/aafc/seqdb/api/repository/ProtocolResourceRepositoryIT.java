@@ -88,21 +88,6 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   }
   
   @Test
-  public void findProtocol_whenFieldsAreSelected_protocolReturnedWithSelectedFields() {
-    // Searches for a protocol using entity's id and returns only the name and type
-    QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "type"));
-    
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getUuid(), querySpec);
-    assertNotNull(protocolDto);
-    assertEquals(TEST_PROTOCOL_NAME, protocolDto.getName());
-    assertNull(protocolDto.getSteps());
-    assertEquals(TEST_PROTOCOL_TYPE, protocolDto.getType());
-    assertNull(protocolDto.getDescription());
-    assertNull(protocolDto.getVersion());
-  }
-  
-  @Test
   public void updateProtocol_whenSomeFieldsAreUpdated_protocolReturnedWithSelectedFieldsUpdated() {
     // Get the test protocol DTO.
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);

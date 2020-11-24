@@ -9,10 +9,8 @@ import org.springframework.http.HttpStatus;
 import com.google.common.collect.ImmutableMap;
 
 import ca.gc.aafc.seqdb.api.BaseHttpIntegrationTest;
-import ca.gc.aafc.seqdb.api.security.ImportSampleAccounts;
 
 import io.restassured.RestAssured;
-import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -28,12 +26,6 @@ public class IncludeParamLookupBehaviorIT extends BaseHttpIntegrationTest {
     RestAssured.port = testPort;
     RestAssured.baseURI = BaseJsonApiIntegrationTest.IT_BASE_URI.toString();
     RestAssured.basePath = BaseJsonApiIntegrationTest.API_BASE_PATH;
-    
-    //set basic auth with ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME
-    PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
-    authScheme.setUserName(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
-    authScheme.setPassword(ImportSampleAccounts.IMPORTED_USER_ACCOUNT_NAME);
-    RestAssured.authentication = authScheme;
   }
   
   @Test

@@ -2,8 +2,12 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
-import ca.gc.aafc.seqdb.entities.PcrPrimer.PrimerType;
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -12,11 +16,17 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = "pcrPrimer")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
+@RelatedEntity(PcrPrimer.class)
 public class PcrPrimerDto {
 
   @JsonApiId
-  private Integer pcrPrimerId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
+
+  private String group;
 
   // Required fields
 
@@ -31,7 +41,7 @@ public class PcrPrimerDto {
   // Optional fields
 
   private Integer version;
-  
+
   private String direction;
 
   private String tmCalculated;
@@ -40,30 +50,8 @@ public class PcrPrimerDto {
 
   private String position;
 
-  private String storage;
-
-  private String restrictionSite;
-
-  private Boolean used4sequencing;
-
-  private Boolean used4qrtpcr;
-
-  private Boolean used4nestedPcr;
-
-  private Boolean used4genotyping;
-
-  private Boolean used4cloning;
-
-  private Boolean used4stdPcr;
-
-  private String referenceSeqDir;
-
-  private String referenceSeqFile;
-
-  private String urllink;
-
   private String note;
-  
+
   private Timestamp lastModified;
 
   private String application;
@@ -73,7 +61,7 @@ public class PcrPrimerDto {
   private String targetSpecies;
 
   private String supplier;
-  
+
   private LocalDate dateOrdered;
 
   private String purification;
@@ -86,11 +74,5 @@ public class PcrPrimerDto {
 
   @JsonApiRelation
   private RegionDto region;
-
-  @JsonApiRelation
-  private GroupDto group;
-  
-  @JsonApiRelation
-  private LocationDto location;
 
 }

@@ -1,25 +1,35 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
-import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import lombok.NonNull;
 
-@Component
-public class PcrPrimerRepository extends JpaResourceRepository<PcrPrimerDto> {
+@Repository
+public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer> {
 
-  public PcrPrimerRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(PcrPrimerDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
-        metaInformationProvider);
+  public PcrPrimerRepository(
+    @NonNull DinaService<PcrPrimer> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(PcrPrimerDto.class),
+      PcrPrimerDto.class,
+      PcrPrimer.class,
+      filterResolver,
+      null);
   }
+
 }

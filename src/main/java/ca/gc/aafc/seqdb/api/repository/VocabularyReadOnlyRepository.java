@@ -12,15 +12,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.entities.PcrProfile;
-import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Region;
-import ca.gc.aafc.seqdb.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.PcrProfile;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.entities.Sample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
@@ -38,9 +35,6 @@ public class VocabularyReadOnlyRepository
       Arrays.asList(
           Region.class, 
           PcrPrimer.class, 
-          PcrBatch.class, 
-          PcrReaction.class, 
-          Group.class,
           Product.class,
           PcrProfile.class,
           Protocol.class,

@@ -1,26 +1,44 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
-import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
+import lombok.NonNull;
 
-@Component
-public class PreLibraryPrepRepository extends JpaResourceRepository<PreLibraryPrepDto> {
+@Repository
+public class PreLibraryPrepRepository extends DinaRepository<PreLibraryPrepDto, PreLibraryPrep> {
 
-  public PreLibraryPrepRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      ReadableGroupFilterHandlerFactory groupFilterFactory,
-      JpaMetaInformationProvider metaInformationProvider) {
-
-    super(PreLibraryPrepDto.class, dtoRepository, Arrays.asList(simpleFilterHandler), metaInformationProvider);
+  public PreLibraryPrepRepository(
+    @NonNull DinaService<PreLibraryPrep> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      // Make an exception and allow creates when the group is null:
+      authService.map(auth -> new DinaAuthorizationService() {
+        public void authorizeCreate(Object entity) { };
+        public void authorizeDelete(Object entity) {
+          auth.authorizeDelete(entity);
+        };
+        public void authorizeUpdate(Object entity) {
+          auth.authorizeUpdate(entity);
+        };
+      }),
+      Optional.empty(),
+      new DinaMapper<>(PreLibraryPrepDto.class),
+      PreLibraryPrepDto.class,
+      PreLibraryPrep.class,
+      filterResolver,
+      null);
   }
-  
+
 }

@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
-import ca.gc.aafc.seqdb.entities.pooledlibraries.LibraryPool;
-import ca.gc.aafc.seqdb.testsupport.factories.LibraryPoolFactory;
+import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
+import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPoolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -38,7 +38,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findPool_whenPoolExists_poolReturned() {
     LibraryPoolDto dto = poolRepository.findOne(
-        testPool.getId(),
+        testPool.getUuid(),
         new QuerySpec(LibraryPoolDto.class)
     );
     
@@ -52,14 +52,14 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new pool");
     
     LibraryPoolDto created = poolRepository.create(newDto);
-    assertNotNull(created.getLibraryPoolId());
+    assertNotNull(created.getUuid());
     assertEquals("new pool", created.getName());
   }
   
   @Test
   public void updatePool_onSuccess_poolUpdated() {
     LibraryPoolDto dto = poolRepository.findOne(
-        testPool.getId(),
+        testPool.getUuid(),
         new QuerySpec(LibraryPoolDto.class)
     );
     
@@ -73,7 +73,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deletePool_onSuccess_poolDeleted() {
-    poolRepository.delete(testPool.getId());
+    poolRepository.delete(testPool.getUuid());
     assertNull(entityManager.find(LibraryPool.class, testPool.getId()));
   }
   

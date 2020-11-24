@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.dto.NgsIndexDto;
-import ca.gc.aafc.seqdb.entities.libraryprep.NgsIndex;
-import ca.gc.aafc.seqdb.testsupport.factories.NgsIndexFactory;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
+import ca.gc.aafc.seqdb.api.testsupport.factories.NgsIndexFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -47,7 +47,7 @@ public class NgsIndexRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findNgsIndex_whenNgsIndexExists_ngsIndexReturned() {
     NgsIndexDto dto = ngsIndexRepository.findOne(
-        testNgsIndex.getId(),
+        testNgsIndex.getUuid(),
         new QuerySpec(NgsIndexDto.class)
     );
     
@@ -61,21 +61,21 @@ public class NgsIndexRepositoryIT extends BaseRepositoryTest {
     newDto.setName("new index set");
     newDto.setIndexSet(
         indexSetRepository.findOne(
-            testNgsIndex.getIndexSet().getId(),
+            testNgsIndex.getIndexSet().getUuid(),
             new QuerySpec(IndexSetDto.class)
         )
     );
     
     NgsIndexDto created = ngsIndexRepository.create(newDto);
-    assertNotNull(created.getNgsIndexId());
-    assertNotNull(created.getIndexSet().getIndexSetId());
+    assertNotNull(created.getUuid());
+    assertNotNull(created.getIndexSet().getUuid());
     assertEquals("new index set", created.getName());
   }
   
   @Test
   public void updateNgsIndex_onSuccess_ngsIndexUpdated() {
     NgsIndexDto dto = ngsIndexRepository.findOne(
-        testNgsIndex.getId(),
+        testNgsIndex.getUuid(),
         new QuerySpec(NgsIndexDto.class)
     );
     
@@ -86,7 +86,7 @@ public class NgsIndexRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteNgsIndex_onSuccess_ngsIndexDeleted() {
-    ngsIndexRepository.delete(testNgsIndex.getId());
+    ngsIndexRepository.delete(testNgsIndex.getUuid());
     assertNull(entityManager.find(NgsIndex.class, testNgsIndex.getId()));
   }
 

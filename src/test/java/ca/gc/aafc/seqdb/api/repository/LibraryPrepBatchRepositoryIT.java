@@ -15,16 +15,14 @@ import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.testsupport.factories.ContainerTypeFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepBatchFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepBatchFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -51,7 +49,6 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPrepBatch createTestBatch() {
     testContainerType = ContainerTypeFactory.newContainerType()
-        .fillDirection(FillDirection.BY_COLUMN)
         .build();
     
     persist(testContainerType);
@@ -59,11 +56,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    Group testGroup = new Group("group name");
-    persistGroup(testGroup);
-    
-    testProtocol = ProtocolFactory.newProtocol(testGroup).build();
-    entityManager.persist(testProtocol.getGroup());
+    testProtocol = ProtocolFactory.newProtocol().build();
     persist(testProtocol);
     
     testBatch = LibraryPrepBatchFactory.newLibraryPrepBatch()
@@ -87,7 +80,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findBatch_whenBatchExists_batchReturned() {
     LibraryPrepBatchDto dto = libraryPrepBatchRepository.findOne(
-        testBatch.getId(),
+        testBatch.getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class)
     );
     
@@ -104,37 +97,37 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setYieldNotes("yield notes");
     newDto.setContainerType(
         ctRepository.findOne(
-            testContainerType.getId(),
+            testContainerType.getUuid(),
             new QuerySpec(ContainerTypeDto.class)
         )
      );
     newDto.setProduct(
         productRepository.findOne(
-            testProduct.getId(),
+            testProduct.getUuid(),
             new QuerySpec(ProductDto.class)
         )
     );
     newDto.setProtocol(
         protocolRepository.findOne(
-            testProtocol.getId(),
+            testProtocol.getUuid(),
             new QuerySpec(ProtocolDto.class)
         )
     );
     
     LibraryPrepBatchDto created = libraryPrepBatchRepository.create(newDto);
     
-    assertNotNull(created.getLibraryPrepBatchId());
+    assertNotNull(created.getUuid());
     assertEquals("notes", created.getNotes());
     assertEquals("cleanup notes", created.getCleanUpNotes());
     assertEquals("yield notes", created.getYieldNotes());
-    assertEquals(testProduct.getProductId(), created.getProduct().getProductId());
-    assertEquals(testProtocol.getProtocolId(), created.getProtocol().getProtocolId());
+    assertEquals(testProduct.getUuid(), created.getProduct().getUuid());
+    assertEquals(testProtocol.getUuid(), created.getProtocol().getUuid());
   }
   
   @Test
   public void updateBatch_onSuccess_batchUpdated() {
     LibraryPrepBatchDto dto = libraryPrepBatchRepository.findOne(
-        testBatch.getId(),
+        testBatch.getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class)
     );
     
@@ -145,7 +138,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteBatch_onSuccess_batchDeleted() {
-    libraryPrepBatchRepository.delete(testBatch.getId());
+    libraryPrepBatchRepository.delete(testBatch.getUuid());
     assertNull(entityManager.find(LibraryPrepBatch.class, testBatch.getId()));
   }
 

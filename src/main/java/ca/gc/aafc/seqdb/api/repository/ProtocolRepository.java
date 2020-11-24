@@ -1,26 +1,35 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import lombok.NonNull;
 
-@Component
-public class ProtocolRepository extends JpaResourceRepository<ProtocolDto> {
+@Repository
+public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
 
-  public ProtocolRepository(JpaDtoRepository dtoRepository, SimpleFilterHandler simpleFilterHandler,
-      RsqlFilterHandler rsqlFilterHandler, ReadableGroupFilterHandlerFactory groupFilterFactory,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(ProtocolDto.class, dtoRepository,
-        Arrays.asList(simpleFilterHandler, rsqlFilterHandler, groupFilterFactory.create(root -> root.get("group"))),
-        metaInformationProvider);
+  public ProtocolRepository(
+    @NonNull DinaService<Protocol> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(ProtocolDto.class),
+      ProtocolDto.class,
+      Protocol.class,
+      filterResolver,
+      null);
   }
 
 }

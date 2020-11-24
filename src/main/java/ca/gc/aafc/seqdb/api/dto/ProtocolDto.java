@@ -1,23 +1,31 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
-
-import java.sql.Timestamp;
-import java.util.List;
-
 import lombok.Data;
 
 @Data
 @JsonApiResource(type = "protocol")
-@SuppressFBWarnings(value="EI_EXPOSE_REP")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
+@RelatedEntity(Protocol.class)
 public class ProtocolDto {
 
   @JsonApiId
-  private Integer protocolId;
+  private UUID uuid;
+
+  private String createdBy;
+  private OffsetDateTime createdOn;
+
+  private String group;
 
   private ProtocolType type;
 
@@ -42,15 +50,10 @@ public class ProtocolDto {
   private String reactionMixVolume;
 
   private String reactionMixVolumePerTube;
-  
+
   private Timestamp lastModified;
 
-  @JsonApiRelation(opposite = "protocol")
-  private List<ReactionComponentDto> reactionComponents;
- 
   @JsonApiRelation
   private ProductDto kit;
 
-  @JsonApiRelation
-  private GroupDto group;
 }

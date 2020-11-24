@@ -12,11 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Protocol.ProtocolType;
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -33,17 +32,12 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   
   private Product testKit;
   
-  private Group testGroup;
-  
   private Protocol createTestProtocol() {
-    testGroup = new Group("group name");
-    persistGroup(testGroup);
-    testKit = new Product("testKit", "testF", testGroup);
+    testKit = Product.builder().name("testKit").description("testF").build();
     persist(testKit);
     testProtocol = ProtocolFactory.newProtocol()
         .name(TEST_PROTOCOL_NAME)
         .type(TEST_PROTOCOL_TYPE)
-        .group(testGroup)
         .version("A")
         .description("testDescription")
         .steps("14")
@@ -75,7 +69,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     assertEquals(dto.getReversePrimerConcentration(), entity.getReversePrimerConcentration());
     assertEquals(dto.getReactionMixVolume(), entity.getReactionMixVolume());
     assertEquals(dto.getReactionMixVolumePerTube(), entity.getReactionMixVolumePerTube());
-    assertEquals(dto.getKit().getProductId(), entity.getKit().getProductId());
+    assertEquals(dto.getKit().getUuid(), entity.getKit().getUuid());
   }
   
   @BeforeEach
@@ -86,26 +80,11 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
   @Test
   public void findProtocol_whenNoFieldsAreSelected_protocolReturnedWithAllFields() {
     // Searches for a protocol using entity's id
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getProtocolId(),
+    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getUuid(),
         new QuerySpec(ProtocolDto.class));
     assertNotNull(protocolDto);
     // Verifies entity was passed to dto properly
     verifyProtocol(testProtocol, protocolDto);
-  }
-  
-  @Test
-  public void findProtocol_whenFieldsAreSelected_protocolReturnedWithSelectedFields() {
-    // Searches for a protocol using entity's id and returns only the name and type
-    QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "type"));
-    
-    ProtocolDto protocolDto = protocolRepository.findOne(testProtocol.getProtocolId(), querySpec);
-    assertNotNull(protocolDto);
-    assertEquals(TEST_PROTOCOL_NAME, protocolDto.getName());
-    assertNull(protocolDto.getSteps());
-    assertEquals(TEST_PROTOCOL_TYPE, protocolDto.getType());
-    assertNull(protocolDto.getDescription());
-    assertNull(protocolDto.getVersion());
   }
   
   @Test
@@ -114,7 +93,7 @@ public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
     QuerySpec querySpec = new QuerySpec(ProtocolDto.class);
 
     ProtocolDto protocolDto = protocolRepository.findOne(
-        testProtocol.getId(),querySpec);
+        testProtocol.getUuid(),querySpec);
     
     assertEquals("testDescription", protocolDto.getDescription());
     // Change the DTO's desc value.

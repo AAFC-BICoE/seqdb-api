@@ -1,46 +1,35 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Arrays;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import ca.gc.aafc.dina.filter.DinaFilterResolver;
+import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
-import ca.gc.aafc.seqdb.api.repository.filter.RsqlFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.filter.SimpleFilterHandler;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaDtoRepository;
-import ca.gc.aafc.seqdb.api.repository.jpa.JpaResourceRepository;
-import ca.gc.aafc.seqdb.api.repository.meta.JpaMetaInformationProvider;
-import ca.gc.aafc.seqdb.api.security.authorization.ReadableGroupFilterHandlerFactory;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import lombok.NonNull;
 
-@Component
-public class ContainerTypeRepository extends JpaResourceRepository<ContainerTypeDto> {
+@Repository
+public class ContainerTypeRepository extends DinaRepository<ContainerTypeDto, ContainerType> {
 
-  public ContainerTypeRepository(JpaDtoRepository dtoRepository,
-      SimpleFilterHandler simpleFilterHandler, RsqlFilterHandler rsqlFilterHandler,
-      ReadableGroupFilterHandlerFactory groupFilterFactory,
-      JpaMetaInformationProvider metaInformationProvider) {
-    super(ContainerTypeDto.class, dtoRepository, Arrays.asList(simpleFilterHandler, rsqlFilterHandler,
-        groupFilterFactory.create(root -> root.get("group"))), metaInformationProvider);
-  }
-  
-  @Override
-  public <S extends ContainerTypeDto> S save(S resource) {
-    setNumberOfWells(resource);
-    return super.save(resource);
-  }
-
-  @Override
-  public <S extends ContainerTypeDto> S create(S resource) {
-    setNumberOfWells(resource);
-    return super.create(resource);
-  }
-  
-  private static void setNumberOfWells(ContainerTypeDto ct) {
-    Integer cols = Optional.ofNullable(ct.getNumberOfColumns()).orElse(0);
-    Integer rows = Optional.ofNullable(ct.getNumberOfRows()).orElse(0);
-    
-    ct.setNumberOfWells(cols * rows);
+  public ContainerTypeRepository(
+    @NonNull DinaService<ContainerType> dinaService,
+    @NonNull DinaFilterResolver filterResolver,
+    Optional<DinaAuthorizationService> authService
+  ) {
+    super(
+      dinaService,
+      authService,
+      Optional.empty(),
+      new DinaMapper<>(ContainerTypeDto.class),
+      ContainerTypeDto.class,
+      ContainerType.class,
+      filterResolver,
+      null);
   }
 
 }

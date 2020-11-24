@@ -1,35 +1,22 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
-import ca.gc.aafc.seqdb.entities.Account;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.PcrBatch;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchPlateSize;
-import ca.gc.aafc.seqdb.entities.PcrBatch.PcrBatchType;
-import ca.gc.aafc.seqdb.entities.PcrReaction;
-import ca.gc.aafc.seqdb.interfaces.UniqueObj;
 import io.crnk.core.engine.registry.ResourceRegistry;
 import io.crnk.core.queryspec.IncludeFieldSpec;
 import io.crnk.core.queryspec.IncludeRelationSpec;
@@ -38,7 +25,9 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   
   @Inject
   protected ResourceRegistry resourceRegistry;
-  
+
+  @Inject
+  private ApplicationContext appCtx;
   
   public static Reader newClasspathResourceReader(String classpathResourcePath) throws IOException {
     return new InputStreamReader(new ClassPathResource(classpathResourcePath).getInputStream(),
@@ -46,81 +35,26 @@ public abstract class BaseRepositoryTest extends BaseIntegrationTest {
   }
   
   /**
-   * By default, run as an admin user to avoid dealing with Group-based authorization for tests that
-   * don't involve it.
-   */
-  @BeforeEach
-  public void runAsAdminUser() {
-    // Create the admin account.
-    Account testAdminAccount = new Account();
-    testAdminAccount.setAccountName("testAdminAccount");
-    testAdminAccount.setAccountType("Admin");
-    entityManager.persist(testAdminAccount);
-    
-    // Set the authentication in Spring's context.
-    SecurityContextHolder.getContext().setAuthentication(
-        new TestingAuthenticationToken(
-            new User("testAdminAccount", "", Collections.emptyList()),
-            ""
-        )
-    );
-  }
-  
-  /**
    * Persists an entity.
    * 
    * @param the entity to persist
    */
-  protected void persist(UniqueObj objectToPersist) {
-    assertNull(objectToPersist.getId());
-    entityManager.persist(objectToPersist);
+  @SuppressWarnings("unchecked")
+  protected <T extends DinaEntity> void persist(T objectToPersist) {
+    // TODO add getId interface back? assertNull(objectToPersist.getId());
+
+    // Get the DinaService for this entity:
+    String[] serviceBeanNames = appCtx.getBeanNamesForType(
+      ResolvableType.forClassWithGenerics(DinaService.class, objectToPersist.getClass())
+    );
+    String serviceBeanName = serviceBeanNames[0];
+    DinaService<T> service = (DinaService<T>) appCtx.getBean(serviceBeanName);
+
+    service.create(objectToPersist);
     // New primer must have an ID.
-    assertNotNull(objectToPersist.getId());
+    // TODO add getId interface back? assertNotNull(objectToPersist.getId());
   }
   
-  /**
-   * Persists a group
-   * 
-   * @param the group to persist
-   */
-  protected void persistGroup(Group groupToPersist) {
-    assertNull(groupToPersist.getGroupId());
-    entityManager.persist(groupToPersist);
-    assertNotNull(groupToPersist.getGroupId());
-  }
-
-  
-  /**
-   * Persists a test PCR batch with 22 reactions.
-   * 
-   * @return the persisted PCR batch.
-   */
-  protected PcrBatch persistTestPcrBatchWith22Reactions(String batchName) {
-    PcrBatch batch = new PcrBatch();
-    batch.setType(PcrBatchType.SANGER);
-    batch.setName(batchName);
-    batch.setPlateSize(PcrBatchPlateSize.PLATE_NUMBER_96);
-    
-    for (int i = 1; i <= 22; i++) {
-      PcrReaction reaction = new PcrReaction();
-      reaction.setTubeNumber(i);
-      
-      assertNull(reaction.getId());
-      
-      reaction.setPcrBatch(batch);
-      batch.getReactions().add(reaction);
-    }
-    
-    assertNull(batch.getId());
-    entityManager.persist(batch);
-    assertNotNull(batch.getId());
-    
-    assertEquals(22, batch.getReactions().size());
-    batch.getReactions().forEach(Assertions::assertNotNull);
-    
-    return batch;
-  };
-
   /**
    * Get a List<IncludeFieldSpec> from of an array of field names.
    * E.g. includeFieldSpecs("name", "description")

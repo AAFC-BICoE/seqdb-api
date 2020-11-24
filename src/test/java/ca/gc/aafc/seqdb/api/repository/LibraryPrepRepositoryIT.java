@@ -18,17 +18,15 @@ import org.junit.jupiter.api.Test;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.SampleDto;
-import ca.gc.aafc.seqdb.entities.ContainerType;
-import ca.gc.aafc.seqdb.entities.ContainerType.FillDirection;
-import ca.gc.aafc.seqdb.entities.Group;
-import ca.gc.aafc.seqdb.entities.Product;
-import ca.gc.aafc.seqdb.entities.Protocol;
-import ca.gc.aafc.seqdb.entities.Sample;
-import ca.gc.aafc.seqdb.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.testsupport.factories.ContainerTypeFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.LibraryPrepFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProductFactory;
-import ca.gc.aafc.seqdb.testsupport.factories.ProtocolFactory;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.Product;
+import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 
@@ -57,7 +55,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private LibraryPrep createTestLibraryPrep() {
     
     testContainerType = ContainerTypeFactory.newContainerType()
-        .fillDirection(FillDirection.BY_COLUMN)
         .build();
     
     persist(testContainerType);
@@ -65,17 +62,12 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    Group testGroup = new Group("group name");
-    persistGroup(testGroup);
-    
-    testProtocol = ProtocolFactory.newProtocol(testGroup).build();
-    entityManager.persist(testProtocol.getGroup());
+    testProtocol = ProtocolFactory.newProtocol().build();
     persist(testProtocol);
     
     testSample = new Sample();
     testSample.setName("test sample");
     testSample.setVersion("a");
-    testSample.setExperimenter("Mat Poff");
     
     persist(testSample);
     
@@ -97,13 +89,12 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
       Sample sample = new Sample();
       sample.setName("sample " + i);
       sample.setVersion("a");
-      sample.setExperimenter("Mat Poff");
       testSamples.add(sample);
       persist(sample);
     }
     
     testBatchDto = libraryPrepBatchRepository.findOne(
-        testLibPrep.getLibraryPrepBatch().getId(),
+        testLibPrep.getLibraryPrepBatch().getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class)
     );
     
@@ -118,7 +109,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findLibPrep_whenLibPrepExists_libPrepReturned() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -131,7 +122,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     SampleDto newSample = new SampleDto();
     newSample.setName("new sample");
     newSample.setVersion("a");
-    newSample.setExperimenter("Mat Poff");
     SampleDto newSampleCreated = sampleRepository.create(newSample);
     
     LibraryPrepDto newDto = new LibraryPrepDto();
@@ -141,15 +131,15 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
-    assertNotNull(created.getLibraryPrepId());
+    assertNotNull(created.getUuid());
     assertEquals("test size", created.getSize());
     assertEquals(
-        newSampleCreated.getSampleId(),
-        created.getSample().getSampleId()
+        newSampleCreated.getUuid(),
+        created.getSample().getUuid()
     );
     assertEquals(
-        testLibPrep.getLibraryPrepBatch().getId(),
-        created.getLibraryPrepBatch().getLibraryPrepBatchId()
+        testLibPrep.getLibraryPrepBatch().getUuid(),
+        created.getLibraryPrepBatch().getUuid()
     );
   }
   
@@ -160,7 +150,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     prep1.setWellColumn(5);
     prep1.setSample(
         sampleRepository.findOne(
-            testSamples.get(0).getId(),
+            testSamples.get(0).getUuid(),
             new QuerySpec(SampleDto.class)
         )
     );
@@ -172,7 +162,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     prep2.setWellColumn(5);
     prep2.setSample(
         sampleRepository.findOne(
-            testSamples.get(1).getId(),
+            testSamples.get(1).getUuid(),
             new QuerySpec(SampleDto.class)
         )
     );
@@ -180,7 +170,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     LibraryPrepDto createdPrep2 = libraryPrepRepository.create(prep2);
     LibraryPrepDto updatedPrep1 = libraryPrepRepository.findOne(
-        createdPrep1.getLibraryPrepId(),
+        createdPrep1.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -194,7 +184,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenWellRowLetterInvalid_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("!");
@@ -208,7 +198,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenRowIsSetAndColumnIsNull_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("C");
@@ -226,7 +216,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnIs0_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("A");
@@ -240,7 +230,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnExceedsLimit_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("A");
@@ -258,7 +248,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenRowExceedsLimit_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow("Z");
@@ -276,7 +266,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_whenColumnIsSetAndRowIsNull_throwValidationException() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     dto.setWellRow(null);
@@ -294,7 +284,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Test
   public void updateLibPrep_onSuccess_libPrepUpdated() {
     LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getId(),
+        testLibPrep.getUuid(),
         new QuerySpec(LibraryPrepDto.class)
     );
     
@@ -305,7 +295,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void deleteLibPrep_onSuccess_libPrepDeleted() {
-    libraryPrepRepository.delete(testLibPrep.getId());
+    libraryPrepRepository.delete(testLibPrep.getUuid());
     assertNull(entityManager.find(LibraryPrep.class, testLibPrep.getId()));
   }
   

@@ -25,8 +25,8 @@ public class TomcatWebServerCustomizerIT extends BaseHttpIntegrationTest {
     HttpClient client = HttpClientBuilder.create().build();
     HttpGet request = new HttpGet("http://localhost:"+ testPort + "/api/region?page[limit]=10");
     HttpResponse response = client.execute(request);
-    // Expect status code 401 unauthorized, instead of 400 for illegal square brackets.
-    assertEquals(401, response.getStatusLine().getStatusCode());
+    // Expect sucess code 200, instead of 400 for illegal square brackets.
+    assertEquals(200, response.getStatusLine().getStatusCode());
   }
 
   @Test

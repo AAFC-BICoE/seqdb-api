@@ -1,17 +1,14 @@
-# seqdb-api [![Build Status](https://travis-ci.org/AAFC-BICoE/seqdb-api.svg?branch=dev)](https://travis-ci.org/AAFC-BICoE/seqdb-api)
+# seqdb-api
 
 Sequence management services managing laboratory workflows leading to DNA sequences.
 
 seqdb-api is an implementation of the Sequence Module for the [DINA project](https://www.dina-project.net/).
 
-## Status
-Currently under development, see [Release Notes](RELEASE_NOTES.md) for details.
-
 ## Required
 
-* Java 1.8+
+* Java 11
 * Maven 3.2+
-* PostgreSQL 9.6
+* PostgreSQL 10
 
 ## Run
 

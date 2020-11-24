@@ -20,7 +20,7 @@ public class ChainStepTemplateDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
-  
+
   @JsonApiRelation
   private ChainTemplateDto chainTemplate;
   

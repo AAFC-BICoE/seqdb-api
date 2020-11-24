@@ -23,6 +23,8 @@ public class ContainerTypeDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String group;
+
   private String name;
 
   private Integer numberOfColumns;

@@ -24,6 +24,8 @@ public class SampleDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
+
+  private String group;
   
   // Required Fields
 

@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.entities.libraryprep;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,20 +14,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
+import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
+import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,7 +45,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LibraryPrepBatch {
+public class LibraryPrepBatch implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -102,13 +108,23 @@ public class LibraryPrepBatch {
   private IndexSet indexSet;
   
   @Getter(onMethod = @__({
-    @OneToMany(mappedBy = "libraryPrepBatch")
+    @OneToMany(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
     }))
   private List<LibraryPrep> libraryPreps;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
+  @Getter(onMethod = @__({
+    @OneToOne(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
+    }))
+  @EqualsAndHashCode.Exclude
+  private StepResource stepResource;
+
+  @Transient
+  @Override
+  public String getGroup() {
+    return Optional.ofNullable(this.getStepResource())
+      .map(StepResource::getChain)
+      .map(Chain::getGroup)
+      .orElse(null);
   }
 
 }

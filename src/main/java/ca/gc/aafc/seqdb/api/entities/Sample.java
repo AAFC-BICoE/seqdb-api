@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
@@ -26,6 +25,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +43,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class Sample {
+public class Sample implements DinaEntity {
 
   @AllArgsConstructor
   public enum SampleType {
@@ -92,6 +92,11 @@ public class Sample {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+    }))
+  private String group;
+
   @NotNull
   @Size(max = 50)
   private String name;
@@ -124,10 +129,5 @@ public class Sample {
 
   @Enumerated(EnumType.STRING)
   private SampleType sampleType;
-
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
 
 }

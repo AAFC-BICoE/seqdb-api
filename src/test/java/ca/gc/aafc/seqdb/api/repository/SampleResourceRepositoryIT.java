@@ -75,29 +75,6 @@ public class SampleResourceRepositoryIT extends BaseRepositoryTest {
   }
   
   /**
-   * This test will try to retrieve the persisted entity, but this time only ask to retrieve
-   * specific fields. In this case, the notes should be null since it's not being
-   * requested specifically.
-   */
-  @Test
-  public void findSample_whenFieldsAreSelected_sampleReturnedWithSelectedFieldsOnly() {
-    QuerySpec querySpec = new QuerySpec(SampleDto.class);
-    querySpec.setIncludedFields(includeFieldSpecs("name", "version"));
-
-    // Returned DTO must have correct values: selected fields are present, non-selected
-    // fields are null.
-    SampleDto sampleDto = sampleRepository.findOne(
-        testSample.getUuid(), querySpec
-    );  
-    
-    assertNotNull(sampleDto);
-    assertEquals(testSample.getUuid(), sampleDto.getUuid());
-    assertEquals(TEST_SAMPLE_NAME, sampleDto.getName());
-    assertEquals(TEST_SAMPLE_VERSION, sampleDto.getVersion());
-    assertNull(sampleDto.getNotes());
-  }
-  
-  /**
    * Test the sample repositories create method to ensure it can persisted and retrieved.
    */
   @Test

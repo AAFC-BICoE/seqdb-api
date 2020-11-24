@@ -18,14 +18,14 @@ When developing for SeqDB certain data is needed for the application to run prop
 
 * schema-change
 ** Changes to the schema such as adding new columns, changing table names, adding new tables.
-* initial-data
-** Initial data for developers, this should not be ran on PROD/UAT since it's used for inserting initial data for developers and the data is already in PROD/UAT databases.
+* sample-data
+** sample data for developers, this should not be ran on PROD/UAT since it's used for inserting sample data for developers and the data is already in PROD/UAT databases.
 
-For development purposes, it should automatically run the initial-data when running the application.
+For development purposes, it should automatically run the sample-data when running the application.
 
 For PROD/UAT purposes, the context can be changed by editing the application.yml file which has all of the liquibase configurations. The contexts are a comma separated list of all of the contexts to be performed.
 
-WARNING: Running initial-data on production/UAT will cause liquibase to fail. The initial-data should only be set when you want to create initial data for development purposes or an initial setup of SeqDB.
+WARNING: Running sample-data on production/UAT will cause liquibase to fail. The sample-data should only be set when you want to create sample data for development purposes or an sample setup of SeqDB.
 
 == Liquibase migration file convention
 

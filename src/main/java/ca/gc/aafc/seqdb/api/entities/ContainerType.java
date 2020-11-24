@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
@@ -18,6 +17,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ContainerType {
+public class ContainerType implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -53,6 +53,11 @@ public class ContainerType {
 
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
+
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+    }))
+  private String group;
 
   @NotNull
   @Size(max = 50)
@@ -80,10 +85,5 @@ public class ContainerType {
    */
   public boolean isValidLocation(int columnnumber, int rownumber) {
     return getNumberOfColumns() >= columnnumber && getNumberOfRows() >= rownumber;
-  }
-
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
   }
 }

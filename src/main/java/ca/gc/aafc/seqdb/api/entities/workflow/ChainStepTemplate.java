@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities.workflow;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -11,13 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +41,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChainStepTemplate {
+@SuppressFBWarnings(
+  value = "SE_BAD_FIELD",
+  justification = "ChainStepTemplate must implement Serializable or else ManyToOneType.hydrate fails when linking StepResources to a ChainStepTemplate.")
+public class ChainStepTemplate implements DinaEntity, Serializable {
+
+  private static final long serialVersionUID = -5794571772289124902L;
 
   @Getter(onMethod = @__({
     @Id,
@@ -74,9 +82,10 @@ public class ChainStepTemplate {
   @NotNull
   private Integer stepNumber;
 
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
+  @Transient
+  @Override
+  public String getGroup() {
+    return this.getChainTemplate().getGroup();
   }
 
 }

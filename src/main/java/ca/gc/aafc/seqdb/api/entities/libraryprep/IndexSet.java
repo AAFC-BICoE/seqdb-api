@@ -11,12 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IndexSet {
+public class IndexSet implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,
@@ -47,7 +47,12 @@ public class IndexSet {
 
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
-  
+
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+    }))
+  private String group;
+
   @NotNull
   private String name;
   
@@ -59,10 +64,5 @@ public class IndexSet {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "indexSet")
     }))
   private List<NgsIndex> ngsIndexes;
-
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
 
 }

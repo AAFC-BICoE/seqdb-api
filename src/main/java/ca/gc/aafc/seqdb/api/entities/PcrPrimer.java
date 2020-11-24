@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
@@ -25,6 +24,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +41,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class PcrPrimer {
+public class PcrPrimer implements DinaEntity {
 
   public static final String DIRECTION_FORWARD = "F";
   public static final String DIRECTION_REVERSE = "R";
@@ -74,6 +74,11 @@ public class PcrPrimer {
 
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
+
+  @Getter(onMethod = @__({
+    @Column(name = "groupname")
+    }))
+  private String group;
 
   @NotNull
   @Enumerated(EnumType.STRING)
@@ -146,10 +151,5 @@ public class PcrPrimer {
     @JoinColumn(name = "pooledprimerid")
     }))
   private PcrPrimer pooledPrimer;
-
-  @PrePersist
-  public void prePersist() {
-    this.uuid = UUID.randomUUID();
-  }
 
 }

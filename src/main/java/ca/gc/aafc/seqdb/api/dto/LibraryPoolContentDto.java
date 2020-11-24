@@ -20,7 +20,7 @@ public class LibraryPoolContentDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
-  
+
   @JsonApiRelation
   private LibraryPoolDto libraryPool;
   

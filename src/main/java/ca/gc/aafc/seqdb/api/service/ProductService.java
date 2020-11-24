@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.service.DinaService;
+import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import lombok.NonNull;
 
 @Service
-public class ProductService extends DinaService<Product> {
+public class ProductService extends DefaultDinaService<Product> {
 
   public ProductService(@NonNull BaseDAO baseDAO) {
     super(baseDAO);
@@ -19,16 +19,6 @@ public class ProductService extends DinaService<Product> {
   @Override
   protected void preCreate(Product entity) {
     entity.setUuid(UUID.randomUUID());
-  }
-
-  @Override
-  protected void preDelete(Product entity) {
-
-  }
-
-  @Override
-  protected void preUpdate(Product entity) {
-
   }
   
 }

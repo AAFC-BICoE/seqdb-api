@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.service.DinaService;
+import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import lombok.NonNull;
 
 @Service
-public class ProtocolService extends DinaService<Protocol> {
+public class ProtocolService extends DefaultDinaService<Protocol> {
 
   public ProtocolService(@NonNull BaseDAO baseDAO) {
     super(baseDAO);
@@ -19,16 +19,6 @@ public class ProtocolService extends DinaService<Protocol> {
   @Override
   protected void preCreate(Protocol entity) {
     entity.setUuid(UUID.randomUUID());
-  }
-
-  @Override
-  protected void preDelete(Protocol entity) {
-
-  }
-
-  @Override
-  protected void preUpdate(Protocol entity) {
-
   }
   
 }

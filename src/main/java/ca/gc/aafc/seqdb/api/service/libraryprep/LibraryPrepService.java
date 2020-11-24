@@ -11,7 +11,7 @@ import com.google.common.base.Objects;
 import org.springframework.stereotype.Service;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.service.DinaService;
+import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
@@ -19,7 +19,7 @@ import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
 import lombok.NonNull;
 
 @Service
-public class LibraryPrepService extends DinaService<LibraryPrep> {
+public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   private BaseDAO baseDAO;
 
@@ -32,11 +32,6 @@ public class LibraryPrepService extends DinaService<LibraryPrep> {
   protected void preCreate(LibraryPrep entity) {
     entity.setUuid(UUID.randomUUID());
     this.handleOverlap(entity);
-  }
-
-  @Override
-  protected void preDelete(LibraryPrep entity) {
-
   }
 
   @Override

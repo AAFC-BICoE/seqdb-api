@@ -10,14 +10,14 @@ import javax.validation.ValidationException;
 import org.springframework.stereotype.Service;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.service.DinaService;
+import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
 import lombok.NonNull;
 
 @Service
-public class LibraryPoolContentService extends DinaService<LibraryPoolContent> {
+public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolContent> {
 
   public LibraryPoolContentService(@NonNull BaseDAO baseDAO) {
     super(baseDAO);
@@ -28,16 +28,6 @@ public class LibraryPoolContentService extends DinaService<LibraryPoolContent> {
     entity.setUuid(UUID.randomUUID());
 
     this.validateUniqueIndexSets(entity, entity.getLibraryPool());
-  }
-
-  @Override
-  protected void preDelete(LibraryPoolContent entity) {
-
-  }
-
-  @Override
-  protected void preUpdate(LibraryPoolContent entity) {
-
   }
 
   private void validateUniqueIndexSets(LibraryPoolContent newLpcDto, LibraryPool targetPool) {

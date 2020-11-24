@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
-import ca.gc.aafc.dina.service.DinaService;
+import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.workflow.ChainStepTemplate;
 import lombok.NonNull;
 
 @Service
-public class ChainStepTemplateService extends DinaService<ChainStepTemplate> {
+public class ChainStepTemplateService extends DefaultDinaService<ChainStepTemplate> {
 
   public ChainStepTemplateService(@NonNull BaseDAO baseDAO) {
     super(baseDAO);
@@ -19,16 +19,6 @@ public class ChainStepTemplateService extends DinaService<ChainStepTemplate> {
   @Override
   protected void preCreate(ChainStepTemplate entity) {
     entity.setUuid(UUID.randomUUID());
-  }
-
-  @Override
-  protected void preDelete(ChainStepTemplate entity) {
-
-  }
-
-  @Override
-  protected void preUpdate(ChainStepTemplate entity) {
-
   }
   
 }

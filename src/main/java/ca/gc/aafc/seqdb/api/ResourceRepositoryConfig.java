@@ -68,7 +68,7 @@ public class ResourceRepositoryConfig {
 
     // Map all DTOs to their related Entities.
     Map<Class<?>, Class<?>> entitiesMap = ClassAnnotationHelper
-      .findAnnotatedClasses(ChainDto.class, RelatedEntity.class)
+      .findAnnotatedClasses(RegionDto.class, RelatedEntity.class)
       .stream()
       .collect(
         Collectors.toMap(

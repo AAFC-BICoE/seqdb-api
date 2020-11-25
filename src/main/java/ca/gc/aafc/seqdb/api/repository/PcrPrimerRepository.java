@@ -21,7 +21,7 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
     @NonNull DinaService<PcrPrimer> dinaService,
     @NonNull DinaFilterResolver filterResolver,
     Optional<DinaAuthorizationService> authService,
-    Optional<AuditService> auditService
+    @NonNull Optional<AuditService> auditService
   ) {
     super(
       dinaService,

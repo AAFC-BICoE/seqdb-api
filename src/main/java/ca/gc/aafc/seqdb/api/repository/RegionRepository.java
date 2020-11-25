@@ -21,7 +21,7 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
     @NonNull DinaService<Region> dinaService,
     @NonNull DinaFilterResolver filterResolver,
     Optional<DinaAuthorizationService> authService,
-    Optional<AuditService> auditService
+    @NonNull Optional<AuditService> auditService
   ) {
     super(
       dinaService,

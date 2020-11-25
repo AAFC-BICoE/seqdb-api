@@ -86,7 +86,6 @@ public class PcrPrimerDto {
   // Optional relations
   @ShallowReference
   @JsonApiRelation
-  @NotNull
   private RegionDto region;
 
 }

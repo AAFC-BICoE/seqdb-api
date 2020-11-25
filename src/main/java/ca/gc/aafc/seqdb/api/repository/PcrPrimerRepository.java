@@ -2,8 +2,6 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Repository;
 
 import ca.gc.aafc.dina.filter.DinaFilterResolver;

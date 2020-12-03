@@ -9,6 +9,7 @@ seqdb-api is an implementation of the Sequence Module for the [DINA project](htt
 * Java 11
 * Maven 3.2+
 * PostgreSQL 10
+* Docker
 
 ## Run
 
@@ -50,3 +51,5 @@ Cleanup:
 ```
 docker-compose down
 ```
+
+Automated tests are run using an embedded Docker container.

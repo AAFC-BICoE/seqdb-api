@@ -45,7 +45,7 @@ Start the app (default port is 8084):
 docker-compose up --build
 ```
 
-Once the services have started you can access the endpoints at http://localhost:8084/api/v1
+Once the services have started you can access the endpoints at http://localhost:8084/api/
 
 Cleanup:
 ```

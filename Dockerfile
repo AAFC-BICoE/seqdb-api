@@ -12,6 +12,6 @@ RUN mvn clean install -Dmaven.test.skip=true
 FROM openjdk:11-jre-slim
 RUN useradd -s /bin/bash user
 USER user
-COPY --from=0 -chown=644 /project/target/seqdb.api-*.jar /seqdb-api.jar
+COPY --from=0 --chown=644 /project/target/seqdb.api-*.jar /seqdb-api.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/seqdb-api.jar"]

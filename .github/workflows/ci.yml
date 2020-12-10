@@ -31,9 +31,9 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
 
       - name: Extract Version
-          if: ${{ github.ref == 'refs/heads/master' }}
-          run: |
-            mvn help:evaluate -Dexpression=project.version -q -DforceStdout > version.txt
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: |
+          mvn help:evaluate -Dexpression=project.version -q -DforceStdout > version.txt
       - name: Store artifacts
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-artifact@v2

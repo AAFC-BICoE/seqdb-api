@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ca.gc.aafc.dina.filter.DinaFilterResolver;
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.service.AuditService;
 import ca.gc.aafc.dina.service.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
@@ -19,12 +20,13 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
   public RegionRepository(
     @NonNull DinaService<Region> dinaService,
     @NonNull DinaFilterResolver filterResolver,
-    Optional<DinaAuthorizationService> authService
+    Optional<DinaAuthorizationService> authService,
+    @NonNull Optional<AuditService> auditService
   ) {
     super(
       dinaService,
       authService,
-      Optional.empty(),
+      auditService,
       new DinaMapper<>(RegionDto.class),
       RegionDto.class,
       Region.class,

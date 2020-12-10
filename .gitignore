@@ -5,3 +5,4 @@
 .vscode
 .factorypath
 *.env
+docker-compose.yml

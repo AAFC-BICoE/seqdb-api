@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import org.javers.core.metamodel.annotation.Id;
+import org.javers.core.metamodel.annotation.PropertyName;
+import org.javers.core.metamodel.annotation.ShallowReference;
+import org.javers.core.metamodel.annotation.TypeName;
+
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
@@ -15,12 +20,17 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "pcrPrimer")
+@JsonApiResource(type = PcrPrimerDto.TYPENAME)
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrPrimer.class)
+@TypeName(PcrPrimerDto.TYPENAME)
 public class PcrPrimerDto {
+  
+  public static final String TYPENAME = "pcrPrimer";  
 
   @JsonApiId
+  @Id
+  @PropertyName("id")  
   private UUID uuid;
 
   private String createdBy;
@@ -32,6 +42,7 @@ public class PcrPrimerDto {
 
   private String name;
 
+  @ShallowReference  
   private PrimerType type;
 
   private String seq;
@@ -71,7 +82,7 @@ public class PcrPrimerDto {
   private String stockConcentration;
 
   // Optional relations
-
+  @ShallowReference
   @JsonApiRelation
   private RegionDto region;
 

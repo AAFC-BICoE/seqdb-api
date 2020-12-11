@@ -8,11 +8,12 @@ services:
       - ${BASE_PATH_TO_SEQDB:-.}/src/test/resources/init-test-db.sql:/docker-entrypoint-initdb.d/1-init-schema.sql
     
   seqdb-api:
-    build: ${BASE_PATH_TO_SEQDB:-.}
+    image: aafcbicoe/seqdb-api:2.0.0
+    # build: ${BASE_PATH_TO_SEQDB:-.}
     ports:
       - "8084:8080"
     env_file:
       - ${BASE_PATH_TO_SEQDB:-.}/seqdb-api.env
     networks:
       default:      
-        
+

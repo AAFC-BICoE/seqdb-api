@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Optional;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
 
 import ca.gc.aafc.dina.filter.DinaFilterResolver;
@@ -19,8 +20,8 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
   public LibraryPoolRepository(
     @NonNull DinaService<LibraryPool> dinaService,
     @NonNull DinaFilterResolver filterResolver,
-    Optional<DinaAuthorizationService> authService
-  ) {
+    Optional<DinaAuthorizationService> authService,
+    @NonNull BuildProperties props) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
@@ -38,7 +39,8 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
       LibraryPoolDto.class,
       LibraryPool.class,
       filterResolver,
-      null);
+      null,
+      props);
   }
 
 }

@@ -23,7 +23,9 @@ import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class VocabularyReadOnlyRepository
     extends ReadOnlyResourceRepositoryBase<BaseVocabularyDto, Serializable> {
 

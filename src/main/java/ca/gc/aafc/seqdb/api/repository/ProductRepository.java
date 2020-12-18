@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Optional;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
 
 import ca.gc.aafc.dina.filter.DinaFilterResolver;
@@ -19,8 +20,8 @@ public class ProductRepository extends DinaRepository<ProductDto, Product> {
   public ProductRepository(
     @NonNull DinaService<Product> dinaService,
     @NonNull DinaFilterResolver filterResolver,
-    Optional<DinaAuthorizationService> authService
-  ) {
+    Optional<DinaAuthorizationService> authService,
+    @NonNull BuildProperties props) {
     super(
       dinaService,
       authService,
@@ -29,7 +30,8 @@ public class ProductRepository extends DinaRepository<ProductDto, Product> {
       ProductDto.class,
       Product.class,
       filterResolver,
-      null);
+      null,
+      props);
   }
 
 }

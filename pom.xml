@@ -27,7 +27,7 @@
     <checkstyle.version>8.36</checkstyle.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
     <hibernate-types-52.version>2.9.5</hibernate-types-52.version>
-    <dina-base-api.version>0.42</dina-base-api.version>
+    <dina-base-api.version>0.45</dina-base-api.version>
 
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
   </properties>
@@ -108,6 +108,13 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <includeSystemScope>true</includeSystemScope>
           <fork>${spring-boot-maven-plugin.fork}</fork>

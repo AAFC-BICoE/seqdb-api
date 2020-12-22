@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Optional;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
 
 import ca.gc.aafc.dina.filter.DinaFilterResolver;
@@ -19,8 +20,8 @@ public class LibraryPoolContentRepository extends DinaRepository<LibraryPoolCont
   public LibraryPoolContentRepository(
     @NonNull DinaService<LibraryPoolContent> dinaService,
     @NonNull DinaFilterResolver filterResolver,
-    Optional<DinaAuthorizationService> authService
-  ) {
+    Optional<DinaAuthorizationService> authService,
+    @NonNull BuildProperties props) {
     super(
       dinaService,
       authService,
@@ -29,7 +30,8 @@ public class LibraryPoolContentRepository extends DinaRepository<LibraryPoolCont
       LibraryPoolContentDto.class,
       LibraryPoolContent.class,
       filterResolver,
-      null);
+      null,
+      props);
   }
   
 }

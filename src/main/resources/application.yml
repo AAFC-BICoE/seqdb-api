@@ -20,6 +20,9 @@ crnk:
   # query, so we don't let Crnk automatically call findOneTarget for each null relation.
   config.lookup.behavior.default: NONE
 
+# We shouldn't get "Request header is too large" errors:
+server.max-http-header-size: 10MB
+
 keycloak:
   enabled: false
   realm: dina

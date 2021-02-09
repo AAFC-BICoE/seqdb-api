@@ -27,7 +27,7 @@ import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
-import ca.gc.aafc.seqdb.api.entities.Sample;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
@@ -98,7 +98,7 @@ public class StepResource implements DinaEntity {
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "sampleid")
     }))
-  private Sample sample;
+  private MolecularSample molecularSample;
 
   @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),

@@ -35,7 +35,7 @@ public class LibraryPrepDto {
   private LibraryPrepBatchDto libraryPrepBatch;
   
   @JsonApiRelation
-  private SampleDto sample;
+  private MolecularSampleDto molecularSample;
 
   @JsonApiRelation
   private NgsIndexDto indexI5;

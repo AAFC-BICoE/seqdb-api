@@ -5,8 +5,8 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
-import ca.gc.aafc.seqdb.api.entities.Sample;
-import ca.gc.aafc.seqdb.api.entities.Sample.SampleType;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -14,10 +14,10 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "sample")
+@JsonApiResource(type = "molecularSample")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-@RelatedEntity(Sample.class)
-public class SampleDto {
+@RelatedEntity(MolecularSample.class)
+public class MolecularSampleDto {
 
   @JsonApiId
   private UUID uuid;

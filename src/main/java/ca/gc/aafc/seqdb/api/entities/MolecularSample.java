@@ -35,7 +35,7 @@ import lombok.Setter;
 
 @Entity
 @Table(
-  name = "Samples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
+  name = "MolecularSamples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
 )
 @Getter
 @Setter
@@ -43,7 +43,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class Sample implements DinaEntity {
+public class MolecularSample implements DinaEntity {
 
   @AllArgsConstructor
   public enum SampleType {

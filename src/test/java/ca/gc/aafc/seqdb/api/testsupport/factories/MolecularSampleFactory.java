@@ -3,18 +3,18 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.Sample;
-import ca.gc.aafc.seqdb.api.entities.Sample.SampleBuilder;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample.MolecularSampleBuilder;
 
 /**
  * Creates Sample entities that are populated with all the required fields.
  */
-public class SampleFactory implements TestableEntityFactory<Sample> {
+public class MolecularSampleFactory implements TestableEntityFactory<MolecularSample> {
   
   @Override
-  public Sample getEntityInstance() {
+  public MolecularSample getEntityInstance() {
 
-    return newSample().build();
+    return newMolecularSample().build();
 
   }
 
@@ -24,9 +24,9 @@ public class SampleFactory implements TestableEntityFactory<Sample> {
    * .build() method on a builder,with specified group passed on as parameter
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static Sample.SampleBuilder newSample() {
+  public static MolecularSample.MolecularSampleBuilder newMolecularSample() {
     
-    Sample.SampleBuilder bldr = Sample.builder()
+    MolecularSample.MolecularSampleBuilder bldr = MolecularSample.builder()
         .name(TestableEntityFactory.generateRandomName(10))
         .version(TestableEntityFactory.generateRandomNameLettersOnly(1));
     
@@ -43,7 +43,7 @@ public class SampleFactory implements TestableEntityFactory<Sample> {
    *            The number of Samples populated in the list
    * @return List of Samples
    */
-  public static List<Sample> newListOf(int qty) {
+  public static List<MolecularSample> newListOf(int qty) {
     return newListOf(qty, null);
   }
 
@@ -60,11 +60,11 @@ public class SampleFactory implements TestableEntityFactory<Sample> {
    *            entities in the list.
    * @return List of Sample
    */
-  public static List<Sample> newListOf(int qty,
-      BiFunction<Sample.SampleBuilder, Integer, Sample.SampleBuilder> configuration) {
+  public static List<MolecularSample> newListOf(int qty,
+      BiFunction<MolecularSample.MolecularSampleBuilder, Integer, MolecularSample.MolecularSampleBuilder> configuration) {
 
-    return TestableEntityFactory.newEntity(qty, SampleFactory::newSample, configuration,
-        SampleBuilder::build);
+    return TestableEntityFactory.newEntity(qty, MolecularSampleFactory::newMolecularSample, configuration,
+    MolecularSampleBuilder::build);
   }
 
 }

@@ -31,7 +31,7 @@ public class StepResourceDto {
   private ChainDto chain;
 
   @JsonApiRelation
-  private SampleDto sample;
+  private MolecularSampleDto molecularSample;
 
   @JsonApiRelation
   private PreLibraryPrepDto preLibraryPrep;

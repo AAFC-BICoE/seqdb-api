@@ -16,7 +16,7 @@ public class LibraryPrepFactory implements TestableEntityFactory<LibraryPrep> {
   public static LibraryPrep.LibraryPrepBuilder newLibraryPrep() {
     return LibraryPrep.builder()
         .libraryPrepBatch(LibraryPrepBatchFactory.newLibraryPrepBatch().build())
-        .sample(SampleFactory.newSample().build());
+        .molecularSample(MolecularSampleFactory.newMolecularSample().build());
   }
   
   public static List<LibraryPrep> newListOf(int qty) {

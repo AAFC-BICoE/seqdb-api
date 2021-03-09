@@ -32,15 +32,6 @@
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
   </properties>
 
-  <repositories>
-    <!-- dina-base-api binstray repository -->
-    <repository>
-      <id>bintray-aafc-bice</id>
-      <name>bintray</name>
-      <url>https://dl.bintray.com/aafc-bice/BICoE</url>
-    </repository>
-  </repositories>
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>

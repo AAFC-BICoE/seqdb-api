@@ -11,7 +11,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <guava.version>24.1.1-jre</guava.version>
+    <guava.version>29.0-jre</guava.version>
     <javax.inject.version>1</javax.inject.version>
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
     <javax.interceptor-api>1.2.2</javax.interceptor-api>

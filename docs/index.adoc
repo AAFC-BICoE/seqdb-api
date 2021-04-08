@@ -12,16 +12,12 @@ include::configuration.adoc[]
 
 include::liquibase.adoc[]
 
-include::authentication_strategies.adoc[]
-
-include::group_based_authorization.adoc[]
-
 include::using_the_rest_api.adoc[]
 
 include::bulk_operations.adoc[]
 
 include::jpa_resource_repositories.adoc[]
 
-include::json_schemas.adoc[]
+include::full_genome_workflow.adoc[]
 
 include::uxf_files.adoc[]

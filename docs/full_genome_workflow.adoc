@@ -1,0 +1,71 @@
+= Full Genome Workflow
+
+== Workflows: data model and API
+
+seqdb-api provides a data model for creating Whole Genome Sequencing workflows.
+
+image::seqdb-api-workflow.png[link="seqdb-api-workflow.png"]
+
+=== ChainTemplate
+
+API Endpoints:
+
+* List: /chainTemplate
+* Single resource: /chainTemplate/{id}
+
+Chain Template is the definition of a workflow. It is the blueprint to how a workflow is
+designed. This could also be known as the workflow type, such as SANGER or shotgun.
+
+When creating a brand new workflow instance, you need to select what type of workflow you are
+creating. This entity is the type end users would select.
+
+=== StepTemplate
+
+API Endpoints:
+
+* List: /stepTemplate
+* Single resource: /stepTemplate/{id}
+
+Step Template describes a specific step in a specific workflow. Since a
+workflow is similar to a pipeline, for each step an input and an output must
+be specified or the workflow will break.
+
+A step can also have an optional support step resource.
+
+=== ChainStepTemplate
+
+API Endpoints:
+
+* List: /chainStepTemplate
+* Single resource: /chainStepTemplate/{id}
+
+Since a workflow needs to have a specific set of steps (in a specific order), this is how steps
+are ordered. The chain step template will link to a Chain template (The workflow definition) and
+a Step Template (the actual step to perform) and assign a step number. Without this entity, there
+would be no way to indicate what step is first, second, third, etc...
+
+=== Chain
+
+API Endpoints:
+
+* List: /chain
+* Single resource: /chain/{id}
+
+The chain entity is an instance of a workflow definition (aka. Chain Template). It also contains
+meta data about the chain. A chain needs to have a chain template which describes the workflow
+being performed, and a group which has access to the workflow instance.
+
+=== StepResource
+
+API Endpoints:
+
+* List: /stepResource
+* Single resource: /stepResource/{id}
+
+The Step Resource is used to associate a specific data point to a given workflow step. This could
+also be thought of as the step instance which corresponds to a step template.
+
+The following constraints apply: - Only one foreign key can be used for a resource. (Specimen,
+sample, etc...) - A Step Resource can only be linked to a specific step (ChainStepTemplate) if
+the name of the foreign key being used exists in the corresponding input, output or support array
+inside of the StepTemplate.

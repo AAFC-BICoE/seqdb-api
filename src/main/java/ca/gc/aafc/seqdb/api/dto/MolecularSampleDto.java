@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample.SampleType;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -48,5 +50,9 @@ public class MolecularSampleDto {
 
   @JsonApiRelation
   private ProtocolDto protocol;
+
+  @JsonApiExternalRelation(type = "material-sample")
+  @JsonApiRelation
+  private ExternalRelationDto materialSample;
 
 }

@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.service.AuditService;
 import ca.gc.aafc.dina.service.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
@@ -20,7 +21,8 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
     @NonNull DinaService<PcrPrimer> dinaService,
     Optional<DinaAuthorizationService> authService,
     @NonNull Optional<AuditService> auditService,
-    @NonNull BuildProperties props) {
+    @NonNull BuildProperties props,
+    ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       authService,
@@ -29,7 +31,7 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
       PcrPrimerDto.class,
       PcrPrimer.class,
       null,
-      null,
+      externalResourceProvider,
       props);
   }
 

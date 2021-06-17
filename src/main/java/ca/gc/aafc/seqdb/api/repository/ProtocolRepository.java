@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.service.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
@@ -18,7 +19,8 @@ public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
   public ProtocolRepository(
     @NonNull DinaService<Protocol> dinaService,
     Optional<DinaAuthorizationService> authService,
-    @NonNull BuildProperties props) {
+    @NonNull BuildProperties props,
+    ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       authService,
@@ -27,7 +29,7 @@ public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
       ProtocolDto.class,
       Protocol.class,
       null,
-      null,
+      externalResourceProvider,
       props);
   }
 

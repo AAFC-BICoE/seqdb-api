@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
+import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.service.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
@@ -18,7 +19,8 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
   public LibraryPoolRepository(
     @NonNull DinaService<LibraryPool> dinaService,
     Optional<DinaAuthorizationService> authService,
-    @NonNull BuildProperties props) {
+    @NonNull BuildProperties props,
+    ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
@@ -36,7 +38,7 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
       LibraryPoolDto.class,
       LibraryPool.class,
       null,
-      null,
+      externalResourceProvider,
       props);
   }
 

@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.validation.ValidationException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
@@ -19,8 +20,10 @@ import lombok.NonNull;
 @Service
 public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolContent> {
 
-  public LibraryPoolContentService(@NonNull BaseDAO baseDAO) {
-    super(baseDAO);
+  public LibraryPoolContentService(
+    @NonNull BaseDAO baseDAO,
+    @NonNull SmartValidator sv) {
+    super(baseDAO, sv);
   }
 
   @Override

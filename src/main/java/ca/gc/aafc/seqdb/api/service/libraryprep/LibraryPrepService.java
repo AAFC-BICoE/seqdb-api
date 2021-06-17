@@ -9,6 +9,7 @@ import javax.validation.ValidationException;
 import com.google.common.base.Objects;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
@@ -23,8 +24,10 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   private BaseDAO baseDAO;
 
-  public LibraryPrepService(@NonNull BaseDAO baseDAO) {
-    super(baseDAO);
+  public LibraryPrepService(
+    @NonNull BaseDAO baseDAO,
+    @NonNull SmartValidator sv) {
+    super(baseDAO, sv);
     this.baseDAO = baseDAO;
   }
 

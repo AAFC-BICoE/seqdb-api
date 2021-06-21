@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
@@ -30,6 +31,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_MOLECULAR_SAMPLE_VERSION_CREATE = "molecular sample version";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_UPDATE = "molecular update name";
+
+  private static final UUID TEST_MATERIAL_SAMPLE_UUID = UUID.randomUUID();
   
   @Inject
   private ResourceRepository<MolecularSampleDto, Serializable> molecularSampleRepository;
@@ -46,6 +49,7 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName(TEST_MOLECULAR_SAMPLE_NAME_CREATE);
     testMolecularSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
+    testMolecularSample.setMaterialSample(TEST_MATERIAL_SAMPLE_UUID);
     
     persist(testMolecularSample);
     
@@ -72,6 +76,7 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(testMolecularSample.getUuid(), molecularSampleDto.getUuid());
     assertEquals(TEST_MOLECULAR_SAMPLE_NAME, molecularSampleDto.getName());
     assertEquals(TEST_MOLECULAR_SAMPLE_VERSION, molecularSampleDto.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), molecularSampleDto.getMaterialSample().getId());
   }
   
   /**
@@ -84,6 +89,7 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     MolecularSampleDto newSample = new MolecularSampleDto();
     newSample.setName(newSampleName);
     newSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
+    newSample.setMaterialSample(ExternalRelationDto.builder().id(TEST_MATERIAL_SAMPLE_UUID.toString()).type("material-sample").build());
     
     MolecularSampleDto createdSample = molecularSampleRepository.create(newSample);
     
@@ -91,6 +97,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(createdSample.getUuid());
     assertEquals(newSampleName, createdSample.getName());
     assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, createdSample.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), createdSample.getMaterialSample().getId());
+
     
     //entity has the set value    
     MolecularSample sampleEntity = baseDao.findOneByNaturalId(createdSample.getUuid(), MolecularSample.class);
@@ -98,6 +106,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(sampleEntity.getId());
     assertEquals(newSampleName, sampleEntity.getName());
     assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, sampleEntity.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID, sampleEntity.getMaterialSample());
+
   }
   
   /**

@@ -130,4 +130,6 @@ public class MolecularSample implements DinaEntity {
   @Enumerated(EnumType.STRING)
   private SampleType sampleType;
 
+  private UUID materialSample;
+
 }

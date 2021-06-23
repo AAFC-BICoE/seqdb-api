@@ -89,7 +89,7 @@ public class PreLibraryPrep implements DinaEntity {
 
   private Double inputAmount;
 
-  private Double targetDpSize;
+  private Double targetBpSize;
 
   private Double averageFragmentSize;
 

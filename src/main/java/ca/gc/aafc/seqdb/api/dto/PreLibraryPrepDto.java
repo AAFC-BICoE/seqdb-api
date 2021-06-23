@@ -26,7 +26,7 @@ public class PreLibraryPrepDto {
 
   private Double inputAmount;
 
-  private Double targetDpSize;
+  private Double targetBpSize;
 
   private Double averageFragmentSize;
 

@@ -5,5 +5,6 @@
   <include file="db/changelog/migrations/1-Add_Javers_audit_tables.xml"/>
   <include file="db/changelog/migrations/2-Rename_samples_table.xml"/>  
   <include file="db/changelog/migrations/3-Add_external_relationship_to_MolecularSample.xml"/>  
+  <include file="db/changelog/migrations/4-Update_column_field_targetDpSize_to_targetBpSize.xml"/>  
   <include file="db/changelog/migrations/5-Remove_SampleType.xml"/>  
 </databaseChangeLog>

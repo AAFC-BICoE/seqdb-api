@@ -18,12 +18,12 @@ public class ChainStepTemplateRepository extends DinaRepository<ChainStepTemplat
 
   public ChainStepTemplateRepository(
     @NonNull DinaService<ChainStepTemplate> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(ChainStepTemplateDto.class),
       ChainStepTemplateDto.class,

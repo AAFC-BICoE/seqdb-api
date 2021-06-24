@@ -18,12 +18,12 @@ public class NgsIndexRepository extends DinaRepository<NgsIndexDto, NgsIndex> {
 
   public NgsIndexRepository(
     @NonNull DinaService<NgsIndex> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(NgsIndexDto.class),
       NgsIndexDto.class,

@@ -19,13 +19,13 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
 
   public RegionRepository(
     @NonNull DinaService<Region> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull Optional<AuditService> auditService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       auditService,
       new DinaMapper<>(RegionDto.class),
       RegionDto.class,

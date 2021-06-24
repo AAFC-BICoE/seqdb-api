@@ -12,9 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -23,58 +27,52 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(
-  name = "PcrBatches"
-)
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
-@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
+@RequiredArgsConstructor
+@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
+@NaturalIdCache
 public class PcrBatch implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NaturalId
+  @NotNull
+  @Column(unique = true)
   private UUID uuid;
 
+  @NotBlank
+  @Column(name = "created_by", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "created_on", insertable = false, updatable = false)
+  @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @NotBlank
+  @Column(name = "_group")
   private String group;
 
   private UUID[] experimenters;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(cascade = {}, fetch = FetchType.LAZY),
-    @JoinColumn(name = "PrimerForwardID")    
-    }))
+  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @JoinColumn(name = "primer_forward_id")    
   private PcrPrimer primerForward;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(cascade = {}, fetch = FetchType.LAZY),
-    @JoinColumn(name = "PrimerReverseID")
-    }))
+  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @JoinColumn(name = "primer_reverse_id")
   private PcrPrimer primerReverse;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(cascade = {}, fetch = FetchType.LAZY),
-    @JoinColumn(name = "RegionID")
-    }))
+  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @JoinColumn(name = "region_id")
   private Region region;
   
 }

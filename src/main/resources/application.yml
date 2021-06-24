@@ -6,7 +6,7 @@ spring:
  #   password: postgres
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
-    contexts: schema-change
+    contexts: schema-change, initial-data
     # Physical naming strategy specified to allow @Table name property.
   jpa.hibernate.naming:
     physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

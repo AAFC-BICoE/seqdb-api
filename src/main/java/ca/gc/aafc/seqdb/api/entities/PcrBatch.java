@@ -31,11 +31,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 @RequiredArgsConstructor
@@ -45,7 +43,7 @@ import lombok.Setter;
   name = "list-array",
   typeClass = ListArrayType.class
 )
-public class PcrReaction implements DinaEntity {
+public class PcrBatch implements DinaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,15 +67,19 @@ public class PcrReaction implements DinaEntity {
   private String group;
 
   @Type(type = "list-array")
-  @Column(name = "attachment", columnDefinition = "uuid[]")
-  private List<UUID> attachment = new ArrayList<>();
+  @Column(name = "experimenters", columnDefinition = "uuid[]")
+  private List<UUID> experimenters = new ArrayList<>();
 
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "pcr_batch_id")
-  private PcrBatch pcrBatch;
+  @JoinColumn(name = "primer_forward_id")    
+  private PcrPrimer primerForward;
 
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "sample_id")
-  private MolecularSample sample;
+  @JoinColumn(name = "primer_reverse_id")
+  private PcrPrimer primerReverse;
+
+  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @JoinColumn(name = "region_id")
+  private Region region;
   
 }

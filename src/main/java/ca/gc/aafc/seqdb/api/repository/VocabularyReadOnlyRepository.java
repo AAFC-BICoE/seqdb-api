@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.api.entities.PcrProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Region;
@@ -38,7 +38,7 @@ public class VocabularyReadOnlyRepository
           Region.class, 
           PcrPrimer.class, 
           Product.class,
-          PcrProfile.class,
+          ThermocycleProfile.class,
           Protocol.class,
           MolecularSample.class
          ));

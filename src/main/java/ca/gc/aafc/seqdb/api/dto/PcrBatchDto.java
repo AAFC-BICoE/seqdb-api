@@ -23,7 +23,7 @@ import lombok.Data;
 @TypeName(PcrBatchDto.TYPENAME)
 public class PcrBatchDto {
 
-  public static final String TYPENAME = "pcrBatch";  
+  public static final String TYPENAME = "pcr-batch";  
 
   @JsonApiId
   @Id
@@ -34,7 +34,7 @@ public class PcrBatchDto {
   private OffsetDateTime createdOn;
 
   private String group;
-  
+
   private List<UUID> experimenters;
 
   @JsonApiRelation

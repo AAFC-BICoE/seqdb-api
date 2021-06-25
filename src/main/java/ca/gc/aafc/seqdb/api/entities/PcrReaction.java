@@ -52,11 +52,9 @@ public class PcrReaction implements DinaEntity {
   private Integer id;
 
   @NaturalId
-  @NotNull
   @Column(unique = true)
   private UUID uuid;
 
-  @NotBlank
   @Column(name = "created_by", updatable = false)
   private String createdBy;
 

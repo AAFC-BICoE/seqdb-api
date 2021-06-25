@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,49 +9,48 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
+import ca.gc.aafc.dina.testsupport.security.WithMockKeycloakUser;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import ca.gc.aafc.seqdb.api.service.PcrBatchService;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PcrBatchFactory;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
+
+import org.springframework.boot.test.context.SpringBootTest;
+
 import io.crnk.core.queryspec.QuerySpec;
 
+@SpringBootTest(properties = "keycloak.enabled=true")
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
-  private PcrBatch testPcrBatch;
+  @Inject
+  protected PcrBatchRepository pcrBatchRepository;
 
-  //@Inject
-  //protected PcrBatchRepository pcrBatchRepository;
+  @Test
+  @WithMockKeycloakUser(username = "test user", groupRole = {"aafc: staff"})
+  public void findPcrBatch_whenPcrBatchExists_PcrBatchReturned() {
 
-  // private void createTestIndex() {
-  //   testPcrBatch = PcrBatchFactory.newPcrBatch().build();
-  //   PcrBatchRepository
+    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
     
-  // }
+    PcrBatchDto created = pcrBatchRepository.create(newDto);
 
-  // @BeforeEach
-  // public void setup() {
-  //   createTestIndex();
-  // }
+    PcrBatchDto found = pcrBatchRepository.findOne(
+        created.getUuid(),
+        new QuerySpec(PcrBatchDto.class)
+    );
+    
+    assertNotNull(found);
+    assertEquals(created.getGroup(), found.getGroup());
+  }
   
-  // @Test
-  // public void findPcrBatch_whenPcrBatchExists_PcrBatchReturned() {
-  //   PcrBatchDto dto = pcrBatchRepository.findOne(
-  //       testPcrBatch.getUuid(),
-  //       new QuerySpec(PcrBatchDto.class)
-  //   );
+  @Test
+  @WithMockKeycloakUser(username = "test user", groupRole = {"aafc: staff"})
+  public void createPcrBatch_onSuccess_PcrBatchCreated() {
+    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
     
-  //   assertNotNull(dto);
-  //   assertEquals("test index", testPcrBatch.getName());
-  // }
-  
-  // @Test
-  // public void createPcrBatch_onSuccess_PcrBatchCreated() {
-  //   PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-    
-  //   PcrBatchDto created = pcrBatchRepository.create(newDto);
-  //   assertNotNull(created.getUuid());
-  // }
+    PcrBatchDto created = pcrBatchRepository.create(newDto);
+    assertNotNull(created.getUuid());
+  }
   
   // @Test
   // public void updatePcrBatch_onSuccess_PcrBatchUpdated() {

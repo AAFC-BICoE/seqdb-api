@@ -18,12 +18,12 @@ public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
 
   public ProtocolRepository(
     @NonNull DinaService<Protocol> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(ProtocolDto.class),
       ProtocolDto.class,

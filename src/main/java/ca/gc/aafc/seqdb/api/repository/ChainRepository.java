@@ -18,12 +18,12 @@ public class ChainRepository extends DinaRepository<ChainDto, Chain> {
 
   public ChainRepository(
     @NonNull DinaService<Chain> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(ChainDto.class),
       ChainDto.class,

@@ -18,13 +18,13 @@ public class PreLibraryPrepRepository extends DinaRepository<PreLibraryPrepDto, 
 
   public PreLibraryPrepRepository(
     @NonNull DinaService<PreLibraryPrep> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
-      authService.map(auth -> new DinaAuthorizationService() {
+      groupAuthorizationService.map(auth -> new DinaAuthorizationService() {
         public void authorizeCreate(Object entity) { };
         public void authorizeDelete(Object entity) {
           auth.authorizeDelete(entity);

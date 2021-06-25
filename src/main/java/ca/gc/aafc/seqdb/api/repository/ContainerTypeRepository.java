@@ -18,12 +18,12 @@ public class ContainerTypeRepository extends DinaRepository<ContainerTypeDto, Co
 
   public ContainerTypeRepository(
     @NonNull DinaService<ContainerType> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(ContainerTypeDto.class),
       ContainerTypeDto.class,

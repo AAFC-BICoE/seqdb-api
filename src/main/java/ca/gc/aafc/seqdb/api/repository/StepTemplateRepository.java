@@ -18,12 +18,12 @@ public class StepTemplateRepository extends DinaRepository<StepTemplateDto, Step
 
   public StepTemplateRepository(
     @NonNull DinaService<StepTemplate> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(StepTemplateDto.class),
       StepTemplateDto.class,

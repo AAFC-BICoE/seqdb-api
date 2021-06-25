@@ -18,12 +18,12 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
 
   public IndexSetRepository(
     @NonNull DinaService<IndexSet> dinaService,
-    Optional<DinaAuthorizationService> authService,
+    Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(IndexSetDto.class),
       IndexSetDto.class,

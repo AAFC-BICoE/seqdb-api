@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,11 +32,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 @RequiredArgsConstructor
@@ -70,7 +69,7 @@ public class PcrReaction implements DinaEntity {
 
   @Type(type = "list-array")
   @Column(name = "attachment", columnDefinition = "uuid[]")
-  private List<UUID> attachment = new ArrayList<>();
+  private List<UUID> attachment = Collections.emptyList();
 
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "pcr_batch_id")

@@ -1,7 +1,7 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,7 +68,7 @@ public class PcrBatch implements DinaEntity {
 
   @Type(type = "list-array")
   @Column(name = "experimenters", columnDefinition = "uuid[]")
-  private List<UUID> experimenters = new ArrayList<>();
+  private List<UUID> experimenters = Collections.emptyList();
 
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_forward_id")    

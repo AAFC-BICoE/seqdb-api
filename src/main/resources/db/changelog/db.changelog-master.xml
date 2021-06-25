@@ -10,4 +10,5 @@
   <include file="db/changelog/migrations/5-Remove_SampleType.xml"/>
   <include file="db/changelog/migrations/6-Create_PcrBatch_entity.xml"/>
   <include file="db/changelog/migrations/7-Rename_PcrProfile_to_ThermocyclerProfile.xml"/>
+  <include file="db/changelog/migrations/8-Create_PcrReaction_entity.xml"/>
 </databaseChangeLog>

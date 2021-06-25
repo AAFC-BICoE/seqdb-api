@@ -4,8 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Id;
-
+import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
@@ -18,7 +17,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = PcrPrimerDto.TYPENAME)
+@JsonApiResource(type = PcrBatchDto.TYPENAME)
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrBatch.class)
 @TypeName(PcrBatchDto.TYPENAME)

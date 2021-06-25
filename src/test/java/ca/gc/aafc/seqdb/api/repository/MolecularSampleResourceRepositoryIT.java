@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -20,7 +19,6 @@ import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
 
@@ -33,9 +31,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_MOLECULAR_SAMPLE_NAME_UPDATE = "molecular update name";
 
   private static final UUID TEST_MATERIAL_SAMPLE_UUID = UUID.randomUUID();
-  
-  @Inject
-  private ResourceRepository<MolecularSampleDto, Serializable> molecularSampleRepository;
 
   @Inject
   private BaseDAO baseDao;

@@ -3,10 +3,6 @@ package ca.gc.aafc.seqdb.api.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +12,12 @@ import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class ProtocolResourceRepositoryIT extends BaseRepositoryTest{
 
   private static final String TEST_PROTOCOL_NAME = "test protocol";
 
   private static final ProtocolType TEST_PROTOCOL_TYPE = ProtocolType.COLLECTION_EVENT;
-  
-  @Inject
-  private ResourceRepository<ProtocolDto, Serializable> protocolRepository;
   
   private Protocol testProtocol;
   

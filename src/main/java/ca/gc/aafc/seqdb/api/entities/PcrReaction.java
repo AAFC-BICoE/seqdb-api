@@ -1,7 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

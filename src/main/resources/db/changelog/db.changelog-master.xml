@@ -2,10 +2,13 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
   <include file="db/changelog/db.changelog-init.xml"/>
   <include file="db/changelog/sample-data/1-Add_Sample_Data.xml"/>
-  <include file="db/changelog/initial-data/1-Initial_workflow_data.xml"/>  
+  <include file="db/changelog/initial-data/1-Initial_workflow_data.xml"/>
   <include file="db/changelog/migrations/1-Add_Javers_audit_tables.xml"/>
-  <include file="db/changelog/migrations/2-Rename_samples_table.xml"/>  
-  <include file="db/changelog/migrations/3-Add_external_relationship_to_MolecularSample.xml"/>  
-  <include file="db/changelog/migrations/4-Update_column_field_targetDpSize_to_targetBpSize.xml"/>  
-  <include file="db/changelog/migrations/5-Remove_SampleType.xml"/>  
+  <include file="db/changelog/migrations/2-Rename_samples_table.xml"/>
+  <include file="db/changelog/migrations/3-Add_external_relationship_to_MolecularSample.xml"/>
+  <include file="db/changelog/migrations/4-Update_column_field_targetDpSize_to_targetBpSize.xml"/>
+  <include file="db/changelog/migrations/5-Remove_SampleType.xml"/>
+  <include file="db/changelog/migrations/6-Create_PcrBatch_entity.xml"/>
+  <include file="db/changelog/migrations/7-Rename_PcrProfile_to_ThermocyclerProfile.xml"/>
+  <include file="db/changelog/migrations/8-Create_PcrReaction_entity.xml"/>
 </databaseChangeLog>

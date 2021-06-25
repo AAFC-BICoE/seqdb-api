@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-  name = "PcrProfiles",
+  name = "thermocycler_profile",
   uniqueConstraints = { @UniqueConstraint(columnNames = "Name") }
 )
 @Data
@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class PcrProfile implements DinaEntity {
+public class ThermocycleProfile implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,

@@ -29,7 +29,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 @RequiredArgsConstructor

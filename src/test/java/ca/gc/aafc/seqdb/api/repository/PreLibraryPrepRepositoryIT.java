@@ -40,6 +40,9 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private PreLibraryPrepRepository preLibraryPrepRepository;
   
   private PreLibraryPrep testPreLibraryPrep;
   

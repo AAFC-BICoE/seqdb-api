@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -12,6 +14,9 @@ import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
+
+  @Inject
+  private ContainerTypeRepository containerTypeRepository;
 
   private static final String TEST_CONTAINERTYPE_NAME = "test ct";
   private static final Integer TEST_CONTAINERTYPE_COLS = 8;

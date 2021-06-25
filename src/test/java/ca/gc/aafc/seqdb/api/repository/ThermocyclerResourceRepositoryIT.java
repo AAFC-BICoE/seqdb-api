@@ -28,6 +28,9 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private ThermocyclerProfileRepository thermocyclerProfileRepository;
   
   private ThermocycleProfile testThermocycleProfile;
   

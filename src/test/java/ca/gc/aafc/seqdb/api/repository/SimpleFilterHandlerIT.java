@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
@@ -16,6 +18,9 @@ import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class SimpleFilterHandlerIT extends BaseRepositoryTest {
+
+  @Inject
+  private PcrPrimerRepository pcrPrimerRepository;
   
   @Test
   public void searchPrimers_whenNameFilterIsSet_filteredPrimersAreReturned() {

@@ -34,8 +34,7 @@ public class PcrBatchDto {
   private OffsetDateTime createdOn;
 
   private String group;
-
-  @JsonApiRelation
+  
   private List<UUID> experimenters;
 
   @JsonApiRelation

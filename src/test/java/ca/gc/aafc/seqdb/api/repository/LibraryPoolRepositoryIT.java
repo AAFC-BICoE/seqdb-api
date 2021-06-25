@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,9 @@ import io.crnk.core.queryspec.QuerySpec;
 public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPool testPool;
+
+  @Inject
+  private LibraryPoolRepository libraryPoolRepository;
   
   private LibraryPool createTestPool() {
     testPool = LibraryPoolFactory.newLibraryPool().name("test pool").build();

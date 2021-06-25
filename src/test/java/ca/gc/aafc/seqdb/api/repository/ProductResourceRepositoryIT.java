@@ -31,6 +31,9 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private ProductRepository productRepository;
   
   private Product testProduct;
   

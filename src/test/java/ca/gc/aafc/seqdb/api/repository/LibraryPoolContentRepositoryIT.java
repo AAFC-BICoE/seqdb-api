@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import javax.inject.Inject;
 import javax.validation.ValidationException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,15 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
   // Non-pooled LibraryPrepBatch using test index set 2:
   private LibraryPrepBatch testBatchUnpooled;
   private LibraryPrepBatchDto testBatchDtoUnpooled;
+
+  @Inject
+  private LibraryPoolRepository libraryPoolRepository;
+
+  @Inject
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
+  @Inject
+  private LibraryPoolContentRepository libraryPoolContentRepository;
 
   private LibraryPoolContent createTestLpc() {
     testIndexSet1 = IndexSetFactory.newIndexSet().name("test index set 1").build();

@@ -18,6 +18,7 @@ import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
@@ -35,7 +36,8 @@ public class VocabularyReadOnlyRepository
    */
   private static final Set<Class<?>> EXPOSED_ENTITY_CLASSES = new HashSet<>(
       Arrays.asList(
-          Region.class, 
+          Region.class,
+          PcrBatch.class,
           PcrPrimer.class, 
           Product.class,
           ThermocycleProfile.class,

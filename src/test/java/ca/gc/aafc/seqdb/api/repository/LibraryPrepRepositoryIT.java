@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.validation.ValidationException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,15 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private Protocol testProtocol;
   private MolecularSample testMolecularSample;
   private List<MolecularSample> testSamples;
+
+  @Inject
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
+  @Inject
+  private LibraryPrepRepository libraryPrepRepository;
+
+  @Inject
+  private MolecularSampleRepository molecularSampleRepository;
   
   private LibraryPrep createTestLibraryPrep() {
     

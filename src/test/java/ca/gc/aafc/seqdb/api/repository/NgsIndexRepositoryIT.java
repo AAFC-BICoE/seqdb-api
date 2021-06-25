@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,12 @@ import io.crnk.core.queryspec.QuerySpec;
 public class NgsIndexRepositoryIT extends BaseRepositoryTest {
 
   private NgsIndex testNgsIndex;
+
+  @Inject
+  private NgsIndexRepository ngsIndexRepository;
+
+  @Inject
+  private IndexSetRepository indexSetRepository;
 
   private void createTestIndex() {
     testNgsIndex = NgsIndexFactory.newNgsIndex().build();

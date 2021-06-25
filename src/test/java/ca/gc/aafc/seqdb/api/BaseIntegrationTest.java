@@ -53,48 +53,6 @@ public abstract class BaseIntegrationTest {
 
   @Inject
   protected DatabaseSupportService service;
-
-  @Inject
-  protected ContainerTypeRepository containerTypeRepository;
-
-  @Inject
-  protected IndexSetRepository indexSetRepository;
-
-  @Inject
-  protected LibraryPoolRepository libraryPoolRepository;
-
-  @Inject
-  protected LibraryPoolContentRepository libraryPoolContentRepository;
-
-  @Inject
-  protected LibraryPrepBatchRepository libraryPrepBatchRepository;
-
-  @Inject
-  protected LibraryPrepRepository libraryPrepRepository;
-
-  @Inject
-  protected MolecularSampleRepository molecularSampleRepository;
-
-  @Inject
-  protected ProductRepository productRepository;
-
-  @Inject
-  protected ProtocolRepository protocolRepository;
-
-  @Inject
-  protected NgsIndexRepository ngsIndexRepository;
-
-  @Inject
-  protected PreLibraryPrepRepository preLibraryPrepRepository;
-
-  @Inject
-  protected PcrPrimerRepository pcrPrimerRepository;
-
-  @Inject
-  protected ThermocyclerProfileRepository thermocyclerProfileRepository;
-
-  @Inject
-  protected PcrBatchRepository pcrBatchRepository;
   
   /**
    * Accepts a {@link Consumer} of {@link EntityManager} that will be called in a new, unmanaged transaction.

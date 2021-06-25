@@ -14,7 +14,7 @@ import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.resource.list.ResourceList;
 
-public class VocabularyDtoRepositoryIT extends BaseRepositoryTest{
+public class VocabularyDtoRepositoryIT extends BaseRepositoryTest {
   
   //list of current enums we expect to be returned, add more as we expose more entities.
   private BaseVocabularyDto primerType = new BaseVocabularyDto(PrimerType.class.getSimpleName(), PrimerType.class.getEnumConstants());

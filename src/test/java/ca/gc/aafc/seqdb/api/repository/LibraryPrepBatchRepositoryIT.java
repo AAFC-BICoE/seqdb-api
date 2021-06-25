@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +31,18 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   private LibraryPrepBatch testBatch;
   private Product testProduct;
   private Protocol testProtocol;
+
+  @Inject
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
+  @Inject
+  private ContainerTypeRepository containerTypeRepository;
+
+  @Inject
+  private ProductRepository productRepository;
+
+  @Inject
+  private ProtocolRepository protocolRepository;
   
   private LibraryPrepBatch createTestBatch() {
     testContainerType = ContainerTypeFactory.newContainerType()

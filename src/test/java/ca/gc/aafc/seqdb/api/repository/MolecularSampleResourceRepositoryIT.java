@@ -33,6 +33,9 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private static final UUID TEST_MATERIAL_SAMPLE_UUID = UUID.randomUUID();
 
   @Inject
+  private MolecularSampleRepository molecularSampleRepository;
+
+  @Inject
   private BaseDAO baseDao;
   
   private MolecularSample testMolecularSample;

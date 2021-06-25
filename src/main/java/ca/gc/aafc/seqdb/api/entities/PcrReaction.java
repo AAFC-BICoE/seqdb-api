@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -41,6 +42,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @NaturalIdCache
+@Table(name = "pcr_reaction")
 @TypeDef(
   name = "list-array",
   typeClass = ListArrayType.class
@@ -52,9 +54,11 @@ public class PcrReaction implements DinaEntity {
   private Integer id;
 
   @NaturalId
+  @NotNull
   @Column(unique = true)
   private UUID uuid;
 
+  @NotBlank
   @Column(name = "created_by", updatable = false)
   private String createdBy;
 

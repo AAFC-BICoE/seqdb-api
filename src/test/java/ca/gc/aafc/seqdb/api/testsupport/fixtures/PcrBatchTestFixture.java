@@ -9,6 +9,7 @@ public class PcrBatchTestFixture {
   public static PcrBatchDto newPcrBatch() {
     PcrBatchDto pcrBatchDto = new PcrBatchDto();
     pcrBatchDto.setGroup(GROUP);
+    pcrBatchDto.setCreatedBy("createdBy");
     return pcrBatchDto;
   }
   

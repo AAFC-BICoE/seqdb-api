@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.Serializable;
-
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +22,6 @@ import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepBatchFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -36,17 +33,17 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   private Protocol testProtocol;
 
   @Inject
-  private ResourceRepository<LibraryPrepBatchDto, Serializable> libraryPrepBatchRepository;
-  
-  @Inject
-  private ResourceRepository<ContainerTypeDto, Serializable> ctRepository;
-  
-  @Inject
-  private ResourceRepository<ProductDto, Serializable> productRepository;
-  
-  @Inject
-  private ResourceRepository<ProtocolDto, Serializable> protocolRepository;
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
 
+  @Inject
+  private ContainerTypeRepository containerTypeRepository;
+
+  @Inject
+  private ProductRepository productRepository;
+
+  @Inject
+  private ProtocolRepository protocolRepository;
+  
   private LibraryPrepBatch createTestBatch() {
     testContainerType = ContainerTypeFactory.newContainerType()
         .build();
@@ -96,7 +93,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");
     newDto.setContainerType(
-        ctRepository.findOne(
+      containerTypeRepository.findOne(
             testContainerType.getUuid(),
             new QuerySpec(ContainerTypeDto.class)
         )

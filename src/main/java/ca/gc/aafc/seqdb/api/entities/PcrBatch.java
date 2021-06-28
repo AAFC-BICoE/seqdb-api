@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -31,14 +32,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Getter
 @AllArgsConstructor
 @Builder
+@Setter
+@Getter
 @RequiredArgsConstructor
-@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
+@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 @NaturalIdCache
+@Table(name = "pcr_batch")
 @TypeDef(
   name = "list-array",
   typeClass = ListArrayType.class
@@ -70,15 +74,15 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "experimenters", columnDefinition = "uuid[]")
   private List<UUID> experimenters = Collections.emptyList();
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_forward_id")    
   private PcrPrimer primerForward;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_reverse_id")
   private PcrPrimer primerReverse;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "region_id")
   private Region region;
   

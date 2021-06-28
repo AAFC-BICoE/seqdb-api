@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
-
 import javax.inject.Inject;
 import javax.validation.ValidationException;
 
@@ -25,7 +23,6 @@ import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPoolContentFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPoolFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepBatchFactory;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
   // LPC with pooled LibraryPrepBatch using testIndexSet1:
@@ -37,13 +34,15 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
   // Non-pooled LibraryPrepBatch using test index set 2:
   private LibraryPrepBatch testBatchUnpooled;
   private LibraryPrepBatchDto testBatchDtoUnpooled;
-  
+
   @Inject
-  private ResourceRepository<LibraryPoolDto, Serializable> poolRepository;
+  private LibraryPoolRepository libraryPoolRepository;
+
   @Inject
-  private ResourceRepository<LibraryPoolContentDto, Serializable> lpcRepository;
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
   @Inject
-  private ResourceRepository<LibraryPrepBatchDto, Serializable> batchRepository;
+  private LibraryPoolContentRepository libraryPoolContentRepository;
 
   private LibraryPoolContent createTestLpc() {
     testIndexSet1 = IndexSetFactory.newIndexSet().name("test index set 1").build();
@@ -64,7 +63,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
         .indexSet(testIndexSet2)
         .build();
     persist(testBatchUnpooled);
-    testBatchDtoUnpooled = batchRepository.findOne(testBatchUnpooled.getUuid(),
+    testBatchDtoUnpooled = libraryPrepBatchRepository.findOne(testBatchUnpooled.getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class));
 
     // This is needed in the tests to initialize the PersistentBags for the entities to-many list
@@ -84,7 +83,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void findLpc_whenExists_lpcReturned() {
-    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getUuid(),
+    LibraryPoolContentDto dto = libraryPoolContentRepository.findOne(testLpc.getUuid(),
         new QuerySpec(LibraryPoolContentDto.class));
 
     assertNotNull(dto);
@@ -96,13 +95,13 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     LibraryPoolContentDto dto = new LibraryPoolContentDto();
 
     // Add to same pool as the test LPC.
-    dto.setLibraryPool(poolRepository.findOne(testLpc.getLibraryPool().getUuid(),
+    dto.setLibraryPool(libraryPoolRepository.findOne(testLpc.getLibraryPool().getUuid(),
         new QuerySpec(LibraryPoolDto.class)));
 
     // Pool a new batch.
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
-    LibraryPoolContentDto created = lpcRepository.create(dto);
+    LibraryPoolContentDto created = libraryPoolContentRepository.create(dto);
     assertNotNull(created.getUuid());
     // Assert parent pool:
     assertEquals(testLpc.getLibraryPool().getUuid(), created.getLibraryPool().getUuid());
@@ -113,19 +112,19 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void updateLpc_onSuccess_lpcUpdated() {
-    LibraryPoolContentDto dto = lpcRepository.findOne(testLpc.getUuid(),
+    LibraryPoolContentDto dto = libraryPoolContentRepository.findOne(testLpc.getUuid(),
         new QuerySpec(LibraryPoolContentDto.class));
 
     dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
 
-    LibraryPoolContentDto updated = lpcRepository.save(dto);
+    LibraryPoolContentDto updated = libraryPoolContentRepository.save(dto);
     assertEquals(testBatchDtoUnpooled.getUuid(),
         updated.getPooledLibraryPrepBatch().getUuid());
   }
 
   @Test
   public void deleteLpc_onSuccess_lpcDeleted() {
-    lpcRepository.delete(testLpc.getUuid());
+    libraryPoolContentRepository.delete(testLpc.getUuid());
     assertNull(entityManager.find(LibraryPoolContent.class, testLpc.getId()));
   }
 
@@ -133,7 +132,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
   public void createLpc_onDuplicatePooledIndexSet_throwValidationException() {
     LibraryPoolContentDto newLpc = new LibraryPoolContentDto();
     newLpc.setLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
@@ -145,7 +144,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     
     ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> lpcRepository.create(newLpc)
+        () -> libraryPoolContentRepository.create(newLpc)
     );
     
     assertEquals(
@@ -193,13 +192,13 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     // Create the LPC to add sub-pool 2 to the initial test pool:
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
@@ -207,7 +206,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     
     ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> lpcRepository.create(pooledPoolLpc2)
+        () -> libraryPoolContentRepository.create(pooledPoolLpc2)
     );
     
     assertEquals(
@@ -255,19 +254,19 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     // Create the LPC to add sub-pool 2 to the initial test pool:
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     
-    LibraryPoolContentDto createdPooledPoolLpc2 = lpcRepository.create(pooledPoolLpc2);
+    LibraryPoolContentDto createdPooledPoolLpc2 = libraryPoolContentRepository.create(pooledPoolLpc2);
     assertNotNull(createdPooledPoolLpc2.getUuid());
   }
   
@@ -309,13 +308,13 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     // Create the LPC to add sub-pool 2 to the initial test pool:
     LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
     pooledPoolLpc2.setLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testLpc.getLibraryPool().getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
     );
     pooledPoolLpc2.setPooledLibraryPool(
-        poolRepository.findOne(
+        libraryPoolRepository.findOne(
             testSubPool2.getUuid(),
             new QuerySpec(LibraryPoolDto.class)
         )
@@ -323,7 +322,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTest {
     
     ValidationException exception = assertThrows(
         ValidationException.class,
-        () -> lpcRepository.create(pooledPoolLpc2)
+        () -> libraryPoolContentRepository.create(pooledPoolLpc2)
     );
     
     assertEquals(

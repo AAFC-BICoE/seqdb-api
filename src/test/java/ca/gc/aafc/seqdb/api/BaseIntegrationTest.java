@@ -17,6 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.gc.aafc.dina.testsupport.DatabaseSupportService;
 import ca.gc.aafc.dina.testsupport.PostgresTestContainerInitializer;
+import ca.gc.aafc.seqdb.api.repository.ContainerTypeRepository;
+import ca.gc.aafc.seqdb.api.repository.IndexSetRepository;
+import ca.gc.aafc.seqdb.api.repository.LibraryPoolContentRepository;
+import ca.gc.aafc.seqdb.api.repository.LibraryPoolRepository;
+import ca.gc.aafc.seqdb.api.repository.LibraryPrepBatchRepository;
+import ca.gc.aafc.seqdb.api.repository.LibraryPrepRepository;
+import ca.gc.aafc.seqdb.api.repository.MolecularSampleRepository;
+import ca.gc.aafc.seqdb.api.repository.NgsIndexRepository;
+import ca.gc.aafc.seqdb.api.repository.PcrBatchRepository;
+import ca.gc.aafc.seqdb.api.repository.PcrPrimerRepository;
+import ca.gc.aafc.seqdb.api.repository.PreLibraryPrepRepository;
+import ca.gc.aafc.seqdb.api.repository.ProductRepository;
+import ca.gc.aafc.seqdb.api.repository.ProtocolRepository;
+import ca.gc.aafc.seqdb.api.repository.ThermocyclerProfileRepository;
 
 /**
  * 

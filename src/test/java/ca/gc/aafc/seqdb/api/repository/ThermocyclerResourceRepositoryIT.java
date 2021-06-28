@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -19,7 +18,6 @@ import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ThermocyclerProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
@@ -27,12 +25,12 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_PROFILE_NAME = "test name";
   
   private static final String TEST_PROFILE_CYCLE = "Cycle";
-  
-  @Inject
-  private ResourceRepository<ThermocyclerProfileDto, Serializable> thermoRepository;
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private ThermocyclerProfileRepository thermocyclerProfileRepository;
   
   private ThermocycleProfile testThermocycleProfile;
   
@@ -108,7 +106,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findThermocyclerProfile_whenNoFieldsAreSelected_productReturnedWithAllFields() {
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testThermocycleProfile.getUuid(), new QuerySpec(ThermocyclerProfileDto.class));
+    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocycleProfile.getUuid(), new QuerySpec(ThermocyclerProfileDto.class));
     assertNotNull(thermoDto);
     assertEquals(testThermocycleProfile.getUuid(), thermoDto.getUuid());
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
@@ -127,7 +125,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     baseDto.setCycles(TEST_PROFILE_CYCLE);
     
     //create the DTO in the repository
-    ThermocyclerProfileDto createdDto = thermoRepository.create(baseDto);
+    ThermocyclerProfileDto createdDto = thermocyclerProfileRepository.create(baseDto);
     
     //Assert DTO has the set values
     assertNotNull(createdDto.getUuid());
@@ -150,11 +148,11 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     
     QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
     
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testThermocycleProfile.getUuid(), querySpec);
+    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocycleProfile.getUuid(), querySpec);
     
     thermoDto.setCycles("new cycles");
     
-    thermoRepository.save(thermoDto);
+    thermocyclerProfileRepository.save(thermoDto);
     
     assertEquals("new cycles", testThermocycleProfile.getCycles());
     
@@ -162,7 +160,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void deleteThermocycleProfile_callRepositoryDeleteOnID_profileNotFound() {
-    thermoRepository.delete(testThermocycleProfile.getUuid());
+    thermocyclerProfileRepository.delete(testThermocycleProfile.getUuid());
     assertNull(entityManager.find(ThermocycleProfile.class, testThermocycleProfile.getId()));
     
   }
@@ -171,7 +169,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   public void deleteThermocycleProfile_nonexistentID_throwsResourceNotFoundException() {
     assertThrows(
       ResourceNotFoundException.class,
-      () -> thermoRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+      () -> thermocyclerProfileRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
     );
   }
 

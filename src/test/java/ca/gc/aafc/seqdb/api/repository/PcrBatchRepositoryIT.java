@@ -12,22 +12,14 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.dina.mapper.DinaMapper;
-import ca.gc.aafc.dina.testsupport.security.WithMockKeycloakUser;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
-import ca.gc.aafc.seqdb.api.service.PcrBatchService;
-import ca.gc.aafc.seqdb.api.testsupport.factories.PcrBatchFactory;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
-
-import org.springframework.boot.test.context.SpringBootTest;
 
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;

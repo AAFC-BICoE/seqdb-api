@@ -74,15 +74,15 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "experimenters", columnDefinition = "uuid[]")
   private List<UUID> experimenters = Collections.emptyList();
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_forward_id")    
   private PcrPrimer primerForward;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_reverse_id")
   private PcrPrimer primerReverse;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "region_id")
   private Region region;
   

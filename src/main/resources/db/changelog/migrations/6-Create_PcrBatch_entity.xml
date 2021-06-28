@@ -13,7 +13,7 @@
             <column name="uuid" type="uuid">
               <constraints nullable="false" unique="true" />
             </column>
-            <column name="experimenters" type="uuid []"/>
+            <column name="experimenters" type="uuid[]"/>
             <column name="primer_forward_id" type="integer">
               <constraints foreignKeyName="fk_pcr_batch_primer_forward_id" references="pcrprimers(id)"/>
             </column>

@@ -6,7 +6,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
     <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
-    <property name="uuid_function" value="random_uuid()" dbms="h2"/>
 
     <changeSet context="schema-change" id="create-workflow-enum-types" author="poffm">
         <sql>
@@ -287,32 +286,6 @@
             </column>
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
-            <column name="createdby" type="VARCHAR(250)"/>
-            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
-            <column name="groupname" type="varchar(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
-        <preConditions onFail="MARK_RAN">
-            <dbms type="h2" />
-        </preConditions>
-        <createTable tableName="steptemplates">
-            <column autoIncrement="true" name="id" type="SERIAL">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
-            </column>
-            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
-				<constraints nullable="false" unique="true" />
-			</column>
-            <column name="name" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="inputs" type="array">
-                <constraints nullable="false"/>
-            </column>
-            <column name="outputs" type="array">
-                <constraints nullable="false"/>
-            </column>
-            <column name="supports" type="array"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
             <column name="groupname" type="varchar(255)"/>

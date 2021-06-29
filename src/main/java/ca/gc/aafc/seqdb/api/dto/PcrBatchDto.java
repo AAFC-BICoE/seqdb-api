@@ -32,8 +32,8 @@ public class PcrBatchDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
-
   private String group;
+  private String name;
 
   private List<UUID> experimenters;
 
@@ -45,5 +45,8 @@ public class PcrBatchDto {
 
   @JsonApiRelation
   private RegionDto region;
+
+  @JsonApiRelation
+  private ThermocyclerProfileDto thermocycleProfile;
 
 }

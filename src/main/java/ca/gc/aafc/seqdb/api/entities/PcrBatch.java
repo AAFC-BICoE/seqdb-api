@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
@@ -70,6 +71,10 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "_group")
   private String group;
 
+  @NotBlank
+  @Size(max = 100)
+  private String name;
+
   @Type(type = "list-array")
   @Column(name = "experimenters", columnDefinition = "uuid[]")
   private List<UUID> experimenters = Collections.emptyList();
@@ -85,5 +90,9 @@ public class PcrBatch implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "region_id")
   private Region region;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "thermocycler_profile_id")
+  private ThermocycleProfile thermocycleProfile;
   
 }

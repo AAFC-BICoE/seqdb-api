@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
@@ -27,17 +28,21 @@ import io.crnk.core.queryspec.QuerySpec;
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
   @Inject
-  protected PcrBatchRepository pcrBatchRepository;
+  private PcrBatchRepository pcrBatchRepository;
 
   @Inject
-  protected PcrPrimerRepository pcrPrimerRepository;
+  private PcrPrimerRepository pcrPrimerRepository;
 
   @Inject
-  protected RegionRepository regionRepository;
+  private RegionRepository regionRepository;
+
+  @Inject
+  private ThermocyclerProfileRepository thermocyclerProfileRepository;
 
   private PcrPrimerDto primerForwardTest;
   private PcrPrimerDto primerReverseTest;
   private RegionDto regionTest;
+  private ThermocyclerProfileDto thermocyclerProfileTest;
 
   @BeforeEach
   public void setup() {
@@ -63,6 +68,11 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     region.setName("region");
 
     regionTest = regionRepository.create(region);
+
+    ThermocyclerProfileDto thermocyclerProfileDto = new ThermocyclerProfileDto();
+    thermocyclerProfileDto.setName("thermocyclerProfile");
+
+    thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfileDto);
   }
 
   @Test
@@ -72,6 +82,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerForward(primerForwardTest);
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
+    newDto.setThermocycleProfile(thermocyclerProfileTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
 
@@ -85,7 +96,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerForwardTest.getUuid(), found.getPrimerForward().getUuid());
     assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
-
+    assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocycleProfile().getUuid());
   }
   
   @Test
@@ -94,12 +105,14 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerForward(primerForwardTest);
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
+    newDto.setThermocycleProfile(thermocyclerProfileTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
     assertEquals(primerForwardTest.getUuid(), created.getPrimerForward().getUuid());
     assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
+    assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocycleProfile().getUuid());
   }
   
   @Test

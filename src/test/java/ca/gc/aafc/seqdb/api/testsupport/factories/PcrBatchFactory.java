@@ -21,6 +21,7 @@ public class PcrBatchFactory implements TestableEntityFactory<PcrBatch> {
     return PcrBatch.builder()
       .uuid(UUID.randomUUID())
       .createdBy("test user")
+      .name(TestableEntityFactory.generateRandomName(10))
       .group("dina");
     
   }  

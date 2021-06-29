@@ -71,7 +71,7 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "_group")
   private String group;
 
-  @NotNull
+  @NotBlank
   @Size(max = 100)
   private String name;
 

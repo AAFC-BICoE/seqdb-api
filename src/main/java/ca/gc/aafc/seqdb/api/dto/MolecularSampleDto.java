@@ -15,7 +15,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "molecularSample")
+@JsonApiResource(type = "molecular-sample")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(MolecularSample.class)
 public class MolecularSampleDto {

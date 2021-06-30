@@ -12,7 +12,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "containerType")
+@JsonApiResource(type = "container-type")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(ContainerType.class)
 public class ContainerTypeDto {

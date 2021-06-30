@@ -11,7 +11,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "libraryPrep")
+@JsonApiResource(type = "library-prep")
 @RelatedEntity(LibraryPrep.class)
 public class LibraryPrepDto {
   

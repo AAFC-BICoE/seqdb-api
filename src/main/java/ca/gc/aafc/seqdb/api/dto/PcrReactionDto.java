@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.PcrReaction;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -19,14 +20,14 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = PcrBatchDto.TYPENAME)
+@JsonApiResource(type = PcrReactionDto.TYPENAME)
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-@RelatedEntity(PcrBatch.class)
-@TypeName(PcrBatchDto.TYPENAME)
-public class PcrBatchDto {
+@RelatedEntity(PcrReaction.class)
+@TypeName(PcrReactionDto.TYPENAME)
+public class PcrReactionDto {
 
-  public static final String TYPENAME = "pcr-batch";  
-
+  public static final String TYPENAME = "pcr-reaction";
+  
   @JsonApiId
   @Id
   @PropertyName("id")  
@@ -35,22 +36,14 @@ public class PcrBatchDto {
   private String createdBy;
   private OffsetDateTime createdOn;
   private String group;
-  private String name;
 
-  @JsonApiExternalRelation(type = "person")
+  @JsonApiExternalRelation(type = "metadata")
   @JsonApiRelation
-  private List<ExternalRelationDto> experimenters;
-
-  @JsonApiRelation
-  private PcrPrimerDto primerForward;
+  private List<ExternalRelationDto> attachment = Collections.emptyList();
 
   @JsonApiRelation
-  private PcrPrimerDto primerReverse;
+  private PcrBatchDto pcrBatch;
 
   @JsonApiRelation
-  private RegionDto region;
-
-  @JsonApiRelation
-  private ThermocyclerProfileDto thermocycleProfile;
-
+  private MolecularSampleDto sample;
 }

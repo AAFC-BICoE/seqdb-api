@@ -3,8 +3,6 @@ package ca.gc.aafc.seqdb.api.repository;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,16 +124,10 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
         created.getUuid(),
         new QuerySpec(PcrBatchDto.class)
     );
-
-    UUID uuid = UUID.randomUUID();
-
-    List<UUID> experimenters = new ArrayList<>();
-
-    experimenters.add(uuid);
     
-    found.setExperimenters(experimenters);;
+    found.setName("updatedName");
     PcrBatchDto updated = pcrBatchRepository.save(found);
-    assertEquals(uuid, updated.getExperimenters().get(0));
+    assertEquals("updatedName", updated.getName());
   }
   
   @Test

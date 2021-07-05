@@ -13,7 +13,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "ngsIndex")
+@JsonApiResource(type = "ngs-index")
 @RelatedEntity(NgsIndex.class)
 public class NgsIndexDto {
   @JsonApiId

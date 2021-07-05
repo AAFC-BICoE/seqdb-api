@@ -13,7 +13,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "thermocyclerprofile")
+@JsonApiResource(type = "thermocycler-profile")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(ThermocycleProfile.class)
 public class ThermocyclerProfileDto {

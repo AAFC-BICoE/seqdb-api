@@ -13,7 +13,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "libraryPrepBatch")
+@JsonApiResource(type = "library-prep-batch")
 @RelatedEntity(LibraryPrepBatch.class)
 public class LibraryPrepBatchDto {
 

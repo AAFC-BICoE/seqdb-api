@@ -10,7 +10,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "chainTemplate")
+@JsonApiResource(type = "chain-template")
 @RelatedEntity(ChainTemplate.class)
 public class ChainTemplateDto {
   

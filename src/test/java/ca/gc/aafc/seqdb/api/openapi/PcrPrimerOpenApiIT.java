@@ -37,7 +37,7 @@ public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
   private static final String SPEC_PATH = "DINA-Web/sequence-specs/support_19623_Create_OpenAPI3_file_for_PcrPrimer_and_Region/schema/sequence.yml";
   private static final URIBuilder URI_BUILDER = new URIBuilder();
 
-  public static final String TYPE_NAME = "pcrPrimer";
+  public static final String TYPE_NAME = "pcr-primer";
 
   static {
     URI_BUILDER.setScheme("https");

@@ -63,7 +63,7 @@ public class MolecularSampleJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected String getResourceUnderTest() {
-    return "molecularSample";
+    return "molecular-sample";
   }
 
   @Override

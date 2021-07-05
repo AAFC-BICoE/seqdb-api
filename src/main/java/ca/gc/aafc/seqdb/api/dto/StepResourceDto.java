@@ -12,7 +12,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "stepResource")
+@JsonApiResource(type = "step-resource")
 @RelatedEntity(StepResource.class)
 public class StepResourceDto {
 

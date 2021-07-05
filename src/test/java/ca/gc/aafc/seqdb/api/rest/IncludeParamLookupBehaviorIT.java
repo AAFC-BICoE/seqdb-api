@@ -38,9 +38,9 @@ public class IncludeParamLookupBehaviorIT extends BaseHttpIntegrationTest {
         .put("seq", "").build();
     
     Map<String, Object> body = BaseJsonApiIntegrationTest
-        .toJsonAPIMap("pcrPrimer", testPrimerAttributeMap, null, null);
+        .toJsonAPIMap("pcr-primer", testPrimerAttributeMap, null, null);
     Response primerCreateResponse = given().contentType(JSON_API_CONTENT_TYPE).body(body)
-        .post("pcrPrimer");
+        .post("pcr-primer");
     assertEquals(HttpStatus.CREATED.value(), primerCreateResponse.getStatusCode());
 
     // Get the created primer's ID.
@@ -48,7 +48,7 @@ public class IncludeParamLookupBehaviorIT extends BaseHttpIntegrationTest {
     
     // Request the new primer with the included region (which is null).
     Response primerGetResponse = given().contentType(JSON_API_CONTENT_TYPE)
-        .get(String.format("pcrPrimer/%s?include=region", newPrimerId));
+        .get(String.format("pcr-primer/%s?include=region", newPrimerId));
     
     // The included region should be null.
     assertEquals(200, primerGetResponse.statusCode());
@@ -56,7 +56,7 @@ public class IncludeParamLookupBehaviorIT extends BaseHttpIntegrationTest {
     
     // Cleanup the created primer.
     Response deleteResponse = given().contentType(JSON_API_CONTENT_TYPE)
-        .delete(String.format("pcrPrimer/%s", newPrimerId));
+        .delete(String.format("pcr-primer/%s", newPrimerId));
     assertEquals(HttpStatus.NO_CONTENT.value(), deleteResponse.statusCode());
   }
   

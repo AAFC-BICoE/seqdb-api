@@ -11,7 +11,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "chainStepTemplate")
+@JsonApiResource(type = "chain-step-template")
 @RelatedEntity(ChainStepTemplate.class)
 public class ChainStepTemplateDto {
   

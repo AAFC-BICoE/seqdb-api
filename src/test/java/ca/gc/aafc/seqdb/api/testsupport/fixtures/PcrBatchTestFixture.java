@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.testsupport.fixtures;
 
 import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.testsupport.factories.TestableEntityFactory;
 
 public class PcrBatchTestFixture {
 
@@ -11,6 +12,7 @@ public class PcrBatchTestFixture {
     PcrBatchDto pcrBatchDto = new PcrBatchDto();
     pcrBatchDto.setGroup(GROUP);
     pcrBatchDto.setCreatedBy(CREATED_BY);
+    pcrBatchDto.setName(TestableEntityFactory.generateRandomName(10));
     return pcrBatchDto;
   }
   

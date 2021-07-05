@@ -8,7 +8,9 @@ import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -32,10 +34,12 @@ public class PcrBatchDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
-
   private String group;
+  private String name;
 
-  private List<UUID> experimenters;
+  @JsonApiExternalRelation(type = "person")
+  @JsonApiRelation
+  private List<ExternalRelationDto> experimenters;
 
   @JsonApiRelation
   private PcrPrimerDto primerForward;
@@ -45,5 +49,8 @@ public class PcrBatchDto {
 
   @JsonApiRelation
   private RegionDto region;
+
+  @JsonApiRelation
+  private ThermocyclerProfileDto thermocycleProfile;
 
 }

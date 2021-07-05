@@ -10,7 +10,9 @@ import java.util.Set;
 public class ExternalResourceProviderImplementation implements ExternalResourceProvider {
 
   public static final Map<String, String> TYPE_TO_REFERENCE_MAP = Map.of(
-    "material-sample", "collection/api/v1/material-sample"
+    "material-sample", "collection/api/v1/material-sample",
+    "metadata", "objectstore/api/v1/metadata",
+    "person", "agent/api/v1/person"
   );
 
   @Override

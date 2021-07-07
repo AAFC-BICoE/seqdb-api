@@ -12,4 +12,5 @@
   <include file="db/changelog/migrations/7-Rename_PcrProfile_to_ThermocyclerProfile.xml"/>
   <include file="db/changelog/migrations/8-Create_PcrReaction_entity.xml"/>
   <include file="db/changelog/migrations/9-Add_2_missing_fields_to_PCRBatch.xml"/>
+  <include file="db/changelog/migrations/10-update_stepresourcevalue_enum.xml"/>
 </databaseChangeLog>

@@ -32,6 +32,7 @@
             <column name="name" type="VARCHAR(100)">
               <constraints nullable="false"/>
             </column>
+            <column name="experimenters" type="uuid[]"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

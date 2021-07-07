@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -18,7 +17,6 @@ import ca.gc.aafc.dina.testsupport.BaseRestAssuredTest;
 import ca.gc.aafc.dina.testsupport.PostgresTestContainerInitializer;
 import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.dina.testsupport.specs.OpenAPI3Assertions;
-import ca.gc.aafc.dina.testsupport.specs.ValidationRestrictionOptions;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
@@ -36,7 +34,7 @@ import lombok.SneakyThrows;
 public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
 
   private static final String SPEC_HOST = "raw.githubusercontent.com";
-  private static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
+  private static final String SPEC_PATH = "luusteve/sequence-specs/23322_update_open_api_specs-Missing_properties/schema/sequence.yml";
   private static final URIBuilder URI_BUILDER = new URIBuilder();
 
   public static final String TYPE_NAME = "pcr-primer";
@@ -73,7 +71,7 @@ public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
         Map.of(
           "region", getRelationType("region", uuid)),
         null)
-      ).extract().asString(), ValidationRestrictionOptions.builder().allowAdditionalFields(true).allowableMissingFields(Set.of("used4genotyping", "storage", "urllink", "referenceSeqDir", "referenceSeqFile", "used4stdPcr", "used4cloning", "restrictionSite", "used4qrtpcr", "used4sequencing", "used4nestedPcr")).build());
+      ).extract().asString());
   }
 
   private Map<String, Object> getRelationType(String type, String uuid) {

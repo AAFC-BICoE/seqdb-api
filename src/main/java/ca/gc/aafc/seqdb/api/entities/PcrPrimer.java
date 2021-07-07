@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
@@ -72,7 +74,10 @@ public class PcrPrimer implements DinaEntity {
 
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Getter(onMethod = @__({
+    @Column(insertable = false, updatable = false),
+    @Generated(value = GenerationTime.INSERT)
+    })) 
   private OffsetDateTime createdOn;
 
   @Getter(onMethod = @__({

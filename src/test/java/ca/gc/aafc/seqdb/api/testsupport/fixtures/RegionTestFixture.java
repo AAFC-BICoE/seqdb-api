@@ -10,6 +10,7 @@ public class RegionTestFixture {
     regionDto.setName(TestableEntityFactory.generateRandomName(10));
     regionDto.setSymbol("TEST");
     regionDto.setDescription("description");
+    regionDto.setCreatedBy("createdBy");
     
     return regionDto;
   }

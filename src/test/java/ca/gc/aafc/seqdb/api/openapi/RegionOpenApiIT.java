@@ -16,7 +16,6 @@ import ca.gc.aafc.dina.testsupport.BaseRestAssuredTest;
 import ca.gc.aafc.dina.testsupport.PostgresTestContainerInitializer;
 import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.dina.testsupport.specs.OpenAPI3Assertions;
-import ca.gc.aafc.dina.testsupport.specs.ValidationRestrictionOptions;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.RegionTestFixture;
@@ -32,7 +31,7 @@ import lombok.SneakyThrows;
 public class RegionOpenApiIT extends BaseRestAssuredTest {
   
   private static final String SPEC_HOST = "raw.githubusercontent.com";
-  private static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
+  private static final String SPEC_PATH = "luusteve/sequence-specs/23322_update_open_api_specs-Missing_properties/schema/sequence.yml";
   private static final URIBuilder URI_BUILDER = new URIBuilder();
 
   public static final String TYPE_NAME = "region";
@@ -60,6 +59,6 @@ public class RegionOpenApiIT extends BaseRestAssuredTest {
       sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(region),
         null,
         null)
-      ).extract().asString(), ValidationRestrictionOptions.builder().allowAdditionalFields(true).build());
+      ).extract().asString());
   }
 }

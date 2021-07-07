@@ -34,7 +34,7 @@ import lombok.SneakyThrows;
 public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
 
   private static final String SPEC_HOST = "raw.githubusercontent.com";
-  private static final String SPEC_PATH = "luusteve/sequence-specs/23322_update_open_api_specs-Missing_properties/schema/sequence.yml";
+  private static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
   private static final URIBuilder URI_BUILDER = new URIBuilder();
 
   public static final String TYPE_NAME = "pcr-primer";

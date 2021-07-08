@@ -51,6 +51,6 @@ public class PcrBatchDto {
   private RegionDto region;
 
   @JsonApiRelation
-  private ThermocyclerProfileDto thermocycleProfile;
+  private ThermocyclerProfileDto thermocyclerProfile;
 
 }

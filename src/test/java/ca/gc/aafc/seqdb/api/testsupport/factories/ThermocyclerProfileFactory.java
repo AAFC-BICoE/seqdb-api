@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
-import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile.ThermocycleProfileBuilder;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile.ThermocyclerProfileBuilder;
 
 public class ThermocyclerProfileFactory implements TestableEntityFactory<ThermocyclerProfile> {
 
   @Override
   public ThermocyclerProfile getEntityInstance() {
-    return newThermocycleProfile().build();
+    return newThermocyclerProfile().build();
   }
   
   /**
@@ -19,7 +19,7 @@ public class ThermocyclerProfileFactory implements TestableEntityFactory<Thermoc
    * @param group Group to be set on the {@link ThermocyclerProfile}
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static ThermocyclerProfile.ThermocycleProfileBuilder newThermocycleProfile() {
+  public static ThermocyclerProfile.ThermocyclerProfileBuilder newThermocyclerProfile() {
     
     return ThermocyclerProfile.builder()
         .name(TestableEntityFactory.generateRandomName(10));
@@ -48,10 +48,10 @@ public class ThermocyclerProfileFactory implements TestableEntityFactory<Thermoc
    * @return List of PcrProfiles
    */
   public static List<ThermocyclerProfile> newListOf(int qty,
-      BiFunction<ThermocyclerProfile.ThermocycleProfileBuilder, Integer, ThermocyclerProfile.ThermocycleProfileBuilder> configuration) {
+      BiFunction<ThermocyclerProfile.ThermocyclerProfileBuilder, Integer, ThermocyclerProfile.ThermocyclerProfileBuilder> configuration) {
 
-    return TestableEntityFactory.newEntity(qty, ThermocyclerProfileFactory::newThermocycleProfile, configuration,
-      ThermocycleProfileBuilder::build);
+    return TestableEntityFactory.newEntity(qty, ThermocyclerProfileFactory::newThermocyclerProfile, configuration,
+      ThermocyclerProfileBuilder::build);
 
   }
 

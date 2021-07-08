@@ -93,6 +93,6 @@ public class PcrBatch implements DinaEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "thermocycler_profile_id")
-  private ThermocyclerProfile thermocycleProfile;
+  private ThermocyclerProfile thermocyclerProfile;
   
 }

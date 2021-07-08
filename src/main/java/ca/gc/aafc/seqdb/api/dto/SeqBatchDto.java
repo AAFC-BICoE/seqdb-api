@@ -12,7 +12,7 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.SeqBatch;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -20,13 +20,13 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = PcrBatchDto.TYPENAME)
+@JsonApiResource(type = SeqBatchDto.TYPENAME)
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-@RelatedEntity(PcrBatch.class)
-@TypeName(PcrBatchDto.TYPENAME)
-public class PcrBatchDto {
+@RelatedEntity(SeqBatch.class)
+@TypeName(SeqBatchDto.TYPENAME)
+public class SeqBatchDto {
 
-  public static final String TYPENAME = "pcr-batch";  
+  public static final String TYPENAME = "seq-batch";  
 
   @JsonApiId
   @Id
@@ -43,15 +43,12 @@ public class PcrBatchDto {
   private List<ExternalRelationDto> experimenters = Collections.emptyList();
 
   @JsonApiRelation
-  private PcrPrimerDto primerForward;
-
-  @JsonApiRelation
-  private PcrPrimerDto primerReverse;
+  private ThermocyclerProfileDto thermocycleProfile;
 
   @JsonApiRelation
   private RegionDto region;
 
   @JsonApiRelation
-  private ThermocyclerProfileDto thermocycleProfile;
+  private ProtocolDto protocol;
 
 }

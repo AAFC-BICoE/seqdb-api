@@ -6,7 +6,7 @@ import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class ThermocyclerProfileRepository extends DinaRepository<ThermocyclerProfileDto, ThermocycleProfile> {
+public class ThermocyclerProfileRepository extends DinaRepository<ThermocyclerProfileDto, ThermocyclerProfile> {
 
   public ThermocyclerProfileRepository(
-    @NonNull DinaService<ThermocycleProfile> dinaService,
+    @NonNull DinaService<ThermocyclerProfile> dinaService,
     Optional<DinaAuthorizationService> groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
@@ -27,7 +27,7 @@ public class ThermocyclerProfileRepository extends DinaRepository<ThermocyclerPr
       Optional.empty(),
       new DinaMapper<>(ThermocyclerProfileDto.class),
       ThermocyclerProfileDto.class,
-      ThermocycleProfile.class,
+      ThermocyclerProfile.class,
       null,
       externalResourceProvider,
       props);

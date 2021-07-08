@@ -3,25 +3,25 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile.ThermocycleProfileBuilder;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile.ThermocycleProfileBuilder;
 
-public class ThermocyclerProfileFactory implements TestableEntityFactory<ThermocycleProfile> {
+public class ThermocyclerProfileFactory implements TestableEntityFactory<ThermocyclerProfile> {
 
   @Override
-  public ThermocycleProfile getEntityInstance() {
+  public ThermocyclerProfile getEntityInstance() {
     return newThermocycleProfile().build();
   }
   
   /**
    * Static method that can be called to return a configured builder that can be further customized
    * to return the actual entity object, call the .build() method on a builder.
-   * @param group Group to be set on the {@link ThermocycleProfile}
+   * @param group Group to be set on the {@link ThermocyclerProfile}
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static ThermocycleProfile.ThermocycleProfileBuilder newThermocycleProfile() {
+  public static ThermocyclerProfile.ThermocycleProfileBuilder newThermocycleProfile() {
     
-    return ThermocycleProfile.builder()
+    return ThermocyclerProfile.builder()
         .name(TestableEntityFactory.generateRandomName(10));
     
   }  
@@ -32,7 +32,7 @@ public class ThermocyclerProfileFactory implements TestableEntityFactory<Thermoc
    * @param qty The number of PcrProfile populated in the list
    * @return List of PcrProfile
    */
-  public static List<ThermocycleProfile> newListOf(int qty) {
+  public static List<ThermocyclerProfile> newListOf(int qty) {
         
     return newListOf(qty, null);
   }
@@ -47,8 +47,8 @@ public class ThermocyclerProfileFactory implements TestableEntityFactory<Thermoc
    *                      the list.
    * @return List of PcrProfiles
    */
-  public static List<ThermocycleProfile> newListOf(int qty,
-      BiFunction<ThermocycleProfile.ThermocycleProfileBuilder, Integer, ThermocycleProfile.ThermocycleProfileBuilder> configuration) {
+  public static List<ThermocyclerProfile> newListOf(int qty,
+      BiFunction<ThermocyclerProfile.ThermocycleProfileBuilder, Integer, ThermocyclerProfile.ThermocycleProfileBuilder> configuration) {
 
     return TestableEntityFactory.newEntity(qty, ThermocyclerProfileFactory::newThermocycleProfile, configuration,
       ThermocycleProfileBuilder::build);

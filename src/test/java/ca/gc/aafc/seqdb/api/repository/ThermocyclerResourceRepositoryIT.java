@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ThermocyclerProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -32,9 +32,9 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   @Inject
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
   
-  private ThermocycleProfile testThermocycleProfile;
+  private ThermocyclerProfile testThermocycleProfile;
   
-  private ThermocycleProfile createTestProfile() {
+  private ThermocyclerProfile createTestProfile() {
     testThermocycleProfile = ThermocyclerProfileFactory.newThermocycleProfile()
         .name(TEST_PROFILE_NAME)
         .cycles(TEST_PROFILE_CYCLE)
@@ -59,7 +59,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   return testThermocycleProfile;
   }
   
-  private void verifyStepsAreEqual(ThermocycleProfile entity, ThermocyclerProfileDto dto) {
+  private void verifyStepsAreEqual(ThermocyclerProfile entity, ThermocyclerProfileDto dto) {
     
     assertEquals(dto.getStep1(), entity.getStep1());
     assertEquals(dto.getStep2(), entity.getStep2());
@@ -134,7 +134,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     verifyStepsAreEqual(baseDto, createdDto);
     
     //Assert Entity has the set values
-    ThermocycleProfile profileEntity = baseDao.findOneByNaturalId(createdDto.getUuid(), ThermocycleProfile.class);
+    ThermocyclerProfile profileEntity = baseDao.findOneByNaturalId(createdDto.getUuid(), ThermocyclerProfile.class);
     assertNotNull(profileEntity.getId());
     assertEquals(newThermocyclerProfileName, profileEntity.getName());
     assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());
@@ -161,7 +161,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   @Test
   public void deleteThermocycleProfile_callRepositoryDeleteOnID_profileNotFound() {
     thermocyclerProfileRepository.delete(testThermocycleProfile.getUuid());
-    assertNull(entityManager.find(ThermocycleProfile.class, testThermocycleProfile.getId()));
+    assertNull(entityManager.find(ThermocyclerProfile.class, testThermocycleProfile.getId()));
     
   }
 

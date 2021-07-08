@@ -24,7 +24,7 @@ import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
@@ -99,7 +99,7 @@ public class LibraryPrepBatch implements DinaEntity {
     @ManyToOne(fetch = FetchType.LAZY),
     @JoinColumn(name = "thermocyclerprofileid")
     }))
-  private ThermocycleProfile thermocyclerProfile;
+  private ThermocyclerProfile thermocyclerProfile;
 
   @Getter(onMethod = @__({
     @ManyToOne(fetch = FetchType.LAZY),

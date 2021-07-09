@@ -56,6 +56,9 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
     primerForwardTest = pcrPrimerRepository.create(primerForward);
     primerReverseTest = pcrPrimerRepository.create(primerReverse);
+    
+    assertNotNull(primerForwardTest.getUuid());
+    assertNotNull(primerForwardTest.getCreatedOn());
 
     RegionDto region = new RegionDto();
     region.setSymbol("test");

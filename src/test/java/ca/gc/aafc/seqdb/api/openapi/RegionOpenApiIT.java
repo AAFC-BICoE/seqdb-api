@@ -16,7 +16,6 @@ import ca.gc.aafc.dina.testsupport.BaseRestAssuredTest;
 import ca.gc.aafc.dina.testsupport.PostgresTestContainerInitializer;
 import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.dina.testsupport.specs.OpenAPI3Assertions;
-import ca.gc.aafc.dina.testsupport.specs.ValidationRestrictionOptions;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.RegionTestFixture;
@@ -60,6 +59,6 @@ public class RegionOpenApiIT extends BaseRestAssuredTest {
       sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(region),
         null,
         null)
-      ).extract().asString(), ValidationRestrictionOptions.builder().allowAdditionalFields(true).build());
+      ).extract().asString());
   }
 }

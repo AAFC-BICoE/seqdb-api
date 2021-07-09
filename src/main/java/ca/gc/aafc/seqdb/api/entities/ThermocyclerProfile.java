@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
-public class ThermocycleProfile implements DinaEntity {
+public class ThermocyclerProfile implements DinaEntity {
 
   @Getter(onMethod = @__({
     @Id,

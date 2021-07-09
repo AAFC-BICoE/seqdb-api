@@ -76,7 +76,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerForward(primerForwardTest);
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
-    newDto.setThermocycleProfile(thermocyclerProfileTest);
+    newDto.setThermocyclerProfile(thermocyclerProfileTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
 
@@ -90,7 +90,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerForwardTest.getUuid(), found.getPrimerForward().getUuid());
     assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
-    assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocycleProfile().getUuid());
+    assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
   }
   
   @Test
@@ -99,14 +99,14 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerForward(primerForwardTest);
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
-    newDto.setThermocycleProfile(thermocyclerProfileTest);
+    newDto.setThermocyclerProfile(thermocyclerProfileTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
     assertEquals(primerForwardTest.getUuid(), created.getPrimerForward().getUuid());
     assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
-    assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocycleProfile().getUuid());
+    assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
   }
   
   @Test

@@ -81,7 +81,7 @@ public class SeqBatch implements DinaEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "thermocycler_profile_id")
-  private ThermocycleProfile thermocycleProfile;
+  private ThermocyclerProfile thermocyclerProfile;
   
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "region_id")

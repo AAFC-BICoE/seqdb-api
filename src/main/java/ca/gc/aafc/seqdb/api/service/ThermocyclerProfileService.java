@@ -7,11 +7,11 @@ import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
-import ca.gc.aafc.seqdb.api.entities.ThermocycleProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import lombok.NonNull;
 
 @Service
-public class ThermocyclerProfileService extends DefaultDinaService<ThermocycleProfile> {
+public class ThermocyclerProfileService extends DefaultDinaService<ThermocyclerProfile> {
 
   public ThermocyclerProfileService(
     @NonNull BaseDAO baseDAO,
@@ -20,7 +20,7 @@ public class ThermocyclerProfileService extends DefaultDinaService<ThermocyclePr
   }
 
   @Override
-  protected void preCreate(ThermocycleProfile entity) {
+  protected void preCreate(ThermocyclerProfile entity) {
     entity.setUuid(UUID.randomUUID());
   }
   

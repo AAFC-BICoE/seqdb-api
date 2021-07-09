@@ -43,7 +43,7 @@ public class SeqBatchDto {
   private List<ExternalRelationDto> experimenters = Collections.emptyList();
 
   @JsonApiRelation
-  private ThermocyclerProfileDto thermocycleProfile;
+  private ThermocyclerProfileDto thermocyclerProfile;
 
   @JsonApiRelation
   private RegionDto region;

@@ -54,4 +54,9 @@ public class PcrBatchDto {
   @JsonApiRelation
   private ThermocyclerProfileDto thermocyclerProfile;
 
+  private String thermocycler;
+  private String objective;
+  private String positiveControl;
+  private String reactionVolume;
+
 }

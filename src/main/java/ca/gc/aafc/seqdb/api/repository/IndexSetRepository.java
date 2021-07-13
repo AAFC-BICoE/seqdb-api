@@ -18,7 +18,7 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
 
   public IndexSetRepository(
     @NonNull DinaService<IndexSet> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

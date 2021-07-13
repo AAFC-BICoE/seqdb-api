@@ -18,7 +18,7 @@ public class MolecularSampleRepository extends DinaRepository<MolecularSampleDto
 
   public MolecularSampleRepository(
     @NonNull DinaService<MolecularSample> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

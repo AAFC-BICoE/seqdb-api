@@ -19,7 +19,7 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
 
   public PcrPrimerRepository(
     @NonNull DinaService<PcrPrimer> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull Optional<AuditService> auditService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {

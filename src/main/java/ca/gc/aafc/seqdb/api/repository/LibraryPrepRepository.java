@@ -18,7 +18,7 @@ public class LibraryPrepRepository extends DinaRepository<LibraryPrepDto, Librar
 
   public LibraryPrepRepository(
     @NonNull DinaService<LibraryPrep> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

@@ -19,7 +19,7 @@ public class SeqBatchRepository extends DinaRepository<SeqBatchDto, SeqBatch> {
   
   public SeqBatchRepository(
     @NonNull DinaService<SeqBatch> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

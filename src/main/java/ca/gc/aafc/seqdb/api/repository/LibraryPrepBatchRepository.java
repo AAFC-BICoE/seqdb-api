@@ -18,21 +18,13 @@ public class LibraryPrepBatchRepository extends DinaRepository<LibraryPrepBatchD
 
   public LibraryPrepBatchRepository(
     @NonNull DinaService<LibraryPrepBatch> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
-      groupAuthorizationService.map(auth -> new DinaAuthorizationService() {
-        public void authorizeCreate(Object entity) { };
-        public void authorizeDelete(Object entity) {
-          auth.authorizeDelete(entity);
-        };
-        public void authorizeUpdate(Object entity) {
-          auth.authorizeUpdate(entity);
-        };
-      }),
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(LibraryPrepBatchDto.class),
       LibraryPrepBatchDto.class,

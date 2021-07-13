@@ -18,7 +18,7 @@ public class PcrBatchRepository extends DinaRepository<PcrBatchDto, PcrBatch> {
   
   public PcrBatchRepository(
     @NonNull DinaService<PcrBatch> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

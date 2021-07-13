@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
@@ -81,5 +82,11 @@ public class PcrReaction implements DinaEntity {
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "sample_id")
   private MolecularSample sample;
+
+  @Size(max = 50)
+  private String result;
+
+  @Size(max = 50)
+  private String target;
   
 }

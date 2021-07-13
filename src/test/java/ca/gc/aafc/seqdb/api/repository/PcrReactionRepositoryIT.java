@@ -49,6 +49,9 @@ public class PcrReactionRepositoryIT extends BaseRepositoryTest {
     assertNotNull(created.getUuid());
     assertEquals(pcrBatchTest.getUuid(), created.getPcrBatch().getUuid());
     assertEquals(molecularSampleTest.getUuid(), created.getSample().getUuid());
+    assertEquals(PcrReactionTestFixture.GROUP, created.getGroup());
+    assertEquals(PcrReactionTestFixture.RESULT, created.getResult());
+    assertEquals(PcrReactionTestFixture.TARGET, created.getTarget());
     
   }
 
@@ -70,6 +73,9 @@ public class PcrReactionRepositoryIT extends BaseRepositoryTest {
     assertEquals(created.getUuid(), found.getUuid());
     assertEquals(pcrBatchTest.getUuid(), found.getPcrBatch().getUuid());
     assertEquals(molecularSampleTest.getUuid(), found.getSample().getUuid());
+    assertEquals(PcrReactionTestFixture.GROUP, found.getGroup());
+    assertEquals(PcrReactionTestFixture.RESULT, found.getResult());
+    assertEquals(PcrReactionTestFixture.TARGET, found.getTarget());
 
   }
 

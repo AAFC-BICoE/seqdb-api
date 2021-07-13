@@ -46,4 +46,7 @@ public class PcrReactionDto {
 
   @JsonApiRelation
   private MolecularSampleDto sample;
+
+  private String result;
+  private String target;
 }

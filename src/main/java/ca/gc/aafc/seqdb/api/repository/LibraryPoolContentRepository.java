@@ -18,7 +18,7 @@ public class LibraryPoolContentRepository extends DinaRepository<LibraryPoolCont
 
   public LibraryPoolContentRepository(
     @NonNull DinaService<LibraryPoolContent> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

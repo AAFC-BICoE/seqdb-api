@@ -18,7 +18,7 @@ public class ChainTemplateRepository extends DinaRepository<ChainTemplateDto, Ch
 
   public ChainTemplateRepository(
     @NonNull DinaService<ChainTemplate> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

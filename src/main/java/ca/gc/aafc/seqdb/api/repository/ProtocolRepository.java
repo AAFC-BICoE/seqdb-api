@@ -18,7 +18,7 @@ public class ProtocolRepository extends DinaRepository<ProtocolDto, Protocol> {
 
   public ProtocolRepository(
     @NonNull DinaService<Protocol> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

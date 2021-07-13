@@ -7,7 +7,7 @@
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 	  <changeSet id="13-Add_columns_to_PcrReaction" context="schema-change" author="steven luu">
         <addColumn tableName="pcr_reaction">
-            <column name="result" type="TEXT"/>
+            <column name="result" type="VARCHAR(50)"/>
             <column name="target" type="VARCHAR(50)"/>
         </addColumn>
 	  </changeSet>	

@@ -85,9 +85,6 @@ public class PcrReaction implements DinaEntity {
   private MolecularSample sample;
 
   @Size(max = 50)
-  @Lob
-  // https://stackoverflow.com/questions/12647755/bad-value-for-type-long-postgresql-hibernate-spring#answer-21546893
-  @Type(type = "org.hibernate.type.TextType")
   private String result;
 
   @Size(max = 50)

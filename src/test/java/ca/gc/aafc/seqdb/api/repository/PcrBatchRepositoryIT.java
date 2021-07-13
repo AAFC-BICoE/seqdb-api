@@ -94,10 +94,18 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
+
+    assertEquals(PcrBatchTestFixture.GROUP, found.getGroup());
+    assertEquals(PcrBatchTestFixture.CREATED_BY, found.getCreatedBy());
+    assertEquals(PcrBatchTestFixture.THERMOCYCLER, found.getThermocycler());
+    assertEquals(PcrBatchTestFixture.OBJECTIVE, found.getObjective());
+    assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, found.getPositiveControl());
+    assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
   }
   
   @Test
   public void createPcrBatch_onSuccess_PcrBatchCreated() {
+
     PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
     newDto.setPrimerForward(primerForwardTest);
     newDto.setPrimerReverse(primerReverseTest);
@@ -110,6 +118,13 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
+
+    assertEquals(PcrBatchTestFixture.GROUP, created.getGroup());
+    assertEquals(PcrBatchTestFixture.CREATED_BY, created.getCreatedBy());
+    assertEquals(PcrBatchTestFixture.THERMOCYCLER, created.getThermocycler());
+    assertEquals(PcrBatchTestFixture.OBJECTIVE, created.getObjective());
+    assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, created.getPositiveControl());
+    assertEquals(PcrBatchTestFixture.REACTION_VOLUME, created.getReactionVolume());
   }
   
   @Test

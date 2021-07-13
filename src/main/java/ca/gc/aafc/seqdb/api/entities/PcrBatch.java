@@ -94,5 +94,19 @@ public class PcrBatch implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "thermocycler_profile_id")
   private ThermocyclerProfile thermocyclerProfile;
+
+  @Size(max = 50)
+  private String thermocycler;
+
+  @Size(max = 200)
+  private String objective;
+
+  @Column(name = "positive_control")
+  @Size(max = 50)
+  private String positiveControl;
+
+  @Column(name = "reaction_volume")
+  @Size(max = 50)
+  private String reactionVolume;
   
 }

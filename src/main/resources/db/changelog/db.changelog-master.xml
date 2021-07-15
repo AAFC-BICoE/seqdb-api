@@ -15,6 +15,7 @@
   <include file="db/changelog/migrations/10-update_stepresourcevalue_enum.xml"/>
   <include file="db/changelog/migrations/11-Add_seqBatch_entity.xml"/>
   <include file="db/changelog/migrations/12-Add_new_fields_to_PCRBatch.xml"/>
-  <include file="db/changelog/migrations/14-Add_SeqReaction_entity.xml"/>
   <include file="db/changelog/migrations/13-Add_columns_to_PcrReaction.xml"/>
+  <include file="db/changelog/migrations/14-Add_SeqReaction_entity.xml"/>
+  <include file="db/changelog/migrations/15-Add_group_to_PreLibraryPrep_LibraryPrep_LibraryPool.xml"/>
 </databaseChangeLog>

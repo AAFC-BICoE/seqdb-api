@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -17,8 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -28,7 +27,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -122,13 +120,11 @@ public class PreLibraryPrep implements DinaEntity {
   private Timestamp lastModified;
 
 
-  @Transient
-  @Override
-  public String getGroup() {
-    return Optional.ofNullable(this.getStepResource())
-      .map(StepResource::getChain)
-      .map(Chain::getGroup)
-      .orElse(null);
-  }
+  @Getter(onMethod = @__({
+    @NotBlank,
+    @Column(name = "_group")
+    }))
+  private String group;
+
 
 }

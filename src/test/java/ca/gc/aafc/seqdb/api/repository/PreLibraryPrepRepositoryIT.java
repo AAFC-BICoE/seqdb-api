@@ -82,6 +82,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     newPreLibraryPrep.setPreLibraryPrepType(TEST_PRELIBRARYPREP_TYPE_CREATE);
     newPreLibraryPrep.setNotes(TEST_PRELIBRARYPREP_NOTES_CREATE);
     newPreLibraryPrep.setConcentration(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE);
+    newPreLibraryPrep.setGroup("dina");
     
     PreLibraryPrepDto createdPreLibraryPrep = preLibraryPrepRepository.create(newPreLibraryPrep);
     

@@ -47,6 +47,7 @@ public class LibraryPoolRepositoryIT extends BaseRepositoryTest {
   public void createPool_onSuccess_poolCreated() {
     LibraryPoolDto newDto = new LibraryPoolDto();
     newDto.setName("new pool");
+    newDto.setGroup("dina");
     
     LibraryPoolDto created = libraryPoolRepository.create(newDto);
     assertNotNull(created.getUuid());

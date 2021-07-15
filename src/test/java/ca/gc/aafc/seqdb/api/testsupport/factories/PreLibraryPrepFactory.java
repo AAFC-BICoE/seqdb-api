@@ -22,6 +22,7 @@ public class PreLibraryPrepFactory implements TestableEntityFactory<PreLibraryPr
    */
   public static PreLibraryPrep.PreLibraryPrepBuilder newPreLibraryPrep() {
     return PreLibraryPrep.builder()
+        .group("dina")
         .preLibraryPrepType(PreLibraryPrepType.SHEARING);
   }
   

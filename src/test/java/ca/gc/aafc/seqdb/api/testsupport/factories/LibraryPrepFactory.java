@@ -15,6 +15,7 @@ public class LibraryPrepFactory implements TestableEntityFactory<LibraryPrep> {
 
   public static LibraryPrep.LibraryPrepBuilder newLibraryPrep() {
     return LibraryPrep.builder()
+        .group("dina")
         .libraryPrepBatch(LibraryPrepBatchFactory.newLibraryPrepBatch().build())
         .molecularSample(MolecularSampleFactory.newMolecularSample().build());
   }

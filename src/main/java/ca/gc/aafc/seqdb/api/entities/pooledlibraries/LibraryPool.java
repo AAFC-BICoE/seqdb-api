@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api.entities.pooledlibraries;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -15,13 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,13 +69,11 @@ public class LibraryPool implements DinaEntity {
     }))
   private List<LibraryPoolContent> contents;
 
-  @Transient
-  @Override
-  public String getGroup() {
-    return Optional.ofNullable(this.getStepResource())
-      .map(StepResource::getChain)
-      .map(Chain::getGroup)
-      .orElse(null);
-  }
+  @Getter(onMethod = @__({
+    @NotBlank,
+    @Column(name = "_group")
+    }))
+  private String group;
+
 
 }

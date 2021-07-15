@@ -125,6 +125,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     newDto.setSize("test size");
     newDto.setMolecularSample(newSampleCreated);
     newDto.setLibraryPrepBatch(testBatchDto);
+    newDto.setGroup("dina");
     
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
@@ -145,6 +146,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     LibraryPrepDto prep1 = new LibraryPrepDto();
     prep1.setWellRow("B");
     prep1.setWellColumn(5);
+    prep1.setGroup("dina");
     prep1.setMolecularSample(
         molecularSampleRepository.findOne(
             testSamples.get(0).getUuid(),
@@ -157,6 +159,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     LibraryPrepDto prep2 = new LibraryPrepDto();
     prep2.setWellRow("B");
     prep2.setWellColumn(5);
+    prep2.setGroup("dina");
     prep2.setMolecularSample(
         molecularSampleRepository.findOne(
             testSamples.get(1).getUuid(),

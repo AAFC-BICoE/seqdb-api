@@ -89,6 +89,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   public void createBatch_onSuccess_batchCreated() {
     LibraryPrepBatchDto newDto = new LibraryPrepBatchDto();
     newDto.setName("new test batch");
+    newDto.setGroup("dina");
     newDto.setNotes("notes");
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");

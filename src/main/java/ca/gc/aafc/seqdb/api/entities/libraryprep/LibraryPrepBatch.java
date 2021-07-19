@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -118,13 +119,10 @@ public class LibraryPrepBatch implements DinaEntity {
   @EqualsAndHashCode.Exclude
   private StepResource stepResource;
 
-  @Transient
-  @Override
-  public String getGroup() {
-    return Optional.ofNullable(this.getStepResource())
-      .map(StepResource::getChain)
-      .map(Chain::getGroup)
-      .orElse(null);
-  }
+  @Getter(onMethod = @__({
+    @NotBlank,
+    @Column(name = "_group")
+    }))
+  private String group;
 
 }

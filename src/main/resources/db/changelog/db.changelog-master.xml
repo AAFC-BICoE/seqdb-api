@@ -18,4 +18,5 @@
   <include file="db/changelog/migrations/13-Add_columns_to_PcrReaction.xml"/>
   <include file="db/changelog/migrations/14-Add_SeqReaction_entity.xml"/>
   <include file="db/changelog/migrations/15-Add_group_to_PreLibraryPrep_LibraryPrep_LibraryPool.xml"/>
+  <include file="db/changelog/migrations/16-Add_group_to_LibraryPrepBatch.xml"/>
 </databaseChangeLog>

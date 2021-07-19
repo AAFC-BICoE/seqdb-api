@@ -14,7 +14,9 @@ public class LibraryPrepBatchFactory implements TestableEntityFactory<LibraryPre
   }
 
   public static LibraryPrepBatch.LibraryPrepBatchBuilder newLibraryPrepBatch() {
-    return LibraryPrepBatch.builder().name(TestableEntityFactory.generateRandomName(10));
+    return LibraryPrepBatch.builder()
+      .group("dina")
+      .name(TestableEntityFactory.generateRandomName(10));
   }
 
   public static List<LibraryPrepBatch> newListOf(int qty) {

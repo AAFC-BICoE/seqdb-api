@@ -18,7 +18,7 @@ public class ThermocyclerProfileRepository extends DinaRepository<ThermocyclerPr
 
   public ThermocyclerProfileRepository(
     @NonNull DinaService<ThermocyclerProfile> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

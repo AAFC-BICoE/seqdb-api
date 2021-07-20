@@ -19,7 +19,7 @@ public class PcrReactionRepository extends DinaRepository<PcrReactionDto, PcrRea
   
   public PcrReactionRepository(
     @NonNull DinaService<PcrReaction> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

@@ -18,7 +18,7 @@ public class ProductRepository extends DinaRepository<ProductDto, Product> {
 
   public ProductRepository(
     @NonNull DinaService<Product> dinaService,
-    Optional<DinaAuthorizationService> groupAuthorizationService,
+    DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
     super(

@@ -35,8 +35,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
-    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
+  @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
+  @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

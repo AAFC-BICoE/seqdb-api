@@ -44,16 +44,12 @@ public class NgsIndex implements DinaEntity {
     I5, I7, FORWARD, REVERSE
   }
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -85,10 +81,8 @@ public class NgsIndex implements DinaEntity {
   private String miSeqHiSeqIndexSequence;
   private String miniSeqNextSeqIndexSequence;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "indexsetid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "indexsetid")
   private IndexSet indexSet;
 
   @Transient

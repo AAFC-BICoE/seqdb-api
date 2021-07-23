@@ -48,16 +48,12 @@ public class ChainStepTemplate implements DinaEntity, Serializable {
 
   private static final long serialVersionUID = -5794571772289124902L;
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -65,18 +61,14 @@ public class ChainStepTemplate implements DinaEntity, Serializable {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
   
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "chaintemplateid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "chaintemplateid")
   private ChainTemplate chainTemplate;
   
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "steptemplateid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "steptemplateid")
   private StepTemplate stepTemplate;
 
   @NotNull

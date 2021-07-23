@@ -36,16 +36,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChainTemplate implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -53,9 +49,7 @@ public class ChainTemplate implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @Column(name = "groupname")
   private String group;
 
   @NotNull

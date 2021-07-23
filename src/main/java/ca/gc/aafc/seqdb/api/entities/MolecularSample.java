@@ -41,16 +41,12 @@ import lombok.Setter;
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class MolecularSample implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -58,9 +54,7 @@ public class MolecularSample implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @Column(name = "groupname")
   private String group;
 
   @NotNull
@@ -73,21 +67,15 @@ public class MolecularSample implements DinaEntity {
 
   private String notes;
 
-  @Getter(onMethod = @__({
-    @Version
-    }))
+  @Version
   private Timestamp lastModified;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "productid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "productid")
   private Product kit;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "protocolid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "protocolid")
   private Protocol protocol;
 
   private String discardedNotes;

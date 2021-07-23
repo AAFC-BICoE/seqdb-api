@@ -45,16 +45,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPrepBatch implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -75,51 +71,35 @@ public class LibraryPrepBatch implements DinaEntity {
 
   private LocalDate dateUsed;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "productid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "productid")
   private Product product;
   
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "protocolid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "protocolid")
   private Protocol protocol;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "containertypeid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "containertypeid")
   private ContainerType containerType;
   
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "thermocyclerprofileid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "thermocyclerprofileid")
   private ThermocyclerProfile thermocyclerProfile;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "indexsetid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "indexsetid")
   private IndexSet indexSet;
   
-  @Getter(onMethod = @__({
-    @OneToMany(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
-    }))
+  @OneToMany(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
   private List<LibraryPrep> libraryPreps;
 
-  @Getter(onMethod = @__({
-    @OneToOne(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
-    }))
+  @OneToOne(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
   private StepResource stepResource;
 
-  @Getter(onMethod = @__({
-    @NotBlank,
-    @Column(name = "_group")
-    }))
+  @NotBlank
+  @Column(name = "_group")
   private String group;
 
 }

@@ -35,16 +35,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPool implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -59,20 +55,14 @@ public class LibraryPool implements DinaEntity {
   
   private String notes;
 
-  @Getter(onMethod = @__({
-    @OneToOne(mappedBy = "libraryPool", fetch = FetchType.LAZY)
-    }))
+  @OneToOne(mappedBy = "libraryPool", fetch = FetchType.LAZY)
   private StepResource stepResource;
   
-  @Getter(onMethod = @__({
-    @OneToMany(mappedBy = "libraryPool", fetch = FetchType.LAZY)
-    }))
+  @OneToMany(mappedBy = "libraryPool", fetch = FetchType.LAZY)
   private List<LibraryPoolContent> contents;
 
-  @Getter(onMethod = @__({
-    @NotBlank,
-    @Column(name = "_group")
-    }))
+  @NotBlank
+  @Column(name = "_group")
   private String group;
 
 

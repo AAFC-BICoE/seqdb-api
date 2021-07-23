@@ -55,16 +55,12 @@ public class Protocol implements DinaEntity {
     private final String value;
   }
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -72,9 +68,7 @@ public class Protocol implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @Column(name = "groupname")
   private String group;
 
   @NotNull
@@ -107,15 +101,11 @@ public class Protocol implements DinaEntity {
   @Size(max = 50)
   private String reactionMixVolumePerTube;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "productid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "productid")
   private Product kit;
 
-  @Getter(onMethod = @__({
-    @Version
-    }))
+  @Version
   private Timestamp lastModified;
 
 }

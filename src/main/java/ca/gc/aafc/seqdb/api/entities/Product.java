@@ -37,16 +37,12 @@ import lombok.NoArgsConstructor;
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class Product implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -54,9 +50,7 @@ public class Product implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @Column(name = "groupname")
   private String group;
 
   @NotNull
@@ -69,9 +63,7 @@ public class Product implements DinaEntity {
 
   private String description;
 
-  @Getter(onMethod = @__({
-    @Version
-    }))
+  @Version
   private Timestamp lastModified;
 
 }

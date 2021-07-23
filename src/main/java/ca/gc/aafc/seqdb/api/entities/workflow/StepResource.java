@@ -55,16 +55,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StepResource implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -78,44 +74,33 @@ public class StepResource implements DinaEntity {
   @Type(type = "pgsql_enum")
   private StepResourceValue value;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumns({
-      @JoinColumn(name = "chainTemplateId", referencedColumnName = "chainTemplateId", updatable = false),
-      @JoinColumn(name = "stepTemplateId", referencedColumnName = "stepTemplateId", updatable = false) })
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumns({
+    @JoinColumn(name = "chainTemplateId", referencedColumnName = "chainTemplateId", updatable = false),
+    @JoinColumn(name = "stepTemplateId", referencedColumnName = "stepTemplateId", updatable = false) 
+  })
   private ChainStepTemplate chainStepTemplate;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "chainid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "chainid")
   private Chain chain;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "sampleid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sampleid")
   private MolecularSample molecularSample;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "prelibraryprepid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "prelibraryprepid")
   private PreLibraryPrep preLibraryPrep;
 
-  @Getter(onMethod = @__({
-    @OneToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "libraryprepbatchid")
-    }))
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "libraryprepbatchid")
   private LibraryPrepBatch libraryPrepBatch;
 
-  @Getter(onMethod = @__({
-    @OneToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "librarypoolid")
-    }))
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "librarypoolid")
   private LibraryPool libraryPool;
 
   @Transient

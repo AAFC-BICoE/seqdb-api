@@ -25,7 +25,6 @@ import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -36,16 +35,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPrep implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -66,36 +61,26 @@ public class LibraryPrep implements DinaEntity {
   @Pattern(regexp = "[a-zA-Z]")
   private String wellRow;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "libraryprepbatchid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "libraryprepbatchid")
   private LibraryPrepBatch libraryPrepBatch;
   
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "sampleid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sampleid")
   private MolecularSample molecularSample;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "Indexi5id")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "Indexi5id")
   private NgsIndex indexI5;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "indexi7id")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "indexi7id")
   private NgsIndex indexI7;
 
-  @Getter(onMethod = @__({
-    @NotBlank,
-    @Column(name = "_group")
-    }))
+  @NotBlank
+  @Column(name = "_group")
   private String group;
 
 

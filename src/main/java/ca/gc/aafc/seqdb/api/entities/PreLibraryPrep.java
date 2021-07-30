@@ -61,16 +61,12 @@ public class PreLibraryPrep implements DinaEntity {
     private final String value;
   }
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -78,11 +74,9 @@ public class PreLibraryPrep implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @Type(type = "pgsql_enum"),
-    @Enumerated(EnumType.STRING)
-    }))
+  @NotNull
+  @Type(type = "pgsql_enum")
+  @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;
@@ -97,34 +91,22 @@ public class PreLibraryPrep implements DinaEntity {
 
   private String notes;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "protocolid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "protocolid")
   private Protocol protocol;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "productid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "productid")
   private Product product;
   
-  @Getter(onMethod = @__({
-    @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
-    }))
+  @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
   private StepResource stepResource;
 
-  @Getter(onMethod = @__({
-    @Version
-    }))
+  @Version
   private Timestamp lastModified;
 
-
-  @Getter(onMethod = @__({
-    @NotBlank,
-    @Column(name = "_group")
-    }))
+  @NotBlank
+  @Column(name = "_group")
   private String group;
-
 
 }

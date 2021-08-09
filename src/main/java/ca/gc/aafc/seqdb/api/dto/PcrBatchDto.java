@@ -61,8 +61,8 @@ public class PcrBatchDto {
 
   private OffsetDateTime reactionDate;
 
-@JsonApiExternalRelation(type = "metadata")
-@JsonApiRelation
-private List<ExternalRelationDto> attachment = Collections.emptyList();
+  @JsonApiExternalRelation(type = "metadata")
+  @JsonApiRelation
+  private List<ExternalRelationDto> attachment = Collections.emptyList();
 
 }

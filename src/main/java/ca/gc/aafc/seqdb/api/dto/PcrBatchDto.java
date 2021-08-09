@@ -59,4 +59,10 @@ public class PcrBatchDto {
   private String positiveControl;
   private String reactionVolume;
 
+  private OffsetDateTime reactionDate;
+
+@JsonApiExternalRelation(type = "metadata")
+@JsonApiRelation
+private List<ExternalRelationDto> attachment = Collections.emptyList();
+
 }

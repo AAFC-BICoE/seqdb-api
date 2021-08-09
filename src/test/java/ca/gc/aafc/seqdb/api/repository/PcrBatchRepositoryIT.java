@@ -101,6 +101,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.OBJECTIVE, found.getObjective());
     assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, found.getPositiveControl());
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
+    assertEquals(PcrBatchTestFixture.REACTION_DATE, found.getReactionDate());
   }
   
   @Test
@@ -125,6 +126,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.OBJECTIVE, created.getObjective());
     assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, created.getPositiveControl());
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, created.getReactionVolume());
+    assertEquals(PcrBatchTestFixture.REACTION_DATE, created.getReactionDate());
   }
   
   @Test

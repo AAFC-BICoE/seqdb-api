@@ -108,5 +108,12 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "reaction_volume")
   @Size(max = 50)
   private String reactionVolume;
+
+  @Column(name = "reaction_date")
+  private OffsetDateTime reactionDate;
+
+  @Type(type = "list-array")
+  @Column(name = "attachment", columnDefinition = "uuid[]")
+  private List<UUID> attachment = Collections.emptyList();
   
 }

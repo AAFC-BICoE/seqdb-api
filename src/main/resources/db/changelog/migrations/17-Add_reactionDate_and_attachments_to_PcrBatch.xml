@@ -8,7 +8,7 @@
 	  <changeSet id="17-Add_reactionDate_and_attachments_to_PcrBatch" context="schema-change" author="steven luu">
         <addColumn tableName="pcr_batch">
             <column name="attachment" type="uuid[]"/>
-            <column name="reaction_date" type="timestamptz"/>
+            <column name="reaction_date" type="date"/>
         </addColumn>
 	  </changeSet>	
 </databaseChangeLog>

@@ -13,26 +13,32 @@ import lombok.Data;
 public class Property {
 
   @XmlAttribute
-  public String group;
+  private String group;
 
   @XmlAttribute
-  public String name;
+  private String name;
 
   @XmlAttribute
-  public String namespace;
+  private String namespace;
 
   @XmlAttribute
-  public String qualName;
+  private String qualName;
 
-  @XmlAttribute(name = "dc:relation")
-  public String dcRelation;
+  @XmlAttribute(namespace = "http://purl.org/dc/terms/")
+  private String relation;
 
-  @XmlAttribute(name = "dc:description")
-  public String dcDescription;
-
-  @XmlAttribute
-  public String examples;
+  @XmlAttribute(namespace = "http://purl.org/dc/terms/")
+  private String description;
 
   @XmlAttribute
-  public String required;
+  private String examples;
+
+  @XmlAttribute
+  private boolean required;
+
+  @XmlAttribute
+  private String type;
+
+  @XmlAttribute
+  private String thesaurus;
 }

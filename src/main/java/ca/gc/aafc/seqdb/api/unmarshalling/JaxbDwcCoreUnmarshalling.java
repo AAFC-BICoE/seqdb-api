@@ -6,7 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-public class JaxbDwcCoreUnmarshalling {
+public final class JaxbDwcCoreUnmarshalling {
 
   public static final String DEFAULT_UNMARSHALLING_FILE = "mixs_darwin_core_extension.xml";
 
@@ -19,6 +19,10 @@ public class JaxbDwcCoreUnmarshalling {
   public static InputStream getInputStream(String file) {
     ClassLoader classLoader = JaxbDwcCoreUnmarshalling.class.getClassLoader();
     return classLoader.getResourceAsStream(file);
+  }
+
+  private JaxbDwcCoreUnmarshalling() {
+    
   }
   
 }

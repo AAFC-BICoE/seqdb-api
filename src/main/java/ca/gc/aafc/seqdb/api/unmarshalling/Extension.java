@@ -14,10 +14,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Data;
 
 @Data
 @XmlRootElement(name = "extension", namespace = "http://rs.gbif.org/extension/")
+@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Extension {
 
@@ -44,5 +46,4 @@ public class Extension {
     return properties.stream()
       .collect(Collectors.toMap(Property::getName, Function.identity()));
   }
-  
 }

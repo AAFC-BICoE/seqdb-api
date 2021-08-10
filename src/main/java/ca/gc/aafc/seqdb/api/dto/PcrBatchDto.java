@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -58,5 +59,11 @@ public class PcrBatchDto {
   private String objective;
   private String positiveControl;
   private String reactionVolume;
+
+  private LocalDate reactionDate;
+
+  @JsonApiExternalRelation(type = "metadata")
+  @JsonApiRelation
+  private List<ExternalRelationDto> attachment = Collections.emptyList();
 
 }

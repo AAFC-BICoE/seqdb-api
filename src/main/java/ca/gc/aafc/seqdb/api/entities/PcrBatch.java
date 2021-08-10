@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -108,5 +109,12 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "reaction_volume")
   @Size(max = 50)
   private String reactionVolume;
+
+  @Column(name = "reaction_date")
+  private LocalDate reactionDate;
+
+  @Type(type = "list-array")
+  @Column(name = "attachment", columnDefinition = "uuid[]")
+  private List<UUID> attachment = Collections.emptyList();
   
 }

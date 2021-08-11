@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -73,6 +74,7 @@ public class PcrBatchItem implements DinaEntity {
   private MolecularSample sample;
 
   @Min(value = 1)
+  @Max(value = 255)
   @Column(name = "well_column")
   private Integer wellColumn;
 

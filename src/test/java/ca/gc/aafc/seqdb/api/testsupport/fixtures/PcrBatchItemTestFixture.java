@@ -12,9 +12,9 @@ public class PcrBatchItemTestFixture {
   public static PcrBatchItemDto newPcrBatchItem() {
     PcrBatchItemDto pcrBatchItemDto = new PcrBatchItemDto();
     pcrBatchItemDto.setGroup(GROUP);
-    pcrBatchItemDto.setCreatedBy(CREATED_BY);;
+    pcrBatchItemDto.setCreatedBy(CREATED_BY);
     pcrBatchItemDto.setWellColumn(WELL_COLUMN);
-    pcrBatchItemDto.setWellRow(WELL_ROW);;
+    pcrBatchItemDto.setWellRow(WELL_ROW);
     return pcrBatchItemDto;
   }
 

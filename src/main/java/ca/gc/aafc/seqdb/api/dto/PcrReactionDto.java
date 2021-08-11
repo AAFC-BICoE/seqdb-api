@@ -12,6 +12,7 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.PcrReaction;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;

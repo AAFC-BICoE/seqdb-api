@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.dto;
+package ca.gc.aafc.seqdb.api.dto.sanger;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,7 +13,11 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
+import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.dto.RegionDto;
+import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -65,5 +69,8 @@ public class PcrBatchDto {
   @JsonApiExternalRelation(type = "metadata")
   @JsonApiRelation
   private List<ExternalRelationDto> attachment = Collections.emptyList();
+
+  @JsonApiRelation
+  private ContainerTypeDto containerType;
 
 }

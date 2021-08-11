@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.testsupport.fixtures;
 
 import java.time.LocalDate;
 
-import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.factories.TestableEntityFactory;
 
 public class PcrBatchTestFixture {

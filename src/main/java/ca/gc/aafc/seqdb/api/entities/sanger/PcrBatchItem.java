@@ -25,7 +25,6 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
-import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

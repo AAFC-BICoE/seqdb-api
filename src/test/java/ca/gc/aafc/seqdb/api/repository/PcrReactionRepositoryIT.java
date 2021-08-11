@@ -9,8 +9,8 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.PcrReactionDto;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrReactionTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;

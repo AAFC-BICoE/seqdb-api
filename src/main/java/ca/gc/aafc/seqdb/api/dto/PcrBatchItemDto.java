@@ -8,6 +8,7 @@ import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.PcrBatchItem;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;

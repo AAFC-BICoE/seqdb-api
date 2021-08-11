@@ -7,7 +7,7 @@ import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
-import ca.gc.aafc.seqdb.api.entities.PcrBatchItem;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 import lombok.NonNull;
 
 @Service

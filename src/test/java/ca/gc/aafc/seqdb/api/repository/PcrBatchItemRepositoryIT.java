@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
-import ca.gc.aafc.seqdb.api.dto.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularSampleTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
@@ -45,6 +45,8 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     assertEquals(pcrBatchTest.getUuid(), created.getPcrBatch().getUuid());
     assertEquals(PcrBatchItemTestFixture.GROUP, created.getGroup());
     assertEquals(PcrBatchItemTestFixture.CREATED_BY, created.getCreatedBy());
+    assertEquals(PcrBatchItemTestFixture.WELL_COLUMN, created.getWellColumn());
+    assertEquals(PcrBatchItemTestFixture.WELL_ROW, created.getWellRow());
 
   }
 
@@ -70,6 +72,9 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     assertEquals(pcrBatchTest.getUuid(), found.getPcrBatch().getUuid());
     assertEquals(PcrBatchItemTestFixture.GROUP, found.getGroup());
     assertEquals(PcrBatchItemTestFixture.CREATED_BY, found.getCreatedBy());
+    assertEquals(PcrBatchItemTestFixture.WELL_COLUMN, found.getWellColumn());
+    assertEquals(PcrBatchItemTestFixture.WELL_ROW, found.getWellRow());
+
   }
 
   @Test

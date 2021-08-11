@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.UUID;
 
-import ca.gc.aafc.seqdb.api.entities.PcrBatchItem;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 
 public class PcrBatchItemFactory implements TestableEntityFactory<PcrBatchItem> {
 
@@ -21,6 +21,8 @@ public class PcrBatchItemFactory implements TestableEntityFactory<PcrBatchItem> 
     return PcrBatchItem.builder()
       .uuid(UUID.randomUUID())
       .createdBy("test user")
+      .wellColumn(5)
+      .wellRow("B")
       .group("dina");
     
   }  

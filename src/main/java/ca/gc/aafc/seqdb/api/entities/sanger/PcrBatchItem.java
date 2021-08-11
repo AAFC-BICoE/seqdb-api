@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.entities;
+package ca.gc.aafc.seqdb.api.entities.sanger;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -12,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -21,6 +24,8 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample;
+import ca.gc.aafc.seqdb.api.entities.PcrBatch;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,5 +72,14 @@ public class PcrBatchItem implements DinaEntity {
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "sample_id")
   private MolecularSample sample;
+
+  @Min(value = 1)
+  @Column(name = "well_column")
+  private Integer wellColumn;
+
+  @Size(max = 2)
+  @Pattern(regexp = "[a-zA-Z]")
+  @Column(name = "well_row")
+  private String wellRow;
 
 }

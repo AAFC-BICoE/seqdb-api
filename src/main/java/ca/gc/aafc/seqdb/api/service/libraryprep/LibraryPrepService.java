@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.validation.ValidationException;
-
 import com.google.common.base.Objects;
 
 import org.springframework.stereotype.Service;
@@ -13,22 +11,24 @@ import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
-import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
+import ca.gc.aafc.seqdb.api.validation.GenericContainerLocationValidator;
 import lombok.NonNull;
 
 @Service
 public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   private BaseDAO baseDAO;
+  private final GenericContainerLocationValidator genericContainerLocationValidator;
 
   public LibraryPrepService(
     @NonNull BaseDAO baseDAO,
-    @NonNull SmartValidator sv) {
+    @NonNull SmartValidator sv,
+    @NonNull GenericContainerLocationValidator genericContainerLocationValidator) {
     super(baseDAO, sv);
     this.baseDAO = baseDAO;
+    this.genericContainerLocationValidator = genericContainerLocationValidator;
   }
 
   @Override
@@ -46,7 +46,6 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
   @Override
   public LibraryPrep create(LibraryPrep entity) {
     LibraryPrep result = super.create(entity);
-    this.validateCoordinates(result);
     return result;
   }
   
@@ -54,8 +53,12 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
   @Override
   public LibraryPrep update(LibraryPrep entity) {
     LibraryPrep result = super.update(entity);
-    this.validateCoordinates(result);
     return result;
+  }
+
+  @Override
+  public void validateBusinessRules(LibraryPrep entity) {
+    applyBusinessRule(entity, genericContainerLocationValidator);
   }
 
   private void handleOverlap(LibraryPrep libraryPrep) {
@@ -89,40 +92,5 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
       }
     }
   }
-
-  private void validateCoordinates(LibraryPrep libraryPrep) {
-    String row = libraryPrep.getWellRow();
-    Integer col = libraryPrep.getWellColumn();
-    
-    // Row and col must be either both set or both null.
-    if (col == null && row != null) {
-      throw new ValidationException("Well column cannot be null when well row is set.");
-    }
-    if (row == null && col != null) {
-      throw new ValidationException("Well row cannot be null when well column is set.");
-    }
-
-    // Validate well coordinates if they are set.
-    if (libraryPrep.getWellColumn() != null && libraryPrep.getWellRow() != null) {
-      ContainerType cType = libraryPrep.getLibraryPrepBatch().getContainerType();
-      
-      Integer rows = cType.getNumberOfRows();
-      Integer cols = cType.getNumberOfColumns();
-      
-      if (col > cols) {
-        throw new ValidationException(
-            String.format("Well column %s exceeds container's number of columns.", col)
-        );
-      }
-      
-      if (NumberLetterMappingUtils.getNumber(row) > rows) {
-        throw new ValidationException(
-            String.format("Row letter %s exceeds container's number of rows.", row)
-        );
-      }
-    }
-
-  }
-
   
 }

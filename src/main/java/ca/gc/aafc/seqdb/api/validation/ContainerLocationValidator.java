@@ -65,12 +65,12 @@ public class ContainerLocationValidator implements Validator {
       Integer cols = cType.getNumberOfColumns();
       
       if (col > cols) {
-        String errorMessage = getMessage(VALID_WELL_COL_CONTAINER_TYPE, col).replace("''", "'");
+        String errorMessage = getMessage(VALID_WELL_COL_CONTAINER_TYPE, col);
         errors.rejectValue("wellColumn", VALID_WELL_COL_CONTAINER_TYPE, errorMessage);
       }
       
       if (NumberLetterMappingUtils.getNumber(row) > rows) {
-        String errorMessage = getMessage(VALID_WELL_ROW_CONTAINER_TYPE, row).replace("''", "'");
+        String errorMessage = getMessage(VALID_WELL_ROW_CONTAINER_TYPE, row);
         errors.rejectValue("wellRow", VALID_WELL_ROW_CONTAINER_TYPE, errorMessage);
       }
       

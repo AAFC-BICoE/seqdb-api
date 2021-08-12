@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -40,6 +43,11 @@ import lombok.Setter;
 @Builder
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class MolecularSample implements DinaEntity {
+
+  @AllArgsConstructor
+  public enum SampleType {
+    DNA
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,5 +90,10 @@ public class MolecularSample implements DinaEntity {
   private LocalDate dateDiscarded;
 
   private UUID materialSample;
+
+  @Type(type = "pgsql_enum")
+  @Enumerated(EnumType.STRING)
+  @Column(name = "sample_type")
+  private SampleType sampleType;
 
 }

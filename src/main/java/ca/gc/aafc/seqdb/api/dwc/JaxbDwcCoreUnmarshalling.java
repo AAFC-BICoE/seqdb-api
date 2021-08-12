@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.unmarshalling;
+package ca.gc.aafc.seqdb.api.dwc;
 
 import java.io.InputStream;
 
@@ -10,10 +10,10 @@ public final class JaxbDwcCoreUnmarshalling {
 
   public static final String DEFAULT_UNMARSHALLING_FILE = "mixs_darwin_core_extension.xml";
 
-  public static Extension unmarshal(InputStream inputFile) throws JAXBException {
-    JAXBContext jaxbContext = JAXBContext.newInstance(Extension.class);
+  public static <T> T unmarshal(InputStream inputFile, Class<T> clazz) throws JAXBException {
+    JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-    return (Extension) jaxbUnmarshaller.unmarshal(inputFile);
+    return (T) jaxbUnmarshaller.unmarshal(inputFile);
   }
 
   public static InputStream getInputStream(String file) {

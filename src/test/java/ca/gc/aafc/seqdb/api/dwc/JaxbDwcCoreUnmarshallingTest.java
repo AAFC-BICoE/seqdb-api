@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.unmarshalling;
+package ca.gc.aafc.seqdb.api.dwc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,13 +9,17 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.seqdb.api.dwc.Extension;
+import ca.gc.aafc.seqdb.api.dwc.JaxbDwcCoreUnmarshalling;
+import ca.gc.aafc.seqdb.api.dwc.Property;
+
 public class JaxbDwcCoreUnmarshallingTest {
 
   @Test
   public void whenUnmarshalIsCalled_ThenCorrectExtensionIsReturned() throws JAXBException, DatatypeConfigurationException {
       InputStream inputStream = JaxbDwcCoreUnmarshalling.getInputStream(JaxbDwcCoreUnmarshalling.DEFAULT_UNMARSHALLING_FILE);
 
-      Extension extension = JaxbDwcCoreUnmarshalling.unmarshal(inputStream);
+      Extension extension = JaxbDwcCoreUnmarshalling.unmarshal(inputStream, Extension.class);
 
       assertEquals(80, extension.getProperties().size());
       assertEquals(80, extension.getPropertyMap().size());

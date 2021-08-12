@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.unmarshalling;
+package ca.gc.aafc.seqdb.api.dwc;
 
 import java.util.ArrayList;
 import java.util.Date;

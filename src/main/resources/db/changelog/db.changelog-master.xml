@@ -20,4 +20,7 @@
   <include file="db/changelog/migrations/15-Add_group_to_PreLibraryPrep_LibraryPrep_LibraryPool.xml"/>
   <include file="db/changelog/migrations/16-Add_group_to_LibraryPrepBatch.xml"/>
   <include file="db/changelog/migrations/17-Add_reactionDate_and_attachments_to_PcrBatch.xml"/>
+  <include file="db/changelog/migrations/18-Add_new_PCRBatchItem.xml"/>
+  <include file="db/changelog/migrations/19-Add_ContainerType_to_PCRBatch.xml"/>
+  <include file="db/changelog/migrations/20-Add_well_coordinates_PCRBatchItem.xml"/>
 </databaseChangeLog>

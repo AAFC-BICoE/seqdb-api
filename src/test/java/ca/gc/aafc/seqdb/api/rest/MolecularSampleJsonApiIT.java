@@ -70,7 +70,6 @@ public class MolecularSampleJsonApiIT extends BaseJsonApiIntegrationTest {
   protected Map<String, Object> buildCreateAttributeMap() {
 
     MolecularSample molecularSample = MolecularSampleFactory.newMolecularSample()
-      .notes("test notes")
       .build();
     
     return toAttributeMap(molecularSample);
@@ -115,7 +114,6 @@ public class MolecularSampleJsonApiIT extends BaseJsonApiIntegrationTest {
   protected Map<String, Object> buildUpdateAttributeMap() {
 
     MolecularSample molecularSample = MolecularSampleFactory.newMolecularSample()
-      .notes("updated notes")
       .build();
     
     return toAttributeMap(molecularSample);

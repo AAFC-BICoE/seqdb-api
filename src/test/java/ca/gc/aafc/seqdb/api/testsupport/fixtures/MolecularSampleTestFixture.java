@@ -12,7 +12,6 @@ public class MolecularSampleTestFixture {
     molecularSampleDto.setGroup(GROUP);
     molecularSampleDto.setCreatedBy("createdBy");
     molecularSampleDto.setName(TestableEntityFactory.generateRandomName(10));
-    molecularSampleDto.setVersion("v1.0");
     return molecularSampleDto;
   }
   

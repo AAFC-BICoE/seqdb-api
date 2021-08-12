@@ -31,7 +31,7 @@ import lombok.Setter;
 
 @Entity
 @Table(
-  name = "MolecularSamples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
+  name = "MolecularSamples"
 )
 @Getter
 @Setter
@@ -61,15 +61,6 @@ public class MolecularSample implements DinaEntity {
   @Size(max = 50)
   private String name;
 
-  @NotNull
-  @Size(max = 50)
-  private String version;
-
-  private String notes;
-
-  @Version
-  private Timestamp lastModified;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "productid")
   private Product kit;
@@ -77,9 +68,6 @@ public class MolecularSample implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "protocolid")
   private Protocol protocol;
-
-  private String discardedNotes;
-  private LocalDate dateDiscarded;
 
   private UUID materialSample;
 

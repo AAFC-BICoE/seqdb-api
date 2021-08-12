@@ -23,10 +23,8 @@ import io.crnk.core.queryspec.QuerySpec;
 public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
 
   private static final String TEST_MOLECULAR_SAMPLE_NAME = "molecular sample name";
-  private static final String TEST_MOLECULAR_SAMPLE_VERSION = "molecular sample version";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_CREATE = "molecular sample name";
-  private static final String TEST_MOLECULAR_SAMPLE_VERSION_CREATE = "molecular sample version";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_UPDATE = "molecular update name";
 
@@ -46,7 +44,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private MolecularSample createTestSample() {
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName(TEST_MOLECULAR_SAMPLE_NAME_CREATE);
-    testMolecularSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
     testMolecularSample.setMaterialSample(TEST_MATERIAL_SAMPLE_UUID);
     
     persist(testMolecularSample);
@@ -73,7 +70,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(molecularSampleDto);
     assertEquals(testMolecularSample.getUuid(), molecularSampleDto.getUuid());
     assertEquals(TEST_MOLECULAR_SAMPLE_NAME, molecularSampleDto.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION, molecularSampleDto.getVersion());
     assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), molecularSampleDto.getMaterialSample().getId());
   }
   
@@ -86,7 +82,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
 
     MolecularSampleDto newSample = new MolecularSampleDto();
     newSample.setName(newSampleName);
-    newSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
     newSample.setMaterialSample(ExternalRelationDto.builder().id(TEST_MATERIAL_SAMPLE_UUID.toString()).type("material-sample").build());
     
     MolecularSampleDto createdSample = molecularSampleRepository.create(newSample);
@@ -94,7 +89,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     //DTO has the set value
     assertNotNull(createdSample.getUuid());
     assertEquals(newSampleName, createdSample.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, createdSample.getVersion());
     assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), createdSample.getMaterialSample().getId());
 
     
@@ -103,7 +97,6 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     
     assertNotNull(sampleEntity.getId());
     assertEquals(newSampleName, sampleEntity.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, sampleEntity.getVersion());
     assertEquals(TEST_MATERIAL_SAMPLE_UUID, sampleEntity.getMaterialSample());
 
   }

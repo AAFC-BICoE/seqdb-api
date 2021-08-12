@@ -60,16 +60,16 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
   @Override
   public void validateBusinessRules(LibraryPrep entity) {
     
-      Objects.requireNonNull(entity);
+    Objects.requireNonNull(entity);
   
-      Errors errors = ValidationErrorsHelper.newErrorsObject(entity);
-      containerLocationValidator.validate(ContainerLocationValidator.ContainerLocationArgs.of(
-        entity.getWellRow(), 
-        entity.getWellColumn(), 
-        entity.getLibraryPrepBatch().getContainerType()),  
-        errors);
-  
-      ValidationErrorsHelper.errorsToValidationException(errors);
+    Errors errors = ValidationErrorsHelper.newErrorsObject(entity);
+    containerLocationValidator.validate(ContainerLocationValidator.ContainerLocationArgs.of(
+      entity.getWellRow(), 
+      entity.getWellColumn(), 
+      entity.getLibraryPrepBatch().getContainerType()),  
+      errors);
+
+    ValidationErrorsHelper.errorsToValidationException(errors);
   }
 
   private void handleOverlap(LibraryPrep libraryPrep) {

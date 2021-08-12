@@ -1,5 +1,6 @@
-package ca.gc.aafc.seqdb.api.entities;
+package ca.gc.aafc.seqdb.api.entities.sanger;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +29,10 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.ContainerType;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -108,5 +113,16 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "reaction_volume")
   @Size(max = 50)
   private String reactionVolume;
+
+  @Column(name = "reaction_date")
+  private LocalDate reactionDate;
+
+  @Type(type = "list-array")
+  @Column(name = "attachment", columnDefinition = "uuid[]")
+  private List<UUID> attachment = Collections.emptyList();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "container_type_id")
+  private ContainerType containerType;
   
 }

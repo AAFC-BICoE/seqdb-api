@@ -1,8 +1,6 @@
-package ca.gc.aafc.seqdb.api.entities;
+package ca.gc.aafc.seqdb.api.entities.sanger;
 
 import java.time.OffsetDateTime;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -14,21 +12,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,13 +41,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @NaturalIdCache
-@Table(name = "pcr_reaction")
-@TypeDef(
-  name = "list-array",
-  typeClass = ListArrayType.class
-)
-public class PcrReaction implements DinaEntity {
-
+@Table(name = "pcr_batch_item")
+public class PcrBatchItem implements DinaEntity {
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -72,18 +65,22 @@ public class PcrReaction implements DinaEntity {
   @Column(name = "_group")
   private String group;
 
-  @Type(type = "list-array")
-  @Column(name = "attachment", columnDefinition = "uuid[]")
-  private List<UUID> attachment = Collections.emptyList();
-
   @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
   @JoinColumn(name = "pcr_batch_id")
   private PcrBatch pcrBatch;
 
-  @Size(max = 50)
-  private String result;
+  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @JoinColumn(name = "sample_id")
+  private MolecularSample sample;
 
-  @Size(max = 50)
-  private String target;
-  
+  @Min(value = 1)
+  @Max(value = 255)
+  @Column(name = "well_column")
+  private Integer wellColumn;
+
+  @Size(max = 2)
+  @Pattern(regexp = "[a-zA-Z]")
+  @Column(name = "well_row")
+  private String wellRow;
+
 }

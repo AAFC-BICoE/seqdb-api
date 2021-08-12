@@ -2,13 +2,13 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.UUID;
 
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 
-public class PcrBatchFactory implements TestableEntityFactory<PcrBatch> {
+public class PcrBatchItemFactory implements TestableEntityFactory<PcrBatchItem> {
 
   @Override
-  public PcrBatch getEntityInstance() {
-    return newPcrBatch().build();
+  public PcrBatchItem getEntityInstance() {
+    return newPcrBatchItem().build();
   }
     
   /**
@@ -16,12 +16,13 @@ public class PcrBatchFactory implements TestableEntityFactory<PcrBatch> {
    * to return the actual entity object, call the .build() method on a builder.
    * @return Pre-configured builder with all mandatory fields set
    */
-  public static PcrBatch.PcrBatchBuilder newPcrBatch() {
+  public static PcrBatchItem.PcrBatchItemBuilder newPcrBatchItem() {
     
-    return PcrBatch.builder()
+    return PcrBatchItem.builder()
       .uuid(UUID.randomUUID())
       .createdBy("test user")
-      .name(TestableEntityFactory.generateRandomName(10))
+      .wellColumn(5)
+      .wellRow("B")
       .group("dina");
     
   }  

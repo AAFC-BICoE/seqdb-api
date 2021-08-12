@@ -1,23 +1,24 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import java.util.Optional;
+
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.stereotype.Repository;
+
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
 import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 import lombok.NonNull;
-import org.springframework.boot.info.BuildProperties;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
-public class PcrBatchRepository extends DinaRepository<PcrBatchDto, PcrBatch> {  
+public class PcrBatchItemRepository extends DinaRepository<PcrBatchItemDto, PcrBatchItem> {  
   
-  public PcrBatchRepository(
-    @NonNull DinaService<PcrBatch> dinaService,
+  public PcrBatchItemRepository(
+    @NonNull DinaService<PcrBatchItem> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider) {
@@ -25,12 +26,13 @@ public class PcrBatchRepository extends DinaRepository<PcrBatchDto, PcrBatch> {
       dinaService,
       groupAuthorizationService,
       Optional.empty(),
-      new DinaMapper<>(PcrBatchDto.class),
-      PcrBatchDto.class,
-      PcrBatch.class,
+      new DinaMapper<>(PcrBatchItemDto.class),
+      PcrBatchItemDto.class,
+      PcrBatchItem.class,
       null,
       externalResourceProvider,
       props);
   }
 
 }
+

@@ -9,10 +9,11 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.seqdb.api.dto.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
@@ -33,10 +34,14 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
   @Inject
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
 
+  @Inject
+  private ContainerTypeRepository containerTypeRepository;
+
   private PcrPrimerDto primerForwardTest;
   private PcrPrimerDto primerReverseTest;
   private RegionDto regionTest;
   private ThermocyclerProfileDto thermocyclerProfileTest;
+  private ContainerTypeDto containerTypeTest;
 
   @BeforeEach
   public void setup() {
@@ -70,6 +75,13 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     thermocyclerProfileDto.setName("thermocyclerProfile");
 
     thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfileDto);
+
+    ContainerTypeDto containerType = new ContainerTypeDto();
+    containerType.setName("containerType");
+    containerType.setNumberOfRows(10);
+    containerType.setNumberOfColumns(10);
+    
+    containerTypeTest = containerTypeRepository.create(containerType);
   }
 
   @Test
@@ -80,6 +92,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
+    newDto.setContainerType(containerTypeTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
 
@@ -94,6 +107,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
+    assertEquals(containerTypeTest.getUuid(), found.getContainerType().getUuid());
 
     assertEquals(PcrBatchTestFixture.GROUP, found.getGroup());
     assertEquals(PcrBatchTestFixture.CREATED_BY, found.getCreatedBy());
@@ -101,6 +115,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.OBJECTIVE, found.getObjective());
     assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, found.getPositiveControl());
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
+    assertEquals(PcrBatchTestFixture.REACTION_DATE, found.getReactionDate());
   }
   
   @Test
@@ -111,6 +126,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
+    newDto.setContainerType(containerTypeTest);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
@@ -118,6 +134,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
+    assertEquals(containerTypeTest.getUuid(), created.getContainerType().getUuid());
 
     assertEquals(PcrBatchTestFixture.GROUP, created.getGroup());
     assertEquals(PcrBatchTestFixture.CREATED_BY, created.getCreatedBy());
@@ -125,6 +142,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.OBJECTIVE, created.getObjective());
     assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, created.getPositiveControl());
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, created.getReactionVolume());
+    assertEquals(PcrBatchTestFixture.REACTION_DATE, created.getReactionDate());
   }
   
   @Test

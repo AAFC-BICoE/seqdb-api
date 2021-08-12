@@ -1,34 +1,35 @@
 package ca.gc.aafc.seqdb.api.service.libraryprep;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.google.common.base.Objects;
-
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
+import ca.gc.aafc.dina.validation.ValidationErrorsHelper;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-import ca.gc.aafc.seqdb.api.validation.GenericContainerLocationValidator;
+import ca.gc.aafc.seqdb.api.validation.ContainerLocationValidator;
 import lombok.NonNull;
 
 @Service
 public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   private BaseDAO baseDAO;
-  private final GenericContainerLocationValidator genericContainerLocationValidator;
+  private final ContainerLocationValidator containerLocationValidator;
 
   public LibraryPrepService(
     @NonNull BaseDAO baseDAO,
     @NonNull SmartValidator sv,
-    @NonNull GenericContainerLocationValidator genericContainerLocationValidator) {
+    @NonNull ContainerLocationValidator containerLocationValidator) {
     super(baseDAO, sv);
     this.baseDAO = baseDAO;
-    this.genericContainerLocationValidator = genericContainerLocationValidator;
+    this.containerLocationValidator = containerLocationValidator;
   }
 
   @Override
@@ -58,7 +59,17 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   @Override
   public void validateBusinessRules(LibraryPrep entity) {
-    applyBusinessRule(entity, genericContainerLocationValidator);
+    
+      Objects.requireNonNull(entity);
+  
+      Errors errors = ValidationErrorsHelper.newErrorsObject(entity);
+      containerLocationValidator.validate(ContainerLocationValidator.ContainerLocationArgs.of(
+        entity.getWellRow(), 
+        entity.getWellColumn(), 
+        entity.getLibraryPrepBatch().getContainerType()),  
+        errors);
+  
+      ValidationErrorsHelper.errorsToValidationException(errors);
   }
 
   private void handleOverlap(LibraryPrep libraryPrep) {
@@ -83,8 +94,8 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
       for (LibraryPrep otherPrep : otherPreps) {
         // If an existing libraryprep has these coordinates,
         // set the existing libraryprep's coordinates to null:
-        if (Objects.equal(col, otherPrep.getWellColumn())
-            && Objects.equal(row, otherPrep.getWellRow())) {
+        if (Objects.equals(col, otherPrep.getWellColumn())
+            && Objects.equals(row, otherPrep.getWellRow())) {
           otherPrep.setWellColumn(null);
           otherPrep.setWellRow(null);
           this.update(otherPrep);

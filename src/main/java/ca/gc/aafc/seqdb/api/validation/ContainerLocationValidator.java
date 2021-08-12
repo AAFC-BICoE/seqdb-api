@@ -10,10 +10,13 @@ import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
 @Component
-public class GenericContainerLocationValidator implements Validator {
+public class ContainerLocationValidator implements Validator {
 
   private final MessageSource messageSource;
 
@@ -22,32 +25,25 @@ public class GenericContainerLocationValidator implements Validator {
   public static final String VALID_WELL_COL_CONTAINER_TYPE = "validation.constraint.violation.wellColContainerType";
   public static final String VALID_WELL_ROW_CONTAINER_TYPE = "validation.constraint.violation.wellRowContainerType";
 
-  public GenericContainerLocationValidator(MessageSource messageSource) {
+  public ContainerLocationValidator(MessageSource messageSource) {
     this.messageSource = messageSource;
   }
 
   @Override
   public boolean supports(@NonNull Class<?> clazz) {
-    return LibraryPrep.class.isAssignableFrom(clazz) || PcrBatchItem.class.isAssignableFrom(clazz);
+    return ContainerLocationArgs.class.isAssignableFrom(clazz);
   }
 
   @Override
   public void validate(@NonNull Object target, @NonNull Errors errors) {
     if (!supports(target.getClass())) {
-      throw new IllegalArgumentException("StorageUnitValidator not supported for class " + target.getClass());
+      throw new IllegalArgumentException("ContainerLocationValidator not supported for class " + target.getClass());
     }
 
-    if (target instanceof LibraryPrep) {
-      LibraryPrep libraryPrep = (LibraryPrep) target;
-      checkColAndRow(libraryPrep.getWellRow(), libraryPrep.getWellColumn(), errors);
-      checkContainerType(libraryPrep.getWellRow(), libraryPrep.getWellColumn(), libraryPrep.getLibraryPrepBatch().getContainerType(), errors);
-    }
+    ContainerLocationArgs containerLocationArgs = (ContainerLocationArgs) target;
 
-    if (target instanceof PcrBatchItem) {
-      PcrBatchItem pcrBatchItem = (PcrBatchItem) target;
-      checkColAndRow(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(), errors);
-      checkContainerType(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(), pcrBatchItem.getPcrBatch().getContainerType(), errors);
-    }
+    checkColAndRow(containerLocationArgs.getWellRow(), containerLocationArgs.getWellColumn(), errors);
+    checkContainerType(containerLocationArgs.getWellRow(), containerLocationArgs.getWellColumn(), containerLocationArgs.getContainerType(), errors);
   }
 
   private void checkColAndRow(String row, Integer col, Errors errors) {
@@ -86,6 +82,16 @@ public class GenericContainerLocationValidator implements Validator {
 
   private String getMessage(String key, Object... objects) {
     return messageSource.getMessage(key, objects, LocaleContextHolder.getLocale());
+  }
+
+  @Getter
+  @AllArgsConstructor(staticName = "of")
+  public static class ContainerLocationArgs {
+
+    private String wellRow;
+    private Integer wellColumn;
+    private ContainerType containerType;
+
   }
 
 }

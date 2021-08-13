@@ -44,7 +44,6 @@ import lombok.Setter;
 @SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class MolecularSample implements DinaEntity {
 
-  @AllArgsConstructor
   public enum SampleType {
     DNA
   }

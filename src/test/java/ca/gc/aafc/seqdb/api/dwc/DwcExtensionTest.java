@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class DwcExtensionTest {
 
-  public static final String DEFAULT_UNMARSHALLING_FILE = "mixs_darwin_core_extension.xml";
+  public static final String DEFAULT_UNMARSHALLING_FILE = "dwc/mixs_darwin_core_extension.xml";
 
   @Test
   public void whenReadingDwcExtensionXML_ThenCorrectExtensionIsReturned()

@@ -7,17 +7,23 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+/**
+ * Represents a DarwinCore Extension as defined on https://rs.gbif.org/extension/
+ *
+ */
+@Getter
 @XmlRootElement(name = "extension", namespace = "http://rs.gbif.org/extension/")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,11 +45,22 @@ public class Extension {
   private String description;
 
   @XmlElement(name = "property", namespace = "http://rs.gbif.org/extension/")
-  private List<Property> properties = new ArrayList<Property>();
+  private final List<Property> properties = new ArrayList<>();
 
-  @XmlTransient
-  public Map<String, Property> getPropertyMap() {
-    return properties.stream()
-      .collect(Collectors.toMap(Property::getName, Function.identity()));
+  @Setter(AccessLevel.NONE) //no setter
+  private Map<String, Property> propertyMap;
+
+  /**
+   * Auto-magically called by the Unmarshaller
+   * @param u
+   * @param parent
+   */
+  void afterUnmarshal(Unmarshaller u, Object parent) {
+    propertyMap = properties.stream()
+        .collect(Collectors.toMap(Property::getName, Function.identity()));
+  }
+
+  public Property getProperty(String propertyName) {
+    return propertyMap.get(propertyName);
   }
 }

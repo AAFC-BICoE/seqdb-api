@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @XmlRootElement(name = "property")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Property {

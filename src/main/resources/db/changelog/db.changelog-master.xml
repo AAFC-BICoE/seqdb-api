@@ -23,4 +23,5 @@
   <include file="db/changelog/migrations/18-Add_new_PCRBatchItem.xml"/>
   <include file="db/changelog/migrations/19-Add_ContainerType_to_PCRBatch.xml"/>
   <include file="db/changelog/migrations/20-Add_well_coordinates_PCRBatchItem.xml"/>
+  <include file="db/changelog/migrations/21-Bring_back_SampleType.xml"/>
 </databaseChangeLog>

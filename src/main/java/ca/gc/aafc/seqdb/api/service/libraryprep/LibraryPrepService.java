@@ -6,12 +6,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
 import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
-import ca.gc.aafc.dina.validation.ValidationErrorsHelper;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.validation.ContainerLocationValidator;
@@ -59,17 +57,14 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   @Override
   public void validateBusinessRules(LibraryPrep entity) {
-    
-    Objects.requireNonNull(entity);
-  
-    Errors errors = ValidationErrorsHelper.newErrorsObject(entity);
-    containerLocationValidator.validate(ContainerLocationValidator.ContainerLocationArgs.of(
-      entity.getWellRow(), 
-      entity.getWellColumn(), 
-      entity.getLibraryPrepBatch().getContainerType()),  
-      errors);
-
-    ValidationErrorsHelper.errorsToValidationException(errors);
+    applyBusinessRule(
+      entity.getUuid().toString(), 
+      ContainerLocationValidator.ContainerLocationArgs.of(
+        entity.getWellRow(), 
+        entity.getWellColumn(), 
+        entity.getLibraryPrepBatch().getContainerType()
+      ), 
+      containerLocationValidator);
   }
 
   private void handleOverlap(LibraryPrep libraryPrep) {

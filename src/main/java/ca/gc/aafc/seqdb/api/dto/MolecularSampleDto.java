@@ -52,4 +52,6 @@ public class MolecularSampleDto {
   @JsonApiRelation
   private ExternalRelationDto materialSample;
 
+  private MolecularSample.SampleType sampleType;
+
 }

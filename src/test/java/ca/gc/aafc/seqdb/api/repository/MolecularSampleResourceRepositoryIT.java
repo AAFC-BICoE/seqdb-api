@@ -27,6 +27,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_MOLECULAR_SAMPLE_NAME_CREATE = "molecular sample name";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_UPDATE = "molecular update name";
+  private static final MolecularSample.SampleType TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE = MolecularSample.SampleType.DNA;
+
 
   private static final UUID TEST_MATERIAL_SAMPLE_UUID = UUID.randomUUID();
 
@@ -45,6 +47,7 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName(TEST_MOLECULAR_SAMPLE_NAME_CREATE);
     testMolecularSample.setMaterialSample(TEST_MATERIAL_SAMPLE_UUID);
+    testMolecularSample.setSampleType(TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE);
     
     persist(testMolecularSample);
     
@@ -71,6 +74,7 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertEquals(testMolecularSample.getUuid(), molecularSampleDto.getUuid());
     assertEquals(TEST_MOLECULAR_SAMPLE_NAME, molecularSampleDto.getName());
     assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), molecularSampleDto.getMaterialSample().getId());
+    assertEquals(TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE, molecularSampleDto.getSampleType());
   }
   
   /**

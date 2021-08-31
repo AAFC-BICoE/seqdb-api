@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -13,26 +12,28 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
 
   private static final String TEST_MOLECULAR_SAMPLE_NAME = "molecular sample name";
-  private static final String TEST_MOLECULAR_SAMPLE_VERSION = "molecular sample version";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_CREATE = "molecular sample name";
-  private static final String TEST_MOLECULAR_SAMPLE_VERSION_CREATE = "molecular sample version";
   
   private static final String TEST_MOLECULAR_SAMPLE_NAME_UPDATE = "molecular update name";
-  
+  private static final MolecularSample.SampleType TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE = MolecularSample.SampleType.DNA;
+
+
+  private static final UUID TEST_MATERIAL_SAMPLE_UUID = UUID.randomUUID();
+
   @Inject
-  private ResourceRepository<MolecularSampleDto, Serializable> molecularSampleRepository;
+  private MolecularSampleRepository molecularSampleRepository;
 
   @Inject
   private BaseDAO baseDao;
@@ -45,7 +46,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
   private MolecularSample createTestSample() {
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName(TEST_MOLECULAR_SAMPLE_NAME_CREATE);
-    testMolecularSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
+    testMolecularSample.setMaterialSample(TEST_MATERIAL_SAMPLE_UUID);
+    testMolecularSample.setSampleType(TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE);
     
     persist(testMolecularSample);
     
@@ -71,7 +73,8 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
     assertNotNull(molecularSampleDto);
     assertEquals(testMolecularSample.getUuid(), molecularSampleDto.getUuid());
     assertEquals(TEST_MOLECULAR_SAMPLE_NAME, molecularSampleDto.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION, molecularSampleDto.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), molecularSampleDto.getMaterialSample().getId());
+    assertEquals(TEST_MOLECULAR_SAMPLE_SAMPLE_TYPE, molecularSampleDto.getSampleType());
   }
   
   /**
@@ -83,21 +86,23 @@ public class MolecularSampleResourceRepositoryIT extends BaseRepositoryTest {
 
     MolecularSampleDto newSample = new MolecularSampleDto();
     newSample.setName(newSampleName);
-    newSample.setVersion(TEST_MOLECULAR_SAMPLE_VERSION_CREATE);
+    newSample.setMaterialSample(ExternalRelationDto.builder().id(TEST_MATERIAL_SAMPLE_UUID.toString()).type("material-sample").build());
     
     MolecularSampleDto createdSample = molecularSampleRepository.create(newSample);
     
     //DTO has the set value
     assertNotNull(createdSample.getUuid());
     assertEquals(newSampleName, createdSample.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, createdSample.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID.toString(), createdSample.getMaterialSample().getId());
+
     
     //entity has the set value    
     MolecularSample sampleEntity = baseDao.findOneByNaturalId(createdSample.getUuid(), MolecularSample.class);
     
     assertNotNull(sampleEntity.getId());
     assertEquals(newSampleName, sampleEntity.getName());
-    assertEquals(TEST_MOLECULAR_SAMPLE_VERSION_CREATE, sampleEntity.getVersion());
+    assertEquals(TEST_MATERIAL_SAMPLE_UUID, sampleEntity.getMaterialSample());
+
   }
   
   /**

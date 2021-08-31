@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
 
@@ -41,16 +39,15 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private Protocol testProtocol;
   private MolecularSample testMolecularSample;
   private List<MolecularSample> testSamples;
-  
+
   @Inject
-  private ResourceRepository<LibraryPrepBatchDto, Serializable> libraryPrepBatchRepository;
-  
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
   @Inject
-  private ResourceRepository<LibraryPrepDto, Serializable> libraryPrepRepository;
-  
+  private LibraryPrepRepository libraryPrepRepository;
+
   @Inject
-  private ResourceRepository<MolecularSampleDto, Serializable> sampleRepository;
-  
+  private MolecularSampleRepository molecularSampleRepository;
   
   private LibraryPrep createTestLibraryPrep() {
     
@@ -67,7 +64,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName("test sample");
-    testMolecularSample.setVersion("a");
     
     persist(testMolecularSample);
     
@@ -88,7 +84,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     for (int i = 1; i <= 22; i++) {
       MolecularSample sample = new MolecularSample();
       sample.setName("sample " + i);
-      sample.setVersion("a");
       testSamples.add(sample);
       persist(sample);
     }
@@ -121,13 +116,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   public void createLibPrep_onSuccess_libPrepCreated() {
     MolecularSampleDto newSample = new MolecularSampleDto();
     newSample.setName("new sample");
-    newSample.setVersion("a");
-    MolecularSampleDto newSampleCreated = sampleRepository.create(newSample);
+    MolecularSampleDto newSampleCreated = molecularSampleRepository.create(newSample);
     
     LibraryPrepDto newDto = new LibraryPrepDto();
     newDto.setSize("test size");
     newDto.setMolecularSample(newSampleCreated);
     newDto.setLibraryPrepBatch(testBatchDto);
+    newDto.setGroup("dina");
     
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
@@ -148,8 +143,9 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     LibraryPrepDto prep1 = new LibraryPrepDto();
     prep1.setWellRow("B");
     prep1.setWellColumn(5);
+    prep1.setGroup("dina");
     prep1.setMolecularSample(
-        sampleRepository.findOne(
+        molecularSampleRepository.findOne(
             testSamples.get(0).getUuid(),
             new QuerySpec(MolecularSampleDto.class)
         )
@@ -160,8 +156,9 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     LibraryPrepDto prep2 = new LibraryPrepDto();
     prep2.setWellRow("B");
     prep2.setWellColumn(5);
+    prep2.setGroup("dina");
     prep2.setMolecularSample(
-        sampleRepository.findOne(
+        molecularSampleRepository.findOne(
             testSamples.get(1).getUuid(),
             new QuerySpec(MolecularSampleDto.class)
         )

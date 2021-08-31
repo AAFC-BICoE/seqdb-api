@@ -13,7 +13,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "libraryPool")
+@JsonApiResource(type = "library-pool")
 @RelatedEntity(LibraryPool.class)
 public class LibraryPoolDto {
 
@@ -22,6 +22,7 @@ public class LibraryPoolDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
+  private String group;
 
   private String name;
   

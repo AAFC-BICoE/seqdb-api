@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -17,8 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
@@ -28,7 +27,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.workflow.Chain;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -63,16 +61,12 @@ public class PreLibraryPrep implements DinaEntity {
     private final String value;
   }
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -80,16 +74,14 @@ public class PreLibraryPrep implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @Type(type = "pgsql_enum"),
-    @Enumerated(EnumType.STRING)
-    }))
+  @NotNull
+  @Type(type = "pgsql_enum")
+  @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;
 
-  private Double targetDpSize;
+  private Double targetBpSize;
 
   private Double averageFragmentSize;
 
@@ -99,36 +91,22 @@ public class PreLibraryPrep implements DinaEntity {
 
   private String notes;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "protocolid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "protocolid")
   private Protocol protocol;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "productid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "productid")
   private Product product;
   
-  @Getter(onMethod = @__({
-    @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
-    }))
+  @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
   private StepResource stepResource;
 
-  @Getter(onMethod = @__({
-    @Version
-    }))
+  @Version
   private Timestamp lastModified;
 
-
-  @Transient
-  @Override
-  public String getGroup() {
-    return Optional.ofNullable(this.getStepResource())
-      .map(StepResource::getChain)
-      .map(Chain::getGroup)
-      .orElse(null);
-  }
+  @NotBlank
+  @Column(name = "_group")
+  private String group;
 
 }

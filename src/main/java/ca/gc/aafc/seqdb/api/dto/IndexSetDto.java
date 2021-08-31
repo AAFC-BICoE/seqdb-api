@@ -12,7 +12,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "indexSet")
+@JsonApiResource(type = "index-set")
 @RelatedEntity(IndexSet.class)
 public class IndexSetDto {
 

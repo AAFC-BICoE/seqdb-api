@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.Serializable;
-
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
@@ -14,18 +12,17 @@ import org.junit.jupiter.api.BeforeEach;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
+
+  @Inject
+  private ContainerTypeRepository containerTypeRepository;
 
   private static final String TEST_CONTAINERTYPE_NAME = "test ct";
   private static final Integer TEST_CONTAINERTYPE_COLS = 8;
   private static final Integer TEST_CONTAINERTYPE_ROWS = 12;
 
   private ContainerType testContainerType;
-
-  @Inject
-  private ResourceRepository<ContainerTypeDto, Serializable> ctRepository;
 
   private ContainerType createTestContainerType() {
     testContainerType = new ContainerType();
@@ -44,7 +41,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void findContainerType_whenExists_containerTypeReturned() {
-    ContainerTypeDto dto = ctRepository.findOne(
+    ContainerTypeDto dto = containerTypeRepository.findOne(
         testContainerType.getUuid(),
         new QuerySpec(ContainerTypeDto.class)
     );
@@ -62,7 +59,7 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
     newDto.setNumberOfColumns(TEST_CONTAINERTYPE_COLS);
     newDto.setNumberOfRows(TEST_CONTAINERTYPE_ROWS);
     
-    ContainerTypeDto created = ctRepository.create(newDto);
+    ContainerTypeDto created = containerTypeRepository.create(newDto);
     
     assertNotNull(created.getUuid());
     assertEquals(newContainerTypeName, created.getName());
@@ -72,21 +69,21 @@ public class ContainerTypeResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void updateContainerType_onSucess_containerTypeUpdated() {
-    ContainerTypeDto dto = ctRepository.findOne(
+    ContainerTypeDto dto = containerTypeRepository.findOne(
         testContainerType.getUuid(),
         new QuerySpec(ContainerTypeDto.class)
     );
     
     dto.setNumberOfRows(10);
     
-    ctRepository.save(dto);
+    containerTypeRepository.save(dto);
     
     assertEquals((Integer) 10, testContainerType.getNumberOfRows());
   }
   
   @Test
   public void deleteContainerType_onSuccess_containerTypeDeleted() {
-    ctRepository.delete(testContainerType.getUuid());
+    containerTypeRepository.delete(testContainerType.getUuid());
     assertNull(entityManager.find(ContainerType.class, testContainerType.getId()));
   }
 }

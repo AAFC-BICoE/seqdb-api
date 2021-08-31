@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
-import ca.gc.aafc.seqdb.api.entities.PcrProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -13,9 +13,9 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "thermocyclerprofile")
+@JsonApiResource(type = "thermocycler-profile")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-@RelatedEntity(PcrProfile.class)
+@RelatedEntity(ThermocyclerProfile.class)
 public class ThermocyclerProfileDto {
 
   @JsonApiId

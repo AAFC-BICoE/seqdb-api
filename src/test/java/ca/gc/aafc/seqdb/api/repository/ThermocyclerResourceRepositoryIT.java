@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -15,11 +14,10 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.PcrProfile;
-import ca.gc.aafc.seqdb.api.testsupport.factories.PcrProfileFactory;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
+import ca.gc.aafc.seqdb.api.testsupport.factories.ThermocyclerProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
@@ -27,17 +25,17 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   private static final String TEST_PROFILE_NAME = "test name";
   
   private static final String TEST_PROFILE_CYCLE = "Cycle";
-  
-  @Inject
-  private ResourceRepository<ThermocyclerProfileDto, Serializable> thermoRepository;
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private ThermocyclerProfileRepository thermocyclerProfileRepository;
   
-  private PcrProfile testPcrProfile;
+  private ThermocyclerProfile testThermocyclerProfile;
   
-  private PcrProfile createTestProfile() {
-    testPcrProfile = PcrProfileFactory.newPcrProfile()
+  private ThermocyclerProfile createTestProfile() {
+    testThermocyclerProfile = ThermocyclerProfileFactory.newThermocyclerProfile()
         .name(TEST_PROFILE_NAME)
         .cycles(TEST_PROFILE_CYCLE)
         .step1("1")
@@ -56,12 +54,12 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
         .step14("14")
         .step15("15")
         .build();
-  persist(testPcrProfile);
+  persist(testThermocyclerProfile);
     
-  return testPcrProfile;
+  return testThermocyclerProfile;
   }
   
-  private void verifyStepsAreEqual(PcrProfile entity, ThermocyclerProfileDto dto) {
+  private void verifyStepsAreEqual(ThermocyclerProfile entity, ThermocyclerProfileDto dto) {
     
     assertEquals(dto.getStep1(), entity.getStep1());
     assertEquals(dto.getStep2(), entity.getStep2());
@@ -108,17 +106,17 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findThermocyclerProfile_whenNoFieldsAreSelected_productReturnedWithAllFields() {
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getUuid(), new QuerySpec(ThermocyclerProfileDto.class));
+    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocyclerProfile.getUuid(), new QuerySpec(ThermocyclerProfileDto.class));
     assertNotNull(thermoDto);
-    assertEquals(testPcrProfile.getUuid(), thermoDto.getUuid());
+    assertEquals(testThermocyclerProfile.getUuid(), thermoDto.getUuid());
     assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
     assertEquals(TEST_PROFILE_CYCLE, thermoDto.getCycles());
-    verifyStepsAreEqual(testPcrProfile, thermoDto);
+    verifyStepsAreEqual(testThermocyclerProfile, thermoDto);
 
   }
   
   @Test
-  public void createAndPersistPcrProfile_onSucess_allFieldsHavePersistedValues() {
+  public void createAndPersistThermocyclerProfile_onSucess_allFieldsHavePersistedValues() {
     String newThermocyclerProfileName = "new thermocycler profile";
 
     //set a base DTO
@@ -127,7 +125,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     baseDto.setCycles(TEST_PROFILE_CYCLE);
     
     //create the DTO in the repository
-    ThermocyclerProfileDto createdDto = thermoRepository.create(baseDto);
+    ThermocyclerProfileDto createdDto = thermocyclerProfileRepository.create(baseDto);
     
     //Assert DTO has the set values
     assertNotNull(createdDto.getUuid());
@@ -136,7 +134,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
     verifyStepsAreEqual(baseDto, createdDto);
     
     //Assert Entity has the set values
-    PcrProfile profileEntity = baseDao.findOneByNaturalId(createdDto.getUuid(), PcrProfile.class);
+    ThermocyclerProfile profileEntity = baseDao.findOneByNaturalId(createdDto.getUuid(), ThermocyclerProfile.class);
     assertNotNull(profileEntity.getId());
     assertEquals(newThermocyclerProfileName, profileEntity.getName());
     assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());
@@ -146,32 +144,32 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   }
   
   @Test
-  public void updatePcrProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields() {
+  public void updateThermocyclerProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields() {
     
     QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
     
-    ThermocyclerProfileDto thermoDto = thermoRepository.findOne(testPcrProfile.getUuid(), querySpec);
+    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocyclerProfile.getUuid(), querySpec);
     
     thermoDto.setCycles("new cycles");
     
-    thermoRepository.save(thermoDto);
+    thermocyclerProfileRepository.save(thermoDto);
     
-    assertEquals("new cycles", testPcrProfile.getCycles());
-    
-  }
-
-  @Test
-  public void deletePcrProfile_callRepositoryDeleteOnID_profileNotFound() {
-    thermoRepository.delete(testPcrProfile.getUuid());
-    assertNull(entityManager.find(PcrProfile.class, testPcrProfile.getId()));
+    assertEquals("new cycles", testThermocyclerProfile.getCycles());
     
   }
 
   @Test
-  public void deletePcrProfile_nonexistentID_throwsResourceNotFoundException() {
+  public void deleteThermocyclerProfile_callRepositoryDeleteOnID_profileNotFound() {
+    thermocyclerProfileRepository.delete(testThermocyclerProfile.getUuid());
+    assertNull(entityManager.find(ThermocyclerProfile.class, testThermocyclerProfile.getId()));
+    
+  }
+
+  @Test
+  public void deleteThermocyclerProfile_nonexistentID_throwsResourceNotFoundException() {
     assertThrows(
       ResourceNotFoundException.class,
-      () -> thermoRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+      () -> thermocyclerProfileRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
     );
   }
 

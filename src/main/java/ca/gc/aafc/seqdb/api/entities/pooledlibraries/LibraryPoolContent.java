@@ -22,7 +22,6 @@ import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -37,16 +36,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LibraryPoolContent implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -54,23 +49,17 @@ public class LibraryPoolContent implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "librarypoolid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "librarypoolid")
   private LibraryPool libraryPool;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "pooledlibraryprepbatchid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "pooledlibraryprepbatchid")
   private LibraryPrepBatch pooledLibraryPrepBatch;
 
-  @Getter(onMethod = @__({
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "pooledlibrarypoolid")
-    }))
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "pooledlibrarypoolid")
   private LibraryPool pooledLibraryPool;
 
   @Transient

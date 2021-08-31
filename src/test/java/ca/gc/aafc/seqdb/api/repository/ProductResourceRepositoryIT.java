@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -19,9 +18,8 @@ import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
-public class ProductResourceRepositoryIT extends BaseRepositoryTest{
+public class ProductResourceRepositoryIT extends BaseRepositoryTest {
   
   protected static final String TEST_PRODUCT_NAME = "prodcut name";
   protected static final String TEST_PRODUCT_TYPE = "product type";
@@ -30,12 +28,12 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTest{
   protected static final String TEST_PRODUCT_NAME_CREATE = "prodcut name create";
   protected static final String TEST_PRODUCT_TYPE_CREATE = "product type create";
   protected static final String TEST_PRODUCT_DESCRIPTION_CREATE = "product desc create";
-    
-  @Inject
-  private ResourceRepository<ProductDto, Serializable> productRepository;
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private ProductRepository productRepository;
   
   private Product testProduct;
   

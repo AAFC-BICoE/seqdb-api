@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog db/changelog/xsd/dbchangelog-4.4.xsd"
+  objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+	      <changeSet 
+      id="initial-workflow-data"
+      context="initial-data"
+      author="poffm">
+        <sql>
+          insert into ChainTemplates (uuid, name) values ('ce9f0554-bc68-4afb-8086-89dd12961141', 'Whole Genome Sequencing');
+          insert into ChainTemplates (uuid, name) values ('b40a9d07-d61a-4d8a-9152-85af057bc79a', 'Whole Genome Sequencing Pooling');
+          
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('e7d5da36-c355-4c85-b1a3-62c8286cef64', 'Select Samples', '{"SAMPLE"}', '{"SAMPLE"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('6878b201-25ed-4ab7-bb6c-d74bfe05493b', 'Pre Library Prep', '{"SAMPLE"}', '{"SIZE_SELECTION"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('382a3dff-26c0-4184-9ea9-29172b1121cc', 'Library Prep', '{"SAMPLE"}', '{"LIBRARY_PREP_BATCH"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ef71eb53-6dfd-4f56-8cf5-f583a26fe700', 'Library Pooling', '{"LIBRARY_PREP_BATCH"}', '{"LIBRARY_POOL"}');
+          insert into StepTemplates (uuid, name, inputs, outputs) values ('ff0bee92-b81e-44d3-b158-6179b69207cb', 'Submission', '{"LIBRARY_POOL"}', '{"SEQ_SUBMISSION"}');
+          
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            '863f3315-e21a-4640-b358-7dddb09a6f69',
+            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
+            (select ID from StepTemplates where name = 'Select Samples'),
+            1
+          );
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            '2a4dbcae-1647-4bf9-a355-91346218171d',
+            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
+            (select ID from StepTemplates where name = 'Pre Library Prep'),
+            2
+          );
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            '6688805e-e590-414e-846e-9924309d15aa',
+            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
+            (select ID from StepTemplates where name = 'Library Prep'),
+            3
+          );
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            '93c6eaee-efc2-4357-a04c-e2b3d6f57cff',
+            (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
+            (select ID from StepTemplates where name = 'Library Pooling'),
+            1
+          );
+          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
+            'efd5df45-f9a3-42c9-b316-e42e354efbd0',
+            (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
+            (select ID from StepTemplates where name = 'Submission'),
+            2
+          );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

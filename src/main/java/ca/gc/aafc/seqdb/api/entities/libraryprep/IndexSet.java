@@ -20,7 +20,6 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -31,16 +30,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class IndexSet implements DinaEntity {
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -48,9 +43,7 @@ public class IndexSet implements DinaEntity {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
-  @Getter(onMethod = @__({
-    @Column(name = "groupname")
-    }))
+  @Column(name = "groupname")
   private String group;
 
   @NotNull
@@ -60,9 +53,7 @@ public class IndexSet implements DinaEntity {
   
   private String reverseAdapter;
   
-  @Getter(onMethod = @__({
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "indexSet")
-    }))
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "indexSet")
   private List<NgsIndex> ngsIndexes;
 
 }

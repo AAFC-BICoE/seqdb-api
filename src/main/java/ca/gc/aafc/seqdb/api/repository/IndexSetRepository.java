@@ -2,7 +2,8 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
-import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
+import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
@@ -17,17 +18,18 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
 
   public IndexSetRepository(
     @NonNull DinaService<IndexSet> dinaService,
-    Optional<DinaAuthorizationService> authService,
-    @NonNull BuildProperties props) {
+    DinaAuthorizationService groupAuthorizationService,
+    @NonNull BuildProperties props,
+    ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
-      authService,
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(IndexSetDto.class),
       IndexSetDto.class,
       IndexSet.class,
       null,
-      null,
+      externalResourceProvider,
       props);
   }
 

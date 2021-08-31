@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 import ca.gc.aafc.seqdb.api.dto.vocabularies.BaseVocabularyDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
-import ca.gc.aafc.seqdb.api.entities.PcrProfile;
+import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Region;
@@ -35,10 +36,11 @@ public class VocabularyReadOnlyRepository
    */
   private static final Set<Class<?>> EXPOSED_ENTITY_CLASSES = new HashSet<>(
       Arrays.asList(
-          Region.class, 
+          Region.class,
+          PcrBatch.class,
           PcrPrimer.class, 
           Product.class,
-          PcrProfile.class,
+          ThermocyclerProfile.class,
           Protocol.class,
           MolecularSample.class
          ));

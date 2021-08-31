@@ -1,20 +1,19 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog db/changelog/xsd/dbchangelog-4.4.xsd"
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
-	<changeSet author="poffm (generated)" id="1584740432194-1">
+	<changeSet id="1584740432194-1" context="schema-change" author="poffm (generated)"> 
 		<createSequence sequenceName="jv_commit_pk_seq" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-2">
+	<changeSet id="1584740432194-2" context="schema-change" author="poffm (generated)">
 		<createSequence sequenceName="jv_global_id_pk_seq" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-3">
+	<changeSet id="1584740432194-3" context="schema-change" author="poffm (generated)">
 		<createSequence sequenceName="jv_snapshot_pk_seq" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-5">
+	<changeSet id="1584740432194-5" context="schema-change" author="poffm (generated)">
 		<createTable tableName="jv_commit">
 			<column name="commit_pk" type="BIGINT">
 				<constraints primaryKey="true" primaryKeyName="jv_commit_pk" />
@@ -25,7 +24,7 @@
 			<column name="commit_id" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-6">
+	<changeSet id="1584740432194-6" context="schema-change" author="poffm (generated)">
 		<createTable tableName="jv_commit_property">
 			<column name="property_name" type="VARCHAR(191)">
 				<constraints primaryKey="true" primaryKeyName="jv_commit_property_pk" />
@@ -36,7 +35,7 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-7">
+	<changeSet id="1584740432194-7" context="schema-change" author="poffm (generated)">
 		<createTable tableName="jv_global_id">
 			<column name="global_id_pk" type="BIGINT">
 				<constraints primaryKey="true" primaryKeyName="jv_global_id_pk" />
@@ -47,7 +46,7 @@
 			<column name="owner_id_fk" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-8">
+	<changeSet id="1584740432194-8" context="schema-change" author="poffm (generated)">
 		<createTable tableName="jv_snapshot">
 			<column name="snapshot_pk" type="BIGINT">
 				<constraints primaryKey="true" primaryKeyName="jv_snapshot_pk" />
@@ -61,43 +60,43 @@
 			<column name="commit_fk" type="BIGINT" />
 		</createTable>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-23">
+	<changeSet id="1584740432194-23" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_commit_commit_id_idx" tableName="jv_commit">
 			<column name="commit_id" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-24">
+	<changeSet id="1584740432194-24" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_commit_property_commit_fk_idx" tableName="jv_commit_property">
 			<column name="commit_fk" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-25">
+	<changeSet id="1584740432194-25" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_commit_property_property_name_property_value_idx" tableName="jv_commit_property">
 			<column name="property_name" />
 			<column name="property_value" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-26">
+	<changeSet id="1584740432194-26" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_global_id_local_id_idx" tableName="jv_global_id">
 			<column name="local_id" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-27">
+	<changeSet id="1584740432194-27" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_global_id_owner_id_fk_idx" tableName="jv_global_id">
 			<column name="owner_id_fk" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-28">
+	<changeSet id="1584740432194-28" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_snapshot_commit_fk_idx" tableName="jv_snapshot">
 			<column name="commit_fk" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-29">
+	<changeSet id="1584740432194-29" context="schema-change" author="poffm (generated)">
 		<createIndex indexName="jv_snapshot_global_id_fk_idx" tableName="jv_snapshot">
 			<column name="global_id_fk" />
 		</createIndex>
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-35">
+	<changeSet id="1584740432194-35" context="schema-change" author="poffm (generated)">
 		<addForeignKeyConstraint
 		  baseColumnNames="commit_fk"
 			baseTableName="jv_commit_property"
@@ -110,7 +109,7 @@
 			referencedTableName="jv_commit"
 			validate="true" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-36">
+	<changeSet id="1584740432194-36" context="schema-change" author="poffm (generated)">
 		<addForeignKeyConstraint
 		  baseColumnNames="owner_id_fk"
 			baseTableName="jv_global_id"
@@ -123,7 +122,7 @@
 			referencedTableName="jv_global_id"
 			validate="true" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-37">
+	<changeSet id="1584740432194-37" context="schema-change" author="poffm (generated)">
 		<addForeignKeyConstraint
 			baseColumnNames="commit_fk"
 			baseTableName="jv_snapshot"
@@ -136,7 +135,7 @@
 			referencedTableName="jv_commit"
 			validate="true" />
 	</changeSet>
-	<changeSet author="poffm (generated)" id="1584740432194-38">
+	<changeSet id="1584740432194-38" context="schema-change" author="poffm (generated)">
 		<addForeignKeyConstraint
 			baseColumnNames="global_id_fk"
 			baseTableName="jv_snapshot"

@@ -1,12 +1,9 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
     <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
-    <property name="uuid_function" value="random_uuid()" dbms="h2"/>
 
     <changeSet context="schema-change" id="create-workflow-enum-types" author="poffm">
         <sql>
@@ -287,32 +284,6 @@
             </column>
             <column name="productid" type="INTEGER"/>
             <column name="protocolid" type="INTEGER"/>
-            <column name="createdby" type="VARCHAR(250)"/>
-            <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
-            <column name="groupname" type="varchar(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet context="schema-change" id="create-StepTemplates-table-with-enum-arrays-for-H2" author="elkayssin">
-        <preConditions onFail="MARK_RAN">
-            <dbms type="h2" />
-        </preConditions>
-        <createTable tableName="steptemplates">
-            <column autoIncrement="true" name="id" type="SERIAL">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="steptemplates_pkey"/>
-            </column>
-            <column name="uuid" type="uuid" defaultValueComputed="${uuid_function}">
-				<constraints nullable="false" unique="true" />
-			</column>
-            <column name="name" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="inputs" type="array">
-                <constraints nullable="false"/>
-            </column>
-            <column name="outputs" type="array">
-                <constraints nullable="false"/>
-            </column>
-            <column name="supports" type="array"/>
             <column name="createdby" type="VARCHAR(250)"/>
             <column name="createdon" type="timestamptz" defaultValueComputed="current_timestamp"/>
             <column name="groupname" type="varchar(255)"/>
@@ -664,50 +635,5 @@
     </changeSet>
     <changeSet context="schema-change" author="mat (generated)" id="1596744623461-64">
         <addForeignKeyConstraint baseColumnNames="regionid" baseTableName="pcrprimers" constraintName="fkp2gffci4u9r6k5rvjb86hllwg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="regions" validate="true"/>
-    </changeSet>
-    <changeSet context="schema-change"
-      id="initial-workflow-data"
-      author="poffm">
-        <sql>
-          insert into ChainTemplates (uuid, name) values ('ce91964c-e252-11ea-87d0-0242ac130003', 'Whole Genome Sequencing');
-          insert into ChainTemplates (uuid, name) values ('ce919872-e252-11ea-87d0-0242ac130003', 'Whole Genome Sequencing Pooling');
-          
-          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919962-e252-11ea-87d0-0242ac130003', 'Select Samples', '{"SAMPLE"}', '{"SAMPLE"}');
-          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919a34-e252-11ea-87d0-0242ac130003', 'Pre Library Prep', '{"SAMPLE"}', '{"SIZE_SELECTION"}');
-          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919c96-e252-11ea-87d0-0242ac130003', 'Library Prep', '{"SAMPLE"}', '{"LIBRARY_PREP_BATCH"}');
-          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919d72-e252-11ea-87d0-0242ac130003', 'Library Pooling', '{"LIBRARY_PREP_BATCH"}', '{"LIBRARY_POOL"}');
-          insert into StepTemplates (uuid, name, inputs, outputs) values ('ce919e30-e252-11ea-87d0-0242ac130003', 'Submission', '{"LIBRARY_POOL"}', '{"SEQ_SUBMISSION"}');
-          
-          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
-            'ce919ef8-e252-11ea-87d0-0242ac130003',
-            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
-            (select ID from StepTemplates where name = 'Select Samples'),
-            1
-          );
-          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
-            'ce919fb6-e252-11ea-87d0-0242ac130003',
-            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
-            (select ID from StepTemplates where name = 'Pre Library Prep'),
-            2
-          );
-          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
-            'ce91a196-e252-11ea-87d0-0242ac130003',
-            (select ID from ChainTemplates where name = 'Whole Genome Sequencing'),
-            (select ID from StepTemplates where name = 'Library Prep'),
-            3
-          );
-          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
-            'ce91a2cc-e252-11ea-87d0-0242ac130003',
-            (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
-            (select ID from StepTemplates where name = 'Library Pooling'),
-            1
-          );
-          insert into ChainStepTemplates (uuid, ChainTemplateid, StepTemplateid, StepNumber) values (
-            'ce91a4de-e252-11ea-87d0-0242ac130003',
-            (select ID from ChainTemplates where name = 'Whole Genome Sequencing Pooling'),
-            (select ID from StepTemplates where name = 'Submission'),
-            2
-          );
-        </sql>
     </changeSet>
 </databaseChangeLog>

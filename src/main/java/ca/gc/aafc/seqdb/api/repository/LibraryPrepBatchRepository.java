@@ -2,7 +2,8 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
-import ca.gc.aafc.dina.service.DinaAuthorizationService;
+import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
+import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
@@ -17,26 +18,19 @@ public class LibraryPrepBatchRepository extends DinaRepository<LibraryPrepBatchD
 
   public LibraryPrepBatchRepository(
     @NonNull DinaService<LibraryPrepBatch> dinaService,
-    Optional<DinaAuthorizationService> authService,
-    @NonNull BuildProperties props) {
+    DinaAuthorizationService groupAuthorizationService,
+    @NonNull BuildProperties props,
+    ExternalResourceProvider externalResourceProvider) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
-      authService.map(auth -> new DinaAuthorizationService() {
-        public void authorizeCreate(Object entity) { };
-        public void authorizeDelete(Object entity) {
-          auth.authorizeDelete(entity);
-        };
-        public void authorizeUpdate(Object entity) {
-          auth.authorizeUpdate(entity);
-        };
-      }),
+      groupAuthorizationService,
       Optional.empty(),
       new DinaMapper<>(LibraryPrepBatchDto.class),
       LibraryPrepBatchDto.class,
       LibraryPrepBatch.class,
       null,
-      null,
+      externalResourceProvider,
       props);
   }
 

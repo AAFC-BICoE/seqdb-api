@@ -12,7 +12,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "stepTemplate")
+@JsonApiResource(type = "step-template")
 @SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(StepTemplate.class)
 public class StepTemplateDto {

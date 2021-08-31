@@ -24,7 +24,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -35,8 +34,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "ChainStepTemplates", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
-    @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
+  @UniqueConstraint(columnNames = { "ChainTemplateID", "StepNumber" }),
+  @UniqueConstraint(columnNames = { "ChainTemplateID", "StepTemplateID" }) })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,16 +47,12 @@ public class ChainStepTemplate implements DinaEntity, Serializable {
 
   private static final long serialVersionUID = -5794571772289124902L;
 
-  @Getter(onMethod = @__({
-    @Id,
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    }))
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Getter(onMethod = @__({
-    @NotNull,
-    @NaturalId
-    }))
+  @NotNull
+  @NaturalId
   private UUID uuid;
 
   private String createdBy;
@@ -65,18 +60,14 @@ public class ChainStepTemplate implements DinaEntity, Serializable {
   @Column(insertable = false, updatable = false)
   private OffsetDateTime createdOn;
   
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "chaintemplateid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "chaintemplateid")
   private ChainTemplate chainTemplate;
   
-  @Getter(onMethod = @__({
-    @NotNull,
-    @ManyToOne(fetch = FetchType.LAZY),
-    @JoinColumn(name = "steptemplateid")
-    }))
+  @NotNull
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "steptemplateid")
   private StepTemplate stepTemplate;
 
   @NotNull

@@ -24,7 +24,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected String getResourceUnderTest() {
-    return "preLibraryPrep";
+    return "pre-library-prep";
   }
   
   @Override

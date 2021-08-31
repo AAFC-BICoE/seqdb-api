@@ -14,7 +14,9 @@ public class LibraryPoolFactory implements TestableEntityFactory<LibraryPool> {
   }
 
   public static LibraryPool.LibraryPoolBuilder newLibraryPool() {
-    return LibraryPool.builder().name(TestableEntityFactory.generateRandomName(10));
+    return LibraryPool.builder()
+      .group("dina")
+      .name(TestableEntityFactory.generateRandomName(10));
   }
 
   public static List<LibraryPool> newListOf(int qty) {

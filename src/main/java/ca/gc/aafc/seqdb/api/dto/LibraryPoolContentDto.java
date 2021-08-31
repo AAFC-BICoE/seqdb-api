@@ -11,7 +11,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "libraryPoolContent")
+@JsonApiResource(type = "library-pool-content")
 @RelatedEntity(LibraryPoolContent.class)
 public class LibraryPoolContentDto {
   

@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.Serializable;
-
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,16 +14,16 @@ import ca.gc.aafc.seqdb.api.dto.NgsIndexDto;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
 import ca.gc.aafc.seqdb.api.testsupport.factories.NgsIndexFactory;
 import io.crnk.core.queryspec.QuerySpec;
-import io.crnk.core.repository.ResourceRepository;
 
 public class NgsIndexRepositoryIT extends BaseRepositoryTest {
 
   private NgsIndex testNgsIndex;
 
   @Inject
-  private ResourceRepository<NgsIndexDto, Serializable> ngsIndexRepository;
+  private NgsIndexRepository ngsIndexRepository;
+
   @Inject
-  private ResourceRepository<IndexSetDto, Serializable> indexSetRepository;
+  private IndexSetRepository indexSetRepository;
 
   private void createTestIndex() {
     testNgsIndex = NgsIndexFactory.newNgsIndex().build();

@@ -12,7 +12,7 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "preLibraryPrep")
+@JsonApiResource(type = "pre-library-prep")
 @RelatedEntity(PreLibraryPrep.class)
 public class PreLibraryPrepDto {
 
@@ -21,12 +21,13 @@ public class PreLibraryPrepDto {
 
   private String createdBy;
   private OffsetDateTime createdOn;
+  private String group;
 
   private PreLibraryPrepType preLibraryPrepType;
 
   private Double inputAmount;
 
-  private Double targetDpSize;
+  private Double targetBpSize;
 
   private Double averageFragmentSize;
 

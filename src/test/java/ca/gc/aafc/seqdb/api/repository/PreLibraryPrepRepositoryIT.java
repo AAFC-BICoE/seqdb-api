@@ -37,12 +37,12 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   protected static final Double TEST_PRELIBRARYPREP_CONCENTRATION_CREATE = 3.2;
   
   protected static final String TEST_PRELIBRARYPREP_NOTES_UPDATE = "PreLibraryPrep notes update";
-  
-  @Inject
-  private PreLibraryPrepRepository preLibraryPrepRepository;
 
   @Inject
   private BaseDAO baseDao;
+
+  @Inject
+  private PreLibraryPrepRepository preLibraryPrepRepository;
   
   private PreLibraryPrep testPreLibraryPrep;
   
@@ -82,6 +82,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     newPreLibraryPrep.setPreLibraryPrepType(TEST_PRELIBRARYPREP_TYPE_CREATE);
     newPreLibraryPrep.setNotes(TEST_PRELIBRARYPREP_NOTES_CREATE);
     newPreLibraryPrep.setConcentration(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE);
+    newPreLibraryPrep.setGroup("dina");
     
     PreLibraryPrepDto createdPreLibraryPrep = preLibraryPrepRepository.create(newPreLibraryPrep);
     

@@ -36,6 +36,18 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.3</version>
   </parent>
+
+  <!--  temporary until we can migrate to a newer version of Crnk-->
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>jcenter central</id>
+      <name>bintray</name>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
   
   <dependencies>
     <dependency>

@@ -64,7 +64,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName("test sample");
-    testMolecularSample.setVersion("a");
     
     persist(testMolecularSample);
     
@@ -85,7 +84,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     for (int i = 1; i <= 22; i++) {
       MolecularSample sample = new MolecularSample();
       sample.setName("sample " + i);
-      sample.setVersion("a");
       testSamples.add(sample);
       persist(sample);
     }
@@ -118,7 +116,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   public void createLibPrep_onSuccess_libPrepCreated() {
     MolecularSampleDto newSample = new MolecularSampleDto();
     newSample.setName("new sample");
-    newSample.setVersion("a");
     MolecularSampleDto newSampleCreated = molecularSampleRepository.create(newSample);
     
     LibraryPrepDto newDto = new LibraryPrepDto();

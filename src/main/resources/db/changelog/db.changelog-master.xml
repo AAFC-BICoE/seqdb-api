@@ -24,4 +24,5 @@
   <include file="db/changelog/migrations/19-Add_ContainerType_to_PCRBatch.xml"/>
   <include file="db/changelog/migrations/20-Add_well_coordinates_PCRBatchItem.xml"/>
   <include file="db/changelog/migrations/21-Bring_back_SampleType.xml"/>
+  <include file="db/changelog/migrations/22-Change_MolecularSample_to_match_dina_concepts.xml"/>
 </databaseChangeLog>

@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -16,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,7 +30,7 @@ import lombok.Setter;
 
 @Entity
 @Table(
-  name = "MolecularSamples", uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "Version" }) }
+  name = "MolecularSamples"
 )
 @Getter
 @Setter
@@ -68,15 +64,6 @@ public class MolecularSample implements DinaEntity {
   @Size(max = 50)
   private String name;
 
-  @NotNull
-  @Size(max = 50)
-  private String version;
-
-  private String notes;
-
-  @Version
-  private Timestamp lastModified;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "productid")
   private Product kit;
@@ -84,9 +71,6 @@ public class MolecularSample implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "protocolid")
   private Protocol protocol;
-
-  private String discardedNotes;
-  private LocalDate dateDiscarded;
 
   private UUID materialSample;
 

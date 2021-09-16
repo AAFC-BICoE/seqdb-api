@@ -27,8 +27,7 @@ public class MolecularSampleFactory implements TestableEntityFactory<MolecularSa
   public static MolecularSample.MolecularSampleBuilder newMolecularSample() {
     
     MolecularSample.MolecularSampleBuilder bldr = MolecularSample.builder()
-        .name(TestableEntityFactory.generateRandomName(10))
-        .version(TestableEntityFactory.generateRandomNameLettersOnly(1));
+        .name(TestableEntityFactory.generateRandomName(10));
     
     return bldr;
 

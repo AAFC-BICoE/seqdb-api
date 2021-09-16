@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -31,14 +30,6 @@ public class MolecularSampleDto {
   // Required Fields
 
   private String name;
-
-  private String version;
-
-  // Optional Fields
-  
-  private String notes;
-
-  private Timestamp lastModified;
 
   // Optional Relations
 

@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.dto;
 
 import java.util.List;
 
-import ca.gc.aafc.dina.vocabulary.VocabularyConfiguration;
+import ca.gc.aafc.seqdb.api.SeqdbVocabularyConfiguration;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,6 @@ public class VocabularyDto {
   @JsonApiId
   private final String id;
 
-  private final List<VocabularyConfiguration.VocabularyElement> vocabularyElements;
+  private final List<SeqdbVocabularyConfiguration.SeqdbVocabularyElement> vocabularyElements;
 
 }

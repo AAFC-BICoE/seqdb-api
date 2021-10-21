@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import ca.gc.aafc.dina.vocabulary.VocabularyConfiguration;
+import ca.gc.aafc.seqdb.api.SeqdbVocabularyConfiguration;
 import ca.gc.aafc.seqdb.api.dto.VocabularyDto;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
@@ -18,7 +18,7 @@ public class VocabularyRepository extends ReadOnlyResourceRepositoryBase<Vocabul
   private final List<VocabularyDto> vocabulary;
 
   protected VocabularyRepository(
-    @NonNull VocabularyConfiguration vocabularyConfiguration) {
+    @NonNull SeqdbVocabularyConfiguration vocabularyConfiguration) {
     super(VocabularyDto.class);
 
     vocabulary = vocabularyConfiguration.getVocabulary()

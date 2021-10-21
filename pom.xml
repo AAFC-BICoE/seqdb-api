@@ -26,7 +26,7 @@
     <checkstyle.version>8.44</checkstyle.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
     <hibernate-types-52.version>2.9.5</hibernate-types-52.version>
-    <dina-base-api.version>0.64</dina-base-api.version>
+    <dina-base-api.version>0.70</dina-base-api.version>
 
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
   </properties>
@@ -34,7 +34,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.3</version>
+    <version>2.5.6</version>
   </parent>
 
   <!--  temporary until we can migrate to a newer version of Crnk-->

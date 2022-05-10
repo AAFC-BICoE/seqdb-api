@@ -27,6 +27,8 @@
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
     <dina-base-api.version>0.87</dina-base-api.version>
 
+    <liquibase.version>4.9.0</liquibase.version>
+
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
   </properties>
 
@@ -110,7 +112,7 @@
                           <groupId>io.github.aafc-bicoe</groupId>
                           <artifactId>dina-base-api</artifactId>
                           <version>${dina-base-api.version}</version>
-                          <outputDirectory>${basedir}/src/main/resources/db/changelog/xsd</outputDirectory>
+                          <outputDirectory>${basedir}/src/main/resources/local.xsd</outputDirectory>
                           <includes>dbchangelog-4.4.xsd</includes>
                       </artifactItem>
                   </artifactItems>

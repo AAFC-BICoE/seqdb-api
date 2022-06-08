@@ -19,13 +19,11 @@ import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
-import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
@@ -36,7 +34,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private LibraryPrep testLibPrep;
   private LibraryPrepBatchDto testBatchDto;
   private Product testProduct;
-  private Protocol testProtocol;
+  // private Protocol testProtocol;
   private MolecularSample testMolecularSample;
   private List<MolecularSample> testSamples;
 
@@ -59,8 +57,8 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    testProtocol = ProtocolFactory.newProtocol().build();
-    persist(testProtocol);
+    // testProtocol = ProtocolFactory.newProtocol().build();
+    // persist(testProtocol);
     
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName("test sample");

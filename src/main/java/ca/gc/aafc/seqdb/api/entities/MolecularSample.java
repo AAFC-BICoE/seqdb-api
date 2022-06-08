@@ -68,10 +68,6 @@ public class MolecularSample implements DinaEntity {
   @JoinColumn(name = "productid")
   private Product kit;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocolid")
-  private Protocol protocol;
-
   private UUID materialSample;
 
   @Type(type = "pgsql_enum")

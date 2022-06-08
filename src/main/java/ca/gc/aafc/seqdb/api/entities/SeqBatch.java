@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -87,7 +88,6 @@ public class SeqBatch implements DinaEntity {
   @JoinColumn(name = "region_id")
   private Region region;
   
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocol_id")
-  private Protocol protocol;
+  @Transient
+  private UUID protocol;
 }

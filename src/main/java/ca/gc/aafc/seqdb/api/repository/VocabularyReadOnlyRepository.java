@@ -16,7 +16,6 @@ import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import io.crnk.core.exception.ResourceNotFoundException;
@@ -41,7 +40,6 @@ public class VocabularyReadOnlyRepository
           PcrPrimer.class, 
           Product.class,
           ThermocyclerProfile.class,
-          Protocol.class,
           MolecularSample.class
          ));
 

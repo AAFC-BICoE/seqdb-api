@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
 
@@ -25,7 +26,6 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,9 +74,8 @@ public class LibraryPrepBatch implements DinaEntity {
   @JoinColumn(name = "productid")
   private Product product;
   
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocolid")
-  private Protocol protocol;
+  @Transient
+  private UUID protocol;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "containertypeid")

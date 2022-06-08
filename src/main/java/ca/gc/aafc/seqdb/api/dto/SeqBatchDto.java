@@ -48,7 +48,8 @@ public class SeqBatchDto {
   @JsonApiRelation
   private RegionDto region;
 
+  @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
-  private ProtocolDto protocol;
+  private ExternalRelationDto protocol;
 
 }

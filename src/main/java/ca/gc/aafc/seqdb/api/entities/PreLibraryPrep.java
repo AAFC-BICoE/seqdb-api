@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -91,9 +92,8 @@ public class PreLibraryPrep implements DinaEntity {
 
   private String notes;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocolid")
-  private Protocol protocol;
+  @Transient
+  private UUID protocol;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "productid")

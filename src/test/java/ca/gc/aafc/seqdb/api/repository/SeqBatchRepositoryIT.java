@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,14 +14,14 @@ import org.junit.jupiter.api.Test;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 
 
 public class SeqBatchRepositoryIT extends BaseRepositoryTest {
+
+  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
 
   @Inject
   private RegionRepository regionRepository;
@@ -28,14 +30,10 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
 
   @Inject
-  private ProtocolRepository protocolRepository;
-
-  @Inject
   private SeqBatchRepository seqBatchRepository;
 
   private RegionDto regionTest;
   private ThermocyclerProfileDto thermocyclerProfileTest;
-  private ProtocolDto protocolTest;
 
   @BeforeEach
   public void setup() {
@@ -50,11 +48,11 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
     thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfile);
 
-    ProtocolDto protocol = new ProtocolDto();
-    protocol.setName("protocol");
-    protocol.setType(ProtocolType.SEQ_REACTION);
+    // ProtocolDto protocol = new ProtocolDto();
+    // protocol.setName("protocol");
+    // protocol.setType(ProtocolType.SEQ_REACTION);
 
-    protocolTest = protocolRepository.create(protocol);
+    // protocolTest = protocolRepository.create(protocol);
   }
 
   @Test
@@ -63,7 +61,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setProtocol(protocolTest);
+    // newDto.setProtocol(protocolTest);
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
 
@@ -76,7 +74,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(created.getGroup(), found.getGroup());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
-    assertEquals(protocolTest.getUuid(), found.getProtocol().getUuid());
+    // assertEquals(protocolTest.getUuid(), found.getProtocol().getUuid());
   }
 
   @Test
@@ -84,13 +82,13 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setProtocol(protocolTest);
+    // newDto.setProtocol(protocolTest);
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
-    assertEquals(protocolTest.getUuid(), created.getProtocol().getUuid());
+    // assertEquals(protocolTest.getUuid(), created.getProtocol().getUuid());
   }
 
   @Test

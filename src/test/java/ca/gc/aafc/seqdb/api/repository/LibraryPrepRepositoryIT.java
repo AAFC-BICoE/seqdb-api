@@ -34,7 +34,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private LibraryPrep testLibPrep;
   private LibraryPrepBatchDto testBatchDto;
   private Product testProduct;
-  // private Protocol testProtocol;
   private MolecularSample testMolecularSample;
   private List<MolecularSample> testSamples;
 
@@ -56,9 +55,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
-    
-    // testProtocol = ProtocolFactory.newProtocol().build();
-    // persist(testProtocol);
     
     testMolecularSample = new MolecularSample();
     testMolecularSample.setName("test sample");

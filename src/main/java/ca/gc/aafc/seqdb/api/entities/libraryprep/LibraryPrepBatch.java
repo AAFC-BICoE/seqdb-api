@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
 
@@ -74,7 +73,6 @@ public class LibraryPrepBatch implements DinaEntity {
   @JoinColumn(name = "productid")
   private Product product;
   
-  @Transient
   private UUID protocol;
 
   @ManyToOne(fetch = FetchType.LAZY)

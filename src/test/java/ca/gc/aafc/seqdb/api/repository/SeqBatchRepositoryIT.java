@@ -21,8 +21,6 @@ import io.crnk.core.queryspec.QuerySpec;
 
 public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
-  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
-
   @Inject
   private RegionRepository regionRepository;
 
@@ -34,6 +32,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
   private RegionDto regionTest;
   private ThermocyclerProfileDto thermocyclerProfileTest;
+  private static final UUID TEST_PROTOCOL_UUID = null;
 
   @BeforeEach
   public void setup() {
@@ -48,11 +47,6 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
     thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfile);
 
-    // ProtocolDto protocol = new ProtocolDto();
-    // protocol.setName("protocol");
-    // protocol.setType(ProtocolType.SEQ_REACTION);
-
-    // protocolTest = protocolRepository.create(protocol);
   }
 
   @Test
@@ -61,7 +55,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    // newDto.setProtocol(protocolTest);
+    newDto.setProtocol(null);
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
 
@@ -74,7 +68,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(created.getGroup(), found.getGroup());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
-    // assertEquals(protocolTest.getUuid(), found.getProtocol().getUuid());
+    assertEquals(TEST_PROTOCOL_UUID, found.getProtocol());
   }
 
   @Test
@@ -82,13 +76,13 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    // newDto.setProtocol(protocolTest);
+    newDto.setProtocol(null);
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
-    // assertEquals(protocolTest.getUuid(), created.getProtocol().getUuid());
+    assertEquals(TEST_PROTOCOL_UUID, created.getProtocol());
   }
 
   @Test

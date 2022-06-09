@@ -33,7 +33,7 @@ public class MolecularSampleJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   /**
-   * To avoid conflict with the rest of the tests, the protocol and products should be
+   * To avoid conflict with the rest of the tests, the products should be
    * deleted. 
    */
   @AfterEach

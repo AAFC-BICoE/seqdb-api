@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
@@ -29,7 +30,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   private ContainerType testContainerType;
   private LibraryPrepBatch testBatch;
   private Product testProduct;
-  private static final UUID TEST_PROTOCOL_UUID = null;
+  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
 
   @Inject
   private LibraryPrepBatchRepository libraryPrepBatchRepository;
@@ -86,6 +87,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setNotes("notes");
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");
+    newDto.setProtocol(ExternalRelationDto.builder().id(TEST_PROTOCOL_UUID.toString()).type("protocol").build());
     newDto.setContainerType(
       containerTypeRepository.findOne(
             testContainerType.getUuid(),
@@ -106,7 +108,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals("cleanup notes", created.getCleanUpNotes());
     assertEquals("yield notes", created.getYieldNotes());
     assertEquals(testProduct.getUuid(), created.getProduct().getUuid());
-    assertEquals(TEST_PROTOCOL_UUID, created.getProtocol());
+    assertEquals(TEST_PROTOCOL_UUID.toString(), created.getProtocol().getId());
   }
   
   @Test

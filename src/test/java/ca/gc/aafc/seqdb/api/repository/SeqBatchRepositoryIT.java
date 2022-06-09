@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
@@ -32,7 +33,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
   private RegionDto regionTest;
   private ThermocyclerProfileDto thermocyclerProfileTest;
-  private static final UUID TEST_PROTOCOL_UUID = null;
+  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
 
   @BeforeEach
   public void setup() {
@@ -55,7 +56,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setProtocol(null);
+    newDto.setProtocol(ExternalRelationDto.builder().id(TEST_PROTOCOL_UUID.toString()).type("protocol").build());
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
 
@@ -68,7 +69,7 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(created.getGroup(), found.getGroup());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
-    assertEquals(TEST_PROTOCOL_UUID, found.getProtocol());
+    assertEquals(TEST_PROTOCOL_UUID.toString(), found.getProtocol().getId());
   }
 
   @Test
@@ -76,13 +77,13 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setProtocol(null);
+    newDto.setProtocol(ExternalRelationDto.builder().id(TEST_PROTOCOL_UUID.toString()).type("protocol").build());
 
     SeqBatchDto created = seqBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
-    assertEquals(TEST_PROTOCOL_UUID, created.getProtocol());
+    assertEquals(TEST_PROTOCOL_UUID.toString(), created.getProtocol().getId());
   }
 
   @Test

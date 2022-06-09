@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.rest;
 import static io.restassured.RestAssured.given;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   /**
-   * To avoid conflict with the rest of the tests, the protocol and products should be
+   * To avoid conflict with the rest of the tests, the products should be
    * deleted. 
    */
   @AfterEach
@@ -70,6 +71,12 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected Map<String, Object> buildRelationshipMap() {
+    // Test external relationship protocol
+    ImmutableMap.Builder<String, Object> protocolRelationship = new ImmutableMap.Builder<>();
+    protocolRelationship.put("type", "protocol")
+                        .put("id", UUID.randomUUID().toString())
+                        .build();
+
     // Test product relationship.
     ImmutableMap.Builder<String, Object> productRelationship = new ImmutableMap.Builder<>();
     productRelationship.put("type", "product")
@@ -82,6 +89,7 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
     // Put the two relationships together to create all of the relationships to test.
     ImmutableMap.Builder<String, Object> relationshipBldr = new ImmutableMap.Builder<>();
     relationshipBldr.put("product", productBldr.build());
+    relationshipBldr.put("protocol", protocolRelationship.build());
     
     return relationshipBldr.build();
   }

@@ -4,7 +4,18 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
-	<changeSet id="24-Remove_Protocol" context="schema-change" author="mike sun">
+	  <changeSet id="23-Add_and_Remove_Protocol_Columns" context="schema-change" author="mike sun">
+        <addColumn tableName="seq_batch">
+            <column name="protocol" type="uuid"/>
+        </addColumn>
+        <addColumn tableName="libraryprepbatchs">
+            <column name="protocol" type="uuid"/>
+        </addColumn>
+        <addColumn tableName="prelibrarypreps">
+            <column name="protocol" type="uuid"/>
+        </addColumn>
+	  </changeSet>
+      <changeSet id="23-Remove_Protocol" context="schema-change" author="mike sun">
         <dropTable cascadeConstraints="true" tableName="protocols"/>
         <dropColumn tableName="molecularsamples">
             <column name="protocolid"/>
@@ -18,5 +29,5 @@
         <dropColumn tableName="prelibrarypreps">
             <column name="protocolid"/>
         </dropColumn>
-	</changeSet>	
+	  </changeSet>	
 </databaseChangeLog>

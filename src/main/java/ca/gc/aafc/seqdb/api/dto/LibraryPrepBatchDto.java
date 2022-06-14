@@ -5,7 +5,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -39,8 +41,9 @@ public class LibraryPrepBatchDto {
   @JsonApiRelation
   private ProductDto product;
 
+  @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
-  private ProtocolDto protocol;
+  private ExternalRelationDto protocol;
 
   @JsonApiRelation
   private ContainerTypeDto containerType;

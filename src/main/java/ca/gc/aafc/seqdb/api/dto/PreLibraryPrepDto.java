@@ -3,7 +3,9 @@ package ca.gc.aafc.seqdb.api.dto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -37,8 +39,9 @@ public class PreLibraryPrepDto {
 
   private String notes;
   
+  @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
-  private ProtocolDto protocol;
+  private ExternalRelationDto protocol;
   
   @JsonApiRelation
   private ProductDto product;

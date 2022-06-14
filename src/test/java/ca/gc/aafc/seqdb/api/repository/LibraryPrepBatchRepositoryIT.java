@@ -4,23 +4,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
-import ca.gc.aafc.seqdb.api.dto.ProtocolDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.Protocol;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepBatchFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
-import ca.gc.aafc.seqdb.api.testsupport.factories.ProtocolFactory;
 import io.crnk.core.queryspec.QuerySpec;
 
 public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
@@ -30,7 +30,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
   private ContainerType testContainerType;
   private LibraryPrepBatch testBatch;
   private Product testProduct;
-  private Protocol testProtocol;
+  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
 
   @Inject
   private LibraryPrepBatchRepository libraryPrepBatchRepository;
@@ -40,9 +40,6 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private ProductRepository productRepository;
-
-  @Inject
-  private ProtocolRepository protocolRepository;
   
   private LibraryPrepBatch createTestBatch() {
     testContainerType = ContainerTypeFactory.newContainerType()
@@ -53,14 +50,11 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
     
-    testProtocol = ProtocolFactory.newProtocol().build();
-    persist(testProtocol);
-    
     testBatch = LibraryPrepBatchFactory.newLibraryPrepBatch()
         .name("test batch")
         .containerType(testContainerType)
         .product(testProduct)
-        .protocol(testProtocol)
+        .protocol(TEST_PROTOCOL_UUID)
         .notes(TEST_NOTES)
         .build();
     
@@ -93,6 +87,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setNotes("notes");
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");
+    newDto.setProtocol(ExternalRelationDto.builder().id(TEST_PROTOCOL_UUID.toString()).type("protocol").build());
     newDto.setContainerType(
       containerTypeRepository.findOne(
             testContainerType.getUuid(),
@@ -105,12 +100,6 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
             new QuerySpec(ProductDto.class)
         )
     );
-    newDto.setProtocol(
-        protocolRepository.findOne(
-            testProtocol.getUuid(),
-            new QuerySpec(ProtocolDto.class)
-        )
-    );
     
     LibraryPrepBatchDto created = libraryPrepBatchRepository.create(newDto);
     
@@ -119,7 +108,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals("cleanup notes", created.getCleanUpNotes());
     assertEquals("yield notes", created.getYieldNotes());
     assertEquals(testProduct.getUuid(), created.getProduct().getUuid());
-    assertEquals(testProtocol.getUuid(), created.getProtocol().getUuid());
+    assertEquals(TEST_PROTOCOL_UUID.toString(), created.getProtocol().getId());
   }
   
   @Test

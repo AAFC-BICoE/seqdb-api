@@ -36,9 +36,6 @@ public class MolecularSampleDto {
   @JsonApiRelation
   private ProductDto kit;
 
-  @JsonApiRelation
-  private ProtocolDto protocol;
-
   @JsonApiExternalRelation(type = "material-sample")
   @JsonApiRelation
   private ExternalRelationDto materialSample;

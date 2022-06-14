@@ -2,9 +2,9 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
-    <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd">
 
+    <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
     <changeSet context="schema-change" id="create-workflow-enum-types" author="poffm">
         <sql>
             CREATE TYPE stepresourcetype AS ENUM (

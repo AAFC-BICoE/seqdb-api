@@ -28,4 +28,5 @@
   <include file="db/changelog/migrations/21-Bring_back_SampleType.xml"/>
   <include file="db/changelog/migrations/22-Change_MolecularSample_to_match_dina_concepts.xml"/>
   <include file="db/changelog/migrations/23-Add_and_Remove_Protocol_Columns.xml"/>
+  <include file="db/changelog/migrations/24-Create_SeqSubmission.xml"/>
 </databaseChangeLog>

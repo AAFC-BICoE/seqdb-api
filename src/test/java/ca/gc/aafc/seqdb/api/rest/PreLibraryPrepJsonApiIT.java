@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.rest;
 import static io.restassured.RestAssured.given;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,13 +14,11 @@ import com.google.common.collect.ImmutableMap;
 
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
-import ca.gc.aafc.seqdb.api.entities.Protocol.ProtocolType;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 
 @Testable
 public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
 
-  private String protocolId;
   private String productId;
   
   @Override
@@ -51,18 +50,6 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
    */
   @BeforeEach
   public void buildRelationshipInstances() {
-    //Build attributes for protocol
-    ImmutableMap.Builder<String, Object> protocolAttributes = new ImmutableMap.Builder<>();
-    protocolAttributes.put("name", "test protocol")
-      .put("type", ProtocolType.COLLECTION_EVENT)
-      .put("version", "A")
-      .build();
-
-    //Put maps together and create one json map
-    Map<String, Object> protocolMap = toJsonAPIMap(
-        "protocol", protocolAttributes.build(), null, null);
-    protocolId = sendPost("protocol", protocolMap);
-    
     // Build attributes for product
     ImmutableMap.Builder<String, Object> productAttributes = new ImmutableMap.Builder<>();
     productAttributes.put("name", "test product").build();
@@ -72,15 +59,11 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   }
   
   /**
-   * To avoid conflict with the rest of the tests, the protocol and products should be
+   * To avoid conflict with the rest of the tests, the products should be
    * deleted. 
    */
   @AfterEach
   public void destroyRelationshipInstances() {
-    // Delete protocol.
-    given().contentType(JSON_API_CONTENT_TYPE).when().delete("protocol" + "/" + protocolId)
-    .then().statusCode(HttpStatus.NO_CONTENT.value());
-    
     // Delete product.
     given().contentType(JSON_API_CONTENT_TYPE).when().delete("product" + "/" + productId)
     .then().statusCode(HttpStatus.NO_CONTENT.value());
@@ -88,15 +71,12 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
   
   @Override
   protected Map<String, Object> buildRelationshipMap() {
-    // Test protocol relationship.
+    // Test external relationship protocol
     ImmutableMap.Builder<String, Object> protocolRelationship = new ImmutableMap.Builder<>();
     protocolRelationship.put("type", "protocol")
-                        .put("id", String.valueOf(protocolId))
+                        .put("id", UUID.randomUUID().toString())
                         .build();
 
-    ImmutableMap.Builder<String, Object> protocolBldr = new ImmutableMap.Builder<>();
-    protocolBldr.put("data", protocolRelationship.build());
-    
     // Test product relationship.
     ImmutableMap.Builder<String, Object> productRelationship = new ImmutableMap.Builder<>();
     productRelationship.put("type", "product")
@@ -108,8 +88,8 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
     
     // Put the two relationships together to create all of the relationships to test.
     ImmutableMap.Builder<String, Object> relationshipBldr = new ImmutableMap.Builder<>();
-    relationshipBldr.put("protocol", protocolBldr.build());
     relationshipBldr.put("product", productBldr.build());
+    relationshipBldr.put("protocol", protocolRelationship.build());
     
     return relationshipBldr.build();
   }

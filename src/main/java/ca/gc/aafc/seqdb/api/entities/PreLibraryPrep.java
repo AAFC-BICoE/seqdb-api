@@ -91,9 +91,7 @@ public class PreLibraryPrep implements DinaEntity {
 
   private String notes;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocolid")
-  private Protocol protocol;
+  private UUID protocol;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "productid")

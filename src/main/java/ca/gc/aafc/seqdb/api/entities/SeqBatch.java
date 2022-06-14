@@ -18,14 +18,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
-
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -87,7 +87,5 @@ public class SeqBatch implements DinaEntity {
   @JoinColumn(name = "region_id")
   private Region region;
   
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "protocol_id")
-  private Protocol protocol;
+  private UUID protocol;
 }

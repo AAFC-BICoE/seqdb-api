@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>1250</y>
+      <w>380</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.libraryprep::LibraryPrepBatch
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-totalLibraryYieldNm: Double
+-notes: String
+-cleanUpNotes: String
+-yieldNotes: String
+-dateUsed: LocalDate
+-product: Product
+-protocol: Protocol
+-containerType: ContainerType
+-thermocyclerProfile: PcrProfile
+-indexSet: IndexSet
+-libraryPreps: List&lt;LibraryPrep&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>870</y>
+      <w>300</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities::PreLibraryPrep
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-preLibraryPrepType: PreLibraryPrepType
+-inputAmount: Double
+-targetDpSize: Double
+-averageFragmentSize: Double
+-concentration: Double
+-quality: String
+-notes: String
+-protocol: Protocol
+-product: Product
+-lastModified: Timestamp
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1070</x>
+      <y>960</y>
+      <w>340</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.libraryprep::LibraryPrep
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-inputNg: Double
+-quality: String
+-size: String
+-wellColumn: Integer
+-wellRow: String
+-libraryPrepBatch: LibraryPrepBatch
+-sample: Sample
+-indexI5: NgsIndex
+-indexI7: NgsIndex
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>510</y>
+      <w>350</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.workflow::StepResource
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-value: StepResourceValue
+-chainStepTemplate: ChainStepTemplate
+-chain: Chain
+-sample: Sample
+-preLibraryPrep: PreLibraryPrep
+-libraryPrepBatch: LibraryPrepBatch
+-libraryPool: LibraryPool
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1070</x>
+      <y>1320</y>
+      <w>330</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.libraryprep::IndexSet
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-forwardAdapter: String
+-reverseAdapter: String
+-ngsIndexes: List&lt;NgsIndex&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>1650</y>
+      <w>370</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.pooledlibraries::LibraryPool
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-dateUsed: LocalDate
+-notes: String
+-contents: List&lt;LibraryPoolContent&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>60</y>
+      <w>350</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.workflow::StepTemplate
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-inputs: StepResourceValue[]
+-outputs: StepResourceValue[]
+-supports: StepResourceValue[]
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>1660</y>
+      <w>420</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.pooledlibraries::LibraryPoolContent
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-libraryPool: LibraryPool
+-pooledLibraryPrepBatch: LibraryPrepBatch
+-pooledLibraryPool: LibraryPool
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>50</y>
+      <w>380</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.workflow::ChainStepTemplate
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-chainTemplate: ChainTemplate
+-stepTemplate: StepTemplate
+-stepNumber: Integer
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>270</y>
+      <w>300</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.workflow::Chain
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-chainTemplate: ChainTemplate
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>70</y>
+      <w>360</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.workflow::ChainTemplate
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1490</x>
+      <y>1030</y>
+      <w>330</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities.libraryprep::NgsIndex
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-lotNumber: Integer
+-direction: NgsIndexDirection
+-purification: String
+-tmCalculated: String
+-dateOrdered: LocalDate
+-dateDestroyed: LocalDate
+-application: String
+-reference: String
+-supplier: String
+-designedBy: String
+-stockConcentration: String
+-notes: String
+-litReference: String
+-primerSequence: String
+-miSeqHiSeqIndexSequence: String
+-miniSeqNextSeqIndexSequence: String
+-indexSet: IndexSet
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>510</y>
+      <w>250</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>ca.gc.aafc.seqdb.api.entities::Sample
+--
+-id: Integer
+-uuid: UUID
+-createdBy: String
+-createdOn: OffsetDateTime
+-name: String
+-version: String
+-notes: String
+-lastModified: Timestamp
+-kit: Product
+-protocol: Protocol
+-discardedNotes: String
+-dateDiscarded: LocalDate
+-sampleType: SampleType
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>130</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>130</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>190</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>590</y>
+      <w>300</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>280.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>620</y>
+      <w>240</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>220.0;320.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>650</y>
+      <w>220</w>
+      <h>690</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>200.0;670.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>690</y>
+      <w>220</w>
+      <h>1040</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>200.0;1020.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>40</x>
+      <y>410</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>230</y>
+      <w>600</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>580.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>1730</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>1410</y>
+      <w>210</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>1380</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>1140</y>
+      <w>160</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;190.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1390</x>
+      <y>1380</y>
+      <w>120</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1400</x>
+      <y>1090</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>0</x>
+      <y>10</y>
+      <w>290</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>The starting point in the workflow data model; ChainTemplate defines the type of workflow.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>870</x>
+      <y>0</y>
+      <w>290</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>StepTemplate defines a workflow step that can be re-used across different ChainTemplates.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>470</x>
+      <y>0</y>
+      <w>290</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>ChainStepTemplate defines the steps in the type of workflow.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>0</x>
+      <y>240</y>
+      <w>290</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Chain is an instance of a workflow.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>70</x>
+      <y>460</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>StepResource links a resource to a step of a Chain.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>650</x>
+      <y>460</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>The first step of the WGS workflow is to link the DNA Samples.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>610</x>
+      <y>810</y>
+      <w>280</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>The second (optional) step of the WGS workflow is to add a PreLibraryPrep record for each linked Sample.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>590</x>
+      <y>1200</y>
+      <w>280</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>The third step of the WGS workflow is to add a LibraryPrepBatch.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>590</x>
+      <y>1590</y>
+      <w>280</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>The first step of the WGS Pooling workflow is to add a LibraryPrepBatch with a LibraryPrep for each linked Sample.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1140</x>
+      <y>1580</y>
+      <w>280</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>LibraryPrepBatchs and LibraryPools from different workflows are pooled together. One LibraryPoolContent is added for each pooled item.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1100</x>
+      <y>880</y>
+      <w>280</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>A LibraryPrep record is added for each linked Sample from the first step. Each LibraryPrep links to an NGSIndex from the LibraryPrepBatch's linked IndexSet.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1450</x>
+      <y>1550</y>
+      <w>280</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>1100</x>
+      <y>1270</y>
+      <w>280</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>The LibraryPrepBatch is linked to an IndexSet.
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

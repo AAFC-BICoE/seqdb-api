@@ -30,4 +30,5 @@
   <include file="db/changelog/migrations/23-Add_and_Remove_Protocol_Columns.xml"/>
   <include file="db/changelog/migrations/24-Create_SeqSubmission.xml"/>
   <include file="db/changelog/migrations/25-Add_storage_unit_to_pcr_batch.xml"/>
+  <include file="db/changelog/migrations/26-Remove_pcr_reaction_table.xml"/>
 </databaseChangeLog>

@@ -26,7 +26,6 @@ import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +38,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @RequiredArgsConstructor
-@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @NaturalIdCache
 @Table(name = "pcr_batch_item")
 public class PcrBatchItem implements DinaEntity {
@@ -65,11 +63,11 @@ public class PcrBatchItem implements DinaEntity {
   @Column(name = "_group")
   private String group;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "pcr_batch_id")
   private PcrBatch pcrBatch;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "sample_id")
   private MolecularSample sample;
 
@@ -82,5 +80,8 @@ public class PcrBatchItem implements DinaEntity {
   @Pattern(regexp = "[a-zA-Z]")
   @Column(name = "well_row")
   private String wellRow;
+
+  @Size(max = 255)
+  private String result;
 
 }

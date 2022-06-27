@@ -47,7 +47,7 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchItemTestFixture.CREATED_BY, created.getCreatedBy());
     assertEquals(PcrBatchItemTestFixture.WELL_COLUMN, created.getWellColumn());
     assertEquals(PcrBatchItemTestFixture.WELL_ROW, created.getWellRow());
-
+    assertEquals(PcrBatchItemTestFixture.RESULT, created.getResult());
   }
 
   @Test

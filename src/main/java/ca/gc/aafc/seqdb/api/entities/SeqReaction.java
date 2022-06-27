@@ -15,13 +15,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +34,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @RequiredArgsConstructor
-@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 @NaturalIdCache
 @Table(name = "seq_reaction")
 public class SeqReaction implements DinaEntity {
@@ -60,15 +59,15 @@ public class SeqReaction implements DinaEntity {
   @Column(name = "_group")
   private String group;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "seq_batch_id")
   private SeqBatch seqBatch;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-  @JoinColumn(name = "pcr_reaction_id")
-  private PcrReaction pcrReaction;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "pcr_batch_item_id")
+  private PcrBatchItem pcrBatchItem;
 
-  @ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "seq_primer_id")
   private PcrPrimer seqPrimer;
   

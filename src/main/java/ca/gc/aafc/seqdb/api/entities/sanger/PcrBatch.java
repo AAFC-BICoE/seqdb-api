@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.entities.sanger;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +32,6 @@ import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +44,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@SuppressFBWarnings(justification = "ok for Hibernate Entity", value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 @NaturalIdCache
 @Table(name = "pcr_batch")
 @TypeDef(
@@ -79,10 +76,6 @@ public class PcrBatch implements DinaEntity {
   @NotBlank
   @Size(max = 100)
   private String name;
-
-  @Type(type = "list-array")
-  @Column(name = "experimenters", columnDefinition = "uuid[]")
-  private List<UUID> experimenters = Collections.emptyList();
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_forward_id")    
@@ -119,7 +112,14 @@ public class PcrBatch implements DinaEntity {
 
   @Type(type = "list-array")
   @Column(name = "attachment", columnDefinition = "uuid[]")
-  private List<UUID> attachment = Collections.emptyList();
+  private List<UUID> attachment = List.of();
+
+  @Type(type = "list-array")
+  @Column(name = "experimenters", columnDefinition = "uuid[]")
+  private List<UUID> experimenters = List.of();
+
+  @Column(name = "storage_unit")
+  private UUID storageUnit;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "container_type_id")

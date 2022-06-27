@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.inject.Inject;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,8 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
+
+import java.util.UUID;
 
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -116,6 +119,8 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, found.getPositiveControl());
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
     assertEquals(PcrBatchTestFixture.REACTION_DATE, found.getReactionDate());
+
+    assertEquals(PcrBatchTestFixture.STORAGE_UNIT.toString(), found.getStorageUnit().getId());
   }
   
   @Test

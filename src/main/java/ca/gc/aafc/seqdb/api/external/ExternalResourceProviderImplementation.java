@@ -13,7 +13,8 @@ public class ExternalResourceProviderImplementation implements ExternalResourceP
     "material-sample", "collection/api/v1/material-sample",
     "metadata", "objectstore/api/v1/metadata",
     "person", "agent/api/v1/person",
-    "protocol", "collection/api/v1/protocol"
+    "protocol", "collection/api/v1/protocol",
+    "storage-unit", "collection/api/v1/storage-unit"
   );
 
   @Override

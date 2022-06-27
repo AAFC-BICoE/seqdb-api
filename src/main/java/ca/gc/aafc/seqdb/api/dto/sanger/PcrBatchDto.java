@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.dto.sanger;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +17,6 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -26,7 +24,6 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = PcrBatchDto.TYPENAME)
-@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrBatch.class)
 @TypeName(PcrBatchDto.TYPENAME)
 public class PcrBatchDto {
@@ -42,10 +39,6 @@ public class PcrBatchDto {
   private OffsetDateTime createdOn;
   private String group;
   private String name;
-
-  @JsonApiExternalRelation(type = "person")
-  @JsonApiRelation
-  private List<ExternalRelationDto> experimenters = Collections.emptyList();
 
   @JsonApiRelation
   private PcrPrimerDto primerForward;
@@ -66,9 +59,17 @@ public class PcrBatchDto {
 
   private LocalDate reactionDate;
 
+  @JsonApiExternalRelation(type = "person")
+  @JsonApiRelation
+  private List<ExternalRelationDto> experimenters = List.of();
+
   @JsonApiExternalRelation(type = "metadata")
   @JsonApiRelation
-  private List<ExternalRelationDto> attachment = Collections.emptyList();
+  private List<ExternalRelationDto> attachment = List.of();
+
+  @JsonApiExternalRelation(type = "storage-unit")
+  @JsonApiRelation
+  private ExternalRelationDto storageUnit;
 
   @JsonApiRelation
   private ContainerTypeDto containerType;

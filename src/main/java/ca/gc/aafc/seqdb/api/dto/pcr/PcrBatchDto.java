@@ -1,10 +1,11 @@
-package ca.gc.aafc.seqdb.api.dto.sanger;
+package ca.gc.aafc.seqdb.api.dto.pcr;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
@@ -12,11 +13,10 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
-import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -71,7 +71,6 @@ public class PcrBatchDto {
   @JsonApiRelation
   private ExternalRelationDto storageUnit;
 
-  @JsonApiRelation
-  private ContainerTypeDto containerType;
+  private StorageRestriction storageRestriction;
 
 }

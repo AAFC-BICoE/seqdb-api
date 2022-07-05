@@ -31,4 +31,5 @@
   <include file="db/changelog/migrations/24-Create_SeqSubmission.xml"/>
   <include file="db/changelog/migrations/25-Add_storage_unit_to_pcr_batch.xml"/>
   <include file="db/changelog/migrations/26-Remove_pcr_reaction_table.xml"/>
+  <include file="db/changelog/migrations/27-Add_storage_restriction_to_pcr_batch.xml"/>
 </databaseChangeLog>

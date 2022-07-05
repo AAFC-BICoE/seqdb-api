@@ -10,8 +10,8 @@ import ca.gc.aafc.dina.repository.DinaRepository;
 import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchItemDto;
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import lombok.NonNull;
 
 @Repository

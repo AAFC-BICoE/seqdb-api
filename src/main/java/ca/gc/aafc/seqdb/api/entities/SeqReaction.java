@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;

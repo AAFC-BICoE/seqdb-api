@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.testsupport.fixtures;
 
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 
 public class PcrBatchItemTestFixture {
   

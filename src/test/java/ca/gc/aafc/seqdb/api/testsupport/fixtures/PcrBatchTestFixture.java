@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.factories.TestableEntityFactory;
 
 public class PcrBatchTestFixture {

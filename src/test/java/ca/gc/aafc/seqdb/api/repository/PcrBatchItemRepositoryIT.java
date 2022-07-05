@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchItemDto;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularSampleTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;

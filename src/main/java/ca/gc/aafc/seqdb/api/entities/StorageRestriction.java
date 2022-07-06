@@ -26,8 +26,6 @@ public class StorageRestriction {
 
   @Data
   @Builder
-  @NoArgsConstructor
-  @AllArgsConstructor
   public static class Layout {
 
     @NotNull

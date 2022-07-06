@@ -80,11 +80,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-    </dependency>
-
     <!-- TEST Scope -->
     <dependency>
       <groupId>io.github.aafc-bicoe</groupId>

@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.entities.sanger;
+package ca.gc.aafc.seqdb.api.entities.pcr;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -14,12 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
@@ -28,7 +31,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.Region;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
@@ -46,10 +48,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @NaturalIdCache
 @Table(name = "pcr_batch")
-@TypeDef(
-  name = "list-array",
-  typeClass = ListArrayType.class
-)
+@TypeDef(name = "list-array", typeClass = ListArrayType.class)
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class PcrBatch implements DinaEntity {
 
   @Id
@@ -121,8 +121,9 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "storage_unit")
   private UUID storageUnit;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "container_type_id")
-  private ContainerType containerType;
-  
+  @Type(type = "jsonb")
+  @Column(name = "storage_restriction", columnDefinition = "jsonb")
+  @Valid
+  private StorageRestriction storageRestriction;
+
 }

@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.inject.Inject;
 
-import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
+import ca.gc.aafc.seqdb.api.testsupport.factories.StorageRestrictionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +15,12 @@ import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.dto.sanger.PcrBatchDto;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-
-import java.util.UUID;
 
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -44,7 +43,6 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
   private PcrPrimerDto primerReverseTest;
   private RegionDto regionTest;
   private ThermocyclerProfileDto thermocyclerProfileTest;
-  private ContainerTypeDto containerTypeTest;
 
   @BeforeEach
   public void setup() {
@@ -83,8 +81,6 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     containerType.setName("containerType");
     containerType.setNumberOfRows(10);
     containerType.setNumberOfColumns(10);
-    
-    containerTypeTest = containerTypeRepository.create(containerType);
   }
 
   @Test
@@ -95,7 +91,8 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setContainerType(containerTypeTest);
+    StorageRestriction sr = StorageRestrictionFactory.newStorageRestriction().build();
+    newDto.setStorageRestriction(sr);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
 
@@ -110,7 +107,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
-    assertEquals(containerTypeTest.getUuid(), found.getContainerType().getUuid());
+    assertEquals(sr, found.getStorageRestriction());
 
     assertEquals(PcrBatchTestFixture.GROUP, found.getGroup());
     assertEquals(PcrBatchTestFixture.CREATED_BY, found.getCreatedBy());
@@ -131,7 +128,9 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setPrimerReverse(primerReverseTest);
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setContainerType(containerTypeTest);
+    StorageRestriction sr = StorageRestrictionFactory.newStorageRestriction().build();
+    //StorageRestriction sr2 = new StorageRestriction();
+    newDto.setStorageRestriction(sr);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);
     assertNotNull(created.getUuid());
@@ -139,7 +138,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
-    assertEquals(containerTypeTest.getUuid(), created.getContainerType().getUuid());
+    assertEquals(sr, created.getStorageRestriction());
 
     assertEquals(PcrBatchTestFixture.GROUP, created.getGroup());
     assertEquals(PcrBatchTestFixture.CREATED_BY, created.getCreatedBy());

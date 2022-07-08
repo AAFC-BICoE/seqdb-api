@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.dto.sanger;
+package ca.gc.aafc.seqdb.api.dto.pcr;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import org.javers.core.metamodel.annotation.TypeName;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatchItem;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;

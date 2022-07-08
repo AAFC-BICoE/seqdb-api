@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.UUID;
 
-import ca.gc.aafc.seqdb.api.entities.sanger.PcrBatch;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
 
 public class PcrBatchFactory implements TestableEntityFactory<PcrBatch> {
 

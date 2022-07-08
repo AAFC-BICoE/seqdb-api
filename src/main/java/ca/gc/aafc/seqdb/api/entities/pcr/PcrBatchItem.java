@@ -1,4 +1,4 @@
-package ca.gc.aafc.seqdb.api.entities.sanger;
+package ca.gc.aafc.seqdb.api.entities.pcr;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

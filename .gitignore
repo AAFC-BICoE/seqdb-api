@@ -8,3 +8,4 @@
 *.env
 docker-compose.yml
 dbchangelog-4.4.xsd
+pom.xml.versionsBackup

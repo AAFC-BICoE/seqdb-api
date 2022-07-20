@@ -25,7 +25,6 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -67,9 +66,8 @@ public class PcrBatchItem implements DinaEntity {
   @JoinColumn(name = "pcr_batch_id")
   private PcrBatch pcrBatch;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sample_id")
-  private MolecularSample sample;
+  @Column(name = "material_sample")
+  private UUID materialSample;
 
   @Min(value = 1)
   @Max(value = 255)

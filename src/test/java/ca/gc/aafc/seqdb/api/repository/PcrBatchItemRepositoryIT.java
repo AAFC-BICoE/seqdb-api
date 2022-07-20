@@ -33,7 +33,6 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
   public void createPcrBatchItem_onSuccess_PcrBatchItemCreated() {
     PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
 
-
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
     newDto.setPcrBatch(pcrBatchTest);
     newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());

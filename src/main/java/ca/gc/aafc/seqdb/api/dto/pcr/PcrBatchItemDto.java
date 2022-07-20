@@ -3,12 +3,13 @@ package ca.gc.aafc.seqdb.api.dto.pcr;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
-import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -35,8 +36,9 @@ public class PcrBatchItemDto {
   @JsonApiRelation
   private PcrBatchDto pcrBatch;
 
+  @JsonApiExternalRelation(type = "material-sample")
   @JsonApiRelation
-  private MolecularSampleDto sample;
+  private ExternalRelationDto materialSample;
 
   private Integer wellColumn;
 

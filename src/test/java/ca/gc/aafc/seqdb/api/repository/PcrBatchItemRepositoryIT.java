@@ -7,18 +7,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.inject.Inject;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularSampleTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 
+import java.util.UUID;
+
 public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
+
+  private static final UUID TEST_MAT_SAMPLE_UUID = UUID.randomUUID();
   
   @Inject
   private PcrBatchRepository pcrBatchRepository;
@@ -26,22 +29,18 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
   @Inject
   private PcrBatchItemRepository pcrBatchItemRepository;
 
-  @Inject
-  private MolecularSampleRepository molecularSampleRepository;
-
   @Test
   public void createPcrBatchItem_onSuccess_PcrBatchItemCreated() {
     PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
-    MolecularSampleDto molecularSampleTest = molecularSampleRepository.create(MolecularSampleTestFixture.newMolecularSample()); 
 
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
     newDto.setPcrBatch(pcrBatchTest);
-    newDto.setSample(molecularSampleTest);
+    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
 
     PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
 
     assertNotNull(created.getUuid());
-    assertEquals(molecularSampleTest.getUuid(), created.getSample().getUuid());
+    assertEquals(TEST_MAT_SAMPLE_UUID.toString(), created.getMaterialSample().getId());
     assertEquals(pcrBatchTest.getUuid(), created.getPcrBatch().getUuid());
     assertEquals(PcrBatchItemTestFixture.GROUP, created.getGroup());
     assertEquals(PcrBatchItemTestFixture.CREATED_BY, created.getCreatedBy());
@@ -54,11 +53,10 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
   public void findPcrBatchItem_whenPcrReactionExists_PcrBatchItemReturned() {
 
     PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
-    MolecularSampleDto molecularSampleTest = molecularSampleRepository.create(MolecularSampleTestFixture.newMolecularSample()); 
     
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
     newDto.setPcrBatch(pcrBatchTest);
-    newDto.setSample(molecularSampleTest);
+    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
 
     PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
 
@@ -68,7 +66,7 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     );
 
     assertNotNull(created.getUuid());
-    assertEquals(molecularSampleTest.getUuid(), found.getSample().getUuid());
+    assertEquals(TEST_MAT_SAMPLE_UUID.toString(), found.getMaterialSample().getId());
     assertEquals(pcrBatchTest.getUuid(), found.getPcrBatch().getUuid());
     assertEquals(PcrBatchItemTestFixture.GROUP, found.getGroup());
     assertEquals(PcrBatchItemTestFixture.CREATED_BY, found.getCreatedBy());

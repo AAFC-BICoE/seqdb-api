@@ -129,7 +129,6 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);
     StorageRestriction sr = StorageRestrictionFactory.newStorageRestriction().build();
-    //StorageRestriction sr2 = new StorageRestriction();
     newDto.setStorageRestriction(sr);
     
     PcrBatchDto created = pcrBatchRepository.create(newDto);

@@ -33,4 +33,5 @@
   <include file="db/changelog/migrations/26-Remove_pcr_reaction_table.xml"/>
   <include file="db/changelog/migrations/27-Add_storage_restriction_to_pcr_batch.xml"/>
   <include file="db/changelog/migrations/28-Change_PCRBatchItem_materialSample_relationship.xml"/>
+  <include file="db/changelog/migrations/29-Replace_thermocycler_profile_steps_by_an_array.xml"/>
 </databaseChangeLog>

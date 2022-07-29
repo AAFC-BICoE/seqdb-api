@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
@@ -67,9 +66,9 @@ public class ThermocyclerProfile implements DinaEntity {
   private String cycles;
 
   //max 15 elements with and each element are limited to 250 characters
-  @Size(max=15)
+  @Size(max = 15)
   @Type(type = "list-array")
-  private List<@Size(max=250) String> steps;
+  private List<@Size(max = 250) String> steps;
 
   @Version
   private Timestamp lastModified;

@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -18,14 +19,16 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 @Entity
 @Table(
@@ -36,7 +39,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
+@TypeDef(name = "list-array", typeClass = ListArrayType.class)
 public class ThermocyclerProfile implements DinaEntity {
 
   @Id
@@ -61,21 +64,11 @@ public class ThermocyclerProfile implements DinaEntity {
 
   private String application;
   private String cycles;
-  private String step1;
-  private String step2;
-  private String step3;
-  private String step4;
-  private String step5;
-  private String step6;
-  private String step7;
-  private String step8;
-  private String step9;
-  private String step10;
-  private String step11;
-  private String step12;
-  private String step13;
-  private String step14;
-  private String step15;
+
+  //max 15 elements with and each element are limited to 250 characters
+  @Size(max = 15)
+  @Type(type = "list-array")
+  private List<@Size(max = 250) String> steps;
 
   @Version
   private Timestamp lastModified;

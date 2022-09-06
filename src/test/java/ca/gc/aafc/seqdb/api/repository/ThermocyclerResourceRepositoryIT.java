@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 
 import ca.gc.aafc.seqdb.api.service.ThermocyclerProfileService;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.ThermocyclerProfileTestFixture;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
@@ -22,7 +23,6 @@ import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ThermocyclerProfileFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   

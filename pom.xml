@@ -10,7 +10,7 @@
   <url>https://github.com/AAFC-BICoE/seqdb-api</url>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <javax.inject.version>1</javax.inject.version>
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
     <javax.interceptor-api>1.2.2</javax.interceptor-api>
@@ -21,7 +21,7 @@
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <dependency.check.version>7.1.1</dependency.check.version>
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <checkstyle.version>9.3</checkstyle.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>

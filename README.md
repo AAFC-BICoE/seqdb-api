@@ -6,8 +6,8 @@ seqdb-api is an implementation of the Sequence Module for the [DINA project](htt
 
 ## Required
 
-* Java 11
-* Maven 3.2+
+* Java 17
+* Maven 3.8+
 * PostgreSQL 10
 * Docker
 

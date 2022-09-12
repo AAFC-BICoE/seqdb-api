@@ -33,7 +33,13 @@ keycloak:
   public-client: true
   bearer-only: true
   principal-attribute: preferred_username
-
+  # All endpoints require a logged-in user with the "dina-realm-user" role.
+  security-constraints:
+    - auth-roles:
+        - dina-realm-user
+      security-collections:
+        - patterns:
+            - /*
 logging:
   level:
     com.github.tennaito.rsql: ERROR

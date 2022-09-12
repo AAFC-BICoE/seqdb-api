@@ -1,3 +1,0 @@
-= IDE Setup
-
-This project uses https://projectlombok.org/[Lombok], which may require additional setup in your IDE: https://projectlombok.org/setup/overview[IDE setup guides]

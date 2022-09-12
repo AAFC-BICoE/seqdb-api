@@ -21,12 +21,7 @@ More information on [Running the application](docs/running.adoc).
 
 ## Documentation
 
-To generate the complete documentation:
-```
-mvn clean compile
-```
-
-The single HTML page will be available at `target/generated-docs/index.html`
+See [DINA Developer Guide](https://aafc-bicoe.github.io/dina-documentation/developer/)
 
 ## To Run
 

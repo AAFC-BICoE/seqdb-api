@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +22,8 @@ public class PcrBatchItemRepository extends DinaRepository<PcrBatchItemDto, PcrB
     @NonNull DinaService<PcrBatchItem> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -31,7 +33,7 @@ public class PcrBatchItemRepository extends DinaRepository<PcrBatchItemDto, PcrB
       PcrBatchItem.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

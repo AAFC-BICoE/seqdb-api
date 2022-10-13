@@ -7,6 +7,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ChainTemplateDto;
 import ca.gc.aafc.seqdb.api.entities.workflow.ChainTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,8 @@ public class ChainTemplateRepository extends DinaRepository<ChainTemplateDto, Ch
     @NonNull DinaService<ChainTemplate> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -30,7 +32,7 @@ public class ChainTemplateRepository extends DinaRepository<ChainTemplateDto, Ch
       ChainTemplate.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

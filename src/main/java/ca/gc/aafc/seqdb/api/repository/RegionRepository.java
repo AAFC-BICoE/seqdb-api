@@ -8,6 +8,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.entities.Region;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,8 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
     DinaAuthorizationService groupAuthorizationService,
     @NonNull Optional<AuditService> auditService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -32,7 +34,7 @@ public class RegionRepository extends DinaRepository<RegionDto, Region> {
       Region.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

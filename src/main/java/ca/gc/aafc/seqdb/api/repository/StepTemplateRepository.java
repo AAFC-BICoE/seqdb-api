@@ -7,6 +7,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.StepTemplateDto;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,8 @@ public class StepTemplateRepository extends DinaRepository<StepTemplateDto, Step
     @NonNull DinaService<StepTemplate> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -30,7 +32,7 @@ public class StepTemplateRepository extends DinaRepository<StepTemplateDto, Step
       StepTemplate.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

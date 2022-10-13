@@ -7,6 +7,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,8 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
     @NonNull DinaService<LibraryPool> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       // Make an exception and allow creates when the group is null:
@@ -31,7 +33,7 @@ public class LibraryPoolRepository extends DinaRepository<LibraryPoolDto, Librar
       LibraryPool.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

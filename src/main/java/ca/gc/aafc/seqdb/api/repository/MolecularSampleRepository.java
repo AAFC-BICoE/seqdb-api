@@ -8,6 +8,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,8 @@ public class MolecularSampleRepository extends DinaRepository<MolecularSampleDto
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider,
-    Optional<DinaAuthenticatedUser> dinaAuthenticatedUser) {
+    Optional<DinaAuthenticatedUser> dinaAuthenticatedUser,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -34,7 +36,7 @@ public class MolecularSampleRepository extends DinaRepository<MolecularSampleDto
       MolecularSample.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
     this.dinaAuthenticatedUser = dinaAuthenticatedUser;
   }
 

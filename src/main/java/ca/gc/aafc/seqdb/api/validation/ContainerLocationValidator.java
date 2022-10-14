@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.validation;
 
+import ca.gc.aafc.dina.translator.NumberLetterTranslator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -7,7 +8,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
-import ca.gc.aafc.seqdb.api.util.NumberLetterMappingUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -68,8 +68,8 @@ public class ContainerLocationValidator implements Validator {
         String errorMessage = getMessage(VALID_WELL_COL_CONTAINER_TYPE, col);
         errors.rejectValue("wellColumn", VALID_WELL_COL_CONTAINER_TYPE, errorMessage);
       }
-      
-      if (NumberLetterMappingUtils.getNumber(row) > rows) {
+
+      if (NumberLetterTranslator.toNumber(row) > rows) {
         String errorMessage = getMessage(VALID_WELL_ROW_CONTAINER_TYPE, row);
         errors.rejectValue("wellRow", VALID_WELL_ROW_CONTAINER_TYPE, errorMessage);
       }

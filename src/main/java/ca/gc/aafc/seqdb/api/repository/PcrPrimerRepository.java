@@ -8,6 +8,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,8 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
     DinaAuthorizationService groupAuthorizationService,
     @NonNull Optional<AuditService> auditService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -32,7 +34,7 @@ public class PcrPrimerRepository extends DinaRepository<PcrPrimerDto, PcrPrimer>
       PcrPrimer.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

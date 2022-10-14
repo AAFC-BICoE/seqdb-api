@@ -7,6 +7,7 @@ import ca.gc.aafc.dina.security.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.IndexSetDto;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,8 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
     @NonNull DinaService<IndexSet> dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider) {
+    ExternalResourceProvider externalResourceProvider,
+    ObjectMapper objMapper) {
     super(
       dinaService,
       groupAuthorizationService,
@@ -30,7 +32,7 @@ public class IndexSetRepository extends DinaRepository<IndexSetDto, IndexSet> {
       IndexSet.class,
       null,
       externalResourceProvider,
-      props);
+      props, objMapper);
   }
 
 }

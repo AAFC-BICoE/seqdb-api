@@ -20,11 +20,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
@@ -43,7 +40,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "PreLibraryPreps")
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

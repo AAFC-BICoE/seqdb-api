@@ -23,9 +23,6 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
@@ -42,10 +39,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @NaturalIdCache
 @Table(name = "seq_batch")
-@TypeDef(
-  name = "list-array",
-  typeClass = ListArrayType.class
-)
 public class SeqBatch implements DinaEntity {
 
   @Id

@@ -38,7 +38,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "StepTemplates")
 @TypeDef(name = "step-resource-value-array", typeClass = EnumArrayType.class, defaultForType = StepResourceValue[].class, parameters = {
   @Parameter(name = EnumArrayType.SQL_ARRAY_TYPE, value = "stepresourcevalue") })
-@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

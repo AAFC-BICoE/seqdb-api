@@ -21,7 +21,6 @@ import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.workflow.StepTemplate.StepResourceValue;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

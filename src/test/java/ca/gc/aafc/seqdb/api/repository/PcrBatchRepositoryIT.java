@@ -1,13 +1,15 @@
 package ca.gc.aafc.seqdb.api.repository;
 
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.inject.Inject;
+import javax.validation.ValidationException;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import ca.gc.aafc.seqdb.api.testsupport.factories.StorageRestrictionFactory;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +23,8 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
+
+import java.util.UUID;
 
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -46,19 +50,15 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
   @BeforeEach
   public void setup() {
-    PcrPrimerDto primerForward = new PcrPrimerDto();
+    PcrPrimerDto primerForward = PcrPrimerTestFixture.newPcrPrimer();
     primerForward.setType(PrimerType.PRIMER);
     primerForward.setName("forward");
-    primerForward.setSeq("CTTGGTCATTTAGAGGAAGTAA");
     primerForward.setDirection("F");
-    primerForward.setLotNumber(1);
 
-    PcrPrimerDto primerReverse = new PcrPrimerDto();
+    PcrPrimerDto primerReverse = PcrPrimerTestFixture.newPcrPrimer();
     primerReverse.setType(PrimerType.PRIMER);
     primerReverse.setName("reverse");
-    primerReverse.setSeq("CTTGGTCATTTAGAGGAAGTAA");
     primerReverse.setDirection("R");
-    primerReverse.setLotNumber(1);
 
     primerForwardTest = pcrPrimerRepository.create(primerForward);
     primerReverseTest = pcrPrimerRepository.create(primerReverse);
@@ -179,5 +179,14 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     ));
   }
 
-  
+  @Test
+  public void createPcrBatch_onInvalidStorage_exceptionThrown() {
+    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
+
+    newDto.setStorageUnit(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit").build());
+    newDto.setStorageUnitType(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit-type").build());
+
+    assertThrows(ValidationException.class, () -> pcrBatchRepository.create(newDto));
+  }
+
 }

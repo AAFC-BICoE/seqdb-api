@@ -14,7 +14,8 @@ public class ExternalResourceProviderImplementation implements ExternalResourceP
     "metadata", "objectstore/api/v1/metadata",
     "person", "agent/api/v1/person",
     "protocol", "collection/api/v1/protocol",
-    "storage-unit", "collection/api/v1/storage-unit"
+    "storage-unit", "collection/api/v1/storage-unit",
+    "storage-unit-type", "collection/api/v1/storage-unit-type"
   );
 
   @Override

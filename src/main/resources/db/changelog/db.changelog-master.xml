@@ -34,4 +34,5 @@
   <include file="db/changelog/migrations/27-Add_storage_restriction_to_pcr_batch.xml"/>
   <include file="db/changelog/migrations/28-Change_PCRBatchItem_materialSample_relationship.xml"/>
   <include file="db/changelog/migrations/29-Replace_thermocycler_profile_steps_by_an_array.xml"/>
+  <include file="db/changelog/migrations/30-Allow_storage_unit_type_on_pcrbatch.xml"/>
 </databaseChangeLog>

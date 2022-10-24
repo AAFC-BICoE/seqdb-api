@@ -19,7 +19,6 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
@@ -28,7 +27,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 @Entity
 @Table(
@@ -39,7 +37,6 @@ import org.hibernate.annotations.TypeDef;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TypeDef(name = "list-array", typeClass = ListArrayType.class)
 public class ThermocyclerProfile implements DinaEntity {
 
   @Id

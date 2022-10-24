@@ -18,11 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
@@ -32,7 +29,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "NgsIndexes")
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

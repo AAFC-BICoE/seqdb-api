@@ -19,11 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
@@ -47,7 +44,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "StepResources")
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

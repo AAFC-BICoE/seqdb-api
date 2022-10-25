@@ -116,6 +116,12 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "storage_unit")
   private UUID storageUnit;
 
+  /**
+   * storage-unit-type should only be used when no specific storageUnit is used.
+   */
+  @Column(name = "storage_unit_type")
+  private UUID storageUnitType;
+
   @Type(type = "jsonb")
   @Column(name = "storage_restriction", columnDefinition = "jsonb")
   @Valid

@@ -1,13 +1,9 @@
 package ca.gc.aafc.seqdb.api.openapi;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.apache.http.client.utils.URIBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,24 +29,10 @@ import lombok.SneakyThrows;
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
 
-  private static final String SPEC_HOST = "raw.githubusercontent.com";
-  private static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
-  private static final URIBuilder URI_BUILDER = new URIBuilder();
-
   public static final String TYPE_NAME = "pcr-primer";
-
-  static {
-    URI_BUILDER.setScheme("https");
-    URI_BUILDER.setHost(SPEC_HOST);
-    URI_BUILDER.setPath(SPEC_PATH);
-  }
 
   protected PcrPrimerOpenApiIT() {
     super("/api");
-  }
-
-  public static URL getOpenAPISpecsURL() throws URISyntaxException, MalformedURLException {
-    return URI_BUILDER.build().toURL();
   }
 
   @SneakyThrows
@@ -66,7 +48,7 @@ public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
       .body()
       .path("data.id");
     
-    OpenAPI3Assertions.assertRemoteSchema(getOpenAPISpecsURL(), "PcrPrimer",
+    OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "PcrPrimer",
       sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(pcrPrimerDto),
         Map.of(
           "region", getRelationType("region", uuid)),

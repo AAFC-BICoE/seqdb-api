@@ -71,6 +71,10 @@ public class PcrBatchDto {
   @JsonApiRelation
   private ExternalRelationDto storageUnit;
 
+  @JsonApiExternalRelation(type = "storage-unit-type")
+  @JsonApiRelation
+  private ExternalRelationDto storageUnitType;
+
   private StorageRestriction storageRestriction;
 
 }

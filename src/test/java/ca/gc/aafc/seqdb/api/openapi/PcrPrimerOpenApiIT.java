@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPIRelationship;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,8 +30,6 @@ import lombok.SneakyThrows;
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
 
-  public static final String TYPE_NAME = "pcr-primer";
-
   protected PcrPrimerOpenApiIT() {
     super("/api");
   }
@@ -42,24 +41,13 @@ public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
     PcrPrimerDto pcrPrimerDto = PcrPrimerTestFixture.newPcrPrimer();
     pcrPrimerDto.setRegion(null);
 
-    String uuid = sendPost("region", JsonAPITestHelper.toJsonAPIMap("region", JsonAPITestHelper.toAttributeMap(regionDto)))
-      .extract()
-      .response()
-      .body()
-      .path("data.id");
+    String uuid = JsonAPITestHelper.extractId(
+            sendPost(RegionDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(RegionDto.TYPENAME, JsonAPITestHelper.toAttributeMap(regionDto))));
     
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "PcrPrimer",
-      sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(pcrPrimerDto),
-        Map.of(
-          "region", getRelationType("region", uuid)),
+      sendPost(PcrPrimerDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(PcrPrimerDto.TYPENAME, JsonAPITestHelper.toAttributeMap(pcrPrimerDto),
+                      JsonAPITestHelper.toRelationshipMap(JsonAPIRelationship.of(RegionDto.TYPENAME, RegionDto.TYPENAME, uuid)),
         null)
       ).extract().asString());
   }
-
-  private Map<String, Object> getRelationType(String type, String uuid) {
-    return Map.of("data", Map.of(
-      "id", uuid,
-      "type", type));
-  }
-  
 }

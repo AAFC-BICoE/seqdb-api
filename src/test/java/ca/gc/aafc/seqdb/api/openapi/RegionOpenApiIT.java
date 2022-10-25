@@ -25,8 +25,6 @@ import lombok.SneakyThrows;
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class RegionOpenApiIT extends BaseRestAssuredTest {
 
-  public static final String TYPE_NAME = "region";
-
   protected RegionOpenApiIT() {
     super("/api");
   }
@@ -37,7 +35,7 @@ public class RegionOpenApiIT extends BaseRestAssuredTest {
     RegionDto region = RegionTestFixture.newRegion();
 
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "Region",
-      sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(region),
+      sendPost(RegionDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(RegionDto.TYPENAME, JsonAPITestHelper.toAttributeMap(region),
         null,
         null)
       ).extract().asString());

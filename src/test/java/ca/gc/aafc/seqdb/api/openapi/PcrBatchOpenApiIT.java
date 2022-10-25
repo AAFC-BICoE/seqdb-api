@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @SpringBootTest(
@@ -25,7 +24,6 @@ import java.util.List;
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @TestPropertySource(properties = "spring.config.additional-location=classpath:application-test.yml")
-@Transactional
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class PcrBatchOpenApiIT extends BaseRestAssuredTest {
 

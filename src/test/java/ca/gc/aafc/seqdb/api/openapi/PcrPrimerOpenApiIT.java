@@ -1,9 +1,5 @@
 package ca.gc.aafc.seqdb.api.openapi;
 
-import java.util.Map;
-
-import javax.transaction.Transactional;
-
 import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPIRelationship;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +22,6 @@ import lombok.SneakyThrows;
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @TestPropertySource(properties = "spring.config.additional-location=classpath:application-test.yml")
-@Transactional
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class PcrPrimerOpenApiIT extends BaseRestAssuredTest {
 

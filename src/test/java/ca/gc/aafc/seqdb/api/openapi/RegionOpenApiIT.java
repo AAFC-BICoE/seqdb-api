@@ -1,7 +1,5 @@
 package ca.gc.aafc.seqdb.api.openapi;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,11 +19,8 @@ import lombok.SneakyThrows;
   webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @TestPropertySource(properties = "spring.config.additional-location=classpath:application-test.yml")
-@Transactional
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class RegionOpenApiIT extends BaseRestAssuredTest {
-
-  public static final String TYPE_NAME = "region";
 
   protected RegionOpenApiIT() {
     super("/api");
@@ -37,7 +32,7 @@ public class RegionOpenApiIT extends BaseRestAssuredTest {
     RegionDto region = RegionTestFixture.newRegion();
 
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "Region",
-      sendPost(TYPE_NAME, JsonAPITestHelper.toJsonAPIMap(TYPE_NAME, JsonAPITestHelper.toAttributeMap(region),
+      sendPost(RegionDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(RegionDto.TYPENAME, JsonAPITestHelper.toAttributeMap(region),
         null,
         null)
       ).extract().asString());

@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.validation;
 
 import ca.gc.aafc.dina.entity.StorageGridLayout;
 import ca.gc.aafc.dina.translator.NumberLetterTranslator;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.Errors;
@@ -30,11 +31,11 @@ abstract class AbstractLocationValidator implements Validator {
    */
   protected void checkRowAndColumn(String row, Integer col, Errors errors) {
     // Row and col must be either both set or both null.
-    if (col == null && row != null) {
+    if (col == null && StringUtils.isNotBlank(row)) {
       String errorMessage = getMessage(VALID_NULL_WELL_COL);
       errors.rejectValue("wellColumn", VALID_NULL_WELL_COL, errorMessage);
     }
-    if (row == null && col != null) {
+    if (StringUtils.isBlank(row) && col != null) {
       String errorMessage = getMessage(VALID_NULL_WELL_ROW);
       errors.rejectValue("wellRow", VALID_NULL_WELL_ROW, errorMessage);
     }

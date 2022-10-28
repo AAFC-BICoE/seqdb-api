@@ -22,8 +22,8 @@ abstract class AbstractLocationValidator implements Validator {
   private final MessageSource messageSource;
 
   // could become variables if needed in the future
-  protected final String WELL_ROW_FIELD_NAME = "wellRow";
-  protected final String WELL_COLUMN_FIELD_NAME = "wellColumn";
+  protected static final String WELL_ROW_FIELD_NAME = "wellRow";
+  protected static final String WELL_COLUMN_FIELD_NAME = "wellColumn";
 
   AbstractLocationValidator(MessageSource messageSource) {
     this.messageSource = messageSource;

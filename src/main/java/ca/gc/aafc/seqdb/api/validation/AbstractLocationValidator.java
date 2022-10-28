@@ -21,6 +21,10 @@ abstract class AbstractLocationValidator implements Validator {
 
   private final MessageSource messageSource;
 
+  // could become variables if needed in the future
+  protected final String WELL_ROW_FIELD_NAME = "wellRow";
+  protected final String WELL_COLUMN_FIELD_NAME = "wellColumn";
+
   AbstractLocationValidator(MessageSource messageSource) {
     this.messageSource = messageSource;
   }
@@ -33,23 +37,28 @@ abstract class AbstractLocationValidator implements Validator {
    */
   protected void checkRowAndColumn(String row, Integer col, Errors errors) {
     // Row and col must be either both set or both null.
-    if (col == null && StringUtils.isNotBlank(row)) {
-      String errorMessage = getMessage(VALID_NULL_WELL_COL);
-      errors.rejectValue("wellColumn", VALID_NULL_WELL_COL, errorMessage);
-    }
     if (StringUtils.isBlank(row) && col != null) {
       String errorMessage = getMessage(VALID_NULL_WELL_ROW);
-      errors.rejectValue("wellRow", VALID_NULL_WELL_ROW, errorMessage);
+      errors.rejectValue(WELL_ROW_FIELD_NAME, VALID_NULL_WELL_ROW, errorMessage);
+    }
+    if (col == null && StringUtils.isNotBlank(row)) {
+      String errorMessage = getMessage(VALID_NULL_WELL_COL);
+      errors.rejectValue(WELL_COLUMN_FIELD_NAME, VALID_NULL_WELL_COL, errorMessage);
     }
   }
 
   protected void checkWellAgainstGrid(String row, Integer col, StorageGridLayout sgl, Errors errors) {
     // Validate well coordinates if they are set.
     if (row != null && col != null) {
-      if (!sgl.isValidLocation(NumberLetterTranslator.toNumber(row), col)) {
-        String errorMessage = getMessage(INVALID_ROW, row + col);
+      if (!sgl.isValidRow(NumberLetterTranslator.toNumber(row))) {
+        String errorMessage = getMessage(INVALID_ROW, row );
         // we need to attach the error to a specific field but here it could be col OR row
-        errors.rejectValue("wellColumn", INVALID_ROW, errorMessage);
+        errors.rejectValue(WELL_ROW_FIELD_NAME, INVALID_ROW, errorMessage);
+      }
+      if (!sgl.isValidColumn(col)) {
+        String errorMessage = getMessage(INVALID_COL, col);
+        // we need to attach the error to a specific field but here it could be col OR row
+        errors.rejectValue(WELL_COLUMN_FIELD_NAME, INVALID_COL, errorMessage);
       }
     }
   }

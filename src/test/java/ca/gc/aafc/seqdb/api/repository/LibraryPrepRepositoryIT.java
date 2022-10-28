@@ -228,7 +228,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         () -> libraryPrepRepository.save(dto)
     );
     assertEquals(
-        "Well column 100 exceeds container's number of columns.",
+        "Invalid well column: 100",
         exception.getMessage()
     );
   }
@@ -246,7 +246,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         () -> libraryPrepRepository.save(dto)
     );
     assertEquals(
-        "Row letter Z exceeds container's number of rows.",
+        "Invalid well row: Z",
         exception.getMessage()
     );
   }

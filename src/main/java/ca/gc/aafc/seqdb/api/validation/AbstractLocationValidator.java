@@ -15,7 +15,9 @@ abstract class AbstractLocationValidator implements Validator {
 
   public static final String VALID_NULL_WELL_COL = "validation.constraint.violation.nullWellCol";
   public static final String VALID_NULL_WELL_ROW = "validation.constraint.violation.nullWellRow";
-  public static final String INVALID_WELL_LOCATION = "validation.constraint.violation.invalidWellLocation";
+
+  public static final String INVALID_ROW = "validation.constraint.violation.invalidWellRow";
+  public static final String INVALID_COL = "validation.constraint.violation.invalidWellColumn";
 
   private final MessageSource messageSource;
 
@@ -45,9 +47,9 @@ abstract class AbstractLocationValidator implements Validator {
     // Validate well coordinates if they are set.
     if (row != null && col != null) {
       if (!sgl.isValidLocation(NumberLetterTranslator.toNumber(row), col)) {
-        String errorMessage = getMessage(INVALID_WELL_LOCATION, row + col);
+        String errorMessage = getMessage(INVALID_ROW, row + col);
         // we need to attach the error to a specific field but here it could be col OR row
-        errors.rejectValue("wellColumn", INVALID_WELL_LOCATION, errorMessage);
+        errors.rejectValue("wellColumn", INVALID_ROW, errorMessage);
       }
     }
   }

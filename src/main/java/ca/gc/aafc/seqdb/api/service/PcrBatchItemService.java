@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.service;
 
 import java.util.UUID;
 
-import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
 import ca.gc.aafc.seqdb.api.validation.PcrBatchItemValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.SmartValidator;

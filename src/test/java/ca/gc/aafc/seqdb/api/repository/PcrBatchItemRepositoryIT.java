@@ -6,8 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.inject.Inject;
+import javax.validation.ValidationException;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
+import ca.gc.aafc.seqdb.api.testsupport.factories.StorageRestrictionFactory;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
@@ -108,6 +111,28 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
       new QuerySpec(PcrBatchItemDto.class)
     ));
   }
-  
+
+  @Test
+  public void pcrBatchItem_onInvalidCoordinates_ExceptionThrown() {
+    StorageRestriction storageRestriction = StorageRestrictionFactory.newStorageRestriction().build();
+    PcrBatchDto batchDto = PcrBatchTestFixture.newPcrBatch();
+    batchDto.setStorageRestriction(storageRestriction);
+    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(batchDto);
+
+    PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
+    newDto.setPcrBatch(pcrBatchTest);
+    newDto.setWellRow("A");
+    newDto.setWellColumn(1);
+    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    pcrBatchItemRepository.create(newDto);
+
+    // try another one with invalid coordinates
+    PcrBatchItemDto newDto2 = PcrBatchItemTestFixture.newPcrBatchItem();
+    newDto2.setPcrBatch(pcrBatchTest);
+    newDto2.setWellRow("A");
+    newDto2.setWellColumn(StorageRestrictionFactory.DEFAULT_NUM_OF_COLUMNS + 1);
+    newDto2.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    assertThrows(ValidationException.class, ()-> pcrBatchItemRepository.create(newDto2));
+  }
 
 }

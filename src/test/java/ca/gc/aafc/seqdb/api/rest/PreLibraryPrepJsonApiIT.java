@@ -74,14 +74,12 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
     // Test external relationship protocol
     ImmutableMap.Builder<String, Object> protocolRelationship = new ImmutableMap.Builder<>();
     protocolRelationship.put("type", "protocol")
-                        .put("id", UUID.randomUUID().toString())
-                        .build();
+                        .put("id", UUID.randomUUID().toString());
 
     // Test product relationship.
     ImmutableMap.Builder<String, Object> productRelationship = new ImmutableMap.Builder<>();
     productRelationship.put("type", "product")
-                        .put("id", String.valueOf(productId))
-                        .build();
+                        .put("id", String.valueOf(productId));
 
     ImmutableMap.Builder<String, Object> productBldr = new ImmutableMap.Builder<>();
     productBldr.put("data", productRelationship.build());

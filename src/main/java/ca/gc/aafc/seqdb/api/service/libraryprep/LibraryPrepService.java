@@ -18,7 +18,6 @@ import lombok.NonNull;
 @Service
 public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
-  private BaseDAO baseDAO;
   private final ContainerLocationValidator containerLocationValidator;
 
   public LibraryPrepService(
@@ -26,7 +25,6 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
     @NonNull SmartValidator sv,
     @NonNull ContainerLocationValidator containerLocationValidator) {
     super(baseDAO, sv);
-    this.baseDAO = baseDAO;
     this.containerLocationValidator = containerLocationValidator;
   }
 
@@ -75,12 +73,9 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
       LibraryPrepBatch prepBatch = libraryPrep.getLibraryPrepBatch();
 
       // Flush and refresh the batch to make sure the list of LibraryPreps is up to date:
-      baseDAO.createWithEntityManager(em -> {
-        em.flush();
-        em.refresh(prepBatch);
-        return null;
-      });
-      
+      flush();
+      refresh(prepBatch);
+
       List<LibraryPrep> otherPreps = prepBatch.getLibraryPreps()
           .stream()
           .filter(lp -> !lp.getUuid().equals(libraryPrep.getUuid()))

@@ -13,3 +13,8 @@ embedded.postgresql:
   init-script-file: init-test-db.sql
   database: seqdb_test
   schema: seqdb
+logging:
+  level:
+    org.springframework: ERROR
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

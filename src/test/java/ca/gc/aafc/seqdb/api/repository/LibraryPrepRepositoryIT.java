@@ -29,12 +29,9 @@ import io.crnk.core.queryspec.QuerySpec;
 public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   private static final String TEST_QUALITY = "test quality";
-  
-  private ContainerType testContainerType;
+
   private LibraryPrep testLibPrep;
   private LibraryPrepBatchDto testBatchDto;
-  private Product testProduct;
-  private MolecularSample testMolecularSample;
   private List<MolecularSample> testSamples;
 
   @Inject
@@ -47,16 +44,16 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   private MolecularSampleRepository molecularSampleRepository;
   
   private LibraryPrep createTestLibraryPrep() {
-    
-    testContainerType = ContainerTypeFactory.newContainerType()
-        .build();
+
+    ContainerType testContainerType = ContainerTypeFactory.newContainerType()
+            .build();
     
     persist(testContainerType);
-    
-    testProduct = ProductFactory.newProduct().build();
+
+    Product testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
-    
-    testMolecularSample = new MolecularSample();
+
+    MolecularSample testMolecularSample = new MolecularSample();
     testMolecularSample.setName("test sample");
     
     persist(testMolecularSample);
@@ -231,7 +228,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         () -> libraryPrepRepository.save(dto)
     );
     assertEquals(
-        "Well column 100 exceeds container's number of columns.",
+        "Invalid well column: 100",
         exception.getMessage()
     );
   }
@@ -249,7 +246,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
         () -> libraryPrepRepository.save(dto)
     );
     assertEquals(
-        "Row letter Z exceeds container's number of rows.",
+        "Invalid well row: Z",
         exception.getMessage()
     );
   }

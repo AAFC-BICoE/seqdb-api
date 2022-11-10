@@ -135,4 +135,23 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     assertThrows(ValidationException.class, ()-> pcrBatchItemRepository.create(newDto2));
   }
 
+  @Test
+  public void pcrBatchItem_onRowColumn_cellNumberCalculated() {
+    StorageRestriction storageRestriction = StorageRestrictionFactory.newStorageRestriction().build();
+    PcrBatchDto batchDto = PcrBatchTestFixture.newPcrBatch();
+    batchDto.setStorageRestriction(storageRestriction);
+    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(batchDto);
+
+    PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
+    newDto.setPcrBatch(pcrBatchTest);
+    newDto.setWellRow("A");
+    newDto.setWellColumn(2);
+    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    newDto = pcrBatchItemRepository.create(newDto);
+
+    PcrBatchItemDto found = pcrBatchItemRepository.findOne(
+            newDto.getUuid(), new QuerySpec(PcrBatchItemDto.class));
+    assertEquals(2, found.getCellNumber());
+  }
+
 }

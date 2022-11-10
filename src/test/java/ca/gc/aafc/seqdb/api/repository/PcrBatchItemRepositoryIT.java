@@ -10,6 +10,7 @@ import javax.validation.ValidationException;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import ca.gc.aafc.seqdb.api.testsupport.factories.StorageRestrictionFactory;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +21,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {

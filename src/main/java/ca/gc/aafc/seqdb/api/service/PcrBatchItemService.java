@@ -47,12 +47,11 @@ public class PcrBatchItemService extends DefaultDinaService<PcrBatchItem> {
                              int startIndex, int maxResult, @NonNull Set<String> includes,
                              @NonNull Set<String> relationships)  {
 
+    List<T> itemsList = super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
     if(PcrBatchItem.class == entityClass) {
-      List<T> itemsList = super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
       itemsList.forEach(t -> setCellNumber((PcrBatchItem) t));
     }
-
-    return super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
+    return itemsList;
   }
 
   private void setCellNumber(PcrBatchItem item) {

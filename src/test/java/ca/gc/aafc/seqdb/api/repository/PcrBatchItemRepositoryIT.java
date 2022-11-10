@@ -10,6 +10,7 @@ import javax.validation.ValidationException;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import ca.gc.aafc.seqdb.api.testsupport.factories.StorageRestrictionFactory;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +21,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
@@ -133,6 +135,25 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
     newDto2.setWellColumn(StorageRestrictionFactory.DEFAULT_NUM_OF_COLUMNS + 1);
     newDto2.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
     assertThrows(ValidationException.class, ()-> pcrBatchItemRepository.create(newDto2));
+  }
+
+  @Test
+  public void pcrBatchItem_onRowColumn_cellNumberCalculated() {
+    StorageRestriction storageRestriction = StorageRestrictionFactory.newStorageRestriction().build();
+    PcrBatchDto batchDto = PcrBatchTestFixture.newPcrBatch();
+    batchDto.setStorageRestriction(storageRestriction);
+    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(batchDto);
+
+    PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
+    newDto.setPcrBatch(pcrBatchTest);
+    newDto.setWellRow("A");
+    newDto.setWellColumn(2);
+    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    newDto = pcrBatchItemRepository.create(newDto);
+
+    PcrBatchItemDto found = pcrBatchItemRepository.findOne(
+            newDto.getUuid(), new QuerySpec(PcrBatchItemDto.class));
+    assertEquals(2, found.getCellNumber());
   }
 
 }

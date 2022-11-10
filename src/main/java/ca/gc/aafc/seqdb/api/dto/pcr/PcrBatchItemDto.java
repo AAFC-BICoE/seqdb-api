@@ -44,6 +44,8 @@ public class PcrBatchItemDto {
 
   private String wellRow;
 
+  private int cellNumber;
+
   private String result;
 
 }

@@ -52,7 +52,6 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void findSeqBatch_whenSeqBatchExists_SeqBatchReturned() {
-
     SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
     newDto.setRegion(regionTest);
     newDto.setThermocyclerProfile(thermocyclerProfileTest);

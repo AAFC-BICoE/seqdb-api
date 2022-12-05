@@ -9,7 +9,9 @@ public class OpenAPIConstants {
 
   private static final String SCHEME = "https";
   static final String SPEC_HOST = "raw.githubusercontent.com";
-  static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
+  //static final String SPEC_PATH = "DINA-Web/sequence-specs/master/schema/sequence.yml";
+  static final String SPEC_PATH = "DINA-Web/sequence-specs/add_seq_batch/schema/seqBatch.yml";
+//https://raw.githubusercontent.com/DINA-Web/sequence-specs/add_seq_batch/schema/seqBatch.yml
 
   public static final URL SEQDB_API_SPECS_URL = buildOpenAPISpecsURL();
 

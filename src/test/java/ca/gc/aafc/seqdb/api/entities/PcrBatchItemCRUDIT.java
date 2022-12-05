@@ -31,7 +31,6 @@ class PcrBatchItemCRUDIT extends SequenceModuleBaseIT {
     PcrBatchItem pcrBatchItem = PcrBatchItemFactory.newPcrBatchItem().build();
 
     pcrBatchItemService.create(pcrBatchItem);
-
     pcrBatchItem.setWellColumn(256);
 
     Assertions.assertThrows(ValidationException.class, () ->  pcrBatchItemService.update(pcrBatchItem));

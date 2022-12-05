@@ -13,7 +13,6 @@ import org.javers.core.metamodel.annotation.TypeName;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -21,7 +20,6 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = PcrPrimerDto.TYPENAME)
-@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(PcrPrimer.class)
 @TypeName(PcrPrimerDto.TYPENAME)
 public class PcrPrimerDto {

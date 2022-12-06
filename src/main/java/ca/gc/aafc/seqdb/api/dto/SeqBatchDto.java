@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,6 @@ import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.SeqBatch;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -21,7 +21,6 @@ import lombok.Data;
 
 @Data
 @JsonApiResource(type = SeqBatchDto.TYPENAME)
-@SuppressFBWarnings(value = "EI_EXPOSE_REP")
 @RelatedEntity(SeqBatch.class)
 @TypeName(SeqBatchDto.TYPENAME)
 public class SeqBatchDto {
@@ -36,7 +35,9 @@ public class SeqBatchDto {
   private String createdBy;
   private OffsetDateTime createdOn;
   private String group;
+
   private String name;
+  private LocalDate reactionDate;
 
   @JsonApiExternalRelation(type = "person")
   @JsonApiRelation

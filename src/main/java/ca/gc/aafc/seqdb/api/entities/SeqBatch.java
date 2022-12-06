@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -65,6 +66,9 @@ public class SeqBatch implements DinaEntity {
   @NotBlank
   @Size(max = 100)
   private String name;
+
+  @Column(name = "reaction_date")
+  private LocalDate reactionDate;
 
   @Type(type = "list-array")
   @Column(name = "experimenters", columnDefinition = "uuid[]")

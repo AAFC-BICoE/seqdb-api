@@ -12,10 +12,14 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import static ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto.TYPENAME;
+
 @Data
-@JsonApiResource(type = "thermocycler-profile")
+@JsonApiResource(type = TYPENAME)
 @RelatedEntity(ThermocyclerProfile.class)
 public class ThermocyclerProfileDto {
+
+  public static final String TYPENAME = "thermocycler-profile";
 
   @JsonApiId
   private UUID uuid;

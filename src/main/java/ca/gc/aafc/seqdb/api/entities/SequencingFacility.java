@@ -4,6 +4,7 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @Entity
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @NaturalIdCache
 @Table(name = "sequencing_facility")

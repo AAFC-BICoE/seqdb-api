@@ -22,6 +22,8 @@
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="shipping_address" type="jsonb"/>
+            <column name="contacts" type="jsonb"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

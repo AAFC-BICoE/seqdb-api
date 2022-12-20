@@ -10,6 +10,7 @@ import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -29,4 +30,8 @@ public class SequencingFacilityDto {
   private OffsetDateTime createdOn;
   private String group;
   private String name;
+
+  private List<SequencingFacility.ContactRole> contacts = List.of();
+  private SequencingFacility.Address shippingAddress;
+
 }

@@ -44,4 +44,7 @@ public class SeqReactionDto {
   @JsonApiRelation
   private PcrPrimerDto seqPrimer;
 
+  private Integer wellColumn;
+  private String wellRow;
+
 }

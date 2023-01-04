@@ -80,7 +80,6 @@ public class SeqReaction implements DinaEntity {
   @Column(name = "well_column")
   private Integer wellColumn;
 
-  @Size(max = 2)
   @Pattern(regexp = "[a-zA-Z]")
   @Column(name = "well_row")
   private String wellRow;

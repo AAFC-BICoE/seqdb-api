@@ -17,7 +17,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import org.hibernate.annotations.Generated;

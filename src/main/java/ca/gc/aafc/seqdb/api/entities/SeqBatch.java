@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -83,4 +84,18 @@ public class SeqBatch implements DinaEntity {
   private Region region;
   
   private UUID protocol;
+
+  @Column(name = "storage_unit")
+  private UUID storageUnit;
+
+  /**
+   * storage-unit-type should only be used when no specific storageUnit is used.
+   */
+  @Column(name = "storage_unit_type")
+  private UUID storageUnitType;
+
+  @Type(type = "jsonb")
+  @Column(name = "storage_restriction", columnDefinition = "jsonb")
+  @Valid
+  private StorageRestriction storageRestriction;
 }

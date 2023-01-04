@@ -53,15 +53,18 @@ public class SeqBatchOpenApiIT extends BaseRestAssuredTest {
     SeqBatchDto seqBatch = SeqBatchTestFixture.newSeqBatch();
     // clear external relationships
     seqBatch.setExperimenters(null);
+    seqBatch.setStorageUnit(null);
+    seqBatch.setStorageUnitType(null);
 
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "SeqBatch",
             sendPost(SeqBatchDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(SeqBatchDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqBatch),
                     JsonAPITestHelper.toRelationshipMap(
                             List.of(JsonAPIRelationship.of("region", RegionDto.TYPENAME, regionUuid),
                                     JsonAPIRelationship.of("thermocyclerProfile", ThermocyclerProfileDto.TYPENAME, thermocyclerProfileUuid),
-                                    JsonAPIRelationship.of("protocol", "protocol", UUID.randomUUID().toString()))),
+                                    JsonAPIRelationship.of("protocol", "protocol", UUID.randomUUID().toString()),
+                                    JsonAPIRelationship.of("storageUnit", "storage-unit", UUID.randomUUID().toString()))),
                     null)
             ).extract().asString(),
-            ValidationRestrictionOptions.builder().allowableMissingFields(Set.of("experimenters")).build());
+            ValidationRestrictionOptions.builder().allowableMissingFields(Set.of("experimenters", "storageUnitType")).build());
   }
 }

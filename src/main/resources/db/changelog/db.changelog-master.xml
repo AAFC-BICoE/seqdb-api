@@ -38,4 +38,5 @@
   <include file="db/changelog/migrations/31-Add_reaction_date_to_seqbatch.xml"/>
   <include file="db/changelog/migrations/32-Add_sequencing_facility.xml"/>
   <include file="db/changelog/migrations/33-Add_well_coordinates_SeqReaction.xml"/>
+  <include file="db/changelog/migrations/34-Add_storage_SeqBatch.xml"/>
 </databaseChangeLog>

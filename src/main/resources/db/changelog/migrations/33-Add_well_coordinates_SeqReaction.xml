@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="33-Add_well_coordinates_SeqReaction" context="schema-change" author="cgendreau">
+        <addColumn tableName="seq_reaction">
+            <column name="well_column" type="INTEGER"/>
+            <column name="well_row" type="VARCHAR(2)"/>
+        </addColumn>
+        <sql>
+            ALTER TABLE seq_reaction ADD CONSTRAINT well_column_seqreaction_check CHECK (well_column &gt;=1 AND well_column &lt;= 255)
+        </sql>
+    </changeSet>
+</databaseChangeLog>

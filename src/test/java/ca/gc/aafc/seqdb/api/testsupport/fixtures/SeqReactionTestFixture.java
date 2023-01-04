@@ -11,6 +11,8 @@ public class SeqReactionTestFixture {
     SeqReactionDto seqReactionDto = new SeqReactionDto();
     seqReactionDto.setGroup(GROUP);
     seqReactionDto.setCreatedBy(CREATED_BY);
+    seqReactionDto.setWellRow("B");
+    seqReactionDto.setWellColumn(8);
     return seqReactionDto;
   }
   

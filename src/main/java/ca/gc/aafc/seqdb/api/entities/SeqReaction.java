@@ -12,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import org.hibernate.annotations.Generated;
@@ -70,5 +73,13 @@ public class SeqReaction implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "seq_primer_id")
   private PcrPrimer seqPrimer;
-  
+
+  @Min(value = 1)
+  @Max(value = 255)
+  @Column(name = "well_column")
+  private Integer wellColumn;
+
+  @Pattern(regexp = "[a-zA-Z]")
+  @Column(name = "well_row")
+  private String wellRow;
 }

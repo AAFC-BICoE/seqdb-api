@@ -37,4 +37,5 @@
   <include file="db/changelog/migrations/30-Allow_storage_unit_type_on_pcrbatch.xml"/>
   <include file="db/changelog/migrations/31-Add_reaction_date_to_seqbatch.xml"/>
   <include file="db/changelog/migrations/32-Add_sequencing_facility.xml"/>
+  <include file="db/changelog/migrations/33-Add_well_coordinates_SeqReaction.xml"/>
 </databaseChangeLog>

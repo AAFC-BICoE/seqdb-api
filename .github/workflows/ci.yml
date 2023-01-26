@@ -74,3 +74,4 @@ jobs:
           context: .
           push: true
           tags: aafcbicoe/seqdb-api:${{ env.VERSION_TAG }}
+          provenance: false

@@ -116,6 +116,8 @@ public class PcrBatch implements DinaEntity {
   @Column(name = "storage_unit")
   private UUID storageUnit;
 
+  private UUID protocol;
+
   /**
    * storage-unit-type should only be used when no specific storageUnit is used.
    */

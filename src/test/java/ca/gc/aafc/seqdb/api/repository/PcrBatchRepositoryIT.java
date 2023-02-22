@@ -117,7 +117,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
     assertEquals(PcrBatchTestFixture.REACTION_DATE, found.getReactionDate());
 
-    assertEquals(PcrBatchTestFixture.STORAGE_UNIT.toString(), found.getStorageUnit().getId());
+    assertEquals(PcrBatchTestFixture.STORAGE_UNIT_UUID.toString(), found.getStorageUnit().getId());
   }
   
   @Test

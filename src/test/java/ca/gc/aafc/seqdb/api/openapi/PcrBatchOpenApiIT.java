@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest(
   classes = SeqdbApiLauncher.class,
@@ -53,12 +54,14 @@ public class PcrBatchOpenApiIT extends BaseRestAssuredTest {
     pcrBatch.setAttachment(null);
     pcrBatch.setStorageUnit(null);
     pcrBatch.setStorageUnitType(null);
+    pcrBatch.setProtocol(null);
 
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "PcrBatch",
             sendPost(PcrBatchDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(PcrBatchDto.TYPENAME, JsonAPITestHelper.toAttributeMap(pcrBatch),
                     JsonAPITestHelper.toRelationshipMap(
                             List.of(JsonAPIRelationship.of("primerForward", PcrPrimerDto.TYPENAME, forwardPrimerUuid),
-                                    JsonAPIRelationship.of("primerReverse", PcrPrimerDto.TYPENAME, reversePrimerUuid))),
+                                    JsonAPIRelationship.of("primerReverse", PcrPrimerDto.TYPENAME, reversePrimerUuid),
+                                    JsonAPIRelationship.of("protocol", "protocol", UUID.randomUUID().toString()))),
                     null)
             ).extract().asString(),
             ValidationRestrictionOptions.builder().allowAdditionalFields(true).build()); //the spec is not complete yet

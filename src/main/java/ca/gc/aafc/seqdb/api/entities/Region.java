@@ -60,6 +60,8 @@ public class Region implements DinaEntity {
 
   private String description;
   private String aliases;
+
+  @Size(max = 255)
   private String applicableOrganisms;
 
 }

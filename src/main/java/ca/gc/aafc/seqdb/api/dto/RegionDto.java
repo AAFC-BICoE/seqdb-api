@@ -36,4 +36,6 @@ public class RegionDto {
 
   private String symbol;
 
+  private String applicableOrganisms;
+
 }

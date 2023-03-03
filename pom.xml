@@ -27,7 +27,7 @@
     <checkstyle.version>9.3</checkstyle.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
     <dina-base-api.version>0.97</dina-base-api.version>
-    <postgresql.version>42.4.1</postgresql.version>
+    <postgresql.version>42.4.3</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
   </properties>

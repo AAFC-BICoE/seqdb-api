@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
-    <changeSet id="36-Add_isComplete_to_PCRBatch" context="schema-change" author="cgendreau">
+    <changeSet id="36-Add_isCompleted_to_PCRBatch" context="schema-change" author="cgendreau">
         <addColumn tableName="pcr_batch">
-            <column name="is_complete"  type="boolean" defaultValueBoolean="false">
+            <column name="is_completed"  type="boolean" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
         </addColumn>

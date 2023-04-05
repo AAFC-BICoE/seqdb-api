@@ -10,8 +10,6 @@ import org.springframework.validation.Validator;
 @Component
 public class PcrBatchValidator implements Validator {
 
-  private static final String ERROR_MESSAGE_KEY = "validation.constraint.violation.storageUnitOrType";
-
   private final MessageSource messageSource;
 
   public PcrBatchValidator(MessageSource messageSource) {
@@ -33,8 +31,8 @@ public class PcrBatchValidator implements Validator {
 
   private void checkStorageOrTypeNotBoth(Errors errors, PcrBatch pcrBatch) {
     if (pcrBatch.getStorageUnit() != null && pcrBatch.getStorageUnitType() != null) {
-      String errorMessage = getMessage(ERROR_MESSAGE_KEY);
-      errors.rejectValue("storageUnit", ERROR_MESSAGE_KEY, errorMessage);
+      String errorMessage = getMessage(SharedMessageKey.STORAGE_TYPE_OR_UNIT_ERROR_MESSAGE_KEY);
+      errors.rejectValue("storageUnit", SharedMessageKey.STORAGE_TYPE_OR_UNIT_ERROR_MESSAGE_KEY, errorMessage);
     }
   }
 

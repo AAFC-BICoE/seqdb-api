@@ -39,6 +39,7 @@ public class PcrBatchDto {
   private OffsetDateTime createdOn;
   private String group;
   private String name;
+  private Boolean isCompleted = false;
 
   @JsonApiRelation
   private PcrPrimerDto primerForward;

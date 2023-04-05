@@ -10,8 +10,6 @@ import org.springframework.validation.Validator;
 @Component
 public class PcrBatchValidator implements Validator {
 
-  static final String IS_COMPLETE_ERROR_MESSAGE_KEY = "validation.constraint.violation.pcrbatch.isComplete";
-
   private final MessageSource messageSource;
 
   public PcrBatchValidator(MessageSource messageSource) {
@@ -28,20 +26,7 @@ public class PcrBatchValidator implements Validator {
     if (!supports(target.getClass())) {
       throw new IllegalArgumentException("PcrBatchValidator not supported for class " + target.getClass());
     }
-    checkNotComplete(errors, (PcrBatch) target);
     checkStorageOrTypeNotBoth(errors, (PcrBatch) target);
-  }
-
-  /**
-   * Ensures a PCRBatch is not set as complete.
-   * @param errors
-   * @param pcrBatch
-   */
-  private void checkNotComplete(Errors errors, PcrBatch pcrBatch) {
-    if (pcrBatch.getIsComplete()) {
-      String errorMessage = getMessage(IS_COMPLETE_ERROR_MESSAGE_KEY);
-      errors.rejectValue("isComplete", IS_COMPLETE_ERROR_MESSAGE_KEY, errorMessage);
-    }
   }
 
   private void checkStorageOrTypeNotBoth(Errors errors, PcrBatch pcrBatch) {

@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.repository.meta.AttributeMetaInfoProvider;
 import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
@@ -21,12 +22,14 @@ import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @JsonApiResource(type = PcrBatchDto.TYPENAME)
 @RelatedEntity(PcrBatch.class)
 @TypeName(PcrBatchDto.TYPENAME)
-public class PcrBatchDto {
+@EqualsAndHashCode(callSuper = false) //meta is not part of the data
+public class PcrBatchDto extends AttributeMetaInfoProvider {
 
   public static final String TYPENAME = "pcr-batch";  
 

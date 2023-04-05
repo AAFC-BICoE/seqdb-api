@@ -84,6 +84,9 @@ public class PcrBatch implements DinaEntity {
   @JoinColumn(name = "region_id")
   private Region region;
 
+  @Column(name = "is_complete")
+  private Boolean isComplete = false;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "thermocycler_profile_id")
   private ThermocyclerProfile thermocyclerProfile;

@@ -1,28 +1,29 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import java.util.Optional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.gc.aafc.dina.mapper.DinaMapper;
 import ca.gc.aafc.dina.repository.DinaRepository;
 import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.DinaAuthorizationService;
-import ca.gc.aafc.dina.service.DinaService;
-import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
-import ca.gc.aafc.seqdb.api.entities.SeqBatch;
+import ca.gc.aafc.seqdb.api.dto.SeqSubmissionDto;
+import ca.gc.aafc.seqdb.api.entities.SeqSubmission;
+import ca.gc.aafc.seqdb.api.service.SeqSubmissionService;
+
+import java.util.Optional;
 import lombok.NonNull;
 
 @Repository
-public class SeqBatchRepository extends DinaRepository<SeqBatchDto, SeqBatch> {
+public class SeqSubmissionRepository extends DinaRepository<SeqSubmissionDto, SeqSubmission> {
 
   private Optional<DinaAuthenticatedUser> dinaAuthenticatedUser;
 
-  public SeqBatchRepository(
-    @NonNull DinaService<SeqBatch> dinaService,
+  public SeqSubmissionRepository(
+    SeqSubmissionService dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
     ExternalResourceProvider externalResourceProvider,
@@ -32,9 +33,8 @@ public class SeqBatchRepository extends DinaRepository<SeqBatchDto, SeqBatch> {
       dinaService,
       groupAuthorizationService,
       Optional.empty(),
-      new DinaMapper<>(SeqBatchDto.class),
-      SeqBatchDto.class,
-      SeqBatch.class,
+      new DinaMapper<>(SeqSubmissionDto.class),
+      SeqSubmissionDto.class, SeqSubmission.class,
       null,
       externalResourceProvider,
       props, objMapper);
@@ -42,7 +42,7 @@ public class SeqBatchRepository extends DinaRepository<SeqBatchDto, SeqBatch> {
   }
 
   @Override
-  public <S extends SeqBatchDto> S create(S resource) {
+  public <S extends SeqSubmissionDto> S create(S resource) {
     dinaAuthenticatedUser.ifPresent(
       authenticatedUser -> resource.setCreatedBy(authenticatedUser.getUsername()));
     return super.create(resource);

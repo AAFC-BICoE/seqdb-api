@@ -25,10 +25,12 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @NaturalIdCache
 @Table(name = "seq_submission")

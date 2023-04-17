@@ -1,12 +1,12 @@
 vocabulary:
   pcrType:
-    - name: SANGER
-      term:
+    - key: sanger
+      name: SANGER
       labels:
         en: Sanger
         fr: Sanger
-    - name: NGS
-      term:
+    - key: ngs
+      name: NGS
       labels:
         en: Illumina (NGS)
         fr: Illumina (NGS)

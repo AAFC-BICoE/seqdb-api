@@ -15,6 +15,7 @@ public class PcrBatchTestFixture {
   public static final String OBJECTIVE = "Amplification of Johnathan collection 2018 samples";
   public static final String POSITIVE_CONTROL = "LM1044";
   public static final String REACTION_VOLUME = "10µl";
+  public static final String BATCH_TYPE = "sanger";
   public static final LocalDate REACTION_DATE = LocalDate.now();
 
   public static final UUID STORAGE_UNIT_UUID = UUID.randomUUID();
@@ -23,6 +24,7 @@ public class PcrBatchTestFixture {
   public static PcrBatchDto newPcrBatch() {
     PcrBatchDto pcrBatchDto = new PcrBatchDto();
     pcrBatchDto.setGroup(GROUP);
+    pcrBatchDto.setBatchType(BATCH_TYPE);
     pcrBatchDto.setCreatedBy(CREATED_BY);
     pcrBatchDto.setName(TestableEntityFactory.generateRandomName(10));
     pcrBatchDto.setThermocycler(THERMOCYCLER);

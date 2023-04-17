@@ -42,6 +42,7 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
   private OffsetDateTime createdOn;
   private String group;
   private String name;
+  private String batchType;
   private Boolean isCompleted = false;
 
   @JsonApiRelation

@@ -72,6 +72,10 @@ public class PcrBatch implements DinaEntity {
   @Size(max = 100)
   private String name;
 
+  @NotBlank
+  @Column(name = "batch_type")
+  private String batchType;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "primer_forward_id")    
   private PcrPrimer primerForward;

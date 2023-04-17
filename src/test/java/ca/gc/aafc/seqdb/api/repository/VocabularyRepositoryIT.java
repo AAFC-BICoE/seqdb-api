@@ -26,8 +26,8 @@ public class VocabularyRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void findOne_QueryPcrPrimerType_OnePrimerTypeDtoReturned() {
-    VocabularyDto resultDto = readOnlyRepo.findOne("pcrType", new QuerySpec(VocabularyDto.class));
-    assertEquals("pcrType", resultDto.getId());
+    VocabularyDto resultDto = readOnlyRepo.findOne("pcrBatchType", new QuerySpec(VocabularyDto.class));
+    assertEquals("pcrBatchType", resultDto.getId());
   }
   
   @Test

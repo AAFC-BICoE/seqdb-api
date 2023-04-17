@@ -1,12 +1,17 @@
 vocabulary:
-  pcrType:
+  pcrBatchType:
     - key: sanger
       name: SANGER
       labels:
         en: Sanger
         fr: Sanger
-    - key: ngs
+    - key: illumina_ngs
       name: NGS
       labels:
         en: Illumina (NGS)
         fr: Illumina (NGS)
+    - key: round_2
+      name: Round 2
+      labels:
+        en: Round 2
+        fr: Round 2

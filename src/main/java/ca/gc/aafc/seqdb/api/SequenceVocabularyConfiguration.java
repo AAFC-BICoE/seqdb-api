@@ -13,12 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-@PropertySource(value = "classpath:vocabulary/pcrType.yml", factory = YamlPropertyLoaderFactory.class)
+@PropertySource(value = "classpath:vocabulary/pcrBatchType.yml", factory = YamlPropertyLoaderFactory.class)
 @ConfigurationProperties
 @Validated
 public class SequenceVocabularyConfiguration extends VocabularyConfiguration<VocabularyElementConfiguration > {
 
+  public static final String PCR_BATCH_TYPE_VOCAB_KEY = "pcrBatchType";
+
   public SequenceVocabularyConfiguration(Map<String, List<VocabularyElementConfiguration>> vocabulary) {
     super(vocabulary);
+  }
+
+  public List<VocabularyElementConfiguration> getVocabularyByKey(String key) {
+    return getVocabulary().get(key);
   }
 }

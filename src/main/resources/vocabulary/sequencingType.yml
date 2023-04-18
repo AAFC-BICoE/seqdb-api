@@ -2,11 +2,15 @@ vocabulary:
   sequencingType:
     - key: sanger
       name: SANGER
-      labels:
-        en: Sanger
-        fr: Sanger
+      multilingualTitle.titles:
+        - lang: en
+          title: Sanger
+        - lang: fr
+          title: Sanger
     - key: illumina_ngs
       name: NGS
-      labels:
-        en: Illumina (NGS)
-        fr: Illumina (NGS)
+      multilingualTitle.titles:
+        - lang: en
+          title: Illumina (NGS)
+        - lang: fr
+          title: Illumina (NGS)

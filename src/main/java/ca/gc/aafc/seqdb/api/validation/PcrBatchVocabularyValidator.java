@@ -12,7 +12,7 @@ import ca.gc.aafc.seqdb.api.SequenceVocabularyConfiguration;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
 
 /**
- * Participate in PcrBatchValidator
+ * Participates in PcrBatchValidator
  */
 @Component
 class PcrBatchVocabularyValidator extends VocabularyBasedValidator<PcrBatch> {

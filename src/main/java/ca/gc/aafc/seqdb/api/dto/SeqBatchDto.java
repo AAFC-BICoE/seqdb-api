@@ -33,7 +33,7 @@ public class SeqBatchDto extends AttributeMetaInfoProvider {
 
   @JsonApiId
   @Id
-  @PropertyName("id")  
+  @PropertyName("id")
   private UUID uuid;
 
   private String createdBy;
@@ -41,6 +41,7 @@ public class SeqBatchDto extends AttributeMetaInfoProvider {
   private String group;
 
   private String name;
+  private String sequencingType;
   private LocalDate reactionDate;
 
   @JsonApiExternalRelation(type = "person")

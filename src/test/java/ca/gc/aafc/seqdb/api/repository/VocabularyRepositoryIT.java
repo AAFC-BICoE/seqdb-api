@@ -21,7 +21,7 @@ public class VocabularyRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findAll_DefaultQuerySpec_AllDtosReturned() {
     ResourceList<VocabularyDto> resultList = readOnlyRepo.findAll(new QuerySpec(VocabularyDto.class));
-    assertEquals(1, resultList.size());
+    assertEquals(2, resultList.size());
   }
   
   @Test

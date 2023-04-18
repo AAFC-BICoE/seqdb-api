@@ -73,6 +73,9 @@ public class SeqBatch implements DinaEntity {
   @Column(name = "sequencing_type")
   private String sequencingType;
 
+  @Column(name = "is_completed")
+  private Boolean isCompleted = false;
+
   @Column(name = "reaction_date")
   private LocalDate reactionDate;
 

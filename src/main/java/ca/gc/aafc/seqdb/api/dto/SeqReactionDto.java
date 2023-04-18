@@ -25,7 +25,7 @@ public class SeqReactionDto {
 
   @JsonApiId
   @Id
-  @PropertyName("id")  
+  @PropertyName("id")
   private UUID uuid;
 
   private String createdBy;

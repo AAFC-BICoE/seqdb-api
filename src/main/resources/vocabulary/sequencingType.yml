@@ -1,0 +1,12 @@
+vocabulary:
+  sequencingType:
+    - key: sanger
+      name: SANGER
+      labels:
+        en: Sanger
+        fr: Sanger
+    - key: illumina_ngs
+      name: NGS
+      labels:
+        en: Illumina (NGS)
+        fr: Illumina (NGS)

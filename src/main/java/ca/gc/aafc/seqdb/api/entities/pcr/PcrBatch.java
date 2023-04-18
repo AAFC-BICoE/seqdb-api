@@ -73,6 +73,7 @@ public class PcrBatch implements DinaEntity {
   private String name;
 
   @NotBlank
+  @Size(max = 50)
   @Column(name = "batch_type")
   private String batchType;
 

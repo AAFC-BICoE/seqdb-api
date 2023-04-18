@@ -11,9 +11,11 @@ import org.springframework.validation.Validator;
 public class SeqBatchValidator implements Validator {
 
   private final MessageSource messageSource;
+  private final SeqBatchVocabularyValidator seqBatchVocabularyValidator;
 
-  public SeqBatchValidator(MessageSource messageSource) {
+  public SeqBatchValidator(MessageSource messageSource, SeqBatchVocabularyValidator seqBatchVocabularyValidator) {
     this.messageSource = messageSource;
+    this.seqBatchVocabularyValidator = seqBatchVocabularyValidator;
   }
 
   @Override
@@ -27,6 +29,8 @@ public class SeqBatchValidator implements Validator {
       throw new IllegalArgumentException("SeqBatchValidator not supported for class " + target.getClass());
     }
     checkStorageOrTypeNotBoth(errors, (SeqBatch) target);
+
+    seqBatchVocabularyValidator.validate(target, errors);
   }
 
   private void checkStorageOrTypeNotBoth(Errors errors, SeqBatch seqBatch) {

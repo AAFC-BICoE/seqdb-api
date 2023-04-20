@@ -42,6 +42,7 @@ public class SeqBatchDto extends AttributeMetaInfoProvider {
 
   private String name;
   private String sequencingType;
+  private Boolean isCompleted = false;
   private LocalDate reactionDate;
 
   @JsonApiExternalRelation(type = "person")

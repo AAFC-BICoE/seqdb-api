@@ -17,7 +17,7 @@ public class SeqBatchTestFixture {
     seqBatchDto.setCreatedBy(CREATED_BY);
     seqBatchDto.setReactionDate(LocalDate.of(2020,3,2));
     seqBatchDto.setName(TestableEntityFactory.generateRandomName(10));
-
+    seqBatchDto.setSequencingType("sanger");
     seqBatchDto.setStorageRestriction(StorageRestrictionFactory.newStorageRestriction().build());
     return seqBatchDto;
   }

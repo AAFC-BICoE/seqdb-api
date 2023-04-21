@@ -41,4 +41,7 @@
   <include file="db/changelog/migrations/34-Add_storage_SeqBatch.xml"/>
   <include file="db/changelog/migrations/35-Add_protocol_PCRBatch.xml"/>
   <include file="db/changelog/migrations/36-Add_isCompleted_to_PCRBatch.xml"/>
+  <include file="db/changelog/migrations/37-Add_batchType_to_PCRBatch.xml"/>
+  <include file="db/changelog/migrations/38-Add_sequencingType_to_SeqBatch.xml"/>
+  <include file="db/changelog/migrations/39-Add_isCompleted_to_SeqBatch.xml"/>
 </databaseChangeLog>

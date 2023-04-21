@@ -1,0 +1,16 @@
+vocabulary:
+  sequencingType:
+    - key: sanger
+      name: SANGER
+      multilingualTitle.titles:
+        - lang: en
+          title: Sanger
+        - lang: fr
+          title: Sanger
+    - key: illumina_ngs
+      name: NGS
+      multilingualTitle.titles:
+        - lang: en
+          title: Illumina (NGS)
+        - lang: fr
+          title: Illumina (NGS)

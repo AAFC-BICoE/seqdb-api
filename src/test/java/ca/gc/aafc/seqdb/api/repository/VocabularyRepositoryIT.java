@@ -21,13 +21,13 @@ public class VocabularyRepositoryIT extends BaseRepositoryTest {
   @Test
   public void findAll_DefaultQuerySpec_AllDtosReturned() {
     ResourceList<VocabularyDto> resultList = readOnlyRepo.findAll(new QuerySpec(VocabularyDto.class));
-    assertEquals(1, resultList.size());
+    assertEquals(2, resultList.size());
   }
   
   @Test
   public void findOne_QueryPcrPrimerType_OnePrimerTypeDtoReturned() {
-    VocabularyDto resultDto = readOnlyRepo.findOne("pcrType", new QuerySpec(VocabularyDto.class));
-    assertEquals("pcrType", resultDto.getId());
+    VocabularyDto resultDto = readOnlyRepo.findOne("pcrBatchType", new QuerySpec(VocabularyDto.class));
+    assertEquals("pcrBatchType", resultDto.getId());
   }
   
   @Test

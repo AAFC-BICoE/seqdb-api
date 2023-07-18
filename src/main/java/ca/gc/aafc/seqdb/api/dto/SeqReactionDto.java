@@ -47,4 +47,6 @@ public class SeqReactionDto {
   private Integer wellColumn;
   private String wellRow;
 
+  private int cellNumber;
+
 }

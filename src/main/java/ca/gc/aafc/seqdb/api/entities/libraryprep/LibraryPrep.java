@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

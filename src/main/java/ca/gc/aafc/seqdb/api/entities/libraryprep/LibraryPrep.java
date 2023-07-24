@@ -67,9 +67,8 @@ public class LibraryPrep implements DinaEntity {
   private LibraryPrepBatch libraryPrepBatch;
   
   @NotNull
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sampleid")
-  private MolecularSample molecularSample;
+  @Column(name = "material_sample")
+  private UUID materialSample;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "Indexi5id")

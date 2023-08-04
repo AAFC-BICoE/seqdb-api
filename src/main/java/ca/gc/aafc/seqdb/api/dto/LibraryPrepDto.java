@@ -3,7 +3,9 @@ package ca.gc.aafc.seqdb.api.dto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
@@ -34,14 +36,16 @@ public class LibraryPrepDto {
 
   @JsonApiRelation
   private LibraryPrepBatchDto libraryPrepBatch;
-  
-  @JsonApiRelation
-  private MolecularSampleDto molecularSample;
 
   @JsonApiRelation
   private NgsIndexDto indexI5;
 
   @JsonApiRelation
   private NgsIndexDto indexI7;
+
+  @JsonApiExternalRelation(type = "material-sample")
+  @JsonApiRelation
+  private ExternalRelationDto materialSample;
+
 
 }

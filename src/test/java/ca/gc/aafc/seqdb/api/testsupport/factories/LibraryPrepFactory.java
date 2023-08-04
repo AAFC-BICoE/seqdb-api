@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.BiFunction;
 
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
@@ -17,7 +18,7 @@ public class LibraryPrepFactory implements TestableEntityFactory<LibraryPrep> {
     return LibraryPrep.builder()
         .group("dina")
         .libraryPrepBatch(LibraryPrepBatchFactory.newLibraryPrepBatch().build())
-        .molecularSample(MolecularSampleFactory.newMolecularSample().build());
+        .materialSample(UUID.randomUUID());
   }
   
   public static List<LibraryPrep> newListOf(int qty) {

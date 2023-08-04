@@ -3,7 +3,7 @@
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>2.8.0</version>
+  <version>2.9.0</version>
   <packaging>jar</packaging>
 
   <name>seqdb-api</name>
@@ -21,21 +21,23 @@
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 
-    <dependency.check.version>8.1.2</dependency.check.version>
+    <dependency.check.version>8.3.1</dependency.check.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <checkstyle.version>9.3</checkstyle.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
-    <dina-base-api.version>0.104</dina-base-api.version>
+    <dina-base-api.version>0.110</dina-base-api.version>
     <postgresql.version>42.4.3</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
+
+    <spring-security.version>5.7.10</spring-security.version>
   </properties>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.11</version>
+    <version>2.7.13</version>
   </parent>
 
   <!--  temporary until we can migrate to a newer version of Crnk-->

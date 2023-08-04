@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,9 +66,8 @@ public class LibraryPrep implements DinaEntity {
   private LibraryPrepBatch libraryPrepBatch;
   
   @NotNull
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sampleid")
-  private MolecularSample molecularSample;
+  @Column(name = "material_sample")
+  private UUID materialSample;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "Indexi5id")

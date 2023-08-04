@@ -30,6 +30,8 @@
     <postgresql.version>42.4.3</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
+
+    <spring-security.version>5.7.10</spring-security.version>
   </properties>
 
   <parent>

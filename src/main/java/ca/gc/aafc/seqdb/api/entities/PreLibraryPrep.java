@@ -24,7 +24,6 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -90,9 +89,6 @@ public class PreLibraryPrep implements DinaEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "productid")
   private Product product;
-  
-  @OneToOne(mappedBy = "preLibraryPrep", fetch = FetchType.LAZY)
-  private StepResource stepResource;
 
   @Version
   private Timestamp lastModified;

@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.service.PreLibraryPrepService;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -39,7 +39,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   protected static final String TEST_PRELIBRARYPREP_NOTES_UPDATE = "PreLibraryPrep notes update";
 
   @Inject
-  private BaseDAO baseDao;
+  private PreLibraryPrepService preLibraryPrepService;
 
   @Inject
   private PreLibraryPrepRepository preLibraryPrepRepository;
@@ -93,7 +93,7 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, createdPreLibraryPrep.getConcentration());
     
     // Entity has the set value
-    PreLibraryPrep preLibraryPrepEntity = baseDao.findOneByNaturalId(createdPreLibraryPrep.getUuid(), PreLibraryPrep.class);
+    PreLibraryPrep preLibraryPrepEntity = preLibraryPrepService.findOne(createdPreLibraryPrep.getUuid(), PreLibraryPrep.class);
     assertNotNull(preLibraryPrepEntity.getUuid());
     assertEquals(TEST_PRELIBRARYPREP_TYPE_CREATE, preLibraryPrepEntity.getPreLibraryPrepType());
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, preLibraryPrepEntity.getNotes());

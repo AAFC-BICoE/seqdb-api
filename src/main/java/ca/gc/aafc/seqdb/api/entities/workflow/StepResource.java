@@ -86,10 +86,6 @@ public class StepResource implements DinaEntity {
   @JoinColumn(name = "sampleid")
   private MolecularSample molecularSample;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "prelibraryprepid")
-  private PreLibraryPrep preLibraryPrep;
-
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "libraryprepbatchid")
   private LibraryPrepBatch libraryPrepBatch;

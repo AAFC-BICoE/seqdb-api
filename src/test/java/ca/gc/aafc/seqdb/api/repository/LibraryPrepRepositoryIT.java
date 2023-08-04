@@ -1,30 +1,26 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.validation.ValidationException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
-import ca.gc.aafc.seqdb.api.dto.MolecularSampleDto;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepTestFixture;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import io.crnk.core.queryspec.QuerySpec;
+import javax.inject.Inject;
+import javax.validation.ValidationException;
 
 public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
 
@@ -32,7 +28,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPrep testLibPrep;
   private LibraryPrepBatchDto testBatchDto;
-  private List<MolecularSample> testSamples;
 
   @Inject
   private LibraryPrepBatchRepository libraryPrepBatchRepository;
@@ -40,9 +35,6 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Inject
   private LibraryPrepRepository libraryPrepRepository;
 
-  @Inject
-  private MolecularSampleRepository molecularSampleRepository;
-  
   private LibraryPrep createTestLibraryPrep() {
 
     ContainerType testContainerType = ContainerTypeFactory.newContainerType()
@@ -53,14 +45,8 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     Product testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
 
-    MolecularSample testMolecularSample = new MolecularSample();
-    testMolecularSample.setName("test sample");
-    
-    persist(testMolecularSample);
-    
     testLibPrep = LibraryPrepFactory.newLibraryPrep()
         .quality(TEST_QUALITY)
-        .molecularSample(testMolecularSample)
         .build();
     testLibPrep.getLibraryPrepBatch().setContainerType(testContainerType);
     persist(testLibPrep.getLibraryPrepBatch());
@@ -70,15 +56,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     // field for the test. This doesn't matter in prod.
     entityManager.flush();
     entityManager.refresh(testLibPrep.getLibraryPrepBatch());
-    
-    testSamples = new ArrayList<>();
-    for (int i = 1; i <= 22; i++) {
-      MolecularSample sample = new MolecularSample();
-      sample.setName("sample " + i);
-      testSamples.add(sample);
-      persist(sample);
-    }
-    
+
     testBatchDto = libraryPrepBatchRepository.findOne(
         testLibPrep.getLibraryPrepBatch().getUuid(),
         new QuerySpec(LibraryPrepBatchDto.class)
@@ -105,23 +83,17 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void createLibPrep_onSuccess_libPrepCreated() {
-    MolecularSampleDto newSample = new MolecularSampleDto();
-    newSample.setName("new sample");
-    MolecularSampleDto newSampleCreated = molecularSampleRepository.create(newSample);
-    
-    LibraryPrepDto newDto = new LibraryPrepDto();
-    newDto.setSize("test size");
-    newDto.setMolecularSample(newSampleCreated);
+
+    LibraryPrepDto newDto = LibraryPrepTestFixture.newLibraryPrep();
     newDto.setLibraryPrepBatch(testBatchDto);
-    newDto.setGroup("dina");
-    
+
     LibraryPrepDto created = libraryPrepRepository.create(newDto);
     
     assertNotNull(created.getUuid());
     assertEquals("test size", created.getSize());
     assertEquals(
-        newSampleCreated.getUuid(),
-        created.getMolecularSample().getUuid()
+      LibraryPrepTestFixture.MATERIAL_SAMPLE_UUID.toString(),
+        created.getMaterialSample().getId()
     );
     assertEquals(
         testLibPrep.getLibraryPrepBatch().getUuid(),
@@ -131,29 +103,17 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void createLibPrep_whenCellsOverLap_setExistingCellCoordinatesToNull() {
-    LibraryPrepDto prep1 = new LibraryPrepDto();
+    LibraryPrepDto prep1 = LibraryPrepTestFixture.newLibraryPrep();
     prep1.setWellRow("B");
     prep1.setWellColumn(5);
-    prep1.setGroup("dina");
-    prep1.setMolecularSample(
-        molecularSampleRepository.findOne(
-            testSamples.get(0).getUuid(),
-            new QuerySpec(MolecularSampleDto.class)
-        )
-    );
+    prep1.setMaterialSample(LibraryPrepTestFixture.newMaterialSampleExternalRelationship());
     prep1.setLibraryPrepBatch(testBatchDto);
     LibraryPrepDto createdPrep1 = libraryPrepRepository.create(prep1);
     
-    LibraryPrepDto prep2 = new LibraryPrepDto();
+    LibraryPrepDto prep2 = LibraryPrepTestFixture.newLibraryPrep();
     prep2.setWellRow("B");
     prep2.setWellColumn(5);
-    prep2.setGroup("dina");
-    prep2.setMolecularSample(
-        molecularSampleRepository.findOne(
-            testSamples.get(1).getUuid(),
-            new QuerySpec(MolecularSampleDto.class)
-        )
-    );
+    prep2.setMaterialSample(LibraryPrepTestFixture.newMaterialSampleExternalRelationship());
     prep2.setLibraryPrepBatch(testBatchDto);
     
     LibraryPrepDto createdPrep2 = libraryPrepRepository.create(prep2);
@@ -177,7 +137,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow("!");
     dto.setWellColumn(1);
-    ValidationException exception = assertThrows(
+    assertThrows(
         ValidationException.class,
         () -> libraryPrepRepository.save(dto)
     );
@@ -209,7 +169,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
     );
     dto.setWellRow("A");
     dto.setWellColumn(0);
-    ValidationException exception = assertThrows(
+    assertThrows(
         ValidationException.class,
         () -> libraryPrepRepository.save(dto)
     );

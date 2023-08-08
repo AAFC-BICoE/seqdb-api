@@ -12,11 +12,17 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
+import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
 import ca.gc.aafc.seqdb.api.dto.PreLibraryPrepDto;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
 import ca.gc.aafc.seqdb.api.service.PreLibraryPrepService;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepBatchTestFixture;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepTestFixture;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.PreLibraryPrepTestFixture;
+
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
 
@@ -38,11 +44,19 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   protected static final String TEST_PRELIBRARYPREP_NOTES_UPDATE = "PreLibraryPrep notes update";
 
+
   @Inject
   private PreLibraryPrepService preLibraryPrepService;
 
   @Inject
+  private LibraryPrepBatchRepository libraryPrepBatchRepository;
+
+  @Inject
+  private LibraryPrepRepository libraryPrepRepository;
+
+  @Inject
   private PreLibraryPrepRepository preLibraryPrepRepository;
+
   
   private PreLibraryPrep testPreLibraryPrep;
   
@@ -78,11 +92,10 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
   
   @Test
   public void createPreLibraryPrep_onSuccess_allFieldsHaveSetValueAfterPersisted() {
-    PreLibraryPrepDto newPreLibraryPrep = new PreLibraryPrepDto();
+    PreLibraryPrepDto newPreLibraryPrep = PreLibraryPrepTestFixture.newPreLibraryPrep();
     newPreLibraryPrep.setPreLibraryPrepType(TEST_PRELIBRARYPREP_TYPE_CREATE);
     newPreLibraryPrep.setNotes(TEST_PRELIBRARYPREP_NOTES_CREATE);
     newPreLibraryPrep.setConcentration(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE);
-    newPreLibraryPrep.setGroup("dina");
     
     PreLibraryPrepDto createdPreLibraryPrep = preLibraryPrepRepository.create(newPreLibraryPrep);
     
@@ -99,7 +112,22 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
     assertEquals(TEST_PRELIBRARYPREP_NOTES_CREATE, preLibraryPrepEntity.getNotes());
     assertEquals(TEST_PRELIBRARYPREP_CONCENTRATION_CREATE, preLibraryPrepEntity.getConcentration());
   }
-  
+
+  @Test
+  public void createPreLibraryPrep_withRelationship_persisted() {
+    LibraryPrepBatchDto libraryPrepBatch =
+      libraryPrepBatchRepository.create(LibraryPrepBatchTestFixture.newLibraryPrepBatch());
+
+    LibraryPrepDto libraryPrepDto = LibraryPrepTestFixture.newLibraryPrep();
+    libraryPrepDto.setLibraryPrepBatch(libraryPrepBatch);
+    libraryPrepRepository.create(libraryPrepDto);
+
+    PreLibraryPrepDto preLibraryPrep = PreLibraryPrepTestFixture.newPreLibraryPrep();
+    preLibraryPrep.setLibraryPrep(libraryPrepDto);
+
+    preLibraryPrepRepository.create(preLibraryPrep);
+  }
+
   @Test
   public void updatePreLibraryPrep_whenSomeFieldsAreUpdated_preLibraryPrepReturnedWithSelectedFieldsUpdated() {
    // Get the test prelibrarypreps's DTO.

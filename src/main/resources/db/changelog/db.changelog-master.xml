@@ -45,4 +45,5 @@
   <include file="db/changelog/migrations/38-Add_sequencingType_to_SeqBatch.xml"/>
   <include file="db/changelog/migrations/39-Add_isCompleted_to_SeqBatch.xml"/>
   <include file="db/changelog/migrations/40-Change_LibraryPrep_molecularSample_to_MaterialSample.xml"/>
+  <include file="db/changelog/migrations/41-Add_relationships_between_prelibraryprep_and_libraryprep.xml"/>
 </databaseChangeLog>

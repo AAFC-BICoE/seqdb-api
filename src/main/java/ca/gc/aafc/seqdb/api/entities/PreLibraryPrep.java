@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +23,8 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -71,6 +72,10 @@ public class PreLibraryPrep implements DinaEntity {
   @Type(type = "pgsql_enum")
   @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "library_prep_id")
+  private LibraryPrep libraryPrep;
 
   private Double inputAmount;
 

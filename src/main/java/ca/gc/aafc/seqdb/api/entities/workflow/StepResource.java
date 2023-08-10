@@ -23,7 +23,6 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.MolecularSample;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;

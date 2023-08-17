@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -73,7 +74,7 @@ public class PreLibraryPrep implements DinaEntity {
   @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   @JoinColumn(name = "library_prep_id")
   private LibraryPrep libraryPrep;
 

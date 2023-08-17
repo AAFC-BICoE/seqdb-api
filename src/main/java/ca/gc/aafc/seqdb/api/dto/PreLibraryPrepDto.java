@@ -13,6 +13,8 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import org.javers.core.metamodel.annotation.ShallowReference;
+
 @Data
 @JsonApiResource(type = "pre-library-prep")
 @RelatedEntity(PreLibraryPrep.class)
@@ -38,12 +40,16 @@ public class PreLibraryPrepDto {
   private String quality;
 
   private String notes;
-  
+
+  @ShallowReference
+  @JsonApiRelation
+  private LibraryPrepDto libraryPrep;
+
+  @JsonApiRelation
+  private ProductDto product;
+
   @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
   private ExternalRelationDto protocol;
-  
-  @JsonApiRelation
-  private ProductDto product;
-  
+
 }

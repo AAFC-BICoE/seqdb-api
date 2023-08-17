@@ -34,9 +34,6 @@ public class StepResourceDto {
   private MolecularSampleDto molecularSample;
 
   @JsonApiRelation
-  private PreLibraryPrepDto preLibraryPrep;
-
-  @JsonApiRelation
   private LibraryPrepBatchDto libraryPrepBatch;
 
   @JsonApiRelation

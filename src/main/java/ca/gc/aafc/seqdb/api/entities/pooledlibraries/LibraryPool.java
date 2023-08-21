@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,9 +52,6 @@ public class LibraryPool implements DinaEntity {
   
   private String notes;
 
-  @OneToOne(mappedBy = "libraryPool", fetch = FetchType.LAZY)
-  private StepResource stepResource;
-  
   @OneToMany(mappedBy = "libraryPool", fetch = FetchType.LAZY)
   private List<LibraryPoolContent> contents;
 

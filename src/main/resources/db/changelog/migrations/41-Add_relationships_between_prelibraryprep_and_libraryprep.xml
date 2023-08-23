@@ -8,7 +8,7 @@
     <changeSet id="41-Add_relationships_between_prelibraryprep_and_libraryprep.xml" context="schema-change" author="cgendreau">
         <addColumn tableName="prelibrarypreps">
             <column name="library_prep_id" type="integer">
-                <constraints foreignKeyName="fk_pre_library_preps_library_prep_id" references="prelibrarypreps(id)"/>
+                <constraints foreignKeyName="fk_pre_library_preps_library_prep_id" references="librarypreps(id)"/>
             </column>
         </addColumn>
     </changeSet>

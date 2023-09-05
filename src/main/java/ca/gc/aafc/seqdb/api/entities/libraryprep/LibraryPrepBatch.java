@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,11 +24,9 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.workflow.StepResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -89,10 +86,6 @@ public class LibraryPrepBatch implements DinaEntity {
   
   @OneToMany(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
   private List<LibraryPrep> libraryPreps;
-
-  @OneToOne(mappedBy = "libraryPrepBatch", fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude
-  private StepResource stepResource;
 
   @NotBlank
   @Column(name = "_group")

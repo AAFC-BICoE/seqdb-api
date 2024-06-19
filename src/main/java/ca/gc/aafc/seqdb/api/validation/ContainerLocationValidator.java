@@ -5,15 +5,18 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import ca.gc.aafc.dina.validation.AbstractStorageLocationValidator;
 import ca.gc.aafc.seqdb.api.entities.ContainerType;
+
+import javax.inject.Named;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
 @Component
-public class ContainerLocationValidator extends AbstractLocationValidator {
+public class ContainerLocationValidator extends AbstractStorageLocationValidator {
 
-  public ContainerLocationValidator(MessageSource messageSource) {
+  public ContainerLocationValidator(@Named("validationMessageSource") MessageSource messageSource) {
     super(messageSource);
   }
 

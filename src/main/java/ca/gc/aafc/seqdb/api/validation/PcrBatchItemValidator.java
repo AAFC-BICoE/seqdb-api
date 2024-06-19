@@ -1,5 +1,8 @@
 package ca.gc.aafc.seqdb.api.validation;
 
+import javax.inject.Named;
+
+import ca.gc.aafc.dina.validation.AbstractStorageLocationValidator;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
@@ -7,9 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 @Component
-public class PcrBatchItemValidator extends AbstractLocationValidator {
+public class PcrBatchItemValidator extends AbstractStorageLocationValidator {
 
-  public PcrBatchItemValidator(MessageSource messageSource) {
+  public PcrBatchItemValidator(@Named("validationMessageSource") MessageSource messageSource) {
     super(messageSource);
   }
 

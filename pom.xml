@@ -9,6 +9,12 @@
   <name>seqdb-api</name>
   <url>https://github.com/AAFC-BICoE/seqdb-api</url>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.18</version>
+  </parent>
+
   <properties>
     <java.version>17</java.version>
     <javax.inject.version>1</javax.inject.version>
@@ -23,22 +29,20 @@
 
     <dependency.check.version>8.3.1</dependency.check.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <checkstyle.version>9.3</checkstyle.version>
+    <checkstyle-antlr.version>4.9.3</checkstyle-antlr.version>
+
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
-    <dina-base-api.version>0.110</dina-base-api.version>
+    <dina-base-api.version>0.125</dina-base-api.version>
+
     <postgresql.version>42.4.3</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
 
     <spring-security.version>5.7.10</spring-security.version>
   </properties>
-
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.13</version>
-  </parent>
 
   <!--  temporary until we can migrate to a newer version of Crnk-->
   <repositories>
@@ -166,6 +170,11 @@
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
             <version>${checkstyle.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${checkstyle-antlr.version}</version>
           </dependency>
         </dependencies>
         <configuration>

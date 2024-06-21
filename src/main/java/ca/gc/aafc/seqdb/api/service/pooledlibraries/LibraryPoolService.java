@@ -10,6 +10,8 @@ import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import lombok.NonNull;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class LibraryPoolService extends DefaultDinaService<LibraryPool> {
 
@@ -23,5 +25,9 @@ public class LibraryPoolService extends DefaultDinaService<LibraryPool> {
   protected void preCreate(LibraryPool entity) {
     entity.setUuid(UUID.randomUUID());
   }
-  
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
+  }
 }

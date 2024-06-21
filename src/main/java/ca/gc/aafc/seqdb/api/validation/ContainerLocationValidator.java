@@ -47,7 +47,7 @@ public class ContainerLocationValidator extends AbstractStorageLocationValidator
     private ContainerType containerType;
 
     public StorageGridLayout getStorageGridLayout() {
-      if(containerType == null) {
+      if (containerType == null) {
         return null;
       }
       return StorageGridLayout.builder()

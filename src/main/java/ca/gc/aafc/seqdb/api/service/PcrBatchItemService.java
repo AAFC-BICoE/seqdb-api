@@ -48,7 +48,7 @@ public class PcrBatchItemService extends DefaultDinaService<PcrBatchItem> {
                              @NonNull Set<String> relationships)  {
 
     List<T> itemsList = super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
-    if(PcrBatchItem.class == entityClass) {
+    if (PcrBatchItem.class == entityClass) {
       itemsList.forEach(t -> setCellNumber((PcrBatchItem) t));
     }
     return itemsList;

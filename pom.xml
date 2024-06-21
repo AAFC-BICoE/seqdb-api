@@ -16,28 +16,27 @@
   </parent>
 
   <properties>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <javax.inject.version>1</javax.inject.version>
     <!-- Different from SpringBoot javax-jaxb.version since they don't manage jaxb-core and jaxb-impl-->
     <javax.interceptor-api>1.2.2</javax.interceptor-api>
-	
-    <spotbugs-maven-plugin.version>4.6.0.0</spotbugs-maven-plugin.version>
-    <spotbugs.version>4.7.1</spotbugs.version>
+
+    <spotbugs-maven-plugin.version>4.8.5.0</spotbugs-maven-plugin.version>
+    <spotbugs.version>4.8.5</spotbugs.version>
 
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 
-    <dependency.check.version>8.3.1</dependency.check.version>
-    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+    <dependency.check.version>8.4.3</dependency.check.version>
+    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
-    <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-    <checkstyle.version>9.3</checkstyle.version>
-    <checkstyle-antlr.version>4.9.3</checkstyle-antlr.version>
+    <maven-checkstyle-plugin.version>3.4.0</maven-checkstyle-plugin.version>
+    <checkstyle.version>10.17.0</checkstyle.version>
 
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
     <dina-base-api.version>0.125</dina-base-api.version>
 
-    <postgresql.version>42.4.3</postgresql.version>
+    <postgresql.version>42.4.4</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
     <spring-boot-maven-plugin.fork>false</spring-boot-maven-plugin.fork>
 
@@ -170,11 +169,6 @@
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
             <version>${checkstyle.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>${checkstyle-antlr.version}</version>
           </dependency>
         </dependencies>
         <configuration>

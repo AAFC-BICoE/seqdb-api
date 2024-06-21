@@ -10,6 +10,8 @@ import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import lombok.NonNull;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class ThermocyclerProfileService extends DefaultDinaService<ThermocyclerProfile> {
 
@@ -23,5 +25,9 @@ public class ThermocyclerProfileService extends DefaultDinaService<ThermocyclerP
   protected void preCreate(ThermocyclerProfile entity) {
     entity.setUuid(UUID.randomUUID());
   }
-  
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
+  }
 }

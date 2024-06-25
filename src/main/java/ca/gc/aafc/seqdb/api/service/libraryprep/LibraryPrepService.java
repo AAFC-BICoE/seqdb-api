@@ -15,6 +15,8 @@ import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.validation.ContainerLocationValidator;
 import lombok.NonNull;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
@@ -92,6 +94,11 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
         }
       }
     }
+  }
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
   }
   
 }

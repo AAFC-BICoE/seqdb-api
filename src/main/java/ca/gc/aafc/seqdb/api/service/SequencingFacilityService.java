@@ -10,6 +10,8 @@ import org.springframework.validation.SmartValidator;
 
 import java.util.UUID;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class SequencingFacilityService extends DefaultDinaService<SequencingFacility> {
 
@@ -22,6 +24,11 @@ public class SequencingFacilityService extends DefaultDinaService<SequencingFaci
   @Override
   protected void preCreate(SequencingFacility entity) {
     entity.setUuid(UUID.randomUUID());
+  }
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
   }
 }
 

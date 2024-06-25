@@ -10,6 +10,8 @@ import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.SeqSubmission;
 import lombok.NonNull;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class SeqSubmissionService extends DefaultDinaService<SeqSubmission> {
   
@@ -22,5 +24,10 @@ public class SeqSubmissionService extends DefaultDinaService<SeqSubmission> {
   @Override
   protected void preCreate(SeqSubmission entity) {
     entity.setUuid(UUID.randomUUID());
+  }
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
   }
 }

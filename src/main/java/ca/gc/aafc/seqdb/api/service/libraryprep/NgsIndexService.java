@@ -10,6 +10,8 @@ import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
 import lombok.NonNull;
 
+// CHECKSTYLE:OFF NoFinalizer
+// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class NgsIndexService extends DefaultDinaService<NgsIndex> {
 
@@ -23,5 +25,9 @@ public class NgsIndexService extends DefaultDinaService<NgsIndex> {
   protected void preCreate(NgsIndex entity) {
     entity.setUuid(UUID.randomUUID());
   }
-  
+
+  // Fixes CT_CONSTRUCTOR_THROW
+  protected final void finalize() {
+    // no-op
+  }
 }

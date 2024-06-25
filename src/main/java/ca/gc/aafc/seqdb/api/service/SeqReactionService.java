@@ -43,7 +43,7 @@ public class SeqReactionService extends DefaultDinaService<SeqReaction> {
                              @NonNull Set<String> relationships)  {
 
     List<T> itemsList = super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
-    if(SeqReaction.class == entityClass) {
+    if (SeqReaction.class == entityClass) {
       itemsList.forEach(t -> setCellNumber((SeqReaction) t));
     }
     return itemsList;

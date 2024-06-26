@@ -9,7 +9,6 @@ import ca.gc.aafc.dina.entity.StorageGridLayout;
 import ca.gc.aafc.dina.jpa.PredicateSupplier;
 import ca.gc.aafc.dina.translator.NumberLetterTranslator;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
-import ca.gc.aafc.seqdb.api.validation.PcrBatchItemValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.SmartValidator;
@@ -26,14 +25,10 @@ import javax.persistence.criteria.Root;
 @Service
 public class PcrBatchItemService extends DefaultDinaService<PcrBatchItem> {
 
-  private final PcrBatchItemValidator validator;
-
   public PcrBatchItemService(
     @NonNull BaseDAO baseDAO,
-    @NonNull SmartValidator sv,
-    @NonNull PcrBatchItemValidator validator) {
+    @NonNull SmartValidator sv) {
     super(baseDAO, sv);
-    this.validator = validator;
   }
 
   @Override
@@ -49,29 +44,24 @@ public class PcrBatchItemService extends DefaultDinaService<PcrBatchItem> {
 
     List<T> itemsList = super.findAll(entityClass, where, orderBy, startIndex, maxResult, includes, relationships);
     if (PcrBatchItem.class == entityClass) {
-      itemsList.forEach(t -> setCellNumber((PcrBatchItem) t));
+     // itemsList.forEach(t -> setCellNumber((PcrBatchItem) t));
     }
     return itemsList;
   }
 
-  private void setCellNumber(PcrBatchItem item) {
-    PcrBatch batch = item.getPcrBatch();
-    if (batch == null || batch.getStorageRestriction() == null) {
-      return;
-    }
-
-    // We assume row and col are valid, so we only check for row presence
-    if (StringUtils.isBlank(item.getWellRow())) {
-      return;
-    }
-
-    StorageGridLayout restriction = batch.getStorageRestriction().getLayout();
-    item.setCellNumber(restriction.calculateCellNumber(NumberLetterTranslator.toNumber(item.getWellRow()), item.getWellColumn()));
-  }
-
-  @Override
-  public void validateBusinessRules(PcrBatchItem entity) {
-    applyBusinessRule(entity, validator);
-  }
+//  private void setCellNumber(PcrBatchItem item) {
+//    PcrBatch batch = item.getPcrBatch();
+//    if (batch == null || batch.getStorageRestriction() == null) {
+//      return;
+//    }
+//
+//    // We assume row and col are valid, so we only check for row presence
+//    if (StringUtils.isBlank(item.getWellRow())) {
+//      return;
+//    }
+//
+//    StorageGridLayout restriction = batch.getStorageRestriction().getLayout();
+//    item.setCellNumber(restriction.calculateCellNumber(NumberLetterTranslator.toNumber(item.getWellRow()), item.getWellColumn()));
+//  }
 
 }

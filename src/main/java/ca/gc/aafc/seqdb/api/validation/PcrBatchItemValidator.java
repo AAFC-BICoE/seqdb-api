@@ -26,21 +26,21 @@ public class PcrBatchItemValidator extends AbstractStorageLocationValidator {
     if (!supports(target.getClass())) {
       throw new IllegalArgumentException("PcrBatchItemValidator not supported for class " + target.getClass());
     }
-    PcrBatchItem pcrBatchItem = (PcrBatchItem) target;
-    // make sure we have a location to validate
-    if (StringUtils.isBlank(pcrBatchItem.getWellRow()) && pcrBatchItem.getWellColumn() == null) {
-      return;
-    }
-    checkRowAndColumn(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(), errors);
-
-    // if there is no storage restriction defined, we can't validate.
-    // we return and allow the location since we can't say for sure it's invalid
-    if (pcrBatchItem.getPcrBatch() == null || pcrBatchItem.getPcrBatch().getStorageRestriction() == null) {
-      return;
-    }
-
-    checkWellAgainstGrid(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(),
-            pcrBatchItem.getPcrBatch().getStorageRestriction().getLayout(), errors);
+//    PcrBatchItem pcrBatchItem = (PcrBatchItem) target;
+//    // make sure we have a location to validate
+//    if (StringUtils.isBlank(pcrBatchItem.getWellRow()) && pcrBatchItem.getWellColumn() == null) {
+//      return;
+//    }
+//    checkRowAndColumn(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(), errors);
+//
+//    // if there is no storage restriction defined, we can't validate.
+//    // we return and allow the location since we can't say for sure it's invalid
+//    if (pcrBatchItem.getPcrBatch() == null || pcrBatchItem.getPcrBatch().getStorageRestriction() == null) {
+//      return;
+//    }
+//
+//    checkWellAgainstGrid(pcrBatchItem.getWellRow(), pcrBatchItem.getWellColumn(),
+//            pcrBatchItem.getPcrBatch().getStorageRestriction().getLayout(), errors);
   }
 
 }

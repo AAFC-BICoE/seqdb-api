@@ -15,7 +15,8 @@ public class ExternalResourceProviderImplementation implements ExternalResourceP
     "person", "agent/api/v1/person",
     "protocol", "collection/api/v1/protocol",
     "storage-unit", "collection/api/v1/storage-unit",
-    "storage-unit-type", "collection/api/v1/storage-unit-type"
+    "storage-unit-type", "collection/api/v1/storage-unit-type",
+    "storage-unit-coordinates", "collection/api/v1/storage-unit-coordinates"
   );
 
   @Override

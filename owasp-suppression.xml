@@ -9,4 +9,16 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
         <cve>CVE-2016-1000027</cve>
     </suppress>
+    <suppress>
+        <notes>AuthenticatedVoter no used</notes>
+        <cve>CVE-2024-22257</cve>
+    </suppress>
+    <suppress>
+        <notes>no UriComponentsBuilder</notes>
+        <cve>CVE-2024-22243</cve>
+    </suppress>
+    <suppress>
+        <notes>no UriComponentsBuilder</notes>
+        <cve>CVE-2024-22262</cve>
+    </suppress>
 </suppressions>

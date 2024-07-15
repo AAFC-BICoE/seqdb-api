@@ -65,8 +65,8 @@ public class PcrBatchItem implements DinaEntity {
   @Column(name = "material_sample")
   private UUID materialSample;
 
-  @Column(name = "storage_unit_coordinates")
-  private UUID storageUnitCoordinates;
+  @Column(name = "storage_unit_usage")
+  private UUID storageUnitUsage;
 
   @Size(max = 255)
   private String result;

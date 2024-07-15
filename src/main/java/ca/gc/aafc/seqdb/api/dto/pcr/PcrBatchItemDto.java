@@ -40,9 +40,9 @@ public class PcrBatchItemDto {
   @JsonApiRelation
   private ExternalRelationDto materialSample;
 
-  @JsonApiExternalRelation(type = "storage-unit-coordinates")
+  @JsonApiExternalRelation(type = "storage-unit-usage")
   @JsonApiRelation
-  private ExternalRelationDto storageUnitCoordinates;
+  private ExternalRelationDto storageUnitUsage;
 
   private String result;
 

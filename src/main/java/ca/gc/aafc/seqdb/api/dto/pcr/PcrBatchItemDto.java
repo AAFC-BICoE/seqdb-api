@@ -40,11 +40,9 @@ public class PcrBatchItemDto {
   @JsonApiRelation
   private ExternalRelationDto materialSample;
 
-  private Integer wellColumn;
-
-  private String wellRow;
-
-  private int cellNumber;
+  @JsonApiExternalRelation(type = "storage-unit-usage")
+  @JsonApiRelation
+  private ExternalRelationDto storageUnitUsage;
 
   private String result;
 

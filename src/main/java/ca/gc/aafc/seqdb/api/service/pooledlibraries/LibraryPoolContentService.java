@@ -17,8 +17,6 @@ import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
 import lombok.NonNull;
 
-// CHECKSTYLE:OFF NoFinalizer
-// CHECKSTYLE:OFF SuperFinalize
 @Service
 public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolContent> {
 
@@ -95,10 +93,5 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
     }
 
     return batchs;
-  }
-
-  // Fixes CT_CONSTRUCTOR_THROW
-  protected final void finalize() {
-    // no-op
   }
 }

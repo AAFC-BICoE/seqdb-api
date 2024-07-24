@@ -26,8 +26,4 @@ public class SeqSubmissionService extends DefaultDinaService<SeqSubmission> {
     entity.setUuid(UUID.randomUUID());
   }
 
-  // Fixes CT_CONSTRUCTOR_THROW
-  protected final void finalize() {
-    // no-op
-  }
 }

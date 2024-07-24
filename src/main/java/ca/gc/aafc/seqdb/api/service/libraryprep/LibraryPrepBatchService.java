@@ -26,8 +26,4 @@ public class LibraryPrepBatchService extends DefaultDinaService<LibraryPrepBatch
     entity.setUuid(UUID.randomUUID());
   }
 
-  // Fixes CT_CONSTRUCTOR_THROW
-  protected final void finalize() {
-    // no-op
-  }
 }

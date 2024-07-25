@@ -1,6 +1,8 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.entities.SeqReaction;
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -44,9 +46,8 @@ public class SeqReactionDto {
   @JsonApiRelation
   private PcrPrimerDto seqPrimer;
 
-  private Integer wellColumn;
-  private String wellRow;
-
-  private int cellNumber;
+  @JsonApiExternalRelation(type = "storage-unit-usage")
+  @JsonApiRelation
+  private ExternalRelationDto storageUnitUsage;
 
 }

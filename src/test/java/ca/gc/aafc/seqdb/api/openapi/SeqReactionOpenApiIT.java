@@ -10,13 +10,13 @@ import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.SeqReactionDto;
-import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqReactionTestFixture;
+
+import java.util.UUID;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,7 +66,8 @@ public class SeqReactionOpenApiIT extends BaseRestAssuredTest {
                     JsonAPITestHelper.toRelationshipMap(
                             List.of(JsonAPIRelationship.of("seqPrimer", PcrPrimerDto.TYPENAME, primerUuid),
                                     JsonAPIRelationship.of("pcrBatchItem", PcrBatchItemDto.TYPENAME, pcrBatchItemDtoUuid),
-                                    JsonAPIRelationship.of("seqBatch", SeqBatchDto.TYPENAME, seqBatchDtoUuid))),
+                                    JsonAPIRelationship.of("seqBatch", SeqBatchDto.TYPENAME, seqBatchDtoUuid),
+                                    JsonAPIRelationship.of("storageUnitUsage", "storage-unit-usage", UUID.randomUUID().toString()))),
                     null)
             ).extract().asString(),
             ValidationRestrictionOptions.builder().build());

@@ -12,11 +12,11 @@ import ca.gc.aafc.seqdb.api.dto.VocabularyDto;
 public class VocabularyService extends CollectionBackedReadOnlyDinaService<String, VocabularyDto> {
 
   public VocabularyService(SequenceVocabularyConfiguration sequenceVocabularyConfiguration) {
-      super(sequenceVocabularyConfiguration.getVocabulary()
-        .entrySet()
-        .stream()
-        .map(entry -> new VocabularyDto(entry.getKey(), entry.getValue()))
-        .collect(Collectors.toList()), VocabularyDto::getId);
-    }
+    super(sequenceVocabularyConfiguration.getVocabulary()
+      .entrySet()
+      .stream()
+      .map(entry -> new VocabularyDto(entry.getKey(), entry.getValue()))
+      .collect(Collectors.toList()), VocabularyDto::getId);
+  }
 
   }

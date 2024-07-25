@@ -1,8 +1,15 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
+import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,20 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
-
-import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -75,16 +70,7 @@ public class SeqReaction implements DinaEntity {
   @JoinColumn(name = "seq_primer_id")
   private PcrPrimer seqPrimer;
 
-  @Min(value = 1)
-  @Max(value = 255)
-  @Column(name = "well_column")
-  private Integer wellColumn;
+  @Column(name = "storage_unit_usage")
+  private UUID storageUnitUsage;
 
-  @Pattern(regexp = "[a-zA-Z]")
-  @Column(name = "well_row")
-  private String wellRow;
-
-  // calculated field
-  @Transient
-  private int cellNumber;
 }

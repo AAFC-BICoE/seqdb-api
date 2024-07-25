@@ -18,5 +18,4 @@ public class VocabularyService extends CollectionBackedReadOnlyDinaService<Strin
       .map(entry -> new VocabularyDto(entry.getKey(), entry.getValue()))
       .collect(Collectors.toList()), VocabularyDto::getId);
   }
-
-  }
+}

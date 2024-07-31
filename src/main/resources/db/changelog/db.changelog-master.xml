@@ -49,4 +49,5 @@
   <include file="db/changelog/migrations/42-Remove_StepResource_and_related_classes.xml"/>
   <include file="db/changelog/migrations/43-Change_PcrBatchItem_to_use_StorageUnitUsage.xml"/>
   <include file="db/changelog/migrations/44-Change_SeqReaction_to_use_StorageUnitUsage.xml"/>
+  <include file="db/changelog/migrations/45-Remove_legacy_storage_related_fields.xml"/>
 </databaseChangeLog>

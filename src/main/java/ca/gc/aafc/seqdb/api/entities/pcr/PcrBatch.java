@@ -14,12 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -131,10 +128,5 @@ public class PcrBatch implements DinaEntity {
    */
   @Column(name = "storage_unit_type")
   private UUID storageUnitType;
-
-  @Type(type = "jsonb")
-  @Column(name = "storage_restriction", columnDefinition = "jsonb")
-  @Valid
-  private StorageRestriction storageRestriction;
 
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.repository.meta.AttributeMetaInfoProvider;
-import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
@@ -83,7 +82,5 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
   @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
   private ExternalRelationDto protocol;
-
-  private StorageRestriction storageRestriction;
 
 }

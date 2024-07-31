@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.validation.ValidationException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-
 
 public class SeqBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -84,16 +82,6 @@ public class SeqBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
     assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
     assertEquals(TEST_PROTOCOL_UUID.toString(), created.getProtocol().getId());
-  }
-
-  @Test
-  public void createSeqBatch_proveBothStorage_Exception() {
-    SeqBatchDto newDto = SeqBatchTestFixture.newSeqBatch();
-    newDto.setRegion(regionTest);
-    newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    newDto.setStorageUnit(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit").build());
-    newDto.setStorageUnitType(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit-type").build());
-    assertThrows(ValidationException.class, () -> seqBatchRepository.create(newDto));
   }
 
   @Test

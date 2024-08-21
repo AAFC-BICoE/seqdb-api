@@ -30,11 +30,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false) //meta is not part of the data
 public class PcrBatchDto extends AttributeMetaInfoProvider {
 
-  public static final String TYPENAME = "pcr-batch";  
+  public static final String TYPENAME = "pcr-batch";
 
   @JsonApiId
   @Id
-  @PropertyName("id")  
+  @PropertyName("id")
   private UUID uuid;
 
   private String createdBy;
@@ -74,10 +74,6 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
   @JsonApiExternalRelation(type = "storage-unit")
   @JsonApiRelation
   private ExternalRelationDto storageUnit;
-
-  @JsonApiExternalRelation(type = "storage-unit-type")
-  @JsonApiRelation
-  private ExternalRelationDto storageUnitType;
 
   @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation

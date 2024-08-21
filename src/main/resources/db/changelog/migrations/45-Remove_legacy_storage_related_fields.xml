@@ -8,6 +8,7 @@
     <changeSet id="45-Remove_legacy_storage_related_fields" context="schema-change" author="cgendreau">
         <dropColumn tableName="pcr_batch">
             <column name="storage_restriction"/>
+            <column name="storage_unit_type"/>
         </dropColumn>
         <dropColumn tableName="seq_batch">
             <column name="storage_restriction"/>

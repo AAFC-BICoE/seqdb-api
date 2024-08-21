@@ -4,9 +4,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.inject.Inject;
-import javax.validation.ValidationException;
 
-import ca.gc.aafc.dina.dto.ExternalRelationDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +19,6 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
 import io.crnk.core.exception.ResourceNotFoundException;
 import io.crnk.core.queryspec.QuerySpec;
-
-import java.util.UUID;
 
 public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
@@ -170,15 +166,4 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
       new QuerySpec(PcrBatchDto.class)
     ));
   }
-
-  @Test
-  public void createPcrBatch_onInvalidStorage_exceptionThrown() {
-    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-
-    newDto.setStorageUnit(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit").build());
-    newDto.setStorageUnitType(ExternalRelationDto.builder().id(UUID.randomUUID().toString()).type("storage-unit-type").build());
-
-    assertThrows(ValidationException.class, () -> pcrBatchRepository.create(newDto));
-  }
-
 }

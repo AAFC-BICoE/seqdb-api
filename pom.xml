@@ -34,7 +34,7 @@
     <checkstyle.version>10.17.0</checkstyle.version>
 
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
-    <dina-base-api.version>0.127</dina-base-api.version>
+    <dina-base-api.version>0.128</dina-base-api.version>
 
     <postgresql.version>42.4.4</postgresql.version>
     <snakeyaml.version>1.33</snakeyaml.version>    
@@ -42,18 +42,6 @@
 
     <spring-security.version>5.7.10</spring-security.version>
   </properties>
-
-  <!--  temporary until we can migrate to a newer version of Crnk-->
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>jcenter central</id>
-      <name>bintray</name>
-      <url>https://jcenter.bintray.com</url>
-    </repository>
-  </repositories>
   
   <dependencies>
     <dependency>

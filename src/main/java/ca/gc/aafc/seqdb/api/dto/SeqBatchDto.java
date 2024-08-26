@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.repository.meta.AttributeMetaInfoProvider;
-import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
@@ -62,11 +61,5 @@ public class SeqBatchDto extends AttributeMetaInfoProvider {
   @JsonApiExternalRelation(type = "storage-unit")
   @JsonApiRelation
   private ExternalRelationDto storageUnit;
-
-  @JsonApiExternalRelation(type = "storage-unit-type")
-  @JsonApiRelation
-  private ExternalRelationDto storageUnitType;
-
-  private StorageRestriction storageRestriction;
 
 }

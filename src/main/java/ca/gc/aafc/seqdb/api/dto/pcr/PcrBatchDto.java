@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.repository.meta.AttributeMetaInfoProvider;
-import ca.gc.aafc.seqdb.api.entities.StorageRestriction;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
@@ -31,11 +30,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false) //meta is not part of the data
 public class PcrBatchDto extends AttributeMetaInfoProvider {
 
-  public static final String TYPENAME = "pcr-batch";  
+  public static final String TYPENAME = "pcr-batch";
 
   @JsonApiId
   @Id
-  @PropertyName("id")  
+  @PropertyName("id")
   private UUID uuid;
 
   private String createdBy;
@@ -76,14 +75,8 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
   @JsonApiRelation
   private ExternalRelationDto storageUnit;
 
-  @JsonApiExternalRelation(type = "storage-unit-type")
-  @JsonApiRelation
-  private ExternalRelationDto storageUnitType;
-
   @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
   private ExternalRelationDto protocol;
-
-  private StorageRestriction storageRestriction;
 
 }

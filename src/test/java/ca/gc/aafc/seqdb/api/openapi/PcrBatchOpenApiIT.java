@@ -53,7 +53,6 @@ public class PcrBatchOpenApiIT extends BaseRestAssuredTest {
     pcrBatch.setExperimenters(null);
     pcrBatch.setAttachment(null);
     pcrBatch.setStorageUnit(null);
-    pcrBatch.setStorageUnitType(null);
     pcrBatch.setProtocol(null);
 
     OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "PcrBatch",

@@ -28,16 +28,7 @@ public class SeqBatchValidator implements Validator {
     if (!supports(target.getClass())) {
       throw new IllegalArgumentException("SeqBatchValidator not supported for class " + target.getClass());
     }
-    checkStorageOrTypeNotBoth(errors, (SeqBatch) target);
-
     seqBatchVocabularyValidator.validate(target, errors);
-  }
-
-  private void checkStorageOrTypeNotBoth(Errors errors, SeqBatch seqBatch) {
-    if (seqBatch.getStorageUnit() != null && seqBatch.getStorageUnitType() != null) {
-      String errorMessage = getMessage(SharedMessageKey.STORAGE_TYPE_OR_UNIT_ERROR_MESSAGE_KEY);
-      errors.rejectValue("storageUnit", SharedMessageKey.STORAGE_TYPE_OR_UNIT_ERROR_MESSAGE_KEY, errorMessage);
-    }
   }
 
   private String getMessage(String key) {

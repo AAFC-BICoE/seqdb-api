@@ -45,8 +45,9 @@ public class LibraryPrepBatchDto {
   @JsonApiRelation
   private ExternalRelationDto protocol;
 
+  @JsonApiExternalRelation(type = "storage-unit")
   @JsonApiRelation
-  private ContainerTypeDto containerType;
+  private ExternalRelationDto storageUnit;
 
   @JsonApiRelation
   private ThermocyclerProfileDto thermocyclerProfile;

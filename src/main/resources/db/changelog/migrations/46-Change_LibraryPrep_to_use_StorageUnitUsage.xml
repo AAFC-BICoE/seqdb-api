@@ -13,5 +13,16 @@
         <addColumn tableName="librarypreps">
             <column name="storage_unit_usage" type="uuid"/>
         </addColumn>
+
+        <dropColumn tableName="libraryprepbatchs">
+            <column name="containertypeid"/>
+        </dropColumn>
+
+        <addColumn tableName="libraryprepbatchs">
+            <column name="storage_unit" type="uuid"/>
+        </addColumn>
+
+        <dropTable tableName="ContainerTypes"/>
+
     </changeSet>
 </databaseChangeLog>

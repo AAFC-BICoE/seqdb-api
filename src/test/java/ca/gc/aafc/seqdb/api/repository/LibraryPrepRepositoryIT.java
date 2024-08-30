@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
-import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.api.testsupport.factories.ContainerTypeFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
 import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepTestFixture;
@@ -35,18 +33,13 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPrep createTestLibraryPrep() {
 
-    ContainerType testContainerType = ContainerTypeFactory.newContainerType()
-            .build();
-    
-    persist(testContainerType);
-
     Product testProduct = ProductFactory.newProduct().build();
     persist(testProduct);
 
     testLibPrep = LibraryPrepFactory.newLibraryPrep()
         .quality(TEST_QUALITY)
         .build();
-    testLibPrep.getLibraryPrepBatch().setContainerType(testContainerType);
+   // testLibPrep.getLibraryPrepBatch().setContainerType(testContainerType);
     persist(testLibPrep.getLibraryPrepBatch());
     persist(testLibPrep);
     

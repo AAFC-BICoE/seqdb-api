@@ -6,7 +6,6 @@ import org.springframework.validation.SmartValidator;
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.api.validation.ContainerLocationValidator;
 
 import java.util.UUID;
 import lombok.NonNull;
@@ -16,8 +15,7 @@ public class LibraryPrepService extends DefaultDinaService<LibraryPrep> {
 
   public LibraryPrepService(
     @NonNull BaseDAO baseDAO,
-    @NonNull SmartValidator sv,
-    @NonNull ContainerLocationValidator containerLocationValidator) {
+    @NonNull SmartValidator sv) {
     super(baseDAO, sv);
   }
 

@@ -21,7 +21,6 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
-import ca.gc.aafc.seqdb.api.entities.ContainerType;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import lombok.AllArgsConstructor;
@@ -72,9 +71,8 @@ public class LibraryPrepBatch implements DinaEntity {
   
   private UUID protocol;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "containertypeid")
-  private ContainerType containerType;
+  @Column(name = "storage_unit")
+  private UUID storageUnit;
   
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "thermocyclerprofileid")

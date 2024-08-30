@@ -1,8 +1,11 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
+import org.hibernate.annotations.NaturalId;
+
+import ca.gc.aafc.dina.entity.DinaEntity;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,15 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.NaturalId;
-
-import ca.gc.aafc.dina.entity.DinaEntity;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -53,18 +49,14 @@ public class LibraryPrep implements DinaEntity {
 
   private String size;
 
-  @Min(value = 1)
-  private Integer wellColumn;
-
-  @Size(max = 2)
-  @Pattern(regexp = "[a-zA-Z]")
-  private String wellRow;
-
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "libraryprepbatchid")
   private LibraryPrepBatch libraryPrepBatch;
-  
+
+  @Column(name = "storage_unit_usage")
+  private UUID storageUnitUsage;
+
   @NotNull
   @Column(name = "material_sample")
   private UUID materialSample;
@@ -80,6 +72,5 @@ public class LibraryPrep implements DinaEntity {
   @NotBlank
   @Column(name = "_group")
   private String group;
-
 
 }

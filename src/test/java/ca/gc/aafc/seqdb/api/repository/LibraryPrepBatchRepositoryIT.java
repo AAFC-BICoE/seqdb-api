@@ -25,6 +25,8 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
 
   private LibraryPrepBatch testBatch;
   private Product testProduct;
+
+  private static final UUID TEST_STORAGE_UNIT_UUID = UUID.randomUUID();
   private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
 
   @Inject
@@ -75,12 +77,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     newDto.setCleanUpNotes("cleanup notes");
     newDto.setYieldNotes("yield notes");
     newDto.setProtocol(ExternalRelationDto.builder().id(TEST_PROTOCOL_UUID.toString()).type("protocol").build());
-//    newDto.setContainerType(
-//      containerTypeRepository.findOne(
-//            testContainerType.getUuid(),
-//            new QuerySpec(ContainerTypeDto.class)
-//        )
-//     );
+    newDto.setStorageUnit(ExternalRelationDto.builder().id(TEST_STORAGE_UNIT_UUID.toString()).type("storage-unit-usage").build());
     newDto.setProduct(
         productRepository.findOne(
             testProduct.getUuid(),
@@ -96,6 +93,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTest {
     assertEquals("yield notes", created.getYieldNotes());
     assertEquals(testProduct.getUuid(), created.getProduct().getUuid());
     assertEquals(TEST_PROTOCOL_UUID.toString(), created.getProtocol().getId());
+    assertEquals(TEST_STORAGE_UNIT_UUID.toString(), created.getStorageUnit().getId());
   }
   
   @Test

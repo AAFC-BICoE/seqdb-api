@@ -30,9 +30,9 @@ public class LibraryPrepDto {
 
   private String size;
 
-  private Integer wellColumn;
-
-  private String wellRow;
+  @JsonApiExternalRelation(type = "storage-unit-usage")
+  @JsonApiRelation
+  private ExternalRelationDto storageUnitUsage;
 
   @JsonApiRelation
   private LibraryPrepBatchDto libraryPrepBatch;

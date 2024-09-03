@@ -9,7 +9,6 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.seqdb.api.dto.ContainerTypeDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
@@ -33,9 +32,6 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
 
   @Inject
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
-
-  @Inject
-  private ContainerTypeRepository containerTypeRepository;
 
   private PcrPrimerDto primerForwardTest;
   private PcrPrimerDto primerReverseTest;
@@ -70,11 +66,6 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
     thermocyclerProfileDto.setName("thermocyclerProfile");
 
     thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfileDto);
-
-    ContainerTypeDto containerType = new ContainerTypeDto();
-    containerType.setName("containerType");
-    containerType.setNumberOfRows(10);
-    containerType.setNumberOfColumns(10);
   }
 
   @Test

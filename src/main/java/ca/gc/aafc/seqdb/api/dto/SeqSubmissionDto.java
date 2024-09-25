@@ -35,6 +35,10 @@ public class SeqSubmissionDto {
   @JsonApiRelation
   private SeqBatchDto seqBatch;
 
+  @ShallowReference
+  @JsonApiRelation
+  private SequencingFacilityDto sequencingFacility;
+
   @JsonApiExternalRelation(type = "person")
   @JsonApiRelation
   private ExternalRelationDto submittedBy;

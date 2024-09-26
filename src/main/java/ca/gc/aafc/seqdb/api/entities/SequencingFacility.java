@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -83,31 +84,6 @@ public class SequencingFacility implements DinaEntity {
 
     @Size(max = 100)
     private String info;
-
-  }
-
-  // TODO to be replaced by dina-base-api version in 0.99
-  @Data
-  @Builder
-  public static class Address {
-
-    @Size (max = 150)
-    private String addressLine1;
-
-    @Size (max = 150)
-    private String addressLine2;
-
-    @Size (max = 150)
-    private String city;
-
-    @Size (max = 150)
-    private String provinceState;
-
-    @Size (max = 50)
-    private String zipCode;
-
-    @Size (max = 50)
-    private String country;
 
   }
 }

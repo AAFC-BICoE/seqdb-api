@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.seqdb.api.entities.SequencingFacility;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
@@ -32,6 +33,6 @@ public class SequencingFacilityDto {
   private String name;
 
   private List<SequencingFacility.ContactRole> contacts = List.of();
-  private SequencingFacility.Address shippingAddress;
+  private Address shippingAddress;
 
 }

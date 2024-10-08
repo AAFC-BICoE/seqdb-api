@@ -52,4 +52,5 @@
   <include file="db/changelog/migrations/45-Remove_legacy_storage_related_fields.xml"/>
   <include file="db/changelog/migrations/46-Change_LibraryPrep_to_use_StorageUnitUsage.xml"/>
   <include file="db/changelog/migrations/47-Add_SequencingFacility_to_SeqSubmission.xml"/>
+  <include file="db/changelog/migrations/48-Drop_molecularsamples_table.xml"/>
 </databaseChangeLog>

@@ -13,10 +13,10 @@ public class IndexSetTestFixture {
     public static IndexSetDto newIndexSet() {
         IndexSetDto indexSetDto = new IndexSetDto();
 
-        indexSetDto.setName(TestableEntityFactory.generateRandomName(10));
-        indexSetDto.setGroup("aafc");
         indexSetDto.setCreatedBy("createdBy");
         indexSetDto.setCreatedOn(OffsetDateTime.of(LocalDate.now(), LocalTime.now(), ZoneOffset.MIN));
+        indexSetDto.setGroup("aafc");
+        indexSetDto.setName(TestableEntityFactory.generateRandomName(10));
         indexSetDto.setForwardAdapter("forwardAdapter");
         indexSetDto.setReverseAdapter("reverseAdapter");
         indexSetDto.setNgsIndexes(null);

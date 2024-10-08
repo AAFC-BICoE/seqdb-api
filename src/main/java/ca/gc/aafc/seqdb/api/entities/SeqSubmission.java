@@ -66,6 +66,10 @@ public class SeqSubmission implements DinaEntity {
   @JoinColumn(name = "seq_batch_id")
   private SeqBatch seqBatch;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sequencing_facility_id")
+  private SequencingFacility sequencingFacility;
+
   @Column(name = "submitted_by")
   private UUID submittedBy;
 }

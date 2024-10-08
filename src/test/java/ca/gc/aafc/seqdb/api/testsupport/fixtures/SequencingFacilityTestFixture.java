@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.testsupport.fixtures;
 
+import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.seqdb.api.dto.SequencingFacilityDto;
 import ca.gc.aafc.seqdb.api.entities.SequencingFacility;
 import ca.gc.aafc.seqdb.api.testsupport.factories.TestableEntityFactory;
@@ -25,7 +26,7 @@ public class SequencingFacilityTestFixture {
                     .build())
     );
 
-    sequencingFacilityDto.setShippingAddress(SequencingFacility.Address.builder()
+    sequencingFacilityDto.setShippingAddress(Address.builder()
             .addressLine1(TestableEntityFactory.generateRandomName(15))
             .addressLine2(TestableEntityFactory.generateRandomName(10))
             .city(TestableEntityFactory.generateRandomNameLettersOnly(12))

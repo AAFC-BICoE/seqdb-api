@@ -37,9 +37,9 @@ public class IndexSetOpenApiIT extends BaseRestAssuredTest {
       OpenAPIConstants.SEQDB_API_SPECS_URL,
       "IndexSet",
       sendPost(
-        "index-set", 
+        IndexSetDto.TYPENAME, 
         JsonAPITestHelper.toJsonAPIMap(
-          "index-set", 
+          IndexSetDto.TYPENAME, 
           JsonAPITestHelper.toAttributeMap(indexSet),
           null,
           null

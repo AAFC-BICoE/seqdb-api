@@ -12,9 +12,11 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "index-set")
+@JsonApiResource(type = IndexSetDto.TYPENAME)
 @RelatedEntity(IndexSet.class)
 public class IndexSetDto {
+
+  public static final String TYPENAME = "index-set";
 
   @JsonApiId
   private UUID uuid;

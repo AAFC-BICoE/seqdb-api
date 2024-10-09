@@ -13,9 +13,12 @@ import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 @Data
-@JsonApiResource(type = "ngs-index")
+@JsonApiResource(type = NgsIndexDto.TYPENAME)
 @RelatedEntity(NgsIndex.class)
 public class NgsIndexDto {
+
+  public static final String TYPENAME = "ngs-index";
+
   @JsonApiId
   private UUID uuid;
 

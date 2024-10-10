@@ -12,10 +12,8 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
-import static ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto.TYPENAME;
-
 @Data
-@JsonApiResource(type = TYPENAME)
+@JsonApiResource(type = ThermocyclerProfileDto.TYPENAME)
 @RelatedEntity(ThermocyclerProfile.class)
 public class ThermocyclerProfileDto {
 

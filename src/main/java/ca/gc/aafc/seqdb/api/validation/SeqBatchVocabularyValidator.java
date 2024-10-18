@@ -15,7 +15,7 @@ import ca.gc.aafc.seqdb.api.entities.SeqBatch;
  * Participates in SeqBatchValidator
  */
 @Component
-class SeqBatchVocabularyValidator extends VocabularyBasedValidator<SeqBatch> {
+public class SeqBatchVocabularyValidator extends VocabularyBasedValidator<SeqBatch> {
 
   private static final String BATCH_TYPE_FIELD_NAME = "sequencingType";
   private final List<VocabularyElementConfiguration> sequencingTypeVocabulary;

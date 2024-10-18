@@ -15,7 +15,7 @@ import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
  * Participates in PcrBatchValidator
  */
 @Component
-class PcrBatchVocabularyValidator extends VocabularyBasedValidator<PcrBatch> {
+public class PcrBatchVocabularyValidator extends VocabularyBasedValidator<PcrBatch> {
 
   private static final String BATCH_TYPE_FIELD_NAME = "batchType";
   private final List<VocabularyElementConfiguration> batchTypeVocabulary;

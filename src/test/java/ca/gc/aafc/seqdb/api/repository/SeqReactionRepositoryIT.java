@@ -10,9 +10,13 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqReactionTestFixture;
+
+import io.crnk.core.queryspec.IncludeRelationSpec;
+import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import javax.inject.Inject;
 import java.util.UUID;
 
@@ -73,7 +77,13 @@ public class SeqReactionRepositoryIT extends BaseRepositoryTest {
             new QuerySpec(SeqReactionDto.class)
     );
     found.setSeqPrimer(pcrPrimerDto);
-    SeqReactionDto updated = seqReactionRepository.save(found);
+    seqReactionRepository.save(found);
+
+    QuerySpec querySpec = new QuerySpec(SeqReactionDto.class);
+    querySpec.setIncludedRelations(List.of(new IncludeRelationSpec(PathSpec.of("seqPrimer"))));
+
+    SeqReactionDto updated = seqReactionRepository.findOne(seqReactionCreated.getUuid(), querySpec);
+
     assertEquals("Updated Primer", updated.getSeqPrimer().getName());
   }
   

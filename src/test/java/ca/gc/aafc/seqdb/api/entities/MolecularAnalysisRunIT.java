@@ -24,7 +24,7 @@ public class MolecularAnalysisRunIT extends SequenceModuleBaseIT {
 
     MolecularAnalysisRunItem mari = MolecularAnalysisRunItemFactory
       .newMolecularAnalysisRunItem(mar)
-      .molecularAnalysisResult(maResult)
+      .result(maResult)
       .build();
     molecularAnalysisRunItemService.create(mari);
 

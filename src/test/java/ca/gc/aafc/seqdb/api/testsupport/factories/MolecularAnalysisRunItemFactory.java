@@ -12,6 +12,6 @@ public class MolecularAnalysisRunItemFactory {
     return MolecularAnalysisRunItem.builder()
       .uuid(UUID.randomUUID())
       .createdBy("test user")
-      .molecularAnalysisRun(run);
+      .run(run);
   }
 }

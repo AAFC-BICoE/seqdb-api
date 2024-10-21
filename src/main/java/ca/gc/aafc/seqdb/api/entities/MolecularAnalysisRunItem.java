@@ -48,10 +48,10 @@ public class MolecularAnalysisRunItem implements DinaEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "molecular_analysis_run_id")
-  private MolecularAnalysisRun molecularAnalysisRun;
+  private MolecularAnalysisRun run;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "molecular_analysis_result_id")
-  private MolecularAnalysisResult molecularAnalysisResult;
+  private MolecularAnalysisResult result;
 
 }

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 /**
  * Tests for all MolecularAnalysisRun-based entities.
  */
-public class MolecularAnalysisRunRepositoryIT extends BaseRepositoryTestV2 {
+public class MolecularAnalysisRepositoryIT extends BaseRepositoryTestV2 {
 
   @Inject
   private MolecularAnalysisRunRepository molecularAnalysisRunRepository;
@@ -26,8 +26,7 @@ public class MolecularAnalysisRunRepositoryIT extends BaseRepositoryTestV2 {
   private MolecularAnalysisResultRepository molecularAnalysisResultRepository;
 
   @Test
-  public void a() {
-
+  public void onValidDto_dtoSavedWithoutExceptions() {
 
     MolecularAnalysisRunDto runDto = molecularAnalysisRunRepository
       .create(MolecularAnalysisRunTestFixture.newMolecularAnalysisRun());

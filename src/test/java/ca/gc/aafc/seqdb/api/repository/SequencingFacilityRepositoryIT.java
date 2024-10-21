@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class SequencingFacilityRepositoryIT extends BaseRepositoryTest {
+public class SequencingFacilityRepositoryIT extends BaseRepositoryTestV2 {
 
   @Inject
   private SequencingFacilityRepository sequencingFacilityRepository;

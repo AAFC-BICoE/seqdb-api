@@ -18,6 +18,12 @@ import org.springframework.core.io.ClassPathResource;
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.BaseIntegrationTest;
+
+
+/**
+ * Deprecated, BaseRepositoryTestV2 should be used instead to have better control on transactions
+ * and better abstraction without requiring ApplicationContext
+ */
 public abstract class BaseRepositoryTest extends BaseIntegrationTest {
 
   @Inject

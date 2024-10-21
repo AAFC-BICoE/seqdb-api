@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.hibernate.annotations.Generated;
@@ -25,6 +27,8 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 @Entity
 @Builder
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "molecular_analysis_run")
 public class MolecularAnalysisRun implements DinaEntity {
 

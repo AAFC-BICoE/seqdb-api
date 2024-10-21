@@ -7,9 +7,15 @@ import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonApiResource(type = "molecular-analysis-run")
 @RelatedEntity(MolecularAnalysisRun.class)
 public class MolecularAnalysisRunDto {

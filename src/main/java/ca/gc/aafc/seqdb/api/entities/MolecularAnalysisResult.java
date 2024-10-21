@@ -18,13 +18,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity

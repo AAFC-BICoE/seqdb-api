@@ -50,12 +50,21 @@ public class MolecularAnalysisRunItem implements DinaEntity {
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  // eager since we need it for group-based permission
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "molecular_analysis_run_id")
   private MolecularAnalysisRun run;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "molecular_analysis_result_id")
   private MolecularAnalysisResult result;
+
+  @Override
+  public String getGroup() {
+    if (run == null) {
+      return null;
+    }
+    return run.getGroup();
+  }
 
 }

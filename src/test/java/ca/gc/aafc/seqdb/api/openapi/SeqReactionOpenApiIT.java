@@ -72,6 +72,7 @@ public class SeqReactionOpenApiIT extends BaseRestAssuredTest {
                     JsonAPITestHelper.toRelationshipMap(
                             List.of(JsonAPIRelationship.of("seqPrimer", PcrPrimerDto.TYPENAME, primerUuid),
                                     JsonAPIRelationship.of("pcrBatchItem", PcrBatchItemDto.TYPENAME, pcrBatchItemDtoUuid),
+                                    JsonAPIRelationship.of("seqBatch", SeqBatchDto.TYPENAME, seqBatchDtoUuid),
                                     JsonAPIRelationship.of("molecularAnalysisRunItem", MolecularAnalysisRunItemDto.TYPENAME, runItemDtoUuid),
                                     JsonAPIRelationship.of("storageUnitUsage", "storage-unit-usage", UUID.randomUUID().toString()))),
                     null)

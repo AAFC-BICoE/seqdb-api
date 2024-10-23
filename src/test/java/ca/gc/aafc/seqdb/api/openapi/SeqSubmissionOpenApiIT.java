@@ -20,35 +20,39 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest(
-        classes = SeqdbApiLauncher.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+  classes = SeqdbApiLauncher.class,
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @TestPropertySource(properties = "spring.config.additional-location=classpath:application-test.yml")
 @ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 public class SeqSubmissionOpenApiIT extends BaseRestAssuredTest{
-    protected SeqSubmissionOpenApiIT(){super("/api");}
-    @SneakyThrows
-    @Test
-    void seqSubmission_SpecValid() {
 
-        SeqBatchDto seqBatchDto = SeqBatchTestFixture.newSeqBatch();
-        seqBatchDto.setExperimenters(null);
-        String seqBatchDtoUuid = JsonAPITestHelper.extractId(
-                sendPost(SeqBatchDto.TYPENAME,
-                        JsonAPITestHelper.toJsonAPIMap(SeqBatchDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqBatchDto))));
+  protected SeqSubmissionOpenApiIT() {
+    super("/api");
+  }
+
+  @SneakyThrows
+  @Test
+  void seqSubmission_SpecValid() {
+
+    SeqBatchDto seqBatchDto = SeqBatchTestFixture.newSeqBatch();
+    seqBatchDto.setExperimenters(null);
+    String seqBatchDtoUuid = JsonAPITestHelper.extractId(
+      sendPost(SeqBatchDto.TYPENAME,
+        JsonAPITestHelper.toJsonAPIMap(SeqBatchDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqBatchDto))));
 
 
-        SeqSubmissionDto seqSubmissionDto = SeqSubmissionTestFixture.newSeqSubmission();
-        seqSubmissionDto.setSubmittedBy(null);
+    SeqSubmissionDto seqSubmissionDto = SeqSubmissionTestFixture.newSeqSubmission();
+    seqSubmissionDto.setSubmittedBy(null);
 
-        OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "SeqSubmission",
-                sendPost(SeqSubmissionDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(SeqSubmissionDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqSubmissionDto),
-                        JsonAPITestHelper.toRelationshipMap(
-                                List.of(JsonAPIRelationship.of("seqBatch", SeqBatchDto.TYPENAME, seqBatchDtoUuid),
-                                        JsonAPIRelationship.of("submittedBy", "person", UUID.randomUUID().toString())
-                                )),
-                        null)
-                ).extract().asString(),
-                ValidationRestrictionOptions.builder().build());
-    }
+    OpenAPI3Assertions.assertRemoteSchema(OpenAPIConstants.SEQDB_API_SPECS_URL, "SeqSubmission",
+      sendPost(SeqSubmissionDto.TYPENAME, JsonAPITestHelper.toJsonAPIMap(SeqSubmissionDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqSubmissionDto),
+        JsonAPITestHelper.toRelationshipMap(
+          List.of(
+            JsonAPIRelationship.of("submittedBy", "person", UUID.randomUUID().toString())
+          )),
+        null)
+      ).extract().asString(),
+      ValidationRestrictionOptions.builder().build());
+  }
 }

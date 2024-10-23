@@ -7,10 +7,12 @@ import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.dina.testsupport.specs.OpenAPI3Assertions;
 import ca.gc.aafc.dina.testsupport.specs.ValidationRestrictionOptions;
 import ca.gc.aafc.seqdb.api.SeqdbApiLauncher;
+import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunItemDto;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.SeqReactionDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
@@ -58,6 +60,10 @@ public class SeqReactionOpenApiIT extends BaseRestAssuredTest {
             sendPost(SeqBatchDto.TYPENAME,
                     JsonAPITestHelper.toJsonAPIMap(SeqBatchDto.TYPENAME, JsonAPITestHelper.toAttributeMap(seqBatchDto))));
 
+    MolecularAnalysisRunItemDto runItemDto = MolecularAnalysisRunItemTestFixture.newMolecularAnalysisRunItem();
+    String runItemDtoUuid = JsonAPITestHelper.extractId(
+      sendPost(MolecularAnalysisRunItemDto.TYPENAME,
+        JsonAPITestHelper.toJsonAPIMap(MolecularAnalysisRunItemDto.TYPENAME, JsonAPITestHelper.toAttributeMap(runItemDto))));
 
     SeqReactionDto seqReactionDto = SeqReactionTestFixture.newSeqReaction();
 
@@ -67,6 +73,7 @@ public class SeqReactionOpenApiIT extends BaseRestAssuredTest {
                             List.of(JsonAPIRelationship.of("seqPrimer", PcrPrimerDto.TYPENAME, primerUuid),
                                     JsonAPIRelationship.of("pcrBatchItem", PcrBatchItemDto.TYPENAME, pcrBatchItemDtoUuid),
                                     JsonAPIRelationship.of("seqBatch", SeqBatchDto.TYPENAME, seqBatchDtoUuid),
+                                    JsonAPIRelationship.of("molecularAnalysisRunItem", MolecularAnalysisRunItemDto.TYPENAME, runItemDtoUuid),
                                     JsonAPIRelationship.of("storageUnitUsage", "storage-unit-usage", UUID.randomUUID().toString()))),
                     null)
             ).extract().asString(),

@@ -54,4 +54,5 @@
   <include file="db/changelog/migrations/47-Add_SequencingFacility_to_SeqSubmission.xml"/>
   <include file="db/changelog/migrations/48-Drop_molecularsamples_table.xml"/>
   <include file="db/changelog/migrations/49-Add_MolecularAnalysisRun_concept.xml"/>
+  <include file="db/changelog/migrations/50-Update_sequence_submission_use_molecular_analysis.xml"/>
 </databaseChangeLog>

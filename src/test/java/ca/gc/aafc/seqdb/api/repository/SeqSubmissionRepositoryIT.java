@@ -2,10 +2,8 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.SeqSubmissionDto;
 import ca.gc.aafc.seqdb.api.dto.SequencingFacilityDto;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqSubmissionTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SequencingFacilityTestFixture;
 
@@ -18,16 +16,13 @@ import io.crnk.core.queryspec.QuerySpec;
 import java.util.List;
 import javax.inject.Inject;
 
-public class SeqSubmissionRepositoryIT extends BaseRepositoryTest {
+public class SeqSubmissionRepositoryIT extends BaseRepositoryTestV2 {
 
   @Inject
   private SequencingFacilityRepository sequencingFacilityRepository;
 
   @Inject
   private SeqSubmissionRepository seqSubmissionRepositoryRepository;
-
-  @Inject
-  private SeqBatchRepository seqBatchRepository;
 
   public SeqSubmissionDto setupSeqSubmission() {
 
@@ -57,11 +52,7 @@ public class SeqSubmissionRepositoryIT extends BaseRepositoryTest {
             new QuerySpec(SeqSubmissionDto.class)
     );
 
-    SeqBatchDto seqBatch = seqBatchRepository.create(SeqBatchTestFixture.newSeqBatch());
-
     found.setName("Updated name");
-    found.setSeqBatch(seqBatch);
-
     seqSubmissionRepositoryRepository.save(found);
 
     QuerySpec querySpec = new QuerySpec(SeqSubmissionDto.class);
@@ -71,7 +62,5 @@ public class SeqSubmissionRepositoryIT extends BaseRepositoryTest {
       seqSubmissionDto.getUuid(), querySpec);
 
     assertEquals("Updated name", updated.getName());
-    assertEquals(seqBatch.getUuid(), updated.getSeqBatch().getUuid());
   }
-  
 }

@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonApiResource(type = "molecular-analysis-run-item")
+@JsonApiResource(type = MolecularAnalysisRunItemDto.TYPENAME)
 @RelatedEntity(MolecularAnalysisRunItem.class)
 public class MolecularAnalysisRunItemDto {
+
+  public static final String TYPENAME = "molecular-analysis-run-item";
 
   @JsonApiId
   private UUID uuid;

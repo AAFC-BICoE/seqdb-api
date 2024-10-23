@@ -46,6 +46,10 @@ public class SeqReactionDto {
   @JsonApiRelation
   private PcrPrimerDto seqPrimer;
 
+  @ShallowReference
+  @JsonApiRelation
+  private MolecularAnalysisRunItemDto molecularAnalysisRunItem;
+
   @JsonApiExternalRelation(type = "storage-unit-usage")
   @JsonApiRelation
   private ExternalRelationDto storageUnitUsage;

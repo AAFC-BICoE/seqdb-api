@@ -70,6 +70,10 @@ public class SeqReaction implements DinaEntity {
   @JoinColumn(name = "seq_primer_id")
   private PcrPrimer seqPrimer;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "molecular_analysis_run_item_id")
+  private MolecularAnalysisRunItem molecularAnalysisRunItem;
+
   @Column(name = "storage_unit_usage")
   private UUID storageUnitUsage;
 

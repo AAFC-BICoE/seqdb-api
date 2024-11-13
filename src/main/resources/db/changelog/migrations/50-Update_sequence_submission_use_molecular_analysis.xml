@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="50-Update_sequence_submission_use_molecular_analysis" context="schema-change" author="cgendreau">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM seq_submission
+                where seq_batch_id is not null
+            </sqlCheck>
+        </preConditions>
+        <comment>Make sure all seq_submission with seq_batch_id not null rows are deleted</comment>
+
+        <dropColumn tableName="seq_submission">
+            <column name="seq_batch_id"/>
+        </dropColumn>
+
+        <addColumn tableName="seq_reaction">
+            <column name="molecular_analysis_run_item_id" type="integer">
+                <constraints foreignKeyName="fk_seq_reaction_molecular_analysis_run_item_id" references="molecular_analysis_run_item(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

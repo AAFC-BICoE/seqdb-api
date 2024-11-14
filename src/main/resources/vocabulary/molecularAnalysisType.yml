@@ -1,0 +1,23 @@
+vocabulary:
+  molecularAnalysisType:
+    - key: hrms
+      name: HRMS
+      multilingualTitle.titles:
+        - lang: en
+          title: High Resolution Mass Spectrometry (HRMS)
+        - lang: fr
+          title: Spectrométrie de masse haute résolution (HRMS)
+    - key: gcms
+      name: GCMS
+      multilingualTitle.titles:
+        - lang: en
+          title: Gas chromatography coupled to low-resolution mass spectrometry (GCMS)
+        - lang: fr
+          title: Chromatographie en phase gazeuse couplée à la spectrométrie de masse basse résolution, simple (GCMS)
+    - key: qe
+      name: QE
+      multilingualTitle.titles:
+        - lang: en
+          title: Q-Exactive ?
+        - lang: fr
+          title:

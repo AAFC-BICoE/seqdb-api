@@ -50,6 +50,12 @@ public class GenericMolecularAnalysisItem implements DinaEntity {
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
+  @Column(name = "storage_unit_usage")
+  private UUID storageUnitUsage;
+
+  @Column(name = "material_sample")
+  private UUID materialSample;
+
   // eager since we need it for group-based permission
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "generic_molecular_analysis_id")

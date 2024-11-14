@@ -23,6 +23,10 @@
             <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
+            <column name="protocol" type="uuid"/>
+            <column name="analysisType" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createTable tableName="generic_molecular_analysis_item">
@@ -36,6 +40,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamptz" defaultValueComputed="current_timestamp"/>
+
+            <column name="storage_unit_usage" type="uuid"/>
+            <column name="material_sample" type="uuid"/>
+
             <column name="generic_molecular_analysis_id" type="integer">
                 <constraints foreignKeyName="fk_generic_molecular_analysis_item_to_analysis_id" references="generic_molecular_analysis(id)"/>
             </column>

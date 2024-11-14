@@ -57,4 +57,8 @@ public class GenericMolecularAnalysis implements DinaEntity {
 
   private UUID protocol;
 
+  @NotBlank
+  @Size(max = 50)
+  private String analysisType;
+
 }

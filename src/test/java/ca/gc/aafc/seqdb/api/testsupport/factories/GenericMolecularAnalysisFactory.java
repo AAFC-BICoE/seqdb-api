@@ -12,6 +12,7 @@ public class GenericMolecularAnalysisFactory {
       .uuid(UUID.randomUUID())
       .createdBy("test user")
       .name(TestableEntityFactory.generateRandomName(10))
+      .analysisType("HRMS")
       .group("dina");
   }
 }

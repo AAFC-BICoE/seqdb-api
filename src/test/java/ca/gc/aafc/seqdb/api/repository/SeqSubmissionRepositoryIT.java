@@ -56,8 +56,6 @@ public class SeqSubmissionRepositoryIT extends BaseRepositoryTestV2 {
     seqSubmissionRepositoryRepository.save(found);
 
     QuerySpec querySpec = new QuerySpec(SeqSubmissionDto.class);
-    querySpec.setIncludedRelations(List.of(new IncludeRelationSpec(PathSpec.of("seqBatch"))));
-
     SeqSubmissionDto updated = seqSubmissionRepositoryRepository.findOne(
       seqSubmissionDto.getUuid(), querySpec);
 

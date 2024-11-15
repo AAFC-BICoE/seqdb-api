@@ -55,4 +55,6 @@
   <include file="db/changelog/migrations/48-Drop_molecularsamples_table.xml"/>
   <include file="db/changelog/migrations/49-Add_MolecularAnalysisRun_concept.xml"/>
   <include file="db/changelog/migrations/50-Update_sequence_submission_use_molecular_analysis.xml"/>
+<!--  51 placeholder-->
+  <include file="db/changelog/migrations/52-Add_type_to_MolecularAnalysisRunItem.xml"/>
 </databaseChangeLog>

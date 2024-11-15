@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,6 +51,11 @@ public class MolecularAnalysisRunItem implements DinaEntity {
   @Column(name = "created_on", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
+
+  @NotEmpty
+  @Size(max = 50)
+  @Column(name = "usage_type")
+  private String usageType;
 
   // eager since we need it for group-based permission
   @ManyToOne(fetch = FetchType.EAGER)

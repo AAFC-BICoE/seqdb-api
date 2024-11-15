@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.testsupport.factories;
 
 import java.util.UUID;
 
+import ca.gc.aafc.seqdb.api.dto.SeqReactionDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRunItem;
 
@@ -12,6 +13,7 @@ public class MolecularAnalysisRunItemFactory {
     return MolecularAnalysisRunItem.builder()
       .uuid(UUID.randomUUID())
       .createdBy("test user")
+      .usageType(SeqReactionDto.TYPENAME)
       .run(run);
   }
 }

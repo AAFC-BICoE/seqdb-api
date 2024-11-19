@@ -29,6 +29,8 @@ public class MolecularAnalysisRunItemDto {
   private String createdBy;
   private OffsetDateTime createdOn;
 
+  private String usageType;
+
   @JsonApiRelation
   private MolecularAnalysisRunDto run;
 

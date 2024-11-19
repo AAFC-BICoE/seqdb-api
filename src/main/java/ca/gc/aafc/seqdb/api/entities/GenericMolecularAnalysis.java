@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -30,8 +29,8 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "molecular_analysis_run")
-public class MolecularAnalysisRun implements DinaEntity {
+@Table(name = "generic_molecular_analysis")
+public class GenericMolecularAnalysis implements DinaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +52,13 @@ public class MolecularAnalysisRun implements DinaEntity {
   private String group;
 
   @NotBlank
-  @Size(max = 50)
+  @Size(max = 100)
   private String name;
+
+  private UUID protocol;
+
+  @NotBlank
+  @Size(max = 50)
+  private String analysisType;
 
 }

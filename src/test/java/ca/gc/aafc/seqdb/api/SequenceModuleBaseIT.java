@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api;
 
 import javax.inject.Inject;
 
+import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisService;
+import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisItemService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisResultService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunItemService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunService;
@@ -32,5 +34,10 @@ public class SequenceModuleBaseIT extends BaseIntegrationTest {
 
   @Inject
   protected MolecularAnalysisResultService molecularAnalysisResultService;
-  
+
+  @Inject
+  protected GenericMolecularAnalysisService genericMolecularAnalysisService;
+
+  @Inject
+  protected GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
 }

@@ -1,17 +1,18 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,8 +31,8 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "molecular_analysis_run")
-public class MolecularAnalysisRun implements DinaEntity {
+@Table(name = "generic_molecular_analysis_item")
+public class GenericMolecularAnalysisItem implements DinaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,11 +50,26 @@ public class MolecularAnalysisRun implements DinaEntity {
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
-  @Column(name = "_group")
-  private String group;
+  @Column(name = "storage_unit_usage")
+  private UUID storageUnitUsage;
 
-  @NotBlank
-  @Size(max = 50)
-  private String name;
+  @Column(name = "material_sample")
+  private UUID materialSample;
 
+  // eager since we need it for group-based permission
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "generic_molecular_analysis_id")
+  private GenericMolecularAnalysis genericMolecularAnalysis;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "molecular_analysis_run_item_id")
+  private MolecularAnalysisRunItem molecularAnalysisRunItem;
+
+  @Override
+  public String getGroup() {
+    if (genericMolecularAnalysis == null) {
+      return null;
+    }
+    return genericMolecularAnalysis.getGroup();
+  }
 }

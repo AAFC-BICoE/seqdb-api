@@ -1,0 +1,58 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="54-Add_metagenomics_tables" context="schema-change" author="cgendreau">
+        <createTable tableName="metagenomics_batch">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="pk_metagenomics_batch_id" />
+            </column>
+            <column name="uuid" type="uuid">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="created_by" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="_group" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamptz" defaultValueComputed="current_timestamp"/>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="protocol" type="uuid"/>
+
+            <column name="index_set_id" type="integer">
+                <constraints foreignKeyName="fk_metagenomics_index_set_id_to_indexset" references="indexsets(id)"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="metagenomics_batch_item">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="pk_metagenomics_batch_item_id" />
+            </column>
+            <column name="uuid" type="uuid">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="created_by" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamptz" defaultValueComputed="current_timestamp"/>
+
+            <column name="metagenomics_batch_id" type="integer">
+                <constraints foreignKeyName="fk_metagenomics_batch_item_to_batch_id" references="metagenomics_batch(id)"/>
+            </column>
+
+            <column name="indexi5_id" type="integer">
+                <constraints foreignKeyName="fk_metagenomics_batch_item_indexi5_to_ngsindex" references="ngsindexes(id)"/>
+            </column>
+            <column name="indexi7_id" type="integer">
+                <constraints foreignKeyName="fk_metagenomics_batch_item_indexi7_to_ngsindex" references="ngsindexes(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

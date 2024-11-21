@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisService;
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisItemService;
+import ca.gc.aafc.seqdb.api.service.MetagenomicsBatchItemService;
+import ca.gc.aafc.seqdb.api.service.MetagenomicsBatchService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisResultService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunItemService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunService;
@@ -40,4 +42,11 @@ public class SequenceModuleBaseIT extends BaseIntegrationTest {
 
   @Inject
   protected GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
+
+  @Inject
+  protected MetagenomicsBatchService metagenomicsBatchService;
+
+  @Inject
+  protected MetagenomicsBatchItemService metagenomicsBatchItemService;
+
 }

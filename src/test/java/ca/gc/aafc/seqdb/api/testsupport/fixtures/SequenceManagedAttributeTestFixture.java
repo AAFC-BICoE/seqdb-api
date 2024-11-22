@@ -23,6 +23,4 @@ public class SequenceManagedAttributeTestFixture {
     collectionManagedAttributeDto.setMultilingualDescription(MultilingualTestFixture.newMultilingualDescription());
     return collectionManagedAttributeDto;
   }
-
-
 }

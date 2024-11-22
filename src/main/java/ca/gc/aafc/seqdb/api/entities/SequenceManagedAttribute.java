@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
@@ -32,6 +33,7 @@ import ca.gc.aafc.dina.i18n.MultilingualTitle;
 @Entity(name = "managed_attribute")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NaturalIdCache
@@ -97,7 +99,7 @@ public class SequenceManagedAttribute implements ManagedAttribute, DinaEntityIde
   private ManagedAttributeComponent managedAttributeComponent;
 
   @Type(type = "string-array")
-  @Column(name ="accepted_values", columnDefinition = "text[]")
+  @Column(name = "accepted_values", columnDefinition = "text[]")
   private String[] acceptedValues;
 
   @Size(max = 50)

@@ -7,6 +7,7 @@ import ca.gc.aafc.seqdb.api.entities.SequenceManagedAttribute;
 import ca.gc.aafc.seqdb.api.testsupport.factories.SequenceManagedAttributeFactory;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class SequenceManagedAttributeServiceIT extends SequenceModuleBaseIT {
 
@@ -21,10 +22,10 @@ public class SequenceManagedAttributeServiceIT extends SequenceModuleBaseIT {
       managedAttributeService.findOne(attribute.getUuid(), SequenceManagedAttribute.class));
 
     // To enable when usage is implemented
-//    managedAttributeService.delete(attribute);
-//
-//    Assertions.assertNull(
-//      managedAttributeService.findOne(attribute.getUuid(), CollectionManagedAttribute.class));
+    managedAttributeService.delete(attribute);
+
+    assertNull(
+      managedAttributeService.findOne(attribute.getUuid(), SequenceManagedAttribute.class));
   }
 
   private static SequenceManagedAttribute newAttribute(SequenceManagedAttribute.ManagedAttributeComponent component) {

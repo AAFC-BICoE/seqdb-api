@@ -14,10 +14,11 @@ vocabulary:
           title: Illumina (NGS)
         - lang: fr
           title: Illumina (NGS)
-    - key: round_2
-      name: Round 2
+    - key: illumina_metagenomics
+      name: Illumina Metagenomics
       multilingualTitle.titles:
         - lang: en
-          title: Round 2
+          title: Illumina Metagenomics
         - lang: fr
-          title: Round 2
+          title: Illumina Metagenomics
+          

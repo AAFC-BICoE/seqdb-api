@@ -1,6 +1,7 @@
 package ca.gc.aafc.seqdb.api.dto;
 
 import ca.gc.aafc.dina.dto.RelatedEntity;
+import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.entities.MetagenomicsBatchItem;
 
 import io.crnk.core.resource.annotations.JsonApiId;
@@ -32,6 +33,9 @@ public class MetagenomicsBatchItemDto {
 
   @JsonApiRelation
   private MetagenomicsBatchDto metagenomicsBatch;
+
+  @JsonApiRelation
+  private PcrBatchItemDto pcrBatchItem;
 
   @JsonApiRelation
   private NgsIndexDto indexI5;

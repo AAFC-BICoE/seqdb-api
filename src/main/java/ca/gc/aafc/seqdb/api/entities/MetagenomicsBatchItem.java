@@ -6,6 +6,7 @@ import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
+import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -55,6 +56,10 @@ public class MetagenomicsBatchItem implements DinaEntity {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "metagenomics_batch_id")
   private MetagenomicsBatch metagenomicsBatch;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "pcr_batch_item_id")
+  private PcrBatchItem pcrBatchItem;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "indexi5_id")

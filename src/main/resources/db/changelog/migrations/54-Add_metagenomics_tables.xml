@@ -47,6 +47,10 @@
                 <constraints foreignKeyName="fk_metagenomics_batch_item_to_batch_id" references="metagenomics_batch(id)"/>
             </column>
 
+            <column name="pcr_batch_item_id" type="integer">
+                <constraints foreignKeyName="fk_metagenomics_batch_item_to_pcr_batch_item" references="pcr_batch_item(id)"/>
+            </column>
+
             <column name="indexi5_id" type="integer">
                 <constraints foreignKeyName="fk_metagenomics_batch_item_indexi5_to_ngsindex" references="ngsindexes(id)"/>
             </column>

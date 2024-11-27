@@ -29,7 +29,7 @@ public abstract class BaseIntegrationTest {
   @PersistenceContext
   protected EntityManager entityManager;
 
-  @Inject
-  protected DatabaseSupportService service;
+//  @Inject
+//  protected DatabaseSupportService service;
 
 }

@@ -54,7 +54,7 @@
                     references="pcr_batch_item(id)" />
             </column>
             <column name="molecular_analysis_run_item_id" type="integer">
-                <constraints foreignKeyName="fk_seq_reaction_molecular_analysis_run_item_id"
+                <constraints foreignKeyName="fk_metagenomics_batch_item_to_molecular_analysis_run_item_id"
                     references="molecular_analysis_run_item(id)" />
             </column>
             <column name="indexi5_id" type="integer">

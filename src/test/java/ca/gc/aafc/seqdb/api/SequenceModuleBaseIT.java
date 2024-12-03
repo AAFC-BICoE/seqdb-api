@@ -9,6 +9,7 @@ import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunItemService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunService;
 import ca.gc.aafc.seqdb.api.service.PcrBatchItemService;
 import ca.gc.aafc.seqdb.api.service.PcrBatchService;
+import ca.gc.aafc.seqdb.api.service.QualityControlService;
 import ca.gc.aafc.seqdb.api.service.SeqSubmissionService;
 import ca.gc.aafc.seqdb.api.service.SequenceManagedAttributeService;
 import ca.gc.aafc.seqdb.api.service.SequencingFacilityService;
@@ -44,5 +45,8 @@ public class SequenceModuleBaseIT extends BaseIntegrationTest {
 
   @Inject
   protected SequenceManagedAttributeService managedAttributeService;
+
+  @Inject
+  protected QualityControlService qualityControlService;
 
 }

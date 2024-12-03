@@ -60,6 +60,7 @@ public class QualityControl implements DinaEntity {
 
   @NotBlank
   @Size(max = 50)
+  @Column(name = "qc_type")
   private String qcType;
 
   @ManyToOne(fetch = FetchType.LAZY)

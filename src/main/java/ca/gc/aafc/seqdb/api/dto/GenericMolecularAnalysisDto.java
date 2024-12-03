@@ -1,9 +1,12 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import io.crnk.core.resource.annotations.JsonApiField;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
+import io.crnk.core.resource.annotations.PatchStrategy;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,5 +43,12 @@ public class GenericMolecularAnalysisDto {
   @JsonApiExternalRelation(type = "protocol")
   @JsonApiRelation
   private ExternalRelationDto protocol;
+
+  /**
+   * Map of Managed attribute key to value object.
+   */
+  @JsonApiField(patchStrategy = PatchStrategy.SET)
+  @Builder.Default
+  private Map<String, String> managedAttributes = Map.of();
 
 }

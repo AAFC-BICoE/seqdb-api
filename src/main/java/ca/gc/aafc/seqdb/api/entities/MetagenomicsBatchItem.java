@@ -62,6 +62,10 @@ public class MetagenomicsBatchItem implements DinaEntity {
   private PcrBatchItem pcrBatchItem;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "molecular_analysis_run_item_id")
+  private MolecularAnalysisRunItem molecularAnalysisRunItem;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "indexi5_id")
   private NgsIndex indexI5;
 

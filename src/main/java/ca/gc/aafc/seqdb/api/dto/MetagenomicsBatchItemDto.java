@@ -9,6 +9,9 @@ import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import org.javers.core.metamodel.annotation.ShallowReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +39,10 @@ public class MetagenomicsBatchItemDto {
 
   @JsonApiRelation
   private PcrBatchItemDto pcrBatchItem;
+
+  @ShallowReference
+  @JsonApiRelation
+  private MolecularAnalysisRunItemDto molecularAnalysisRunItem;
 
   @JsonApiRelation
   private NgsIndexDto indexI5;

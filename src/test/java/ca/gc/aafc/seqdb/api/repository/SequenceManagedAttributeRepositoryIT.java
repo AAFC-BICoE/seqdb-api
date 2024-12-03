@@ -51,4 +51,20 @@ public class SequenceManagedAttributeRepositoryIT extends BaseRepositoryTestV2 {
       SequenceManagedAttribute.ManagedAttributeComponent.GENERIC_MOLECULAR_ANALYSIS,
       result.getManagedAttributeComponent());
   }
+
+  @Test
+  @WithMockKeycloakUser(groupRole = SequenceManagedAttributeTestFixture.GROUP + ":SUPER_USER")
+  void findOneByKey_whenKeyProvided_managedAttributeFetched() {
+    SequenceManagedAttributeDto newAttribute = SequenceManagedAttributeTestFixture.newManagedAttribute();
+    newAttribute.setName("Attribute 1");
+    newAttribute.setVocabularyElementType(TypedVocabularyElement.VocabularyElementType.INTEGER);
+    newAttribute.setManagedAttributeComponent(SequenceManagedAttribute.ManagedAttributeComponent.GENERIC_MOLECULAR_ANALYSIS);
+
+    UUID newAttributeUuid = repo.create(newAttribute).getUuid();
+
+    QuerySpec querySpec = new QuerySpec(SequenceManagedAttributeDto.class);
+    SequenceManagedAttributeDto fetchedAttribute = repo.findOne("generic_molecular_analysis.attribute_1", querySpec);
+
+    assertEquals(newAttributeUuid, fetchedAttribute.getUuid());
+  }
 }

@@ -21,12 +21,12 @@ public class PcrBatchVocabularyValidator extends VocabularyBasedValidator<PcrBat
   private final List<VocabularyElementConfiguration> batchTypeVocabulary;
 
   PcrBatchVocabularyValidator(MessageSource messageSource, SequenceVocabularyConfiguration vocabularyConfiguration) {
-    super(messageSource, PcrBatch.class);
+    super(PcrBatch.class, messageSource);
     batchTypeVocabulary = vocabularyConfiguration.getVocabularyByKey(SequenceVocabularyConfiguration.PCR_BATCH_TYPE_VOCAB_KEY);
   }
 
   @Override
-  protected void validateVocabularyBasedAttribute(PcrBatch target, Errors errors) {
+  public void validateTarget(PcrBatch target, Errors errors) {
     if (StringUtils.isBlank(target.getBatchType())) {
       return;
     }

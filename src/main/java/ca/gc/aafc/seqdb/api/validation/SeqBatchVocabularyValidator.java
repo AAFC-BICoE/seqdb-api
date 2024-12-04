@@ -21,12 +21,12 @@ public class SeqBatchVocabularyValidator extends VocabularyBasedValidator<SeqBat
   private final List<VocabularyElementConfiguration> sequencingTypeVocabulary;
 
   SeqBatchVocabularyValidator(MessageSource messageSource, SequenceVocabularyConfiguration vocabularyConfiguration) {
-    super(messageSource, SeqBatch.class);
+    super(SeqBatch.class, messageSource);
     sequencingTypeVocabulary = vocabularyConfiguration.getVocabularyByKey(SequenceVocabularyConfiguration.SEQUENCING_TYPE_VOCAB_KEY);
   }
 
   @Override
-  protected void validateVocabularyBasedAttribute(SeqBatch target, Errors errors) {
+  public void validateTarget(SeqBatch target, Errors errors) {
     if (StringUtils.isBlank(target.getSequencingType())) {
       return;
     }

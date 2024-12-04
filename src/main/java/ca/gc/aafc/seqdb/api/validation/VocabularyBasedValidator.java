@@ -1,41 +1,23 @@
 package ca.gc.aafc.seqdb.api.validation;
 
+import org.springframework.context.MessageSource;
+import org.springframework.validation.Errors;
+
+import ca.gc.aafc.dina.validation.DinaBaseValidator;
+import ca.gc.aafc.dina.vocabulary.VocabularyElementConfiguration;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
-
-import ca.gc.aafc.dina.vocabulary.VocabularyElementConfiguration;
 
 /**
  * Move to dina-base
  */
-abstract class VocabularyBasedValidator <T> implements Validator {
+abstract class VocabularyBasedValidator <T> extends DinaBaseValidator<T> {
 
   public static final String VALUE_NOT_IN_VOCABULARY = "validation.constraint.violation.notInVocabulary";
 
-  private final MessageSource messageSource;
-  private final Class<T> supportedClass;
-
-  VocabularyBasedValidator(MessageSource messageSource, Class<T> supportedClass) {
-    this.messageSource = messageSource;
-    this.supportedClass = supportedClass;
-  }
-
-  @Override
-  public boolean supports(Class<?> clazz) {
-    return supportedClass.isAssignableFrom(clazz);
-  }
-
-  @Override
-  public void validate(Object target, Errors errors) {
-    if (!supports(target.getClass())) {
-      throw new IllegalArgumentException("VocabularyBasedValidator not supported for class " + target.getClass());
-    }
-    validateVocabularyBasedAttribute(supportedClass.cast(target), errors);
+  VocabularyBasedValidator(Class<T> supportedClass, MessageSource messageSource) {
+    super(supportedClass, messageSource);
   }
 
   /**
@@ -67,14 +49,4 @@ abstract class VocabularyBasedValidator <T> implements Validator {
   protected Optional<VocabularyElementConfiguration> findInVocabulary(String value, List<VocabularyElementConfiguration> vocabularyElements) {
     return vocabularyElements.stream().filter(o -> o.getKey().equalsIgnoreCase(value)).findFirst();
   }
-
-  protected abstract void validateVocabularyBasedAttribute(T target, Errors errors);
-
-  protected String getMessage(String key) {
-    return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
-  }
-  protected String getMessage(String key, Object... messageArgs) {
-    return messageSource.getMessage(key, messageArgs, LocaleContextHolder.getLocale());
-  }
-
 }

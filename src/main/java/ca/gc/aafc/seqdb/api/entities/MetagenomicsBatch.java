@@ -1,13 +1,22 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.NaturalId;
+
+import ca.gc.aafc.dina.entity.DinaEntity;
+import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
+
 import java.time.OffsetDateTime;
-import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,21 +27,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
-
-import ca.gc.aafc.dina.entity.DinaEntity;
-
 @Getter
 @Entity
 @Builder
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "generic_molecular_analysis")
-public class GenericMolecularAnalysis implements DinaEntity {
+@Table(name = "metagenomics_batch")
+public class MetagenomicsBatch implements DinaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,14 +61,8 @@ public class GenericMolecularAnalysis implements DinaEntity {
 
   private UUID protocol;
 
-  @NotBlank
-  @Size(max = 50)
-  private String analysisType;
-
-  @Type(type = "jsonb")
-  @NotNull
-  @Builder.Default
-  @Column(name = "managed_attributes")
-  private Map<String, String> managedAttributes = Map.of();
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "index_set_id")
+  private IndexSet indexSet;
 
 }

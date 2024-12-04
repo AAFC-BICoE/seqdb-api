@@ -4,12 +4,16 @@ import javax.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisService;
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisItemService;
+import ca.gc.aafc.seqdb.api.service.MetagenomicsBatchItemService;
+import ca.gc.aafc.seqdb.api.service.MetagenomicsBatchService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisResultService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunItemService;
 import ca.gc.aafc.seqdb.api.service.MolecularAnalysisRunService;
 import ca.gc.aafc.seqdb.api.service.PcrBatchItemService;
 import ca.gc.aafc.seqdb.api.service.PcrBatchService;
+import ca.gc.aafc.seqdb.api.service.QualityControlService;
 import ca.gc.aafc.seqdb.api.service.SeqSubmissionService;
+import ca.gc.aafc.seqdb.api.service.SequenceManagedAttributeService;
 import ca.gc.aafc.seqdb.api.service.SequencingFacilityService;
 
 public class SequenceModuleBaseIT extends BaseIntegrationTest {
@@ -40,4 +44,17 @@ public class SequenceModuleBaseIT extends BaseIntegrationTest {
 
   @Inject
   protected GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
+
+  @Inject
+  protected MetagenomicsBatchService metagenomicsBatchService;
+
+  @Inject
+  protected MetagenomicsBatchItemService metagenomicsBatchItemService;
+
+  @Inject
+  protected SequenceManagedAttributeService managedAttributeService;
+
+  @Inject
+  protected QualityControlService qualityControlService;
+
 }

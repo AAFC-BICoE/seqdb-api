@@ -16,6 +16,7 @@ import java.util.Map;
 @PropertySource(value = "classpath:vocabulary/pcrBatchType.yml", factory = YamlPropertyLoaderFactory.class)
 @PropertySource(value = "classpath:vocabulary/sequencingType.yml", factory = YamlPropertyLoaderFactory.class)
 @PropertySource(value = "classpath:vocabulary/molecularAnalysisType.yml", factory = YamlPropertyLoaderFactory.class)
+@PropertySource(value = "classpath:vocabulary/qualityControlType.yml", factory = YamlPropertyLoaderFactory.class)
 @ConfigurationProperties
 @Validated
 public class SequenceVocabularyConfiguration extends VocabularyConfiguration<VocabularyElementConfiguration> {
@@ -23,6 +24,7 @@ public class SequenceVocabularyConfiguration extends VocabularyConfiguration<Voc
   public static final String PCR_BATCH_TYPE_VOCAB_KEY = "pcrBatchType";
   public static final String SEQUENCING_TYPE_VOCAB_KEY = "sequencingType";
   public static final String MOLECULAR_ANALYSIS_TYPE_VOCAB_KEY = "molecularAnalysisType";
+  public static final String QUALITY_CONTROL_TYPE_VOCAB_KEY = "qualityControlType";
 
   public SequenceVocabularyConfiguration(Map<String, List<VocabularyElementConfiguration>> vocabulary) {
     super(vocabulary);

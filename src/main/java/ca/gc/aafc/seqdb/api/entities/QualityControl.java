@@ -1,13 +1,15 @@
 package ca.gc.aafc.seqdb.api.entities;
 
 import java.time.OffsetDateTime;
-import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,7 +23,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 
@@ -31,8 +32,8 @@ import ca.gc.aafc.dina.entity.DinaEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "generic_molecular_analysis")
-public class GenericMolecularAnalysis implements DinaEntity {
+@Table(name = "quality_control")
+public class QualityControl implements DinaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,16 +58,13 @@ public class GenericMolecularAnalysis implements DinaEntity {
   @Size(max = 100)
   private String name;
 
-  private UUID protocol;
-
   @NotBlank
   @Size(max = 50)
-  private String analysisType;
+  @Column(name = "qc_type")
+  private String qcType;
 
-  @Type(type = "jsonb")
-  @NotNull
-  @Builder.Default
-  @Column(name = "managed_attributes")
-  private Map<String, String> managedAttributes = Map.of();
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "molecular_analysis_run_item_id")
+  private MolecularAnalysisRunItem molecularAnalysisRunItem;
 
 }

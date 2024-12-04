@@ -8,7 +8,7 @@ public class QualityControlFactory {
   public static QualityControl.QualityControlBuilder newQualityControl() {
     return QualityControl.builder()
       .name(TestableEntityFactory.generateRandomName(7))
-      .qcType("standard")
+      .qcType("reserpine_standard")
       .uuid(UUIDHelper.generateUUIDv7())
       .group("dina")
       .createdBy("test user");

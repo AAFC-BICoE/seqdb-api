@@ -11,7 +11,7 @@ public class QualityControlTestFixture {
     return QualityControlDto.builder()
       .group(GROUP)
       .name(TestableEntityFactory.generateRandomName(11))
-      .qcType("standard")
+      .qcType("reserpine_standard")
       .createdBy("test-user")
       .build();
   }

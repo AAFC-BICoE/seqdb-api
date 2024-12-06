@@ -8,9 +8,7 @@
     <changeSet id="58-Add_name_to_MolecularAnalysisRunItem" context="schema-change"
         author="phanm">
         <addColumn tableName="molecular_analysis_run_item">
-            <column name="name" type="VARCHAR(50)">
-                <constraints nullable="false" />
-            </column>
+            <column name="name" type="VARCHAR(50)"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -57,7 +57,6 @@ public class MolecularAnalysisRunItem implements DinaEntity {
   @Column(name = "usage_type")
   private String usageType;
 
-  @NotBlank
   @Size(max = 50)
   private String name;
 

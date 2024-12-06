@@ -9,6 +9,7 @@ public class MolecularAnalysisRunItemTestFixture {
     return MolecularAnalysisRunItemDto.builder()
       .createdBy("test-user")
       .usageType(SeqReactionDto.TYPENAME)
+      .name("test-name")
       .build();
   }
 }

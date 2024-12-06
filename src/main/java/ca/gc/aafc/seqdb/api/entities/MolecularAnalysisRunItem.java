@@ -57,6 +57,10 @@ public class MolecularAnalysisRunItem implements DinaEntity {
   @Column(name = "usage_type")
   private String usageType;
 
+  @NotBlank
+  @Size(max = 50)
+  private String name;
+
   // eager since we need it for group-based permission
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "molecular_analysis_run_id")

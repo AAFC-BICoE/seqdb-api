@@ -14,6 +14,7 @@ public class MolecularAnalysisRunItemFactory {
       .uuid(UUID.randomUUID())
       .createdBy("test user")
       .usageType(SeqReactionDto.TYPENAME)
+      .name("test-name")
       .run(run);
   }
 }

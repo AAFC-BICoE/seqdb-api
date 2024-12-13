@@ -1,8 +1,26 @@
 # seqdb-api
 
-Sequence management services managing laboratory workflows leading to DNA sequences.
+
+##  Description (en)
+
+Molecular Analysis services - Supported Workflows
+ * Sanger
+ * NGS - Whole Genome
+ * Metagenomics
+ * Generic workflow
 
 seqdb-api is an implementation of the Sequence Module for the [DINA project](https://www.dina-project.net/).
+
+## Description (fr)
+
+Services d'analyse moléculaire - Flux de travail supportés
+
+* Sanger
+* NGS - Génome entier
+* Métagénomique
+* Flux de travail générique
+
+seqdb-api est une implémentation du module de sequence pour le [DINA project](https://www.dina-project.net/) (anglais seulement).
 
 ## Required
 

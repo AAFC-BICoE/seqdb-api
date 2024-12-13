@@ -31,6 +31,8 @@ public class MolecularAnalysisRunItemDto {
 
   private String usageType;
 
+  private String name;
+
   @JsonApiRelation
   private MolecularAnalysisRunDto run;
 

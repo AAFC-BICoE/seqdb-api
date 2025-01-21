@@ -11,7 +11,11 @@ import ca.gc.aafc.dina.filter.FilterExpression;
 import ca.gc.aafc.dina.filter.SimpleFilterHandlerV2;
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.RunSummaryDto;
+import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysisItem;
+import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
+import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRunItem;
+
 import lombok.NonNull;
 
 import java.util.HashMap;
@@ -36,32 +40,49 @@ public class RunSummaryService {
     this.genericMolecularAnalysisItemService = genericMolecularAnalysisItemService;
   }
 
-  public RunSummaryDto findSummary(String materialSampleId) {
+  public List<RunSummaryDto> findSummary(FilterExpression filterExpression) {
 
-    Set<String> includes = Set.of("genericMolecularAnalysis");
-    FilterComponent fc = new FilterExpression("materialSample", Ops.EQ, materialSampleId);
+    Set<String> includes = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem");
     List<GenericMolecularAnalysisItem> entities = genericMolecularAnalysisItemService.findAll(
       GenericMolecularAnalysisItem.class,
       (criteriaBuilder, root, em) -> {
         Predicate restriction =
           SimpleFilterHandlerV2.getRestriction(root, criteriaBuilder, rsqlArgumentParser::parse,
-            em.getMetamodel(), List.of(fc));
+            em.getMetamodel(), List.of(filterExpression));
         return new Predicate[] {restriction};
       },
       (cb, root) -> List.of(), 0, 100, includes, includes);
 
 
-    Map<UUID, RunSummaryDto.MolecularAnalysisRunSummary> uniqueGenericMolecularAnalysis =
-      new HashMap<>();
+    // Collect all GenericMolecularAnalysis
+    Map<UUID, RunSummaryDto.RunSummaryDtoBuilder> uniqueGenericMolecularAnalysisRun = new HashMap<>();
     for (GenericMolecularAnalysisItem item : entities) {
-      uniqueGenericMolecularAnalysis.putIfAbsent(item.getGenericMolecularAnalysis().getUuid(),
-        new RunSummaryDto.MolecularAnalysisRunSummary(item.getGenericMolecularAnalysis().getUuid(),
-          item.getGenericMolecularAnalysis().getName(), List.of()));
+      // start with the MolecularAnalysisRun
+      MolecularAnalysisRun molecularAnalysisRun = item.getMolecularAnalysisRunItem().getRun();
+      var builder = uniqueGenericMolecularAnalysisRun.computeIfAbsent(molecularAnalysisRun.getUuid(), (u)-> initBuilder(molecularAnalysisRun));
+      builder.item(createRunSummaryItem(item.getMolecularAnalysisRunItem(), item, item.getGenericMolecularAnalysis()));
     }
 
+    return uniqueGenericMolecularAnalysisRun.values().stream().map(
+      RunSummaryDto.RunSummaryDtoBuilder::build).toList();
+  }
+
+  private static RunSummaryDto.RunSummaryDtoBuilder initBuilder(MolecularAnalysisRun molecularAnalysisRun) {
     return RunSummaryDto.builder()
-      .id(materialSampleId)
-      .molecularAnalysisRunSummaries(uniqueGenericMolecularAnalysis.values())
-      .build();
+      .id(molecularAnalysisRun.getUuid())
+      .name(molecularAnalysisRun.getName());
+  }
+
+  private static RunSummaryDto.RunSummaryItem createRunSummaryItem(
+    MolecularAnalysisRunItem molecularAnalysisRunItem,
+    GenericMolecularAnalysisItem genericMolecularAnalysisItem,
+    GenericMolecularAnalysis genericMolecularAnalysis) {
+
+    return new RunSummaryDto.RunSummaryItem(molecularAnalysisRunItem.getUuid(),
+      new RunSummaryDto.MolecularAnalysisResultSummary(
+        molecularAnalysisRunItem.getResult().getUuid(), ""),
+      new RunSummaryDto.GenericMolecularAnalysisItemSummary(genericMolecularAnalysisItem.getUuid(),
+        new RunSummaryDto.GenericMolecularAnalysisSummary(genericMolecularAnalysis.getUuid(),
+          genericMolecularAnalysis.getName(), genericMolecularAnalysis.getAnalysisType())));
   }
 }

@@ -12,6 +12,7 @@ import ca.gc.aafc.dina.filter.SimpleFilterHandlerV2;
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.RunSummaryDto;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysisItem;
+import lombok.NonNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +24,16 @@ import javax.persistence.criteria.Predicate;
 @Service
 public class RunSummaryService {
 
-  private GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
+  private final GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
   private final ArgumentParser rsqlArgumentParser = new DinaFilterArgumentParser();
   private final BaseDAO baseDAO;
 
-  public RunSummaryService(BaseDAO baseDAO,
-                           GenericMolecularAnalysisItemService genericMolecularAnalysisItemService) {
+  public RunSummaryService(
+      BaseDAO baseDAO,
+      @NonNull GenericMolecularAnalysisItemService genericMolecularAnalysisItemService
+  ) {
     this.baseDAO = baseDAO;
+    this.genericMolecularAnalysisItemService = genericMolecularAnalysisItemService;
   }
 
   public RunSummaryDto findSummary(String materialSampleId) {
@@ -56,6 +60,7 @@ public class RunSummaryService {
     }
 
     return RunSummaryDto.builder()
+      .id(materialSampleId)
       .molecularAnalysisRunSummaries(uniqueGenericMolecularAnalysis.values())
       .build();
   }

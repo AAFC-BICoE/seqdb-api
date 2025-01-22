@@ -42,7 +42,9 @@ public class RunSummaryService {
 
   public List<RunSummaryDto> findSummary(FilterExpression filterExpression) {
 
-    Set<String> includes = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem", "molecularAnalysisRunItem.result");
+    Set<String> includes = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem");
+    Set<String> relationships = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem",
+        "molecularAnalysisRunItem.result");
     List<GenericMolecularAnalysisItem> entities = genericMolecularAnalysisItemService.findAll(
       GenericMolecularAnalysisItem.class,
       (criteriaBuilder, root, em) -> {
@@ -51,7 +53,7 @@ public class RunSummaryService {
             em.getMetamodel(), List.of(filterExpression));
         return new Predicate[] {restriction};
       },
-      (cb, root) -> List.of(), 0, 100, includes, includes);
+      (cb, root) -> List.of(), 0, 100, includes, relationships);
 
     // Collect all GenericMolecularAnalysis
     Map<UUID, RunSummaryDto.RunSummaryDtoBuilder> uniqueGenericMolecularAnalysisRun = new HashMap<>();

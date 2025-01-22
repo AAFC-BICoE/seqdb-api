@@ -44,7 +44,7 @@ public class RunSummaryRepository {
       return ResponseEntity.badRequest().build();
     }
     FilterExpression filterExpression = queryComponents.getFilterExpression().get();
-    if (!"".equals(filterExpression.attribute())) {
+    if ("".equals(filterExpression.attribute())) {
       return ResponseEntity.badRequest().build();
     }
 

@@ -38,7 +38,7 @@ public class RunSummaryDto {
   }
 
 
-  public record GenericMolecularAnalysisItemSummary(UUID uuid, GenericMolecularAnalysisSummary genericMolecularAnalysisSummary) {
+  public record GenericMolecularAnalysisItemSummary(UUID uuid, String name, GenericMolecularAnalysisSummary genericMolecularAnalysisSummary) {
   }
 
   public record GenericMolecularAnalysisSummary(UUID uuid, String name, String analysisType) {

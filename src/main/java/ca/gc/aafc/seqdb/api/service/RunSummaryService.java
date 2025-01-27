@@ -3,20 +3,15 @@ package ca.gc.aafc.seqdb.api.service;
 import org.springframework.stereotype.Service;
 
 import com.github.tennaito.rsql.misc.ArgumentParser;
-import com.querydsl.core.types.Ops;
 
 import ca.gc.aafc.dina.filter.DinaFilterArgumentParser;
-import ca.gc.aafc.dina.filter.FilterComponent;
 import ca.gc.aafc.dina.filter.FilterExpression;
 import ca.gc.aafc.dina.filter.SimpleFilterHandlerV2;
-import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.seqdb.api.dto.RunSummaryDto;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysisItem;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRunItem;
-
-import lombok.NonNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,48 +19,60 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.criteria.Predicate;
+import lombok.NonNull;
 
 @Service
 public class RunSummaryService {
 
-  private final GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
-  private final ArgumentParser rsqlArgumentParser = new DinaFilterArgumentParser();
-  private final BaseDAO baseDAO;
+  private static final Set<String> RELATIONSHIPS_TO_LOAD = Set.of(
+    "genericMolecularAnalysis", "molecularAnalysisRunItem", "molecularAnalysisRunItem.result");
+  private static final ArgumentParser RSQL_ARGUMENT_PARSER = new DinaFilterArgumentParser();
 
-  public RunSummaryService(
-      BaseDAO baseDAO,
-      @NonNull GenericMolecularAnalysisItemService genericMolecularAnalysisItemService
-  ) {
-    this.baseDAO = baseDAO;
+  private final GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
+
+  public RunSummaryService(@NonNull GenericMolecularAnalysisItemService genericMolecularAnalysisItemService) {
     this.genericMolecularAnalysisItemService = genericMolecularAnalysisItemService;
   }
 
   public List<RunSummaryDto> findSummary(FilterExpression filterExpression) {
 
-    Set<String> includes = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem");
-    Set<String> relationships = Set.of("genericMolecularAnalysis", "molecularAnalysisRunItem",
-        "molecularAnalysisRunItem.result");
     List<GenericMolecularAnalysisItem> entities = genericMolecularAnalysisItemService.findAll(
       GenericMolecularAnalysisItem.class,
       (criteriaBuilder, root, em) -> {
         Predicate restriction =
-          SimpleFilterHandlerV2.getRestriction(root, criteriaBuilder, rsqlArgumentParser::parse,
+          SimpleFilterHandlerV2.getRestriction(root, criteriaBuilder, RSQL_ARGUMENT_PARSER::parse,
             em.getMetamodel(), List.of(filterExpression));
         return new Predicate[] {restriction};
       },
-      (cb, root) -> List.of(), 0, 100, includes, relationships);
+      (cb, root) -> List.of(), 0, 100, Set.of(), RELATIONSHIPS_TO_LOAD);
 
     // Collect all GenericMolecularAnalysis
-    Map<UUID, RunSummaryDto.RunSummaryDtoBuilder> uniqueGenericMolecularAnalysisRun = new HashMap<>();
+    Map<UUID, RunSummaryDto.RunSummaryDtoBuilder> uniqueGenericMolecularAnalysisRun = new HashMap<>(entities.size());
     for (GenericMolecularAnalysisItem item : entities) {
       // start with the MolecularAnalysisRun
-      MolecularAnalysisRun molecularAnalysisRun = item.getMolecularAnalysisRunItem().getRun();
-      var builder = uniqueGenericMolecularAnalysisRun.computeIfAbsent(molecularAnalysisRun.getUuid(), (u)-> initBuilder(molecularAnalysisRun));
-      builder.item(createRunSummaryItem(item.getMolecularAnalysisRunItem(), item, item.getGenericMolecularAnalysis()));
+      if (hasAnalysisRunItemAndRun(item)) {
+        MolecularAnalysisRun molecularAnalysisRun = item.getMolecularAnalysisRunItem().getRun();
+        var builder =
+          uniqueGenericMolecularAnalysisRun.computeIfAbsent(molecularAnalysisRun.getUuid(),
+            (u) -> initBuilder(molecularAnalysisRun));
+        builder.item(createRunSummaryItem(item.getMolecularAnalysisRunItem(), item,
+          item.getGenericMolecularAnalysis()));
+      }
     }
 
     return uniqueGenericMolecularAnalysisRun.values().stream().map(
       RunSummaryDto.RunSummaryDtoBuilder::build).toList();
+  }
+
+  /**
+   * Make sure the {@link GenericMolecularAnalysisItem} has a {@link MolecularAnalysisRunItem}
+   * and an associated {@link MolecularAnalysisRun}
+   * @param gmari
+   * @return
+   */
+  private static boolean hasAnalysisRunItemAndRun(GenericMolecularAnalysisItem gmari) {
+    return gmari.getMolecularAnalysisRunItem() != null &&
+      gmari.getMolecularAnalysisRunItem().getRun() != null;
   }
 
   private static RunSummaryDto.RunSummaryDtoBuilder initBuilder(MolecularAnalysisRun molecularAnalysisRun) {

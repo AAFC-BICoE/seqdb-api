@@ -10,12 +10,14 @@ import ca.gc.aafc.dina.filter.SimpleFilterHandlerV2;
 import ca.gc.aafc.seqdb.api.dto.RunSummaryDto;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysisItem;
+import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisResult;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRunItem;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.criteria.Predicate;
@@ -86,9 +88,14 @@ public class RunSummaryService {
     GenericMolecularAnalysisItem genericMolecularAnalysisItem,
     GenericMolecularAnalysis genericMolecularAnalysis) {
 
+    UUID resultUuid = Optional.ofNullable(molecularAnalysisRunItem)
+      .map(MolecularAnalysisRunItem::getResult)
+      .map(MolecularAnalysisResult::getUuid)
+      .orElse(null);
+
     return new RunSummaryDto.RunSummaryItem(molecularAnalysisRunItem.getUuid(),
       new RunSummaryDto.MolecularAnalysisResultSummary(
-        molecularAnalysisRunItem.getResult().getUuid(), ""),
+        resultUuid, ""),
       new RunSummaryDto.GenericMolecularAnalysisItemSummary(genericMolecularAnalysisItem.getUuid(),
         molecularAnalysisRunItem.getName(),
         new RunSummaryDto.GenericMolecularAnalysisSummary(genericMolecularAnalysis.getUuid(),

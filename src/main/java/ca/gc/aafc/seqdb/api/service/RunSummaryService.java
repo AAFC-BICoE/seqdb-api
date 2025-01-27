@@ -54,7 +54,7 @@ public class RunSummaryService {
         MolecularAnalysisRun molecularAnalysisRun = item.getMolecularAnalysisRunItem().getRun();
         var builder =
           uniqueGenericMolecularAnalysisRun.computeIfAbsent(molecularAnalysisRun.getUuid(),
-            (u) -> initBuilder(molecularAnalysisRun));
+            u -> initBuilder(molecularAnalysisRun));
         builder.item(createRunSummaryItem(item.getMolecularAnalysisRunItem(), item,
           item.getGenericMolecularAnalysis()));
       }

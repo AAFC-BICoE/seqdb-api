@@ -2,7 +2,6 @@ package ca.gc.aafc.seqdb.api.validation;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -101,10 +100,5 @@ public class SequenceManagedAttributeValueValidator extends ManagedAttributeValu
     public Object getValue() {
       return managedAttributeComponent;
     }
-  }
-
-  // to be replaced by dina-base whne 0.132 will be released
-  private String getMessageForKey(String key, Object... objects) {
-    return messageSource.getMessage(key, objects, LocaleContextHolder.getLocale());
   }
 }

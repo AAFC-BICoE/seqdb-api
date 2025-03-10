@@ -27,6 +27,12 @@ crnk:
 # We shouldn't get "Request header is too large" errors:
 server.max-http-header-size: 10MB
 
+rabbitmq:
+  queue: dina.search.queue
+  username: guest
+  password: guest
+  host: ${RABBITMQ_HOSTNAME:localhost}
+
 keycloak:
   enabled: false
   realm: dina
@@ -49,8 +55,10 @@ logging:
 dina:
   auditing:
     enabled: true
+  messaging:
+    isProducer: false
+
 javers:
   packagesToScan: ca.gc.aafc.seqdb.api
   # Don't let Javers create its tables; let Liquibase create them:
   sqlSchemaManagementEnabled: false
-

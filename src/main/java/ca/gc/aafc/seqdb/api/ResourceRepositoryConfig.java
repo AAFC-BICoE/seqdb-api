@@ -4,10 +4,14 @@ import io.crnk.core.engine.registry.ResourceRegistry;
 import javax.inject.Inject;
 
 import ca.gc.aafc.dina.DinaBaseApiAutoConfiguration;
+import ca.gc.aafc.dina.messaging.producer.DocumentOperationNotificationMessageProducer;
+import ca.gc.aafc.dina.messaging.producer.LogBasedMessageProducer;
 import ca.gc.aafc.seqdb.api.dto.SequenceManagedAttributeDto;
 import ca.gc.aafc.seqdb.api.util.ManagedAttributeIdMapper;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,5 +30,18 @@ public class ResourceRepositoryConfig {
 
     resourceInfo.setIdStringMapper(
       new ManagedAttributeIdMapper(resourceInfo.getIdStringMapper()));
+  }
+
+  /**
+   * Provides a fallback MessageProducer when messaging.isProducer is false.
+   */
+  @Configuration
+  public static class FallbackMessageProducer {
+
+    @Bean
+    @ConditionalOnProperty(name = "dina.messaging.isProducer", havingValue = "false")
+    public DocumentOperationNotificationMessageProducer init() {
+      return new LogBasedMessageProducer();
+    }
   }
 }

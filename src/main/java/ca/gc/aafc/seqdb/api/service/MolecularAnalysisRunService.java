@@ -1,10 +1,11 @@
 package ca.gc.aafc.seqdb.api.service;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
+import ca.gc.aafc.dina.messaging.DinaEventPublisher;
+import ca.gc.aafc.dina.messaging.EntityChanged;
 import ca.gc.aafc.dina.service.MessageProducingService;
 import ca.gc.aafc.seqdb.api.dto.RunSummaryDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
@@ -21,7 +22,7 @@ public class MolecularAnalysisRunService extends MessageProducingService<Molecul
   public MolecularAnalysisRunService(
     @NonNull BaseDAO baseDAO,
     @NonNull SmartValidator sv,
-    ApplicationEventPublisher eventPublisher) {
+    DinaEventPublisher<EntityChanged> eventPublisher) {
     super(baseDAO, sv, MESSAGE_TYPENAME, eventPublisher);
   }
 

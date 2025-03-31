@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
 //Restricted to repository package so it won't affect tests with bean mocking/overriding.
@@ -42,6 +43,14 @@ public class ResourceRepositoryConfig {
     @ConditionalOnProperty(name = "dina.messaging.isProducer", havingValue = "false")
     public DocumentOperationNotificationMessageProducer init() {
       return new LogBasedMessageProducer();
+    }
+
+    @Bean(name = "event-accumulator-task-scheduler")
+    public ThreadPoolTaskScheduler eventAccumulatorTaskScheduler() {
+      ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+      scheduler.setPoolSize(1);
+      scheduler.setThreadNamePrefix("eventAccumulatorTaskScheduler-");
+      return scheduler;
     }
   }
 }

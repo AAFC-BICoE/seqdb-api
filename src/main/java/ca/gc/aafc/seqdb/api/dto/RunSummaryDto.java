@@ -23,6 +23,7 @@ public class RunSummaryDto {
 
   public static final String TYPENAME = "run-summary";
 
+  // MolecularAnalysisRun uuid
   @JsonApiId
   private UUID id;
 

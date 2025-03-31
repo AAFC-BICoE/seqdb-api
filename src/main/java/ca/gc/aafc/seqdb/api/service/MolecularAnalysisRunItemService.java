@@ -36,7 +36,7 @@ public class MolecularAnalysisRunItemService extends MessageProducingService<Mol
   protected void triggerEvent(MolecularAnalysisRunItem persisted, DocumentOperationType op) {
     if (persisted.getRun() != null) {
       EntityChanged event = EntityChanged.builder()
-        .op(DocumentOperationType.REFRESH)
+        .op(DocumentOperationType.UPDATE)
         .resourceType(MESSAGE_TYPENAME)
         .uuid(persisted.getRun().getUuid())
         .build();

@@ -27,7 +27,7 @@
     <!-- Override SpringBoot version (3.6) to avoid NoClassDefFoundError: org/apache/maven/doxia/siterenderer/DocumentContent -->
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 
-    <dependency.check.version>8.4.3</dependency.check.version>
+    <dependency.check.version>12.1.0</dependency.check.version>
     <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
     <maven-checkstyle-plugin.version>3.4.0</maven-checkstyle-plugin.version>
@@ -143,6 +143,7 @@
           <suppressionFiles>
             <suppressionFile>owasp-suppression.xml</suppressionFile>
           </suppressionFiles>
+          <nvdApiServerId>nvd</nvdApiServerId>
         </configuration>
       </plugin>
       <plugin>

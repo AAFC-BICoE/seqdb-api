@@ -59,7 +59,7 @@ public class SeqSubmission implements DinaEntity {
   private String group;
 
   @NotBlank
-  @Size(max = 50)
+  @Size(max = 150)
   private String name;
 
   @ManyToOne(fetch = FetchType.LAZY)

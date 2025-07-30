@@ -40,8 +40,8 @@ public class RunSummaryService {
       GenericMolecularAnalysisItem.class,
       (criteriaBuilder, root, em) -> {
         Predicate restriction =
-          SimpleFilterHandlerV2.getRestriction(root, criteriaBuilder, RSQL_ARGUMENT_PARSER::parse,
-            em.getMetamodel(), List.of(filterExpression));
+          SimpleFilterHandlerV2.createPredicate(root, criteriaBuilder, RSQL_ARGUMENT_PARSER::parse,
+            em.getMetamodel(), filterExpression);
         return new Predicate[] {restriction};
       },
       (cb, root) -> List.of(), 0, 100, Set.of(), RELATIONSHIPS_TO_LOAD);

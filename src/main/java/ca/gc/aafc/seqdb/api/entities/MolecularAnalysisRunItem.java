@@ -57,7 +57,7 @@ public class MolecularAnalysisRunItem implements DinaEntity {
   @Column(name = "usage_type")
   private String usageType;
 
-  @Size(max = 50)
+  @Size(max = 150)
   private String name;
 
   // eager since we need it for group-based permission

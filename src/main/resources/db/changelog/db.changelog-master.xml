@@ -64,4 +64,5 @@
   <include file="db/changelog/migrations/57-Add_quality_control_table.xml"/>
   <include file="db/changelog/migrations/58-Add_name_to_MolecularAnalysisRunItem.xml"/>
   <include file="db/changelog/migrations/59-Increase_name_length_seq_submission.xml"/>
+  <include file="db/changelog/migrations/60-Increase_name_length_molecular_analysis_run_item.xml"/>
 </databaseChangeLog>

@@ -57,6 +57,7 @@ dina:
     enabled: true
   messaging:
     isProducer: false
+  apiPrefix: /api
 
 javers:
   packagesToScan: ca.gc.aafc.seqdb.api

@@ -46,14 +46,15 @@ public class MolecularAnalysisResultService extends MessageProducingService<Mole
     // load all MolecularAnalysisRunItem where the result has the provided uuid
     return molecularAnalysisRunItemService.findAll(MolecularAnalysisRunItem.class,
       (criteriaBuilder, root, em) -> {
-        CriteriaQuery<MolecularAnalysisRunItem> cq = criteriaBuilder.createQuery(MolecularAnalysisRunItem.class);
-        Join<MolecularAnalysisRunItem,MolecularAnalysisResult>
+        CriteriaQuery<MolecularAnalysisRunItem> cq =
+          criteriaBuilder.createQuery(MolecularAnalysisRunItem.class);
+        Join<MolecularAnalysisRunItem, MolecularAnalysisResult>
           joinMolecularAnalysisResult = root.join("result", JoinType.INNER);
 
         return new Predicate[] {cq.where(
           criteriaBuilder.equal(joinMolecularAnalysisResult.get("uuid"),
             resultUuid)).getRestriction()};
-    }, null, 0, 100, Set.of(), Set.of());
+      }, null, 0, 100, Set.of(), Set.of());
   }
 
   @Override

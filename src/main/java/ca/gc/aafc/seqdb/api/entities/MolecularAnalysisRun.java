@@ -56,7 +56,7 @@ public class MolecularAnalysisRun implements DinaEntity {
   private String group;
 
   @NotBlank
-  @Size(max = 50)
+  @Size(max = 150)
   private String name;
 
   @Type(type = "list-array")

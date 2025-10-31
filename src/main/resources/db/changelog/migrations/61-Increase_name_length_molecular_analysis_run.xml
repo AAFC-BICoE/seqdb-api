@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
+    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="61-Increase_name_length_molecular_analysis_run.xml" context="schema-change" author="nazirlkc">
+        <modifyDataType tableName="molecular_analysis_run" columnName="name" newDataType="varchar(150)" />
+    </changeSet>
+</databaseChangeLog>

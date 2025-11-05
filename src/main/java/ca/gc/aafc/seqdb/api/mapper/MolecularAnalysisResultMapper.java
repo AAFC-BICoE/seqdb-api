@@ -12,22 +12,22 @@ import org.mapstruct.factory.Mappers;
 
 import ca.gc.aafc.dina.mapper.DinaMapperV2;
 import ca.gc.aafc.dina.mapper.MapperStaticConverter;
-import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunDto;
-import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRun;
+import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisResultDto;
+import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisResult;
 
 @Mapper(imports = MapperStaticConverter.class)
-public interface MolecularAnalysisRunMapper extends DinaMapperV2<MolecularAnalysisRunDto, MolecularAnalysisRun> {
+public interface MolecularAnalysisResultMapper extends DinaMapperV2<MolecularAnalysisResultDto, MolecularAnalysisResult> {
 
-  MolecularAnalysisRunMapper INSTANCE = Mappers.getMapper(MolecularAnalysisRunMapper.class);
+  MolecularAnalysisResultMapper INSTANCE = Mappers.getMapper(MolecularAnalysisResultMapper.class);
 
   @Mapping(target = "attachments", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachments(), \"metadata\"))")
-  MolecularAnalysisRunDto toDto(MolecularAnalysisRun entity, @Context Set<String> provided, @Context String scope);
+  MolecularAnalysisResultDto toDto(MolecularAnalysisResult entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
-  MolecularAnalysisRun toEntity(MolecularAnalysisRunDto dto, @Context Set<String> provided, @Context String scope);
+  MolecularAnalysisResult toEntity(MolecularAnalysisResultDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-  void patchEntity(@MappingTarget MolecularAnalysisRun entity, MolecularAnalysisRunDto dto,
+  void patchEntity(@MappingTarget MolecularAnalysisResult entity, MolecularAnalysisResultDto dto,
                    @Context Set<String> provided, @Context String scope);
 }

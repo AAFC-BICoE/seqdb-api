@@ -39,12 +39,12 @@ public interface MolecularAnalysisRunItemMapper extends DinaMapperV2<MolecularAn
   default MolecularAnalysisRunDto toDto(MolecularAnalysisRun entity, @Context Set<String> provided, @Context String scope) {
     return entity == null ? null : toMolecularAnalysisRunDto(entity, provided, "run");
   }
-  @Mapping(target = "attachments", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachments(), \"attachments\"))")
+  @Mapping(target = "attachments", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachments(), \"metadata\"))")
   MolecularAnalysisRunDto toMolecularAnalysisRunDto(MolecularAnalysisRun entity, Set<String> provided, String scope);
 
   default MolecularAnalysisResultDto toDto(MolecularAnalysisResult entity, @Context Set<String> provided, @Context String scope) {
     return entity == null ? null : toMolecularAnalysisResultDto(entity, provided, "result");
   }
-  @Mapping(target = "attachments", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachments(), \"attachments\"))")
+  @Mapping(target = "attachments", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachments(), \"metadata\"))")
   MolecularAnalysisResultDto toMolecularAnalysisResultDto(MolecularAnalysisResult entity, Set<String> provided, String scope);
 }

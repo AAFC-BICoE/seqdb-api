@@ -14,6 +14,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunItemTestFix
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunTestFixture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MolecularAnalysisRunMapperTest {
 
@@ -56,5 +57,14 @@ public class MolecularAnalysisRunMapperTest {
 
     MAPPER.patchEntity(entity, dto, Set.of("name"), null);
     assertEquals(dto.getName(), entity.getName());
+
+    // --- Items ---
+    MolecularAnalysisRunItem itemEntity = MolecularAnalysisRunItemFactory.newMolecularAnalysisRunItem(null).build();
+    MolecularAnalysisRunItemDto itemDto =MolecularAnalysisRunItemTestFixture.newMolecularAnalysisRunItem();
+    itemDto.setRun(dto);
+    ITEM_MAPPER.patchEntity(itemEntity, itemDto, Set.of("name", "run"), null);
+
+    // Relationships are not set by the mapper
+    assertNull(itemEntity.getRun());
   }
 }

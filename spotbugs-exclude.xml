@@ -16,4 +16,8 @@ See https://spotbugs.readthedocs.io/en/latest/filter.html
     <Bug pattern="CT_CONSTRUCTOR_THROW"/>
   </Match>
 
+  <Match>
+    <Package name="ca.gc.aafc.seqdb.api.mapper" />
+    <Class name="~.*MapperImpl$"/>
+  </Match>
 </FindBugsFilter>

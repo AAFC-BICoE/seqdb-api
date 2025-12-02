@@ -44,7 +44,7 @@ public class MolecularAnalysisRunMapperTest {
 
     // --- Items ---
     MolecularAnalysisRunItem itemEntity = MolecularAnalysisRunItemFactory.newMolecularAnalysisRunItem(entity).build();
-    MolecularAnalysisRunItemDto itemDto = ITEM_MAPPER.toDto(itemEntity, Set.of("name", "run"), null);
+    MolecularAnalysisRunItemDto itemDto = ITEM_MAPPER.toDto(itemEntity, Set.of("name", "run", "run.name"), null);
 
     assertEquals( itemEntity.getName(), itemDto.getName());
     assertEquals( itemEntity.getRun().getName(), itemDto.getRun().getName());

@@ -29,7 +29,6 @@ public class GenericMolecularAnalysisRepositoryIT extends BaseRepositoryTestV2 {
 
     GenericMolecularAnalysisItemDto itemDto = GenericMolecularAnalysisItemTestFixture.newGenericMolecularAnalysisItem();
 
-    // private GenericMolecularAnalysisDto genericMolecularAnalysis;
     JsonApiDocument itemToCreate = JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, GenericMolecularAnalysisItemDto.TYPENAME,
       JsonAPITestHelper.toAttributeMap(itemDto), Map.of("genericMolecularAnalysis", JsonApiDocument.ResourceIdentifier.builder()
         .id(molecularAnalysisId).type(GenericMolecularAnalysisDto.TYPENAME).build()));

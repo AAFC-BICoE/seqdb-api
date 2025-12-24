@@ -1,12 +1,10 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.entities.MetagenomicsBatchItem;
 
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -17,13 +15,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonApiResource(type = MetagenomicsBatchItemDto.TYPENAME)
+@JsonApiTypeForClass(MetagenomicsBatchItemDto.TYPENAME)
 @RelatedEntity(MetagenomicsBatchItem.class)
-public class MetagenomicsBatchItemDto {
+public class MetagenomicsBatchItemDto implements JsonApiResource {
 
   public static final String TYPENAME = "metagenomics-batch-item";
 
@@ -34,20 +36,27 @@ public class MetagenomicsBatchItemDto {
 
   private OffsetDateTime createdOn;
 
-  @JsonApiRelation
+  // -- Relationships --
   private MetagenomicsBatchDto metagenomicsBatch;
 
-  @JsonApiRelation
   private PcrBatchItemDto pcrBatchItem;
 
   @ShallowReference
-  @JsonApiRelation
   private MolecularAnalysisRunItemDto molecularAnalysisRunItem;
 
-  @JsonApiRelation
   private NgsIndexDto indexI5;
 
-  @JsonApiRelation
   private NgsIndexDto indexI7;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

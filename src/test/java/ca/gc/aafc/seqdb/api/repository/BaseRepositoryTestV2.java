@@ -33,9 +33,7 @@ public class BaseRepositoryTestV2 {
       null, dto.getJsonApiType(),
       JsonAPITestHelper.toAttributeMap(dto)
     );
-
-    return JsonApiModelAssistant.extractUUIDFromRepresentationModelLink(repo
-      .handleCreate(toCreate, null));
+    return createWithRepository(toCreate, repo);
   }
 
   protected UUID createWithRepository(JsonApiResource dto, Function<JsonApiDocument, ResponseEntity<RepresentationModel<?>>> onCreateMethod) {
@@ -44,6 +42,15 @@ public class BaseRepositoryTestV2 {
       JsonAPITestHelper.toAttributeMap(dto)
     );
     return JsonApiModelAssistant.extractUUIDFromRepresentationModelLink(onCreateMethod.apply(docToCreate));
+  }
+
+  protected UUID createWithRepository(JsonApiDocument toCreate, DinaRepositoryV2<?, ?> repo) {
+    return JsonApiModelAssistant.extractUUIDFromRepresentationModelLink(repo
+      .handleCreate(toCreate, null));
+  }
+
+  protected UUID createWithRepository(JsonApiDocument toCreate, Function<JsonApiDocument, ResponseEntity<RepresentationModel<?>>> onCreateMethod) {
+    return JsonApiModelAssistant.extractUUIDFromRepresentationModelLink(onCreateMethod.apply(toCreate));
   }
 
   @TestConfiguration

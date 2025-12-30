@@ -2,21 +2,22 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.seqdb.api.dto.MetagenomicsBatchDto;
 import ca.gc.aafc.seqdb.api.dto.MetagenomicsBatchItemDto;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisResultDto;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunDto;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunItemDto;
-import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
-import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MetagenomicsBatchItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MetagenomicsBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisResultFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunItemTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunTestFixture;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
+import java.util.Map;
+import java.util.UUID;
 import javax.inject.Inject;
 
 public class MetagenomicsBatchIT extends BaseRepositoryTestV2 {
@@ -45,32 +46,43 @@ public class MetagenomicsBatchIT extends BaseRepositoryTestV2 {
   @Test
   public void onValidDto_dtoSavedWithoutExceptions() {
 
-    MetagenomicsBatchDto metagenomicsBatchDto = metagenomicsBatchRepository
-        .create(MetagenomicsBatchTestFixture.newMetagenomicsBatch());
+    UUID metagenomicsBatchDtoId = createWithRepository(MetagenomicsBatchTestFixture.newMetagenomicsBatch(), metagenomicsBatchRepository::onCreate);
+//
+//    PcrBatchDto pcrBatchDto = PcrBatchTestFixture.newPcrBatch();
+//    pcrBatchDto = pcrBatchRepository.create(pcrBatchDto);
+//
+//    PcrBatchItemDto pcrBatchItemDto = PcrBatchItemTestFixture.newPcrBatchItem(pcrBatchDto);
+//    pcrBatchItemDto = pcrBatchItemRepository.create(pcrBatchItemDto);
 
-    PcrBatchDto pcrBatchDto = PcrBatchTestFixture.newPcrBatch();
-    pcrBatchDto = pcrBatchRepository.create(pcrBatchDto);
-
-    PcrBatchItemDto pcrBatchItemDto = PcrBatchItemTestFixture.newPcrBatchItem(pcrBatchDto);
-    pcrBatchItemDto = pcrBatchItemRepository.create(pcrBatchItemDto);
-
-    MolecularAnalysisRunDto runDto = molecularAnalysisRunRepository
-        .create(MolecularAnalysisRunTestFixture.newMolecularAnalysisRun());
-
-    MolecularAnalysisResultDto resultDto = molecularAnalysisResultRepository
-        .create(MolecularAnalysisResultFixture.newMolecularAnalysisResult());
+    UUID runDtoId = createWithRepository(MolecularAnalysisRunTestFixture.newMolecularAnalysisRun(), molecularAnalysisRunRepository::onCreate);
+    UUID resultDtoId = createWithRepository(MolecularAnalysisResultFixture.newMolecularAnalysisResult(), molecularAnalysisResultRepository::onCreate);
 
     MolecularAnalysisRunItemDto runItemDto = MolecularAnalysisRunItemTestFixture
-        .newMolecularAnalysisRunItem();
-    runItemDto.setRun(runDto);
-    runItemDto.setResult(resultDto);
+      .newMolecularAnalysisRunItem();
 
-    runItemDto = molecularAnalysisRunItemRepository.create(runItemDto);
+    JsonApiDocument molecularAnalysisRunItemDtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, MolecularAnalysisRunItemDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(runItemDto),
+        Map.of("run", JsonApiDocument.ResourceIdentifier.builder().id(runDtoId)
+            .type(MolecularAnalysisRunDto.TYPENAME).build(),
+          "result", JsonApiDocument.ResourceIdentifier.builder().id(resultDtoId)
+            .type(MolecularAnalysisResultDto.TYPENAME).build()));
 
-    MetagenomicsBatchItemDto itemDto = MetagenomicsBatchItemTestFixture.newMetagenomicsBatchItem(metagenomicsBatchDto);
-    itemDto.setPcrBatchItem(pcrBatchItemDto);
-    itemDto.setMolecularAnalysisRunItem(runItemDto);
+    UUID molecularAnalysisRunItemId = createWithRepository(molecularAnalysisRunItemDtoToCreate,
+      molecularAnalysisRunItemRepository::onCreate);
 
-    metagenomicsBatchItemRepository.create(itemDto);
+
+    MetagenomicsBatchItemDto metagenomicsBatchItemDto = MetagenomicsBatchItemTestFixture.newMetagenomicsBatchItem();
+//    itemDto.setPcrBatchItem(pcrBatchItemDto);
+
+    JsonApiDocument metagenomicsBatchItemDtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, MetagenomicsBatchItemDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(metagenomicsBatchItemDto),
+        Map.of("metagenomicsBatch", JsonApiDocument.ResourceIdentifier.builder().id(metagenomicsBatchDtoId)
+            .type(MetagenomicsBatchDto.TYPENAME).build(),
+          "molecularAnalysisRunItem", JsonApiDocument.ResourceIdentifier.builder().id(molecularAnalysisRunItemId)
+            .type(MolecularAnalysisRunItemDto.TYPENAME).build()));
+
+    metagenomicsBatchItemRepository.onCreate(metagenomicsBatchItemDtoToCreate);
   }
 }

@@ -4,18 +4,20 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.NgsIndex.NgsIndexDirection;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = NgsIndexDto.TYPENAME)
+@JsonApiTypeForClass(NgsIndexDto.TYPENAME)
 @RelatedEntity(NgsIndex.class)
-public class NgsIndexDto {
+public class NgsIndexDto implements JsonApiResource {
 
   public static final String TYPENAME = "ngs-index";
 
@@ -43,7 +45,19 @@ public class NgsIndexDto {
   private String miSeqHiSeqIndexSequence;
   private String miniSeqNextSeqIndexSequence;
 
-  @JsonApiRelation
+  @JsonIgnore
   private IndexSetDto indexSet;
+
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 
 }

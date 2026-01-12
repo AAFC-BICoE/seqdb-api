@@ -5,17 +5,20 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = "library-pool")
+@JsonApiTypeForClass(LibraryPoolDto.TYPENAME)
 @RelatedEntity(LibraryPool.class)
-public class LibraryPoolDto {
+public class LibraryPoolDto implements JsonApiResource {
+
+  public static final String TYPENAME = "library-pool";
 
   @JsonApiId
   private UUID uuid;
@@ -30,7 +33,16 @@ public class LibraryPoolDto {
   
   private String notes;
 
-  @JsonApiRelation(opposite = "libraryPool")
+  //@JsonApiRelation
   private List<LibraryPoolContentDto> contents;
 
+  @Override
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

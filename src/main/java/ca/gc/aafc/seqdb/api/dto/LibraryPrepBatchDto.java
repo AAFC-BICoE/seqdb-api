@@ -6,18 +6,22 @@ import java.util.List;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = "library-prep-batch")
+@JsonApiTypeForClass(LibraryPrepBatchDto.TYPENAME)
 @RelatedEntity(LibraryPrepBatch.class)
-public class LibraryPrepBatchDto {
+public class LibraryPrepBatchDto implements JsonApiResource {
+
+  public static final String TYPENAME = "library-prep-batch";
 
   @JsonApiId
   private UUID uuid;
@@ -38,24 +42,36 @@ public class LibraryPrepBatchDto {
   
   private LocalDate dateUsed;
 
-  @JsonApiRelation
+  // -- Relationships --
+
+  @JsonIgnore
   private ProductDto product;
 
+  @JsonIgnore
+  private ThermocyclerProfileDto thermocyclerProfile;
+
+  @JsonIgnore
+  private IndexSetDto indexSet;
+
+  @JsonIgnore
+  private List<LibraryPrepDto> libraryPreps;
+
+  // -- External relationships --
   @JsonApiExternalRelation(type = "protocol")
-  @JsonApiRelation
+  @JsonIgnore
   private ExternalRelationDto protocol;
 
   @JsonApiExternalRelation(type = "storage-unit")
-  @JsonApiRelation
+  @JsonIgnore
   private ExternalRelationDto storageUnit;
 
-  @JsonApiRelation
-  private ThermocyclerProfileDto thermocyclerProfile;
+  @Override
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
 
-  @JsonApiRelation
-  private IndexSetDto indexSet;
-
-  @JsonApiRelation(opposite = "libraryPrepBatch")
-  private List<LibraryPrepDto> libraryPreps;
-
+  @Override
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

@@ -1,29 +1,28 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
-import ca.gc.aafc.seqdb.api.entities.Product;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
-import ca.gc.aafc.seqdb.api.testsupport.factories.LibraryPrepFactory;
-import ca.gc.aafc.seqdb.api.testsupport.factories.ProductFactory;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepTestFixture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.crnk.core.queryspec.QuerySpec;
+import java.util.Map;
+import java.util.UUID;
 import javax.inject.Inject;
 
-public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
+public class LibraryPrepRepositoryIT extends BaseRepositoryTestV2 {
 
   private static final String TEST_QUALITY = "test quality";
-
-  private LibraryPrep testLibPrep;
-  private LibraryPrepBatchDto testBatchDto;
 
   @Inject
   private LibraryPrepBatchRepository libraryPrepBatchRepository;
@@ -31,83 +30,62 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTest {
   @Inject
   private LibraryPrepRepository libraryPrepRepository;
 
-  private LibraryPrep createTestLibraryPrep() {
-
-    Product testProduct = ProductFactory.newProduct().build();
-    persist(testProduct);
-
-    testLibPrep = LibraryPrepFactory.newLibraryPrep()
-        .quality(TEST_QUALITY)
-        .build();
-   // testLibPrep.getLibraryPrepBatch().setContainerType(testContainerType);
-    persist(testLibPrep.getLibraryPrepBatch());
-    persist(testLibPrep);
-    
-    // This is needed in the tests to initialize the PersistentBag for the batch's "libraryPreps"
-    // field for the test. This doesn't matter in prod.
-    entityManager.flush();
-    entityManager.refresh(testLibPrep.getLibraryPrepBatch());
-
-    testBatchDto = libraryPrepBatchRepository.findOne(
-        testLibPrep.getLibraryPrepBatch().getUuid(),
-        new QuerySpec(LibraryPrepBatchDto.class)
-    );
-    
-    return testLibPrep;
+  private UUID createTestLibraryPrepBatch() {
+    LibraryPrepBatchDto dto = LibraryPrepBatchTestFixture.newLibraryPrepBatch();
+    return createWithRepository(dto, libraryPrepBatchRepository::onCreate);
   }
-  
-  @BeforeEach
-  public void setup() {
-    createTestLibraryPrep();
+
+  private UUID createTestLibraryPrep(UUID batchId) {
+    
+    LibraryPrepDto dto = LibraryPrepTestFixture.newLibraryPrep();
+    dto.setQuality(TEST_QUALITY);
+
+    JsonApiDocument libraryPrepDtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, LibraryPrepDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(dto),
+        Map.of("libraryPrepBatch", JsonApiDocument.ResourceIdentifier.builder().id(batchId)
+            .type(LibraryPrepBatchDto.TYPENAME).build(),
+          "materialSample", JsonApiDocument.ResourceIdentifier.builder().id(UUID.randomUUID())
+            .type("material-sample").build()));
+    return createWithRepository(libraryPrepDtoToCreate, libraryPrepRepository::onCreate);
   }
-  
+
   @Test
-  public void findLibPrep_whenLibPrepExists_libPrepReturned() {
-    LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getUuid(),
-        new QuerySpec(LibraryPrepDto.class)
-    );
+  public void libPrep_create_libPrepReturned()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID batchId = createTestLibraryPrepBatch();
+    UUID libraryPrepId = createTestLibraryPrep(batchId);
+
+    LibraryPrepDto dto = libraryPrepRepository.getOne(libraryPrepId, null).getDto();
     
     assertNotNull(dto);
     assertEquals(TEST_QUALITY, dto.getQuality());
   }
-  
+
   @Test
-  public void createLibPrep_onSuccess_libPrepCreated() {
+  public void updateLibPrep_onSuccess_libPrepUpdated()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID batchId = createTestLibraryPrepBatch();
+    UUID libraryPrepId = createTestLibraryPrep(batchId);
 
-    LibraryPrepDto newDto = LibraryPrepTestFixture.newLibraryPrep();
-    newDto.setLibraryPrepBatch(testBatchDto);
+    JsonApiDocument libraryPrepToUpdate = JsonApiDocuments.createJsonApiDocument(libraryPrepId,
+      LibraryPrepDto.TYPENAME, Map.of("quality", "updated quality"));
 
-    LibraryPrepDto created = libraryPrepRepository.create(newDto);
-    
-    assertNotNull(created.getUuid());
-    assertEquals("test size", created.getSize());
-    assertEquals(
-      LibraryPrepTestFixture.MATERIAL_SAMPLE_UUID.toString(),
-        created.getMaterialSample().getId()
-    );
-    assertEquals(
-        testLibPrep.getLibraryPrepBatch().getUuid(),
-        created.getLibraryPrepBatch().getUuid()
-    );
+    libraryPrepRepository.onUpdate(libraryPrepToUpdate, libraryPrepId);
+
+    LibraryPrepDto dto = libraryPrepRepository.getOne(libraryPrepId, null).getDto();
+    assertEquals("updated quality", dto.getQuality());
   }
 
   @Test
-  public void updateLibPrep_onSuccess_libPrepUpdated() {
-    LibraryPrepDto dto = libraryPrepRepository.findOne(
-        testLibPrep.getUuid(),
-        new QuerySpec(LibraryPrepDto.class)
-    );
-    
-    dto.setQuality("updated quality");
-    libraryPrepRepository.save(dto);
-    assertEquals("updated quality", testLibPrep.getQuality());
+  public void deleteLibPrep_onSuccess_libPrepDeleted()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID batchId = createTestLibraryPrepBatch();
+    UUID libraryPrepId = createTestLibraryPrep(batchId);
+
+    libraryPrepRepository.onDelete(libraryPrepId);
+
+    // ResourceNotFoundException since there is no audit
+    assertThrows(ResourceNotFoundException.class, () -> libraryPrepRepository.getOne(libraryPrepId, null));
   }
-  
-  @Test
-  public void deleteLibPrep_onSuccess_libPrepDeleted() {
-    libraryPrepRepository.delete(testLibPrep.getUuid());
-    assertNull(entityManager.find(LibraryPrep.class, testLibPrep.getId()));
-  }
-  
 }

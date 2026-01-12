@@ -66,11 +66,13 @@ public class LibraryPrepBatchDto implements JsonApiResource {
   private ExternalRelationDto storageUnit;
 
   @Override
+  @JsonIgnore
   public String getJsonApiType() {
     return TYPENAME;
   }
 
   @Override
+  @JsonIgnore
   public UUID getJsonApiId() {
     return uuid;
   }

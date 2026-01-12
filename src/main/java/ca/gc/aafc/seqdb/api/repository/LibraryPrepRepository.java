@@ -24,6 +24,7 @@ import ca.gc.aafc.dina.exception.ResourcesNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkResourceIdentifierDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.mapper.DinaMappingRegistry;
 import ca.gc.aafc.dina.repository.DinaRepositoryV2;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
@@ -63,7 +64,7 @@ public class LibraryPrepRepository extends DinaRepositoryV2<LibraryPrepDto, Libr
       LibraryPrepMapper.INSTANCE,
       LibraryPrepDto.class,
       LibraryPrep.class,
-      props, objMapper);
+      props, objMapper, new DinaMappingRegistry(LibraryPrepDto.class, true));
 
     this.dinaAuthenticatedUser = dinaAuthenticatedUser.orElse(null);
   }

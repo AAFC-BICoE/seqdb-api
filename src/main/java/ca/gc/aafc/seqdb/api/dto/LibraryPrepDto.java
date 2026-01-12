@@ -52,11 +52,13 @@ public class LibraryPrepDto implements JsonApiResource {
   private ExternalRelationDto materialSample;
 
   @Override
+  @JsonIgnore
   public String getJsonApiType() {
     return TYPENAME;
   }
 
   @Override
+  @JsonIgnore
   public UUID getJsonApiId() {
     return uuid;
   }

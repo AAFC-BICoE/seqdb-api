@@ -36,7 +36,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTestV2 {
   }
 
   private UUID createTestLibraryPrep(UUID batchId) {
-    
+
     LibraryPrepDto dto = LibraryPrepTestFixture.newLibraryPrep();
     dto.setQuality(TEST_QUALITY);
 

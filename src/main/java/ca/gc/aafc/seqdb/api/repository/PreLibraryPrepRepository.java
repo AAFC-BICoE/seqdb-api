@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class PreLibraryPrepRepository extends DinaRepository<PreLibraryPrepDto, PreLibraryPrep> {
 
   public PreLibraryPrepRepository(

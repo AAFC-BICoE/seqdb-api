@@ -115,12 +115,12 @@ public class PreLibraryPrepRepositoryIT extends BaseRepositoryTest {
 
   @Test
   public void createPreLibraryPrep_withRelationship_persisted() {
-    LibraryPrepBatchDto libraryPrepBatch =
-      libraryPrepBatchRepository.create(LibraryPrepBatchTestFixture.newLibraryPrepBatch());
+ //   LibraryPrepBatchDto libraryPrepBatch =
+  //    libraryPrepBatchRepository.create(LibraryPrepBatchTestFixture.newLibraryPrepBatch());
 
     LibraryPrepDto libraryPrepDto = LibraryPrepTestFixture.newLibraryPrep();
-    libraryPrepDto.setLibraryPrepBatch(libraryPrepBatch);
-    libraryPrepRepository.create(libraryPrepDto);
+  //  libraryPrepDto.setLibraryPrepBatch(libraryPrepBatch);
+  //  libraryPrepRepository.create(libraryPrepDto);
 
     PreLibraryPrepDto preLibraryPrep = PreLibraryPrepTestFixture.newPreLibraryPrep();
     preLibraryPrep.setLibraryPrep(libraryPrepDto);

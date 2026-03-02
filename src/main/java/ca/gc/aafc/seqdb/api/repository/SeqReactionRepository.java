@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class SeqReactionRepository extends DinaRepository<SeqReactionDto, SeqReaction> {
 
   private Optional<DinaAuthenticatedUser> dinaAuthenticatedUser;

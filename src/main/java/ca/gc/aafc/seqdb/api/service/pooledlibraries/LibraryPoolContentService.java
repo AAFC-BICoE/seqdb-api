@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import java.util.function.Function;
@@ -35,24 +34,22 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
   @Override
   protected void preCreate(LibraryPoolContent entity) {
     entity.setUuid(UUID.randomUUID());
-
-    this.validateUniqueIndexSets(entity, entity.getLibraryPool());
+    this.validatePool(entity);
   }
 
   @Override
   protected void preUpdate(LibraryPoolContent entity) {
-    this.validateUniqueIndexSets(entity, entity.getLibraryPool());
+    this.validatePool(entity);
   }
 
   /**
    * Warning: targetPool includes the newLpcDto
    * This will fail unless we clear the targetPool first
-   * @param newLpcDto
-   * @param targetPool
+   * @param lpcDto
    */
-  private void validateUniqueIndexSets(LibraryPoolContent newLpcDto, LibraryPool targetPool) {
-   // List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
-    List<LibraryPrepBatch> alreadyPooledBatches = getBatches(targetPool);
+  private void validatePool(LibraryPoolContent lpcDto) {
+    List<LibraryPrepBatch> alreadyPooledBatches = getBatches(lpcDto.getLibraryPool());
+    alreadyPooledBatches.addAll(getBatches(lpcDto.getPooledLibraryPool()));
 
     List<Integer> duplicatedPrepBatches = alreadyPooledBatches.stream().map(LibraryPrepBatch::getId)
       .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())) // Group by element and count
@@ -91,10 +88,11 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
         )
       );
     }
-    
+
+//    List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
 //    for (LibraryPrepBatch newPooledBatch : newPooledBatches) {
 //      for (LibraryPrepBatch alreadyPooledBatch : alreadyPooledBatches) {
-        // Check for duplicate LibraryPrepBatch usage:
+//        // Check for duplicate LibraryPrepBatch usage:
 //        if (newPooledBatch == alreadyPooledBatch) {
 //          throw new ValidationException(
 //            String.format(
@@ -103,8 +101,8 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
 //            )
 //          );
 //        }
-        
-        // Check for duplicate IndexSet usage:
+//
+//        // Check for duplicate IndexSet usage:
 //        if (newPooledBatch.getIndexSet() != null
 //            && newPooledBatch.getIndexSet() == alreadyPooledBatch.getIndexSet()) {
 //          throw new ValidationException(
@@ -127,35 +125,39 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
       .filter(i -> Objects.equals(i.getId(), id)).findFirst().orElse(null);
   }
   
-  private List<LibraryPrepBatch> getBatches(LibraryPoolContent lpc) {
-    List<LibraryPrepBatch> batchs = new ArrayList<>();
-    
-    if (lpc.getPooledLibraryPool() != null) {
-      LibraryPool pooledPool = lpc.getPooledLibraryPool();
-      batchs.addAll(getBatches(pooledPool));
-    }
-    if (lpc.getPooledLibraryPrepBatch() != null) {
-      LibraryPrepBatch pooledBatch = lpc.getPooledLibraryPrepBatch();
-      batchs.add(pooledBatch);
-    }
-    
-    return batchs;
-  }
+//  private List<LibraryPrepBatch> getBatches(LibraryPoolContent lpc) {
+//
+//    List<LibraryPrepBatch> batches = new ArrayList<>();
+//
+//    if (lpc.getPooledLibraryPool() != null) {
+//      LibraryPool pooledPool = lpc.getPooledLibraryPool();
+//      batches.addAll(getBatches(pooledPool));
+//    }
+//    if (lpc.getPooledLibraryPrepBatch() != null) {
+//      LibraryPrepBatch pooledBatch = lpc.getPooledLibraryPrepBatch();
+//      batches.add(pooledBatch);
+//    }
+//    return batches;
+//  }
   
   private List<LibraryPrepBatch> getBatches(LibraryPool pool) {
-    List<LibraryPrepBatch> batchs = new ArrayList<>();
+
+    if (pool == null) {
+      return List.of();
+    }
+
+    List<LibraryPrepBatch> batches = new ArrayList<>();
     List<LibraryPoolContent> poolContents = Optional.ofNullable(pool.getContents())
       .orElse(new ArrayList<>());
 
     for (LibraryPoolContent content : poolContents) {
       if (content.getPooledLibraryPool() != null) {
-        batchs.addAll(getBatches(content.getPooledLibraryPool()));
+        batches.addAll(getBatches(content.getPooledLibraryPool()));
       }
       if (content.getPooledLibraryPrepBatch() != null) {
-        batchs.add(content.getPooledLibraryPrepBatch());
+        batches.add(content.getPooledLibraryPrepBatch());
       }
     }
-
-    return batchs;
+    return batches;
   }
 }

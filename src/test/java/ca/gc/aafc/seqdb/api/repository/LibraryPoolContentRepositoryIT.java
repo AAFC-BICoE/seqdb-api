@@ -108,24 +108,45 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
         dto.getPooledLibraryPrepBatch().getUuid());
   }
 
-//  @Test
-//  public void updateLpc_onSuccess_lpcUpdated() {
-//    LibraryPoolContentDto dto = libraryPoolContentRepository.findOne(testLpc.getUuid(),
-//        new QuerySpec(LibraryPoolContentDto.class));
-//
-//    dto.setPooledLibraryPrepBatch(testBatchDtoUnpooled);
-//
-//    LibraryPoolContentDto updated = libraryPoolContentRepository.save(dto);
-//    assertEquals(testBatchDtoUnpooled.getUuid(),
-//        updated.getPooledLibraryPrepBatch().getUuid());
-//  }
+  @Test
+  public void updateLpc_onSuccess_lpcUpdated() throws ResourceGoneException, ResourceNotFoundException {
+    UUID indexSet = createIndexSet("test index set 1");
+    UUID libraryPrepBatchId = createLibraryPrepBatchDto("test batch", indexSet);
 
-//  @Test
-//  public void deleteLpc_onSuccess_lpcDeleted() {
-//    libraryPoolContentRepository.delete(testLpc.getUuid());
-//    assertNull(entityManager.find(LibraryPoolContent.class, testLpc.getId()));
-//  }
-//
+    UUID indexSet2 = createIndexSet("test index set 2");
+    UUID libraryPrepBatchId2 = createLibraryPrepBatchDto("test batch 2", indexSet2);
+
+    UUID libraryPoolId = createLibraryPool("test pool 1");
+    UUID libraryPoolContentId = createLibraryPoolContent(libraryPoolId, libraryPrepBatchId);
+
+    JsonApiDocument dtoToUpdate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(libraryPoolContentId, LibraryPoolContentDto.TYPENAME,
+        Map.of(),
+        Map.of("pooledLibraryPrepBatch", JsonApiDocument.ResourceIdentifier.builder().id(libraryPrepBatchId2)
+          .type(LibraryPrepBatchDto.TYPENAME).build()));
+
+    libraryPoolContentRepository.onUpdate(dtoToUpdate, libraryPoolContentId);
+
+    var dto = libraryPoolContentRepository.getOne(libraryPoolContentId, "include=pooledLibraryPrepBatch");
+    assertEquals(libraryPrepBatchId2,
+      dto.getDto().getPooledLibraryPrepBatch().getUuid());
+  }
+
+  @Test
+  public void deleteLpc_onSuccess_lpcDeleted()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID indexSet = createIndexSet("test index set 1");
+    UUID libraryPrepBatchId = createLibraryPrepBatchDto("test batch", indexSet);
+
+    UUID libraryPoolId = createLibraryPool("test pool 1");
+    UUID libraryPoolContentId = createLibraryPoolContent(libraryPoolId, libraryPrepBatchId);
+
+    libraryPoolContentRepository.onDelete(libraryPoolContentId);
+
+    assertThrows(ResourceNotFoundException.class,
+      () -> libraryPoolContentRepository.getOne(libraryPoolContentId, ""));
+  }
+
   @Test
   public void createLpc_onDuplicatePooledIndexSet_throwValidationException() {
 
@@ -161,7 +182,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
     UUID libraryPoolId = createLibraryPool("test pool 1");
     UUID libraryPoolContentId = createLibraryPoolContent(libraryPoolId, libraryPrepBatchId);
 
-    // The existing LPC should pool a pool:
+    // The existing LPC should pool a pool
     UUID testSubPoolId = createLibraryPool("test sub-pool 1");
     UUID librarySubPoolContentId = createLibraryPoolContent(testSubPoolId, null);
 
@@ -194,60 +215,42 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
     );
   }
 
-//  @Test
-//  public void createLpc_onNoDuplicateNestedPooledBatchIndexSet_lpcCreated() {
-//    LibraryPrepBatch existingBatch = testLpc.getPooledLibraryPrepBatch();
-//
-//    // The existing LPC should pool a pool:
-//    LibraryPool testSubPool1 = LibraryPoolFactory.newLibraryPool()
-//        .name("test sub-pool 1")
-//        .build();
-//    persist(testSubPool1);
-//    testLpc.setPooledLibraryPrepBatch(null);
-//    testLpc.setPooledLibraryPool(testSubPool1);
-//
-//    // The nested pool will link to the existing LibraryPrepBatch:
-//    LibraryPoolContent batchLpc1 = LibraryPoolContentFactory.newLibraryPoolContent()
-//        .libraryPool(testSubPool1)
-//        .pooledLibraryPrepBatch(existingBatch)
-//        .build();
-//    persist(batchLpc1);
-//    entityManager.flush();
-//    entityManager.refresh(testSubPool1);
-//
-//    // Add a new Sub-pool to add to the existing pool:
-//    LibraryPool testSubPool2 = LibraryPoolFactory.newLibraryPool()
-//        .name("test sub-pool 2")
-//        .build();
-//    persist(testSubPool2);
-//    // Sub-pool 2 will contain a batch linking to a different index set than the existing batch:
-//    testBatchUnpooled.setIndexSet(testIndexSet2);
-//    LibraryPoolContent batchLpc2 = LibraryPoolContentFactory.newLibraryPoolContent()
-//        .libraryPool(testSubPool2)
-//        .pooledLibraryPrepBatch(testBatchUnpooled)
-//        .build();
-//    persist(batchLpc2);
-//    entityManager.flush();
-//    entityManager.refresh(testSubPool2);
-//
-//    // Create the LPC to add sub-pool 2 to the initial test pool:
-//    LibraryPoolContentDto pooledPoolLpc2 = new LibraryPoolContentDto();
-//    pooledPoolLpc2.setLibraryPool(
-//        libraryPoolRepository.findOne(
-//            testLpc.getLibraryPool().getUuid(),
-//            new QuerySpec(LibraryPoolDto.class)
-//        )
-//    );
-//    pooledPoolLpc2.setPooledLibraryPool(
-//        libraryPoolRepository.findOne(
-//            testSubPool2.getUuid(),
-//            new QuerySpec(LibraryPoolDto.class)
-//        )
-//    );
-//
-//    LibraryPoolContentDto createdPooledPoolLpc2 = libraryPoolContentRepository.create(pooledPoolLpc2);
-//    assertNotNull(createdPooledPoolLpc2.getUuid());
-//  }
+  @Test
+  public void createLpc_onNoDuplicateNestedPooledBatchIndexSet_lpcCreated() {
+    UUID indexSet = createIndexSet("test index set 1");
+    UUID libraryPrepBatchId = createLibraryPrepBatchDto("test batch 1", indexSet);
+    UUID libraryPoolId = createLibraryPool("test pool 1");
+    UUID libraryPoolContentId = createLibraryPoolContent(libraryPoolId, libraryPrepBatchId);
+
+    // The existing LPC should pool a pool:
+    UUID testSubPoolId = createLibraryPool("test sub-pool 1");
+    UUID librarySubPoolContentId = createLibraryPoolContent(testSubPoolId, null);
+
+    // The nested pool will link to the existing LibraryPrepBatch:
+    UUID batchLibraryPoolContentId = createLibraryPoolContent(testSubPoolId, libraryPrepBatchId);
+
+    // Add a new Sub-pool to add to the existing pool:
+    UUID testSubPool2Id = createLibraryPool("test sub-pool 2");
+
+    // Sub-pool 2 will contain a batch linking to a different index set than the existing batch:
+    UUID indexSet2 = createIndexSet("test index set 2");
+    UUID libraryPrepBatchId2 = createLibraryPrepBatchDto("test batch 2", indexSet2);
+    UUID libraryPoolContentId2 = createLibraryPoolContent(testSubPool2Id, libraryPrepBatchId2);
+
+    // Create the LPC to add sub-pool 2 to the initial test pool
+    LibraryPoolContentDto libraryPoolContentDto = LibraryPoolContentTestFixture.newLibraryPoolContent();
+    Map<String, JsonApiDocument.ResourceIdentifier> rel = new HashMap<>();
+    rel.put("libraryPool", JsonApiDocument.ResourceIdentifier.builder().id(libraryPoolId)
+      .type(LibraryPoolDto.TYPENAME).build());
+    rel.put("pooledLibraryPool",
+      JsonApiDocument.ResourceIdentifier.builder().id(testSubPool2Id)
+        .type(LibraryPoolDto.TYPENAME).build());
+
+    JsonApiDocument dtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, LibraryPoolContentDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(libraryPoolContentDto), rel);
+    libraryPoolContentRepository.onCreate(dtoToCreate);
+  }
 
   @Test
   public void createLpc_onDuplicateNestedLibraryPrepBatch_throwValidationException()
@@ -275,7 +278,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
     // Sub-pool 2 will contain the same LibraryPrepBatch as sub-pool 1
     UUID libraryPool2ContentId = createLibraryPoolContent(testSubPool2Id, libraryPrepBatchId);
 
-    // Create the LPC to add sub-pool 2 to the initial test pool:
+    // Create the LPC to add sub-pool 2 to the initial test pool
     LibraryPoolContentDto libraryPoolContentDto = LibraryPoolContentTestFixture.newLibraryPoolContent();
     Map<String, JsonApiDocument.ResourceIdentifier> rel = new HashMap<>();
     rel.put("libraryPool", JsonApiDocument.ResourceIdentifier.builder().id(libraryPoolId)
@@ -283,7 +286,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
     rel.put("pooledLibraryPool",
       JsonApiDocument.ResourceIdentifier.builder().id(testSubPool2Id)
         .type(LibraryPoolDto.TYPENAME).build());
-    
+
     JsonApiDocument dtoToCreate =
       JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, LibraryPoolContentDto.TYPENAME,
         JsonAPITestHelper.toAttributeMap(libraryPoolContentDto), rel);

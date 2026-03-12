@@ -67,6 +67,7 @@ public class QualityControlRepository extends DinaRepositoryV2<QualityControlDto
 
     this.dinaAuthenticatedUser = dinaAuthenticatedUser.orElse(null);
   }
+
   @Override
   protected Link generateLinkToResource(QualityControlDto dto) {
     try {

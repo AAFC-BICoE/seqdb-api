@@ -16,6 +16,8 @@ import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @RelatedEntity(SequenceManagedAttribute.class)
 @Data
 @JsonApiResource(type = SequenceManagedAttributeDto.TYPENAME)
@@ -37,5 +39,6 @@ public class SequenceManagedAttributeDto {
   private String createdBy;
   private String group;
   private MultilingualDescription multilingualDescription;
+
 
 }

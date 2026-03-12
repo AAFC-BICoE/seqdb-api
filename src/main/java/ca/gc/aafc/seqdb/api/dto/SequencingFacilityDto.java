@@ -1,10 +1,9 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.seqdb.api.entities.SequencingFacility;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
@@ -14,11 +13,15 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = SequencingFacilityDto.TYPENAME)
+@JsonApiTypeForClass(SequencingFacilityDto.TYPENAME)
 @RelatedEntity(SequencingFacility.class)
 @TypeName(SequencingFacilityDto.TYPENAME)
-public class SequencingFacilityDto {
+public class SequencingFacilityDto implements JsonApiResource {
 
   public static final String TYPENAME = "sequencing-facility";
 
@@ -35,4 +38,15 @@ public class SequencingFacilityDto {
   private List<SequencingFacility.ContactRole> contacts = List.of();
   private Address shippingAddress;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

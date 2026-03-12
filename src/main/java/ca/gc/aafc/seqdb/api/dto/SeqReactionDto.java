@@ -62,7 +62,6 @@ public class SeqReactionDto implements JsonApiResource {
   // -- External relationships --
   @JsonIgnore
   @JsonApiExternalRelation(type = "storage-unit-usage")
-  @JsonApiRelation
   private ExternalRelationDto storageUnitUsage;
 
   @Override

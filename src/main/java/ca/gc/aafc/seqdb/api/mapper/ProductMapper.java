@@ -25,7 +25,6 @@ public interface ProductMapper extends DinaMapperV2<ProductDto, Product> {
   Product toEntity(ProductDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "region", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget Product entity, ProductDto dto,
                    @Context Set<String> provided, @Context String scope);

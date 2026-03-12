@@ -5,17 +5,20 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.gc.aafc.dina.dto.JsonApiRelation;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = ThermocyclerProfileDto.TYPENAME)
+@JsonApiTypeForClass(ThermocyclerProfileDto.TYPENAME)
 @RelatedEntity(ThermocyclerProfile.class)
-public class ThermocyclerProfileDto {
+public class ThermocyclerProfileDto implements JsonApiResource {
 
   public static final String TYPENAME = "thermocycler-profile";
 
@@ -37,7 +40,19 @@ public class ThermocyclerProfileDto {
 
   private List<String> steps;
 
+  @JsonIgnore
   @JsonApiRelation
   private RegionDto region;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

@@ -22,10 +22,11 @@ public interface PcrBatchItemMapper extends DinaMapperV2<PcrBatchItemDto, PcrBat
   PcrBatchItemDto toDto(PcrBatchItem entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "pcrBatch", ignore = true)
   PcrBatchItem toEntity(PcrBatchItemDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "region", ignore = true)
+  @Mapping(target = "pcrBatch", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget PcrBatchItem entity, PcrBatchItemDto dto,
                    @Context Set<String> provided, @Context String scope);

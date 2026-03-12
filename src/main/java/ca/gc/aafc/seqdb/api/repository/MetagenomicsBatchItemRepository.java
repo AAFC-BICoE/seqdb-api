@@ -26,7 +26,6 @@ import ca.gc.aafc.dina.jsonapi.JsonApiBulkResourceIdentifierDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
 import ca.gc.aafc.dina.mapper.DinaMappingRegistry;
 import ca.gc.aafc.dina.repository.DinaRepositoryV2;
-import ca.gc.aafc.dina.repository.external.ExternalResourceProvider;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
 import ca.gc.aafc.seqdb.api.dto.MetagenomicsBatchItemDto;
@@ -55,7 +54,6 @@ public class MetagenomicsBatchItemRepository extends DinaRepositoryV2<Metagenomi
     @NonNull MetagenomicsBatchItemService dinaService,
     DinaAuthorizationService groupAuthorizationService,
     @NonNull BuildProperties props,
-    ExternalResourceProvider externalResourceProvider,
     Optional<DinaAuthenticatedUser> dinaAuthenticatedUser,
     ObjectMapper objMapper) {
     super(

@@ -19,6 +19,8 @@ public interface SeqBatchMapper extends DinaMapperV2<SeqBatchDto, SeqBatch> {
 
   SeqBatchMapper INSTANCE = Mappers.getMapper(SeqBatchMapper.class);
 
+  @Mapping(target = "protocol", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getProtocol(), \"protocol\"))")
+  @Mapping(target = "storageUnit", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getStorageUnit(), \"storage-unit\"))")
   SeqBatchDto toDto(SeqBatch entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)

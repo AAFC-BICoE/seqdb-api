@@ -19,6 +19,8 @@ public interface PcrBatchMapper extends DinaMapperV2<PcrBatchDto, PcrBatch> {
 
   PcrBatchMapper INSTANCE = Mappers.getMapper(PcrBatchMapper.class);
 
+  @Mapping(target = "protocol", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getProtocol(), \"protocol\"))")
+  @Mapping(target = "attachment", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachment(), \"metadata\"))")
   PcrBatchDto toDto(PcrBatch entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)

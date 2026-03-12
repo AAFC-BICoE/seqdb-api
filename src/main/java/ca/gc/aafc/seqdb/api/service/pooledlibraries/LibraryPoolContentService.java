@@ -16,7 +16,6 @@ import org.springframework.validation.SmartValidator;
 
 import ca.gc.aafc.dina.jpa.BaseDAO;
 import ca.gc.aafc.dina.service.DefaultDinaService;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.IndexSet;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrepBatch;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
@@ -43,32 +42,15 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
   }
 
   /**
-   * Warning: targetPool includes the newLpcDto
-   * This will fail unless we clear the targetPool first
+
    * @param lpcDto
    */
   private void validatePool(LibraryPoolContent lpcDto) {
-    List<LibraryPrepBatch> alreadyPooledBatches = getBatches(lpcDto.getLibraryPool());
-    alreadyPooledBatches.addAll(getBatches(lpcDto.getPooledLibraryPool()));
+    List<LibraryPrepBatch> alreadyPooledBatches = getAllLibraryPrepBatchesInPool(lpcDto.getLibraryPool());
+    alreadyPooledBatches.addAll(getAllLibraryPrepBatchesInPool(lpcDto.getPooledLibraryPool()));
 
-    List<Integer> duplicatedPrepBatches = alreadyPooledBatches.stream().map(LibraryPrepBatch::getId)
-      .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())) // Group by element and count
-      .entrySet()
-      .stream()
-      .filter(entry -> entry.getValue() > 1) // Filter for entries with count > 1
-      .map(Map.Entry::getKey)
-      .toList(); // Collect the duplicate elements
-
-    List<Integer> duplicatedIndexSet = alreadyPooledBatches.stream().map(
-        LibraryPrepBatch::getIndexSet)
-      .filter(Objects::nonNull)
-      .map(IndexSet::getId)
-      .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())) // Group by element and count
-      .entrySet()
-      .stream()
-      .filter(entry -> entry.getValue() > 1) // Filter for entries with count > 1
-      .map(Map.Entry::getKey) // Map to the element (key)
-      .toList(); // Collect the duplicate elements
+    // Check for duplicate prep batches
+    List<Integer> duplicatedPrepBatches = getDuplicatePrepBatches(alreadyPooledBatches);
 
     if (!duplicatedPrepBatches.isEmpty()) {
       LibraryPrepBatch s = getLibraryPrepBatchById(duplicatedPrepBatches.getFirst(), alreadyPooledBatches);
@@ -80,67 +62,73 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
       );
     }
 
-    if (!duplicatedIndexSet.isEmpty()) {
-      IndexSet s = getIndexSetById(duplicatedIndexSet.getFirst(), alreadyPooledBatches);
+    // Check for duplicate index sets with batch information
+    Map<Integer, List<LibraryPrepBatch>> duplicateIndexSets = getDuplicateIndexSets(alreadyPooledBatches);
+    for (List<LibraryPrepBatch> batchesWithDuplicateIndexSet : duplicateIndexSets.values()) {
+      LibraryPrepBatch batch1 = batchesWithDuplicateIndexSet.get(0);
+      LibraryPrepBatch batch2 = batchesWithDuplicateIndexSet.get(1);
+
       throw new ValidationException(
         String.format(
-          "Duplicate index set usage: '%s'", s.getName()
+          "Duplicate index set usage: Batches '%s' and '%s' are both using index set '%s'",
+          batch1.getName(),
+          batch2.getName(),
+          batch1.getIndexSet().getName()
         )
       );
     }
+  }
 
-//    List<LibraryPrepBatch> newPooledBatches = this.getBatches(newLpcDto);
-//    for (LibraryPrepBatch newPooledBatch : newPooledBatches) {
-//      for (LibraryPrepBatch alreadyPooledBatch : alreadyPooledBatches) {
-//        // Check for duplicate LibraryPrepBatch usage:
-//        if (newPooledBatch == alreadyPooledBatch) {
-//          throw new ValidationException(
-//            String.format(
-//              "Duplicate library prep batch usage: Batch '%s' is already pooled.",
-//              newPooledBatch.getName()
-//            )
-//          );
-//        }
-//
-//        // Check for duplicate IndexSet usage:
-//        if (newPooledBatch.getIndexSet() != null
-//            && newPooledBatch.getIndexSet() == alreadyPooledBatch.getIndexSet()) {
-//          throw new ValidationException(
-//            String.format(
-//              "Duplicate index set usage: Batches '%s' and '%s' are both using index set '%s'",
-//              newPooledBatch.getName(), alreadyPooledBatch.getName(), newPooledBatch.getIndexSet().getName()
-//            )
-//          );
-//        }
-//      }
-//    }
+  /**
+   * Extracts library prep batches that are duplicated in the provided list.
+   *
+   * @param batches the list of library prep batches to analyze
+   * @return a list of batch IDs that appear more than once in the input list
+   */
+  private List<Integer> getDuplicatePrepBatches(List<LibraryPrepBatch> batches) {
+    return batches.stream()
+      .map(LibraryPrepBatch::getId)
+      .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+      .entrySet()
+      .stream()
+      .filter(entry -> entry.getValue() > 1)
+      .map(Map.Entry::getKey)
+      .toList();
+  }
+
+  /**
+   * Extracts library prep batches that share the same index set.
+   *
+   * @param batches the list of library prep batches to analyze
+   * @return a map where keys are index set IDs and values are lists of batches
+   *         that share the same index set (only includes index sets used by 2+ batches)
+   */
+  private Map<Integer, List<LibraryPrepBatch>> getDuplicateIndexSets(List<LibraryPrepBatch> batches) {
+    return batches.stream()
+      .filter(batch -> batch.getIndexSet() != null)
+      .collect(Collectors.groupingBy(
+        batch -> batch.getIndexSet().getId(),
+        Collectors.toList()
+      ))
+      .entrySet()
+      .stream()
+      .filter(entry -> entry.getValue().size() > 1)
+      .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private static LibraryPrepBatch getLibraryPrepBatchById(Integer id, List<LibraryPrepBatch> list) {
     return list.stream().filter(i -> Objects.equals(i.getId(), id)).findFirst().orElse(null);
   }
 
-  private static IndexSet getIndexSetById(Integer id, List<LibraryPrepBatch> list) {
-    return list.stream().map(LibraryPrepBatch::getIndexSet)
-      .filter(i -> Objects.equals(i.getId(), id)).findFirst().orElse(null);
-  }
-  
-//  private List<LibraryPrepBatch> getBatches(LibraryPoolContent lpc) {
-//
-//    List<LibraryPrepBatch> batches = new ArrayList<>();
-//
-//    if (lpc.getPooledLibraryPool() != null) {
-//      LibraryPool pooledPool = lpc.getPooledLibraryPool();
-//      batches.addAll(getBatches(pooledPool));
-//    }
-//    if (lpc.getPooledLibraryPrepBatch() != null) {
-//      LibraryPrepBatch pooledBatch = lpc.getPooledLibraryPrepBatch();
-//      batches.add(pooledBatch);
-//    }
-//    return batches;
-//  }
-  
-  private List<LibraryPrepBatch> getBatches(LibraryPool pool) {
+  /**
+   * Recursively retrieves all library prep batches contained within a library pool,
+   * including batches from nested pools.
+   *
+   * @param pool the library pool to extract batches from
+   * @return a list of all library prep batches in the pool and its nested pools,
+   *         or an empty list if the pool is null
+   */
+  private List<LibraryPrepBatch> getAllLibraryPrepBatchesInPool(LibraryPool pool) {
 
     if (pool == null) {
       return List.of();
@@ -152,7 +140,7 @@ public class LibraryPoolContentService extends DefaultDinaService<LibraryPoolCon
 
     for (LibraryPoolContent content : poolContents) {
       if (content.getPooledLibraryPool() != null) {
-        batches.addAll(getBatches(content.getPooledLibraryPool()));
+        batches.addAll(getAllLibraryPrepBatchesInPool(content.getPooledLibraryPool()));
       }
       if (content.getPooledLibraryPrepBatch() != null) {
         batches.add(content.getPooledLibraryPrepBatch());

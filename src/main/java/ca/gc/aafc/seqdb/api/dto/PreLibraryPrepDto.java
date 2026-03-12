@@ -4,21 +4,26 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.dto.JsonApiRelation;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 import org.javers.core.metamodel.annotation.ShallowReference;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = "pre-library-prep")
+@JsonApiTypeForClass(PreLibraryPrepDto.TYPENAME)
 @RelatedEntity(PreLibraryPrep.class)
-public class PreLibraryPrepDto {
+public class PreLibraryPrepDto implements JsonApiResource {
+
+  public static final String TYPENAME = "pre-library-prep";
 
   @JsonApiId
   private UUID uuid;
@@ -41,15 +46,30 @@ public class PreLibraryPrepDto {
 
   private String notes;
 
+  // -- Relationships --
+  @JsonIgnore
   @ShallowReference
   @JsonApiRelation
   private LibraryPrepDto libraryPrep;
 
   @JsonApiRelation
+  @JsonIgnore
   private ProductDto product;
 
+  // -- External relationships --
   @JsonApiExternalRelation(type = "protocol")
-  @JsonApiRelation
+  @JsonIgnore
   private ExternalRelationDto protocol;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

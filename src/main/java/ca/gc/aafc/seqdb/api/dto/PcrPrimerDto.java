@@ -10,19 +10,22 @@ import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.ShallowReference;
 import org.javers.core.metamodel.annotation.TypeName;
 
+import ca.gc.aafc.dina.dto.JsonApiRelation;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = PcrPrimerDto.TYPENAME)
+@JsonApiTypeForClass(PcrPrimerDto.TYPENAME)
 @RelatedEntity(PcrPrimer.class)
 @TypeName(PcrPrimerDto.TYPENAME)
-public class PcrPrimerDto {
+public class PcrPrimerDto implements JsonApiResource {
   
   public static final String TYPENAME = "pcr-primer";  
 
@@ -80,8 +83,20 @@ public class PcrPrimerDto {
   private String stockConcentration;
 
   // Optional relations
+  @JsonIgnore
   @ShallowReference
   @JsonApiRelation
   private RegionDto region;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

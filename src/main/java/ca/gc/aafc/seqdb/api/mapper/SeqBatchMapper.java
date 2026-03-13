@@ -21,12 +21,17 @@ public interface SeqBatchMapper extends DinaMapperV2<SeqBatchDto, SeqBatch> {
 
   @Mapping(target = "protocol", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getProtocol(), \"protocol\"))")
   @Mapping(target = "storageUnit", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getStorageUnit(), \"storage-unit\"))")
+  @Mapping(target = "experimenters", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getExperimenters(), \"person\"))")
   SeqBatchDto toDto(SeqBatch entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "thermocyclerProfile", ignore = true)
+  @Mapping(target = "region", ignore = true)
   SeqBatch toEntity(SeqBatchDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "thermocyclerProfile", ignore = true)
+  @Mapping(target = "region", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget SeqBatch entity, SeqBatchDto dto,
                    @Context Set<String> provided, @Context String scope);

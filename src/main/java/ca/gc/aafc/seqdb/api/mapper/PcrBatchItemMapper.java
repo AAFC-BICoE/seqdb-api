@@ -19,6 +19,8 @@ public interface PcrBatchItemMapper extends DinaMapperV2<PcrBatchItemDto, PcrBat
 
   PcrBatchItemMapper INSTANCE = Mappers.getMapper(PcrBatchItemMapper.class);
 
+  @Mapping(target = "materialSample", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getMaterialSample(), \"material-sample\"))")
+  @Mapping(target = "storageUnitUsage", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getStorageUnitUsage(), \"storage-unit-usage\"))")
   PcrBatchItemDto toDto(PcrBatchItem entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)

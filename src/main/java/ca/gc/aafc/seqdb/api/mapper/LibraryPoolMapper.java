@@ -13,8 +13,6 @@ import org.mapstruct.factory.Mappers;
 import ca.gc.aafc.dina.mapper.DinaMapperV2;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolContentDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPoolDto;
-import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
-import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPool;
 import ca.gc.aafc.seqdb.api.entities.pooledlibraries.LibraryPoolContent;
 

@@ -21,13 +21,22 @@ public interface PcrBatchMapper extends DinaMapperV2<PcrBatchDto, PcrBatch> {
 
   @Mapping(target = "protocol", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getProtocol(), \"protocol\"))")
   @Mapping(target = "attachment", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getAttachment(), \"metadata\"))")
+  @Mapping(target = "experimenters", expression = "java(MapperStaticConverter.uuidListToExternalRelationsList(entity.getExperimenters(), \"person\"))")
+  @Mapping(target = "storageUnit", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getStorageUnit(), \"storage-unit\"))")
   PcrBatchDto toDto(PcrBatch entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "region", ignore = true)
+  @Mapping(target = "primerForward", ignore = true)
+  @Mapping(target = "primerReverse", ignore = true)
+  @Mapping(target = "thermocyclerProfile", ignore = true)
   PcrBatch toEntity(PcrBatchDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "region", ignore = true)
+  @Mapping(target = "primerForward", ignore = true)
+  @Mapping(target = "primerReverse", ignore = true)
+  @Mapping(target = "thermocyclerProfile", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget PcrBatch entity, PcrBatchDto dto,
                    @Context Set<String> provided, @Context String scope);

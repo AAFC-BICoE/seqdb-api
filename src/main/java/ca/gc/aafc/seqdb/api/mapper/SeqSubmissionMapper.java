@@ -19,12 +19,15 @@ public interface SeqSubmissionMapper extends DinaMapperV2<SeqSubmissionDto, SeqS
 
   SeqSubmissionMapper INSTANCE = Mappers.getMapper(SeqSubmissionMapper.class);
 
+  @Mapping(target = "submittedBy", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getExperimenters(), \"person\"))")
   SeqSubmissionDto toDto(SeqSubmission entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "sequencingFacility", ignore = true)
   SeqSubmission toEntity(SeqSubmissionDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "sequencingFacility", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget SeqSubmission entity, SeqSubmissionDto dto,
                    @Context Set<String> provided, @Context String scope);

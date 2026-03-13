@@ -19,12 +19,21 @@ public interface SeqReactionMapper extends DinaMapperV2<SeqReactionDto, SeqReact
 
   SeqReactionMapper INSTANCE = Mappers.getMapper(SeqReactionMapper.class);
 
+  @Mapping(target = "storageUnitUsage", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getStorageUnitUsage(), \"storage-unit-usage\"))")
   SeqReactionDto toDto(SeqReaction entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "seqBatch", ignore = true)
+  @Mapping(target = "pcrBatchItem", ignore = true)
+  @Mapping(target = "seqPrimer", ignore = true)
+  @Mapping(target = "molecularAnalysisRunItem", ignore = true)
   SeqReaction toEntity(SeqReactionDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "seqBatch", ignore = true)
+  @Mapping(target = "pcrBatchItem", ignore = true)
+  @Mapping(target = "seqPrimer", ignore = true)
+  @Mapping(target = "molecularAnalysisRunItem", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget SeqReaction entity, SeqReactionDto dto,
                    @Context Set<String> provided, @Context String scope);

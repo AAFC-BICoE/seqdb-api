@@ -19,12 +19,17 @@ public interface PreLibraryPrepMapper extends DinaMapperV2<PreLibraryPrepDto, Pr
 
   PreLibraryPrepMapper INSTANCE = Mappers.getMapper(PreLibraryPrepMapper.class);
 
+  @Mapping(target = "protocol", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getProtocol(), \"protocol\"))")
   PreLibraryPrepDto toDto(PreLibraryPrep entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "libraryPrep", ignore = true)
+  @Mapping(target = "product", ignore = true)
   PreLibraryPrep toEntity(PreLibraryPrepDto dto, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "libraryPrep", ignore = true)
+  @Mapping(target = "product", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget PreLibraryPrep entity, PreLibraryPrepDto dto,
                    @Context Set<String> provided, @Context String scope);

@@ -15,7 +15,7 @@ import ca.gc.aafc.seqdb.api.dto.external.StorageUnitUsageExternalDto;
  *
  * Map known external Relationship types
  */
-public class ExternalRelationshipMapper {
+public final class ExternalRelationshipMapper {
   private ExternalRelationshipMapper() {
     //utility class
   }

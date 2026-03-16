@@ -84,7 +84,7 @@ public class SequenceManagedAttributeRepository extends DinaRepositoryV2<Sequenc
 
   @GetMapping(SequenceManagedAttributeDto.TYPENAME + "/{id}")
   public ResponseEntity<RepresentationModel<?>> onFindOne(@PathVariable String id, HttpServletRequest req)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
 
     // Allow lookup by component type + key.
     // e.g. collecting_event.attribute_name
@@ -149,7 +149,7 @@ public class SequenceManagedAttributeRepository extends DinaRepositoryV2<Sequenc
   @PatchMapping(path = SequenceManagedAttributeDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkUpdate(@RequestBody JsonApiBulkDocument jsonApiBulkDocument)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleBulkUpdate(jsonApiBulkDocument);
   }
 
@@ -164,7 +164,7 @@ public class SequenceManagedAttributeRepository extends DinaRepositoryV2<Sequenc
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkDelete(@RequestBody
                                                              JsonApiBulkResourceIdentifierDocument jsonApiBulkDocument)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleBulkDelete(jsonApiBulkDocument);
   }
 

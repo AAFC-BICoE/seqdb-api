@@ -39,23 +39,7 @@ public interface LibraryPoolContentMapper extends DinaMapperV2<LibraryPoolConten
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   void patchEntity(@MappingTarget LibraryPoolContent entity, LibraryPoolContentDto dto,
                    @Context Set<String> provided, @Context String scope);
-
-
-  /**
-   *   @NotNull
-   *   @ManyToOne(fetch = FetchType.LAZY)
-   *   @JoinColumn(name = "librarypoolid")
-   *   private LibraryPool libraryPool;
-   *
-   *   @ManyToOne(fetch = FetchType.LAZY)
-   *   @JoinColumn(name = "pooledlibraryprepbatchid")
-   *   private LibraryPrepBatch pooledLibraryPrepBatch;
-   *
-   *   @ManyToOne(fetch = FetchType.LAZY)
-   *   @JoinColumn(name = "pooledlibrarypoolid")
-   *   private LibraryPool pooledLibraryPool;
-   */
-
+  
   // --- libraryPool ---
   default LibraryPoolDto toDto(LibraryPool entity, @Context Set<String> provided, @Context String scope) {
     return entity == null ? null : toLibraryPoolDto(entity, provided, "libraryPool");

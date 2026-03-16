@@ -93,7 +93,7 @@ public class QualityControlRepository extends DinaRepositoryV2<QualityControlDto
 
   @GetMapping(QualityControlDto.TYPENAME + "/{id}")
   public ResponseEntity<RepresentationModel<?>> onFindOne(@PathVariable UUID id, HttpServletRequest req)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleFindOne(id, req);
   }
 

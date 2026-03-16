@@ -11,15 +11,16 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import ca.gc.aafc.dina.mapper.DinaMapperV2;
+import ca.gc.aafc.dina.mapper.MapperStaticConverter;
 import ca.gc.aafc.seqdb.api.dto.SeqSubmissionDto;
 import ca.gc.aafc.seqdb.api.entities.SeqSubmission;
 
-@Mapper
+@Mapper(imports = MapperStaticConverter.class)
 public interface SeqSubmissionMapper extends DinaMapperV2<SeqSubmissionDto, SeqSubmission> {
 
   SeqSubmissionMapper INSTANCE = Mappers.getMapper(SeqSubmissionMapper.class);
 
-  @Mapping(target = "submittedBy", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getExperimenters(), \"person\"))")
+  @Mapping(target = "submittedBy", expression = "java(MapperStaticConverter.uuidToExternalRelation(entity.getSubmittedBy(), \"person\"))")
   SeqSubmissionDto toDto(SeqSubmission entity, @Context Set<String> provided, @Context String scope);
 
   @Mapping(target = "id", ignore = true)

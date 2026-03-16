@@ -11,10 +11,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import ca.gc.aafc.dina.mapper.DinaMapperV2;
+import ca.gc.aafc.dina.mapper.MapperStaticConverter;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
 
-@Mapper
+@Mapper(imports = MapperStaticConverter.class)
 public interface PcrBatchMapper extends DinaMapperV2<PcrBatchDto, PcrBatch> {
 
   PcrBatchMapper INSTANCE = Mappers.getMapper(PcrBatchMapper.class);

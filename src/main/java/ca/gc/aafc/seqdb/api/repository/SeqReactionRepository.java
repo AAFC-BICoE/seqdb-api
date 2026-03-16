@@ -24,6 +24,7 @@ import ca.gc.aafc.dina.exception.ResourcesNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkResourceIdentifierDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.mapper.DinaMappingRegistry;
 import ca.gc.aafc.dina.repository.DinaRepositoryV2;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
@@ -62,7 +63,7 @@ public class SeqReactionRepository extends DinaRepositoryV2<SeqReactionDto, SeqR
       Optional.empty(),
       SeqReactionMapper.INSTANCE,
       SeqReactionDto.class, SeqReaction.class,
-      props, objMapper);
+      props, objMapper, new DinaMappingRegistry(SeqReactionDto.class, true));
     this.dinaAuthenticatedUser = dinaAuthenticatedUser.orElse(null);
   }
 

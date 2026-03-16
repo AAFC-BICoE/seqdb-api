@@ -11,6 +11,7 @@ import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.dto.external.StorageUnitExternalDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
@@ -64,7 +65,7 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTestV2 {
           "thermocyclerProfile", JsonApiDocument.ResourceIdentifier.builder().id(thermocyclerProfileUuid)
             .type(ThermocyclerProfileDto.TYPENAME).build(),
           "storageUnit", JsonApiDocument.ResourceIdentifier.builder().id(PcrBatchTestFixture.STORAGE_UNIT_UUID)
-            .type("storage-unit").build()
+            .type(StorageUnitExternalDto.EXTERNAL_TYPENAME).build()
           ));
 
     UUID pcrBatchUuid = createWithRepository(pcrBatchToCreate, pcrBatchRepository::onCreate);

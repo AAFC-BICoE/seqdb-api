@@ -13,10 +13,12 @@ import org.mapstruct.factory.Mappers;
 import ca.gc.aafc.dina.mapper.DinaMapperV2;
 import ca.gc.aafc.dina.mapper.MapperStaticConverter;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunItemDto;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.SeqBatchDto;
 import ca.gc.aafc.seqdb.api.dto.SeqReactionDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.entities.MolecularAnalysisRunItem;
+import ca.gc.aafc.seqdb.api.entities.PcrPrimer;
 import ca.gc.aafc.seqdb.api.entities.SeqBatch;
 import ca.gc.aafc.seqdb.api.entities.SeqReaction;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatchItem;
@@ -68,5 +70,11 @@ public interface SeqReactionMapper extends DinaMapperV2<SeqReactionDto, SeqReact
   @Mapping(target = "run", ignore = true)
   @Mapping(target = "result", ignore = true)
   MolecularAnalysisRunItemDto toMolecularAnalysisRunItemDto(MolecularAnalysisRunItem entity, Set<String> provided, String scope);
+
+  default PcrPrimerDto toDto(PcrPrimer entity, @Context Set<String> provided, @Context String scope) {
+    return entity == null ? null : toPcrPrimerDto(entity, provided, "seqPrimer");
+  }
+  @Mapping(target = "region", ignore = true)
+  PcrPrimerDto toPcrPrimerDto(PcrPrimer entity, Set<String> provided, String scope);
 
 }

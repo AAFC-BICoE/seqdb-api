@@ -24,6 +24,7 @@ import ca.gc.aafc.dina.exception.ResourcesNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkResourceIdentifierDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.mapper.DinaMappingRegistry;
 import ca.gc.aafc.dina.repository.DinaRepositoryV2;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
@@ -62,7 +63,7 @@ public class PcrBatchItemRepository extends DinaRepositoryV2<PcrBatchItemDto, Pc
       PcrBatchItemMapper.INSTANCE,
       PcrBatchItemDto.class,
       PcrBatchItem.class,
-      props, objMapper);
+      props, objMapper, new DinaMappingRegistry(PcrBatchItemDto.class, true));
     this.dinaAuthenticatedUser = dinaAuthenticatedUser.orElse(null);
   }
 

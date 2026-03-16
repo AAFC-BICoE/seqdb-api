@@ -9,6 +9,7 @@ import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
 import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepBatchDto;
 import ca.gc.aafc.seqdb.api.dto.LibraryPrepDto;
+import ca.gc.aafc.seqdb.api.dto.external.MaterialSampleExternalDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepBatchTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.LibraryPrepTestFixture;
 
@@ -46,7 +47,7 @@ public class LibraryPrepRepositoryIT extends BaseRepositoryTestV2 {
         Map.of("libraryPrepBatch", JsonApiDocument.ResourceIdentifier.builder().id(batchId)
             .type(LibraryPrepBatchDto.TYPENAME).build(),
           "materialSample", JsonApiDocument.ResourceIdentifier.builder().id(UUID.randomUUID())
-            .type("material-sample").build()));
+            .type(MaterialSampleExternalDto.EXTERNAL_TYPENAME).build()));
     return createWithRepository(libraryPrepDtoToCreate, libraryPrepRepository::onCreate);
   }
 

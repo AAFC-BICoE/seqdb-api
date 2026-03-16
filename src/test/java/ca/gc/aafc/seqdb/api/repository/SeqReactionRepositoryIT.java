@@ -36,9 +36,6 @@ public class SeqReactionRepositoryIT extends BaseRepositoryTestV2 {
   @Inject
   private PcrPrimerRepository pcrPrimerRepository;
 
-  private static final UUID TEST_PROTOCOL_UUID = UUID.randomUUID();
-
-
   @Test
   public void createSeqReaction_onSuccess_SeqReactionCreated() {
 

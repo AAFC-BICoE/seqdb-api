@@ -1,11 +1,13 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import io.crnk.core.queryspec.QuerySpec;
 import java.util.UUID;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.testsupport.security.WithMockKeycloakUser;
 import ca.gc.aafc.dina.vocabulary.TypedVocabularyElement;
 import ca.gc.aafc.seqdb.api.dto.SequenceManagedAttributeDto;
@@ -23,7 +25,7 @@ public class SequenceManagedAttributeRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   @WithMockKeycloakUser(groupRole = "dina-group:SUPER_USER")
-  void create_recordCreated() {
+  void create_recordCreated() throws ResourceGoneException, ResourceNotFoundException {
     String expectedName = "dina attribute #12";
     String expectedValue = "dina value";
     String expectedCreatedBy = "dina";
@@ -37,9 +39,9 @@ public class SequenceManagedAttributeRepositoryIT extends BaseRepositoryTestV2 {
     dto.setCreatedBy(expectedCreatedBy);
     dto.setGroup(expectedGroup);
 
-    UUID uuid = repo.create(dto).getUuid();
-    SequenceManagedAttributeDto result = repo.findOne(uuid, new QuerySpec(
-      SequenceManagedAttributeDto.class));
+    UUID uuid = createWithRepository(dto, repo::onCreate);
+    SequenceManagedAttributeDto result = repo.getOne(uuid, "").getDto();
+
     assertEquals(uuid, result.getUuid());
     assertEquals(expectedName, result.getName());
     assertEquals("dina_attribute_12", result.getKey());
@@ -54,17 +56,16 @@ public class SequenceManagedAttributeRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   @WithMockKeycloakUser(groupRole = SequenceManagedAttributeTestFixture.GROUP + ":SUPER_USER")
-  void findOneByKey_whenKeyProvided_managedAttributeFetched() {
+  void findOneByKey_whenKeyProvided_managedAttributeFetched()
+      throws ResourceGoneException, ResourceNotFoundException {
     SequenceManagedAttributeDto newAttribute = SequenceManagedAttributeTestFixture.newManagedAttribute();
     newAttribute.setName("Attribute 1");
     newAttribute.setVocabularyElementType(TypedVocabularyElement.VocabularyElementType.INTEGER);
     newAttribute.setManagedAttributeComponent(SequenceManagedAttribute.ManagedAttributeComponent.GENERIC_MOLECULAR_ANALYSIS);
 
-    UUID newAttributeUuid = repo.create(newAttribute).getUuid();
+    UUID newAttributeUuid = createWithRepository(newAttribute, repo::onCreate);
 
-    QuerySpec querySpec = new QuerySpec(SequenceManagedAttributeDto.class);
-    SequenceManagedAttributeDto fetchedAttribute = repo.findOne("generic_molecular_analysis.attribute_1", querySpec);
-
-    assertEquals(newAttributeUuid, fetchedAttribute.getUuid());
+    var response = repo.onFindOne("generic_molecular_analysis.attribute_1", null);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 }

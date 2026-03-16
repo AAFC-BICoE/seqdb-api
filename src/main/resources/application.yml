@@ -14,16 +14,6 @@ spring:
     properties.javax.persistence.validation.mode: none
     open-in-view: false
 
-crnk:
-  pathPrefix: /api
-  domainName: ""
-  defaultPageLimit: 20
-  maxPageLimit: 1000
-  allow-unknown-attributes: true
-  # The "include" query-string param is handled by our code and incorporated into the database
-  # query, so we don't let Crnk automatically call findOneTarget for each null relation.
-  config.lookup.behavior.default: NONE
-
 # We shouldn't get "Request header is too large" errors:
 server.max-http-header-size: 10MB
 

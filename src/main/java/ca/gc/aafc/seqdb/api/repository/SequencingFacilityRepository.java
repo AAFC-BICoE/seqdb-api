@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,6 +34,7 @@ import ca.gc.aafc.seqdb.api.entities.SequencingFacility;
 import ca.gc.aafc.seqdb.api.mapper.ExternalRelationshipMapper;
 import ca.gc.aafc.seqdb.api.mapper.SequencingFacilityMapper;
 
+import static com.toedter.spring.hateoas.jsonapi.MediaTypes.JSON_API_VALUE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -41,7 +44,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import lombok.NonNull;
 
-@Repository
+@RestController
+@RequestMapping(value = "${dina.apiPrefix:}", produces = JSON_API_VALUE)
 public class SequencingFacilityRepository extends DinaRepositoryV2<SequencingFacilityDto, SequencingFacility> {
 
   private final DinaAuthenticatedUser dinaAuthenticatedUser;

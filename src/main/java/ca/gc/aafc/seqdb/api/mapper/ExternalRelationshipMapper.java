@@ -7,6 +7,7 @@ import ca.gc.aafc.dina.dto.JsonApiExternalResource;
 import ca.gc.aafc.seqdb.api.dto.external.MaterialSampleExternalDto;
 import ca.gc.aafc.seqdb.api.dto.external.PersonExternalDto;
 import ca.gc.aafc.seqdb.api.dto.external.ProtocolExternalDto;
+import ca.gc.aafc.seqdb.api.dto.external.StorageUnitExternalDto;
 import ca.gc.aafc.seqdb.api.dto.external.StorageUnitUsageExternalDto;
 
 /**
@@ -29,6 +30,7 @@ public class ExternalRelationshipMapper {
       case ProtocolExternalDto.EXTERNAL_TYPENAME -> ProtocolExternalDto.builder().uuid(UUID.fromString(externalRelationDto.getId())).build();
       case MaterialSampleExternalDto.EXTERNAL_TYPENAME -> MaterialSampleExternalDto.builder().uuid(UUID.fromString(externalRelationDto.getId())).build();
       case StorageUnitUsageExternalDto.EXTERNAL_TYPENAME -> StorageUnitUsageExternalDto.builder().uuid(UUID.fromString(externalRelationDto.getId())).build();
+      case StorageUnitExternalDto.EXTERNAL_TYPENAME -> StorageUnitExternalDto.builder().uuid(UUID.fromString(externalRelationDto.getId())).build();
       default -> throw new IllegalStateException("Unsupported type for JsonApiExternalResource: " + externalRelationDto.getType());
     };
   }

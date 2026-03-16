@@ -92,7 +92,7 @@ public class GenericMolecularAnalysisRepository extends DinaRepositoryV2<Generic
 
   @GetMapping(GenericMolecularAnalysisDto.TYPENAME + "/{id}")
   public ResponseEntity<RepresentationModel<?>> onFindOne(@PathVariable UUID id, HttpServletRequest req)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleFindOne(id, req);
   }
 
@@ -140,7 +140,7 @@ public class GenericMolecularAnalysisRepository extends DinaRepositoryV2<Generic
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkDelete(@RequestBody
                                                              JsonApiBulkResourceIdentifierDocument jsonApiBulkDocument)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleBulkDelete(jsonApiBulkDocument);
   }
 

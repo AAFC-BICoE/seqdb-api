@@ -93,7 +93,7 @@ public class IndexSetRepository extends DinaRepositoryV2<IndexSetDto, IndexSet> 
 
   @GetMapping(IndexSetDto.TYPENAME + "/{id}")
   public ResponseEntity<RepresentationModel<?>> onFindOne(@PathVariable UUID id, HttpServletRequest req)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleFindOne(id, req);
   }
 
@@ -133,7 +133,7 @@ public class IndexSetRepository extends DinaRepositoryV2<IndexSetDto, IndexSet> 
   @PatchMapping(path = IndexSetDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkUpdate(@RequestBody JsonApiBulkDocument jsonApiBulkDocument)
-    throws ResourceNotFoundException, ResourceGoneException {
+      throws ResourceNotFoundException, ResourceGoneException {
     return handleBulkUpdate(jsonApiBulkDocument);
   }
 

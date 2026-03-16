@@ -8,13 +8,19 @@ import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.Product;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.toedter.spring.hateoas.jsonapi.JsonApiId;
 import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonApiTypeForClass(ProductDto.TYPENAME)
 @RelatedEntity(Product.class)
 public class ProductDto implements JsonApiResource {

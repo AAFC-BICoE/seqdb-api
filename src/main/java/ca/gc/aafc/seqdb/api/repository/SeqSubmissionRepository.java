@@ -24,6 +24,7 @@ import ca.gc.aafc.dina.exception.ResourcesNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiBulkResourceIdentifierDocument;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.mapper.DinaMappingRegistry;
 import ca.gc.aafc.dina.repository.DinaRepositoryV2;
 import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
@@ -61,7 +62,7 @@ public class SeqSubmissionRepository extends DinaRepositoryV2<SeqSubmissionDto, 
       Optional.empty(),
       SeqSubmissionMapper.INSTANCE,
       SeqSubmissionDto.class, SeqSubmission.class,
-      props, objMapper);
+      props, objMapper, new DinaMappingRegistry(SeqSubmissionDto.class, true));
     this.dinaAuthenticatedUser = dinaAuthenticatedUser.orElse(null);
   }
 

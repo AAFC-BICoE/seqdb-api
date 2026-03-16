@@ -29,7 +29,6 @@ import ca.gc.aafc.dina.security.DinaAuthenticatedUser;
 import ca.gc.aafc.dina.security.auth.DinaAuthorizationService;
 import ca.gc.aafc.dina.service.DinaService;
 import ca.gc.aafc.seqdb.api.dto.ProductDto;
-import ca.gc.aafc.seqdb.api.dto.QualityControlDto;
 import ca.gc.aafc.seqdb.api.entities.Product;
 import ca.gc.aafc.seqdb.api.mapper.ExternalRelationshipMapper;
 import ca.gc.aafc.seqdb.api.mapper.ProductMapper;
@@ -82,7 +81,7 @@ public class ProductRepository extends DinaRepositoryV2<ProductDto, Product> {
     return ExternalRelationshipMapper.externalRelationDtoToJsonApiExternalResource(externalRelationDto);
   }
 
-  @PostMapping(path = QualityControlDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_LOAD_PATH, consumes = JSON_API_BULK)
+  @PostMapping(path = ProductDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_LOAD_PATH, consumes = JSON_API_BULK)
   public ResponseEntity<RepresentationModel<?>> onBulkLoad(@RequestBody
                                                            JsonApiBulkResourceIdentifierDocument jsonApiBulkDocument,
                                                            HttpServletRequest req)
@@ -90,18 +89,18 @@ public class ProductRepository extends DinaRepositoryV2<ProductDto, Product> {
     return handleBulkLoad(jsonApiBulkDocument, req);
   }
 
-  @GetMapping(QualityControlDto.TYPENAME + "/{id}")
+  @GetMapping(ProductDto.TYPENAME + "/{id}")
   public ResponseEntity<RepresentationModel<?>> onFindOne(@PathVariable UUID id, HttpServletRequest req)
       throws ResourceNotFoundException, ResourceGoneException {
     return handleFindOne(id, req);
   }
 
-  @GetMapping(QualityControlDto.TYPENAME)
+  @GetMapping(ProductDto.TYPENAME)
   public ResponseEntity<RepresentationModel<?>> onFindAll(HttpServletRequest req) {
     return handleFindAll(req);
   }
 
-  @PostMapping(path = QualityControlDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
+  @PostMapping(path = ProductDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkCreate(@RequestBody
                                                              JsonApiBulkDocument jsonApiBulkDocument) {
@@ -112,7 +111,7 @@ public class ProductRepository extends DinaRepositoryV2<ProductDto, Product> {
     });
   }
 
-  @PostMapping(QualityControlDto.TYPENAME)
+  @PostMapping(ProductDto.TYPENAME)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onCreate(@RequestBody JsonApiDocument postedDocument) {
     return handleCreate(postedDocument, dto -> {
@@ -122,21 +121,21 @@ public class ProductRepository extends DinaRepositoryV2<ProductDto, Product> {
     });
   }
 
-  @PatchMapping(QualityControlDto.TYPENAME + "/{id}")
+  @PatchMapping(ProductDto.TYPENAME + "/{id}")
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onUpdate(@RequestBody JsonApiDocument partialPatchDto,
                                                          @PathVariable UUID id) throws ResourceNotFoundException, ResourceGoneException {
     return handleUpdate(partialPatchDto, id);
   }
 
-  @PatchMapping(path = QualityControlDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
+  @PatchMapping(path = ProductDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkUpdate(@RequestBody JsonApiBulkDocument jsonApiBulkDocument)
       throws ResourceNotFoundException, ResourceGoneException {
     return handleBulkUpdate(jsonApiBulkDocument);
   }
 
-  @DeleteMapping(path = QualityControlDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
+  @DeleteMapping(path = ProductDto.TYPENAME + "/" + DinaRepositoryV2.JSON_API_BULK_PATH, consumes = JSON_API_BULK)
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onBulkDelete(@RequestBody
                                                              JsonApiBulkResourceIdentifierDocument jsonApiBulkDocument)
@@ -144,7 +143,7 @@ public class ProductRepository extends DinaRepositoryV2<ProductDto, Product> {
     return handleBulkDelete(jsonApiBulkDocument);
   }
 
-  @DeleteMapping(QualityControlDto.TYPENAME + "/{id}")
+  @DeleteMapping(ProductDto.TYPENAME + "/{id}")
   @Transactional
   public ResponseEntity<RepresentationModel<?>> onDelete(@PathVariable UUID id) throws ResourceNotFoundException, ResourceGoneException {
     return handleDelete(id);

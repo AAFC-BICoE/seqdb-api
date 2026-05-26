@@ -29,16 +29,24 @@ public class MolecularAnalysisRunRepositoryIT extends BaseRepositoryTestV2 {
 
     MolecularAnalysisRunDto runDto = MolecularAnalysisRunTestFixture.newMolecularAnalysisRun();
 
-    Map<String, Object> attrs = JsonAPITestHelper.toAttributeMap(runDto);
-
     // Add two attachments to verify include works for multiple values
     List<UUID> attachments = List.of(
       UUID.fromString("727a1f51-0556-4d55-a54b-b61388565c2a"),
       UUID.fromString("5f47e3b8-2bfa-4e67-9a1b-2f4d9f3c8e6a")
     );
-    attrs.put("attachments", attachments);
 
-    JsonApiDocument toCreate = JsonApiDocuments.createJsonApiDocument(null, MolecularAnalysisRunDto.TYPENAME, attrs);
+    JsonApiDocument toCreate = JsonApiDocuments.createJsonApiDocument(
+      null,
+      MolecularAnalysisRunDto.TYPENAME,
+      JsonAPITestHelper.toAttributeMap(runDto),
+      Map.of(
+        "attachments",
+        List.of(
+          JsonApiDocument.ResourceIdentifier.builder().id(attachments.get(0)).type("metadata").build(),
+          JsonApiDocument.ResourceIdentifier.builder().id(attachments.get(1)).type("metadata").build()
+        )
+      )
+    );
 
     UUID runUuid = createWithRepository(toCreate, molecularAnalysisRunRepository::onCreate);
 
@@ -48,5 +56,9 @@ public class MolecularAnalysisRunRepositoryIT extends BaseRepositoryTestV2 {
     assertNotNull(found.getUuid());
     assertNotNull(found.getAttachments(), "attachments should be included");
     assertEquals(2, found.getAttachments().size(), "should have two attachments included");
+
+    // Verify the included attachments contain the same IDs we provided.
+    assertEquals(attachments.get(0).toString(), found.getAttachments().get(0).getId());
+    assertEquals(attachments.get(1).toString(), found.getAttachments().get(1).getId());
   }
 }

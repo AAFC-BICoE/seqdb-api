@@ -2,6 +2,9 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunDto;
 import ca.gc.aafc.seqdb.api.dto.MolecularAnalysisRunItemDto;
 import ca.gc.aafc.seqdb.api.dto.QualityControlDto;
@@ -9,7 +12,9 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunItemTestFix
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.QualityControlTestFixture;
 
-import javax.inject.Inject;
+import java.util.Map;
+import java.util.UUID;
+import jakarta.inject.Inject;
 
 public class QualityControlRepositoryIT extends BaseRepositoryTestV2 {
 
@@ -25,18 +30,26 @@ public class QualityControlRepositoryIT extends BaseRepositoryTestV2 {
   @Test
   public void onValidDto_dtoSavedWithoutExceptions() {
 
-    MolecularAnalysisRunDto runDto = molecularAnalysisRunRepository
-      .create(MolecularAnalysisRunTestFixture.newMolecularAnalysisRun());
+    UUID runDtoId = createWithRepository(MolecularAnalysisRunTestFixture.newMolecularAnalysisRun(), molecularAnalysisRunRepository::onCreate);
 
     MolecularAnalysisRunItemDto runItemDto = MolecularAnalysisRunItemTestFixture
       .newMolecularAnalysisRunItem();
-    runItemDto.setRun(runDto);
-    molecularAnalysisRunItemRepository.create(runItemDto);
+    JsonApiDocument molecularAnalysisRunItemDtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, MolecularAnalysisRunItemDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(runItemDto),
+        Map.of("run", JsonApiDocument.ResourceIdentifier.builder().id(runDtoId)
+            .type(MolecularAnalysisRunDto.TYPENAME).build()));
+    UUID molecularAnalysisRunItemId = createWithRepository(molecularAnalysisRunItemDtoToCreate, molecularAnalysisRunItemRepository::onCreate);
 
     QualityControlDto qualityControlDto = QualityControlTestFixture.newQualityControl();
-    qualityControlDto.setMolecularAnalysisRunItem(runItemDto);
 
-    qualityControlRepository.create(qualityControlDto);
+    JsonApiDocument qualityControlDtoToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, QualityControlDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(qualityControlDto),
+        Map.of("molecularAnalysisRunItem", JsonApiDocument.ResourceIdentifier.builder().id(molecularAnalysisRunItemId)
+          .type(MolecularAnalysisRunItemDto.TYPENAME).build()));
+
+    qualityControlRepository.onCreate(qualityControlDtoToCreate);
   }
 
 }

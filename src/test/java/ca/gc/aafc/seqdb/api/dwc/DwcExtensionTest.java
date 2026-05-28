@@ -3,7 +3,7 @@ package ca.gc.aafc.seqdb.api.dwc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 import ca.gc.aafc.seqdb.api.util.XMLHelper;
 import org.junit.jupiter.api.Test;

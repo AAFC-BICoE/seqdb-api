@@ -1,24 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NaturalId;
@@ -29,6 +10,27 @@ import ca.gc.aafc.dina.entity.DinaEntityIdentifiableByName;
 import ca.gc.aafc.dina.entity.ManagedAttribute;
 import ca.gc.aafc.dina.i18n.MultilingualDescription;
 import ca.gc.aafc.dina.i18n.MultilingualTitle;
+
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity(name = "managed_attribute")
 @Getter
@@ -72,8 +74,8 @@ public class SequenceManagedAttribute implements ManagedAttribute, DinaEntityIde
   @NotBlank
   private String name;
 
-  @Type(type = "jsonb")
-  @Column(name = "multilingual_description")
+  @Type(JsonType.class)
+  @Column(name = "multilingual_description", columnDefinition = "jsonb")
   @Valid
   private MultilingualDescription multilingualDescription;
 
@@ -88,7 +90,7 @@ public class SequenceManagedAttribute implements ManagedAttribute, DinaEntityIde
   private String key;
 
   @NotNull
-  @Type(type = "pgsql_enum")
+  @Type(PostgreSQLEnumType.class)
   @Enumerated(EnumType.STRING)
   @Column(name = "type")
   private VocabularyElementType vocabularyElementType;
@@ -98,7 +100,6 @@ public class SequenceManagedAttribute implements ManagedAttribute, DinaEntityIde
   @Column(name = "component")
   private ManagedAttributeComponent managedAttributeComponent;
 
-  @Type(type = "string-array")
   @Column(name = "accepted_values", columnDefinition = "text[]")
   private String[] acceptedValues;
 

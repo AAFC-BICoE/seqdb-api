@@ -4,19 +4,23 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = "library-prep")
+@JsonApiTypeForClass(LibraryPrepDto.TYPENAME)
 @RelatedEntity(LibraryPrep.class)
-public class LibraryPrepDto {
-  
+public class LibraryPrepDto implements JsonApiResource {
+
+  public static final String TYPENAME = "library-prep";
+
   @JsonApiId
   private UUID uuid;
 
@@ -25,27 +29,37 @@ public class LibraryPrepDto {
   private String group;
   
   private Double inputNg;
-
   private String quality;
-
   private String size;
 
-  @JsonApiExternalRelation(type = "storage-unit-usage")
-  @JsonApiRelation
-  private ExternalRelationDto storageUnitUsage;
-
-  @JsonApiRelation
-  private LibraryPrepBatchDto libraryPrepBatch;
-
-  @JsonApiRelation
+  // -- Relationships --
+  @JsonIgnore
   private NgsIndexDto indexI5;
 
-  @JsonApiRelation
+  @JsonIgnore
   private NgsIndexDto indexI7;
 
+  @JsonIgnore
+  private LibraryPrepBatchDto libraryPrepBatch;
+
+  // -- External relationships --
+  @JsonApiExternalRelation(type = "storage-unit-usage")
+  @JsonIgnore
+  private ExternalRelationDto storageUnitUsage;
+
   @JsonApiExternalRelation(type = "material-sample")
-  @JsonApiRelation
+  @JsonIgnore
   private ExternalRelationDto materialSample;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
 
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

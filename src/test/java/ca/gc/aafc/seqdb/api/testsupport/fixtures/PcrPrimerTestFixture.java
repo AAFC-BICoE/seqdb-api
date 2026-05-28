@@ -32,4 +32,20 @@ public class PcrPrimerTestFixture {
     pcrPrimerDto.setPosition("position");
     return pcrPrimerDto;
   }
+
+  public static PcrPrimerDto newForwardPrimer() {
+    PcrPrimerDto primerForward = PcrPrimerTestFixture.newPcrPrimer();
+    primerForward.setType(PrimerType.PRIMER);
+    primerForward.setName("forward");
+    primerForward.setDirection("F");
+    return primerForward;
+  }
+
+  public static PcrPrimerDto newReversePrimer() {
+    PcrPrimerDto primerReverse = PcrPrimerTestFixture.newPcrPrimer();
+    primerReverse.setType(PrimerType.PRIMER);
+    primerReverse.setName("reverse");
+    primerReverse.setDirection("R");
+    return primerReverse;
+  }
 }

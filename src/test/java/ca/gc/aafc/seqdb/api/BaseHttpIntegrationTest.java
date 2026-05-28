@@ -3,7 +3,7 @@ package ca.gc.aafc.seqdb.api;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 /**
  * This base class for http based will start a test web server on a random port (available in

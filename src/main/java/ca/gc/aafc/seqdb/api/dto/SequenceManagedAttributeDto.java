@@ -1,12 +1,11 @@
 package ca.gc.aafc.seqdb.api.dto;
 
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.i18n.MultilingualDescription;
 import ca.gc.aafc.dina.vocabulary.TypedVocabularyElement;
 import ca.gc.aafc.seqdb.api.entities.SequenceManagedAttribute;
 
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
@@ -16,11 +15,16 @@ import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @RelatedEntity(SequenceManagedAttribute.class)
 @Data
-@JsonApiResource(type = SequenceManagedAttributeDto.TYPENAME)
+@JsonApiTypeForClass(SequenceManagedAttributeDto.TYPENAME)
 @TypeName(SequenceManagedAttributeDto.TYPENAME)
-public class SequenceManagedAttributeDto {
+public class SequenceManagedAttributeDto implements JsonApiResource {
+
   public static final String TYPENAME = "managed-attribute";
 
   @JsonApiId
@@ -38,4 +42,15 @@ public class SequenceManagedAttributeDto {
   private String group;
   private MultilingualDescription multilingualDescription;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

@@ -1,25 +1,32 @@
 package ca.gc.aafc.seqdb.api.repository;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
-
-import javax.inject.Inject;
-
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.dto.ProductDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.dto.external.StorageUnitExternalDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
-import ca.gc.aafc.seqdb.api.entities.PcrPrimer.PrimerType;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrPrimerTestFixture;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.RegionTestFixture;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.ThermocyclerProfileTestFixture;
 
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PcrBatchRepositoryIT extends BaseRepositoryTest {
+import java.util.Map;
+import java.util.UUID;
+import jakarta.inject.Inject;
+
+public class PcrBatchRepositoryIT extends BaseRepositoryTestV2 {
 
   @Inject
   private PcrBatchRepository pcrBatchRepository;
@@ -33,128 +40,77 @@ public class PcrBatchRepositoryIT extends BaseRepositoryTest {
   @Inject
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
 
-  private PcrPrimerDto primerForwardTest;
-  private PcrPrimerDto primerReverseTest;
-  private RegionDto regionTest;
-  private ThermocyclerProfileDto thermocyclerProfileTest;
+  @Test
+  public void createAndFindPcrBatch_pcrBatchCreatedAndReturned()
+      throws ResourceGoneException, ResourceNotFoundException {
 
-  @BeforeEach
-  public void setup() {
-    PcrPrimerDto primerForward = PcrPrimerTestFixture.newPcrPrimer();
-    primerForward.setType(PrimerType.PRIMER);
-    primerForward.setName("forward");
-    primerForward.setDirection("F");
+    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
+    UUID primerForwardUuid = createWithRepository(PcrPrimerTestFixture.newForwardPrimer(), pcrPrimerRepository::onCreate);
+    UUID primerReverseUuid = createWithRepository(PcrPrimerTestFixture.newReversePrimer(), pcrPrimerRepository::onCreate);
 
-    PcrPrimerDto primerReverse = PcrPrimerTestFixture.newPcrPrimer();
-    primerReverse.setType(PrimerType.PRIMER);
-    primerReverse.setName("reverse");
-    primerReverse.setDirection("R");
+    UUID regionUuid = createWithRepository(RegionTestFixture.newRegion(), regionRepository::onCreate);
+    UUID thermocyclerProfileUuid = createWithRepository(ThermocyclerProfileTestFixture.newThermocyclerProfile(),
+      thermocyclerProfileRepository::onCreate);
 
-    primerForwardTest = pcrPrimerRepository.create(primerForward);
-    primerReverseTest = pcrPrimerRepository.create(primerReverse);
-    
-    assertNotNull(primerForwardTest.getUuid());
-    assertNotNull(primerForwardTest.getCreatedOn());
+    JsonApiDocument pcrBatchToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, PcrBatchDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(newDto),
+        Map.of(
+          "primerForward", JsonApiDocument.ResourceIdentifier.builder().id(primerForwardUuid)
+            .type(PcrPrimerDto.TYPENAME).build(),
+          "primerReverse", JsonApiDocument.ResourceIdentifier.builder().id(primerReverseUuid)
+            .type(PcrPrimerDto.TYPENAME).build(),
+          "region", JsonApiDocument.ResourceIdentifier.builder().id(regionUuid)
+            .type(RegionDto.TYPENAME).build(),
+          "thermocyclerProfile", JsonApiDocument.ResourceIdentifier.builder().id(thermocyclerProfileUuid)
+            .type(ThermocyclerProfileDto.TYPENAME).build(),
+          "storageUnit", JsonApiDocument.ResourceIdentifier.builder().id(PcrBatchTestFixture.STORAGE_UNIT_UUID)
+            .type(StorageUnitExternalDto.EXTERNAL_TYPENAME).build()
+          ));
 
-    RegionDto region = new RegionDto();
-    region.setSymbol("test");
-    region.setName("region");
+    UUID pcrBatchUuid = createWithRepository(pcrBatchToCreate, pcrBatchRepository::onCreate);
+    PcrBatchDto reloadedDto = pcrBatchRepository.getOne(pcrBatchUuid, "include=" +
+      String.join(",", pcrBatchToCreate.getRelationships().keySet())).getDto();
 
-    regionTest = regionRepository.create(region);
+    assertNotNull(reloadedDto);
+    assertEquals(newDto.getGroup(), reloadedDto.getGroup());
+    assertEquals(primerForwardUuid, reloadedDto.getPrimerForward().getUuid());
+    assertEquals(primerReverseUuid, reloadedDto.getPrimerReverse().getUuid());
+    assertEquals(regionUuid, reloadedDto.getRegion().getUuid());
+    assertEquals(thermocyclerProfileUuid, reloadedDto.getThermocyclerProfile().getUuid());
 
-    ThermocyclerProfileDto thermocyclerProfileDto = new ThermocyclerProfileDto();
-    thermocyclerProfileDto.setName("thermocyclerProfile");
+    assertEquals(PcrBatchTestFixture.CREATED_BY, reloadedDto.getCreatedBy());
+    assertEquals(PcrBatchTestFixture.THERMOCYCLER, reloadedDto.getThermocycler());
+    assertEquals(PcrBatchTestFixture.OBJECTIVE, reloadedDto.getObjective());
+    assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, reloadedDto.getPositiveControl());
+    assertEquals(PcrBatchTestFixture.REACTION_VOLUME, reloadedDto.getReactionVolume());
+    assertEquals(PcrBatchTestFixture.REACTION_DATE, reloadedDto.getReactionDate());
 
-    thermocyclerProfileTest = thermocyclerProfileRepository.create(thermocyclerProfileDto);
+    assertEquals(PcrBatchTestFixture.STORAGE_UNIT_UUID.toString(), reloadedDto.getStorageUnit().getId());
   }
 
   @Test
-  public void findPcrBatch_whenPcrBatchExists_PcrBatchReturned() {
-
+  public void updatePcrBatch_onSuccess_PcrBatchUpdated()
+      throws ResourceGoneException, ResourceNotFoundException {
     PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-    newDto.setPrimerForward(primerForwardTest);
-    newDto.setPrimerReverse(primerReverseTest);
-    newDto.setRegion(regionTest);
-    newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    
-    PcrBatchDto created = pcrBatchRepository.create(newDto);
+    UUID pcrBatchUuid = createWithRepository(newDto, pcrBatchRepository::onCreate);
 
-    PcrBatchDto found = pcrBatchRepository.findOne(
-        created.getUuid(),
-        new QuerySpec(PcrBatchDto.class)
-    );
-    
-    assertNotNull(found);
-    assertEquals(created.getGroup(), found.getGroup());
-    assertEquals(primerForwardTest.getUuid(), found.getPrimerForward().getUuid());
-    assertEquals(primerReverseTest.getUuid(), found.getPrimerReverse().getUuid());
-    assertEquals(regionTest.getUuid(), found.getRegion().getUuid());
-    assertEquals(thermocyclerProfileTest.getUuid(), found.getThermocyclerProfile().getUuid());
-
-    assertEquals(PcrBatchTestFixture.GROUP, found.getGroup());
-    assertEquals(PcrBatchTestFixture.CREATED_BY, found.getCreatedBy());
-    assertEquals(PcrBatchTestFixture.THERMOCYCLER, found.getThermocycler());
-    assertEquals(PcrBatchTestFixture.OBJECTIVE, found.getObjective());
-    assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, found.getPositiveControl());
-    assertEquals(PcrBatchTestFixture.REACTION_VOLUME, found.getReactionVolume());
-    assertEquals(PcrBatchTestFixture.REACTION_DATE, found.getReactionDate());
-
-    assertEquals(PcrBatchTestFixture.STORAGE_UNIT_UUID.toString(), found.getStorageUnit().getId());
+    JsonApiDocument pcrBatchToUpdate = JsonApiDocuments.createJsonApiDocument(pcrBatchUuid,
+      ProductDto.TYPENAME, Map.of("name", "updatedName"));
+    pcrBatchRepository.onUpdate(pcrBatchToUpdate, pcrBatchUuid);
+    PcrBatchDto reloadedDto = pcrBatchRepository.getOne(pcrBatchUuid, "").getDto();
+    assertEquals("updatedName", reloadedDto.getName());
   }
-  
+
   @Test
-  public void createPcrBatch_onSuccess_PcrBatchCreated() {
-
+  public void deletePcrBatch_onSuccess_PcrBatchDeleted()
+      throws ResourceGoneException, ResourceNotFoundException {
     PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-    newDto.setPrimerForward(primerForwardTest);
-    newDto.setPrimerReverse(primerReverseTest);
-    newDto.setRegion(regionTest);
-    newDto.setThermocyclerProfile(thermocyclerProfileTest);
-    
-    PcrBatchDto created = pcrBatchRepository.create(newDto);
-    assertNotNull(created.getUuid());
-    assertEquals(primerForwardTest.getUuid(), created.getPrimerForward().getUuid());
-    assertEquals(primerReverseTest.getUuid(), created.getPrimerReverse().getUuid());
-    assertEquals(regionTest.getUuid(), created.getRegion().getUuid());
-    assertEquals(thermocyclerProfileTest.getUuid(), created.getThermocyclerProfile().getUuid());
 
-    assertEquals(PcrBatchTestFixture.GROUP, created.getGroup());
-    assertEquals(PcrBatchTestFixture.CREATED_BY, created.getCreatedBy());
-    assertEquals(PcrBatchTestFixture.THERMOCYCLER, created.getThermocycler());
-    assertEquals(PcrBatchTestFixture.OBJECTIVE, created.getObjective());
-    assertEquals(PcrBatchTestFixture.POSITIVE_CONTROL, created.getPositiveControl());
-    assertEquals(PcrBatchTestFixture.REACTION_VOLUME, created.getReactionVolume());
-    assertEquals(PcrBatchTestFixture.REACTION_DATE, created.getReactionDate());
-  }
-  
-  @Test
-  public void updatePcrBatch_onSuccess_PcrBatchUpdated() {
-    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-    
-    PcrBatchDto created = pcrBatchRepository.create(newDto);
-    assertNotNull(created.getUuid());
-
-    PcrBatchDto found = pcrBatchRepository.findOne(
-        created.getUuid(),
-        new QuerySpec(PcrBatchDto.class)
-    );
-    
-    found.setName("updatedName");
-    PcrBatchDto updated = pcrBatchRepository.save(found);
-    assertEquals("updatedName", updated.getName());
-  }
-  
-  @Test
-  public void deletePcrBatch_onSuccess_PcrBatchDeleted() {
-    PcrBatchDto newDto = PcrBatchTestFixture.newPcrBatch();
-    
-    PcrBatchDto created = pcrBatchRepository.create(newDto);
-    assertNotNull(created.getUuid());
-
-    pcrBatchRepository.delete(created.getUuid());
-    assertThrows(ResourceNotFoundException.class, () -> pcrBatchRepository.findOne(
-      created.getUuid(),
-      new QuerySpec(PcrBatchDto.class)
+    UUID pcrBatchUuid = createWithRepository(newDto, pcrBatchRepository::onCreate);
+    pcrBatchRepository.onDelete(pcrBatchUuid);
+    assertThrows(ResourceNotFoundException.class, () -> pcrBatchRepository.getOne(
+      pcrBatchUuid, ""
     ));
   }
 }

@@ -1,8 +1,8 @@
 package ca.gc.aafc.seqdb.api.service;
 
-import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import lombok.NonNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.SmartValidator;

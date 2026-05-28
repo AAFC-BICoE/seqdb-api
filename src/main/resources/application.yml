@@ -11,18 +11,13 @@ spring:
   jpa:
     hibernate.naming:
       physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties.javax.persistence.validation.mode: none
+    properties.jakarta.persistence.validation.mode: none
     open-in-view: false
-
-crnk:
-  pathPrefix: /api
-  domainName: ""
-  defaultPageLimit: 20
-  maxPageLimit: 1000
-  allow-unknown-attributes: true
-  # The "include" query-string param is handled by our code and incorporated into the database
-  # query, so we don't let Crnk automatically call findOneTarget for each null relation.
-  config.lookup.behavior.default: NONE
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://keycloak-server/auth/realms/your-realm
 
 # We shouldn't get "Request header is too large" errors:
 server.max-http-header-size: 10MB
@@ -35,20 +30,7 @@ rabbitmq:
 
 keycloak:
   enabled: false
-  realm: dina
-  auth-server-url: http://${KEYCLOAK_HOST_IP}:8080/auth
-  ssl-required: none
-  resource: seqdb
-  public-client: true
-  bearer-only: true
-  principal-attribute: preferred_username
-  # All endpoints require a logged-in user with the "dina-realm-user" role.
-  security-constraints:
-    - auth-roles:
-        - dina-realm-user
-      security-collections:
-        - patterns:
-            - /*
+
 logging:
   level:
     com.github.tennaito.rsql: ERROR

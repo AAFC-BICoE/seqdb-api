@@ -1,9 +1,6 @@
 package ca.gc.aafc.seqdb.api.testsupport.fixtures;
 
-import java.time.OffsetDateTime;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
 
 import java.util.Random;
 
@@ -19,7 +16,6 @@ public class NgsIndexTestFixture {
         Random rand = new Random();
 
         ngsIndexDto.setCreatedBy("createdBy");
-        ngsIndexDto.setCreatedOn(OffsetDateTime.of(LocalDate.now(), LocalTime.now(), ZoneOffset.MIN));
         ngsIndexDto.setName(TestableEntityFactory.generateRandomName(10));
         ngsIndexDto.setDirection(NgsIndexDirection.FORWARD);
         ngsIndexDto.setLotNumber(rand.nextInt(1000));

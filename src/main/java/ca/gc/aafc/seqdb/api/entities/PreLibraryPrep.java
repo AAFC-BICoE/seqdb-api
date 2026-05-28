@@ -1,23 +1,24 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
@@ -69,7 +70,7 @@ public class PreLibraryPrep implements DinaEntity {
   private OffsetDateTime createdOn;
 
   @NotNull
-  @Type(type = "pgsql_enum")
+  @Type(PostgreSQLEnumType.class)
   @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
 

@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisService;
 import ca.gc.aafc.seqdb.api.service.GenericMolecularAnalysisItemService;

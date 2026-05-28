@@ -23,7 +23,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api", produces = JSON_API_VALUE)

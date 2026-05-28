@@ -12,12 +12,11 @@ import ca.gc.aafc.seqdb.api.dto.SequencingFacilityDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SeqSubmissionTestFixture;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SequencingFacilityTestFixture;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class SeqSubmissionRepositoryIT extends BaseRepositoryTestV2 {
 

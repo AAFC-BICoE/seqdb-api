@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

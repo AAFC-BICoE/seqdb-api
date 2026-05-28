@@ -14,7 +14,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunTestFixture
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * Tests for all MolecularAnalysisRun-based entities.

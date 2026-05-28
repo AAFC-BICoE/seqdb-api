@@ -12,7 +12,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.GenericMolecularAnalysisTestFix
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class GenericMolecularAnalysisRepositoryIT extends BaseRepositoryTestV2 {
 

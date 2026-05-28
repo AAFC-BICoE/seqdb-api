@@ -18,7 +18,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.MolecularAnalysisRunTestFixture
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class MetagenomicsBatchIT extends BaseRepositoryTestV2 {
 

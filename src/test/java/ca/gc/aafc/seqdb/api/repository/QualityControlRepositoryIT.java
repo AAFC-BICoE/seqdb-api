@@ -14,7 +14,7 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.QualityControlTestFixture;
 
 import java.util.Map;
 import java.util.UUID;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class QualityControlRepositoryIT extends BaseRepositoryTestV2 {
 

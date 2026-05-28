@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.config;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

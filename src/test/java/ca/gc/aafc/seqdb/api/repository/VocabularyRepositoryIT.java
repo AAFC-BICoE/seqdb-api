@@ -8,7 +8,7 @@ import ca.gc.aafc.seqdb.api.dto.VocabularyDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class VocabularyRepositoryIT extends BaseRepositoryTest {
 

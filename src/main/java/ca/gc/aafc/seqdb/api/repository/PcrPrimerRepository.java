@@ -22,8 +22,8 @@ import ca.gc.aafc.seqdb.api.mapper.PcrPrimerMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.hateoas.Link;

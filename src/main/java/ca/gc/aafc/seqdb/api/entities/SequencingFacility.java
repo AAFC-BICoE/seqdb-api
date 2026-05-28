@@ -2,6 +2,8 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.dina.entity.DinaEntity;
+
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,17 +14,17 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -62,12 +64,12 @@ public class SequencingFacility implements DinaEntity {
   @Size(max = 50)
   private String name;
 
-  @Type(type = "jsonb")
+  @Type(JsonType.class)
   @Column(name = "contacts", columnDefinition = "jsonb")
   @Valid
   private List<ContactRole> contacts = List.of();
 
-  @Type(type = "jsonb")
+  @Type(JsonType.class)
   @Column(name = "shipping_address", columnDefinition = "jsonb")
   @Valid
   private Address shippingAddress;

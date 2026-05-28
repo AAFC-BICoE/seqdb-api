@@ -1,17 +1,18 @@
 package ca.gc.aafc.seqdb.api.entities;
 
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,10 +64,10 @@ public class GenericMolecularAnalysis implements DinaEntity {
   @Size(max = 50)
   private String analysisType;
 
-  @Type(type = "jsonb")
+  @Type(JsonType.class)
   @NotNull
   @Builder.Default
-  @Column(name = "managed_attributes")
+  @Column(name = "managed_attributes", columnDefinition = "jsonb")
   private Map<String, String> managedAttributes = Map.of();
 
 }

@@ -12,7 +12,6 @@ import ca.gc.aafc.dina.service.JaversDataService;
  */
 //CHECKSTYLE:OFF HideUtilityClassConstructor (Configuration class can not have invisible constructor, ignore the check style error for this case)
 @SpringBootApplication
-//@EnableJpaRepositories(considerNestedRepositories = true)
 @MapperScan(basePackageClasses = JaversDataService.class)
 public class SeqdbApiLauncher {
 

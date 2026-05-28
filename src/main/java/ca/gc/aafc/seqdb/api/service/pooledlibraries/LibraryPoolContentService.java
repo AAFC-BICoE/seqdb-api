@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.SmartValidator;

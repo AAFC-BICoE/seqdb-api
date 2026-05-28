@@ -1,6 +1,6 @@
 package ca.gc.aafc.seqdb.api.validation;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.validation.BeanPropertyBindingResult;

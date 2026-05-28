@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Map;
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 public class GenericMolecularAnalysisServiceIT extends SequenceModuleBaseIT {
 

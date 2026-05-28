@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import lombok.NonNull;
 
 @Service

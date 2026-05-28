@@ -5,30 +5,32 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import ca.gc.aafc.dina.repository.meta.AttributeMetaInfoProvider;
 import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.dto.JsonApiRelation;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
 import ca.gc.aafc.seqdb.api.dto.RegionDto;
 import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
 import ca.gc.aafc.seqdb.api.entities.pcr.PcrBatch;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 @Data
-@JsonApiResource(type = PcrBatchDto.TYPENAME)
+@JsonApiTypeForClass(PcrBatchDto.TYPENAME)
 @RelatedEntity(PcrBatch.class)
 @TypeName(PcrBatchDto.TYPENAME)
 @EqualsAndHashCode(callSuper = false) //meta is not part of the data
-public class PcrBatchDto extends AttributeMetaInfoProvider {
+public class PcrBatchDto implements JsonApiResource {
 
   public static final String TYPENAME = "pcr-batch";
 
@@ -44,18 +46,6 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
   private String batchType;
   private Boolean isCompleted = false;
 
-  @JsonApiRelation
-  private PcrPrimerDto primerForward;
-
-  @JsonApiRelation
-  private PcrPrimerDto primerReverse;
-
-  @JsonApiRelation
-  private RegionDto region;
-
-  @JsonApiRelation
-  private ThermocyclerProfileDto thermocyclerProfile;
-
   private String thermocycler;
   private String objective;
   private String positiveControl;
@@ -63,20 +53,47 @@ public class PcrBatchDto extends AttributeMetaInfoProvider {
 
   private LocalDate reactionDate;
 
-  @JsonApiExternalRelation(type = "person")
+  @JsonIgnore
   @JsonApiRelation
+  private PcrPrimerDto primerForward;
+
+  @JsonIgnore
+  @JsonApiRelation
+  private PcrPrimerDto primerReverse;
+
+  @JsonIgnore
+  @JsonApiRelation
+  private RegionDto region;
+
+  @JsonIgnore
+  @JsonApiRelation
+  private ThermocyclerProfileDto thermocyclerProfile;
+
+  @JsonIgnore
+  @JsonApiExternalRelation(type = "person")
   private List<ExternalRelationDto> experimenters = List.of();
 
+  @JsonIgnore
   @JsonApiExternalRelation(type = "metadata")
-  @JsonApiRelation
   private List<ExternalRelationDto> attachment = List.of();
 
+  @JsonIgnore
   @JsonApiExternalRelation(type = "storage-unit")
-  @JsonApiRelation
   private ExternalRelationDto storageUnit;
 
+  @JsonIgnore
   @JsonApiExternalRelation(type = "protocol")
-  @JsonApiRelation
   private ExternalRelationDto protocol;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

@@ -2,7 +2,13 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
-import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.dina.testsupport.jsonapi.JsonAPITestHelper;
+import ca.gc.aafc.seqdb.api.dto.PcrPrimerDto;
+import ca.gc.aafc.seqdb.api.dto.external.MaterialSampleExternalDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchDto;
 import ca.gc.aafc.seqdb.api.dto.pcr.PcrBatchItemDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchItemTestFixture;
@@ -10,15 +16,13 @@ import ca.gc.aafc.seqdb.api.testsupport.fixtures.PcrBatchTestFixture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
+import java.util.Map;
 import java.util.UUID;
 import javax.inject.Inject;
 
-public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
+public class PcrBatchItemRepositoryIT extends BaseRepositoryTestV2 {
 
   private static final UUID TEST_MAT_SAMPLE_UUID = UUID.randomUUID();
   
@@ -29,77 +33,56 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTest {
   private PcrBatchItemRepository pcrBatchItemRepository;
 
   @Test
-  public void createPcrBatchItem_onSuccess_PcrBatchItemCreated() {
-    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
+  public void createPcrBatchItem_onSuccess_PcrBatchItemCreated()
+      throws ResourceGoneException, ResourceNotFoundException {
+    PcrBatchDto pcrBatchTest = PcrBatchTestFixture.newPcrBatch();
+    UUID pcrBatchUuid = createWithRepository(pcrBatchTest, pcrBatchRepository::onCreate);
 
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
-    newDto.setPcrBatch(pcrBatchTest);
-    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    JsonApiDocument pcrBatchItemToCreate =
+      JsonApiDocuments.createJsonApiDocumentWithRelToOne(null, PcrBatchDto.TYPENAME,
+        JsonAPITestHelper.toAttributeMap(newDto),
+        Map.of(
+          "pcrBatch", JsonApiDocument.ResourceIdentifier.builder().id(pcrBatchUuid)
+            .type(PcrPrimerDto.TYPENAME).build(),
+          "materialSample", JsonApiDocument.ResourceIdentifier.builder().id(TEST_MAT_SAMPLE_UUID)
+            .type(MaterialSampleExternalDto.EXTERNAL_TYPENAME).build()
+        ));
+    UUID pcrBatchitemUuid = createWithRepository(pcrBatchItemToCreate, pcrBatchItemRepository::onCreate);
 
-    PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
+    PcrBatchItemDto reloadedDto = pcrBatchItemRepository.getOne(pcrBatchitemUuid, "include=" +
+      String.join(",", pcrBatchItemToCreate.getRelationships().keySet())).getDto();
 
-    assertNotNull(created.getUuid());
-    assertEquals(TEST_MAT_SAMPLE_UUID.toString(), created.getMaterialSample().getId());
-    assertEquals(pcrBatchTest.getUuid(), created.getPcrBatch().getUuid());
-    assertEquals(PcrBatchItemTestFixture.GROUP, created.getGroup());
-    assertEquals(PcrBatchItemTestFixture.CREATED_BY, created.getCreatedBy());
-    assertEquals(PcrBatchItemTestFixture.RESULT, created.getResult());
+    assertNotNull(reloadedDto.getUuid());
+    assertEquals(TEST_MAT_SAMPLE_UUID.toString(), reloadedDto.getMaterialSample().getId());
+    assertEquals(pcrBatchUuid, reloadedDto.getPcrBatch().getUuid());
+    assertEquals(PcrBatchItemTestFixture.GROUP, reloadedDto.getGroup());
+    assertEquals(PcrBatchItemTestFixture.CREATED_BY, reloadedDto.getCreatedBy());
+    assertEquals(PcrBatchItemTestFixture.RESULT, reloadedDto.getResult());
   }
 
   @Test
-  public void findPcrBatchItem_whenPcrReactionExists_PcrBatchItemReturned() {
-
-    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
-    
+  public void updatePcrBatchItem_onSuccess_PcrBatchItemUpdated()
+      throws ResourceGoneException, ResourceNotFoundException {
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
-    newDto.setPcrBatch(pcrBatchTest);
-    newDto.setMaterialSample(ExternalRelationDto.builder().id(TEST_MAT_SAMPLE_UUID.toString()).type("material-sample").build());
+    UUID pcrBatchItemUuid = createWithRepository(newDto, pcrBatchItemRepository::onCreate);
 
-    PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
+    JsonApiDocument pcrBatchToUpdate = JsonApiDocuments.createJsonApiDocument(pcrBatchItemUuid,
+      PcrBatchItemDto.TYPENAME, Map.of("result", "newResult"));
+    pcrBatchItemRepository.onUpdate(pcrBatchToUpdate, pcrBatchItemUuid);
 
-    PcrBatchItemDto found = pcrBatchItemRepository.findOne(
-      created.getUuid(),
-      new QuerySpec(PcrBatchItemDto.class)
-    );
-
-    assertNotNull(created.getUuid());
-    assertEquals(TEST_MAT_SAMPLE_UUID.toString(), found.getMaterialSample().getId());
-    assertEquals(pcrBatchTest.getUuid(), found.getPcrBatch().getUuid());
-    assertEquals(PcrBatchItemTestFixture.GROUP, found.getGroup());
-    assertEquals(PcrBatchItemTestFixture.CREATED_BY, found.getCreatedBy());
+    PcrBatchItemDto reloadedDto = pcrBatchItemRepository.getOne(pcrBatchItemUuid, "").getDto();
+    assertEquals("newResult", reloadedDto.getResult());
   }
 
   @Test
-  public void updatePcrBatchItem_onSuccess_PcrBatchItemUpdated() {
+  public void deletePcrReaction_onSuccess_PcrReactionDeleted()
+      throws ResourceGoneException, ResourceNotFoundException {
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
-    
-    PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
-    
-    PcrBatchItemDto found = pcrBatchItemRepository.findOne(
-      created.getUuid(),
-      new QuerySpec(PcrBatchItemDto.class)
-      );
-    
-    assertNull(found.getPcrBatch());
-
-    PcrBatchDto pcrBatchTest = pcrBatchRepository.create(PcrBatchTestFixture.newPcrBatch());
-    found.setPcrBatch(pcrBatchTest);
-        
-    PcrBatchItemDto updated = pcrBatchItemRepository.save(found);
-    assertEquals(pcrBatchTest.getUuid(), updated.getPcrBatch().getUuid());
-  }
-
-  @Test
-  public void deletePcrReaction_onSuccess_PcrReactionDeleted() {
-    PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
-    
-    PcrBatchItemDto created = pcrBatchItemRepository.create(newDto);
-    assertNotNull(created.getUuid());
-
-    pcrBatchItemRepository.delete(created.getUuid());
-    assertThrows(ResourceNotFoundException.class, () -> pcrBatchItemRepository.findOne(
-      created.getUuid(),
-      new QuerySpec(PcrBatchItemDto.class)
+    UUID pcrBatchItemUuid = createWithRepository(newDto, pcrBatchItemRepository::onCreate);
+    pcrBatchItemRepository.onDelete(pcrBatchItemUuid);
+    assertThrows(ResourceNotFoundException.class, () -> pcrBatchItemRepository.getOne(
+      pcrBatchItemUuid, ""
     ));
   }
 }

@@ -1,33 +1,29 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
+import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
+import ca.gc.aafc.seqdb.api.service.ThermocyclerProfileService;
+import ca.gc.aafc.seqdb.api.testsupport.fixtures.ThermocyclerProfileTestFixture;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 
-import ca.gc.aafc.seqdb.api.service.ThermocyclerProfileService;
-import ca.gc.aafc.seqdb.api.testsupport.fixtures.ThermocyclerProfileTestFixture;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.Test;
-
-import ca.gc.aafc.seqdb.api.dto.ThermocyclerProfileDto;
-import ca.gc.aafc.seqdb.api.entities.ThermocyclerProfile;
-import ca.gc.aafc.seqdb.api.testsupport.factories.ThermocyclerProfileFactory;
-import io.crnk.core.exception.ResourceNotFoundException;
-import io.crnk.core.queryspec.QuerySpec;
-
-public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
-  
-  private static final String TEST_PROFILE_NAME = "test name";
-  private static final String TEST_PROFILE_CYCLE = ThermocyclerProfileTestFixture.TEST_PROFILE_CYCLE;
+public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTestV2 {
 
   @Inject
   private ThermocyclerProfileService thermocyclerProfileService;
@@ -35,91 +31,60 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTest {
   @Inject
   private ThermocyclerProfileRepository thermocyclerProfileRepository;
 
-
-  private static ThermocyclerProfile.ThermocyclerProfileBuilder initTestProfileBuilder() {
-    return ThermocyclerProfileFactory.newThermocyclerProfile()
-            .name(TEST_PROFILE_NAME)
-            .cycles(TEST_PROFILE_CYCLE)
-            .steps(List.of("step1", "step2"));
-  }
-
-  private ThermocyclerProfile createTestProfile() {
-    ThermocyclerProfile testThermocyclerProfile = initTestProfileBuilder()
-            .build();
-    return thermocyclerProfileService.create(testThermocyclerProfile);
-  }
-
   @Test
   public void createThermocyclerProfile_whenStepsSizeExceeded_ExceptionThrown() {
     ThermocyclerProfileDto tpDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
     tpDto.setSteps(List.of(RandomStringUtils.randomAlphabetic(1000)));
-    assertThrows(ConstraintViolationException.class, () -> thermocyclerProfileRepository.create(tpDto));
+    assertThrows(ConstraintViolationException.class, () -> createWithRepository(tpDto, thermocyclerProfileRepository::onCreate));
   }
 
   @Test
-  public void findThermocyclerProfile_whenNoFieldsAreSelected_productReturnedWithAllFields() {
+  public void findThermocyclerProfile_whenNoFieldsAreSelected_returnedWithAllFields()
+      throws ResourceGoneException, ResourceNotFoundException {
 
-    ThermocyclerProfile testThermocyclerProfile = createTestProfile();
+    ThermocyclerProfileDto tpDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
+    UUID tpUuid = createWithRepository(tpDto, thermocyclerProfileRepository::onCreate);
 
-    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocyclerProfile.getUuid(), new QuerySpec(ThermocyclerProfileDto.class));
+    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.getOne(tpUuid, "").getDto();
     assertNotNull(thermoDto);
-    assertEquals(testThermocyclerProfile.getUuid(), thermoDto.getUuid());
-    assertEquals(TEST_PROFILE_NAME, thermoDto.getName());
-    assertEquals(TEST_PROFILE_CYCLE, thermoDto.getCycles());
+    assertEquals(tpUuid, thermoDto.getUuid());
+    assertEquals(tpDto.getName(), thermoDto.getName());
+    assertEquals(tpDto.getCycles(), thermoDto.getCycles());
 
-    assertThat(testThermocyclerProfile.getSteps(), contains(thermoDto.getSteps().toArray()));
-  }
-  
-  @Test
-  public void createAndPersistThermocyclerProfile_onSuccess_allFieldsHavePersistedValues() {
-
-    //set a base DTO
-    ThermocyclerProfileDto baseDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
-    
-    //create the DTO in the repository
-    ThermocyclerProfileDto createdDto = thermocyclerProfileRepository.create(baseDto);
-    
-    //Assert DTO has the set values
-    assertNotNull(createdDto.getUuid());
-    assertEquals(baseDto.getName(), createdDto.getName());
-    assertEquals(TEST_PROFILE_CYCLE, createdDto.getCycles());
-    assertThat(createdDto.getSteps(), contains(ThermocyclerProfileTestFixture.TEST_STEPS.toArray()));
-    
-    //Assert Entity has the set values
-    ThermocyclerProfile profileEntity = thermocyclerProfileService.findOne(createdDto.getUuid(), ThermocyclerProfile.class);
-    assertNotNull(profileEntity.getId());
-    assertEquals(baseDto.getName(), profileEntity.getName());
-    assertEquals(TEST_PROFILE_CYCLE, profileEntity.getCycles());
-    assertThat(profileEntity.getSteps(), contains(ThermocyclerProfileTestFixture.TEST_STEPS.toArray()));
-  }
-  
-  @Test
-  public void updateThermocyclerProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields() {
-    ThermocyclerProfile testThermocyclerProfile = createTestProfile();
-    QuerySpec querySpec = new QuerySpec(ThermocyclerProfileDto.class);
-    
-    ThermocyclerProfileDto thermoDto = thermocyclerProfileRepository.findOne(testThermocyclerProfile.getUuid(), querySpec);
-    
-    thermoDto.setCycles("new cycles");
-    
-    thermocyclerProfileRepository.save(thermoDto);
-    
-    assertEquals("new cycles", testThermocyclerProfile.getCycles());
+    assertThat(ThermocyclerProfileTestFixture.TEST_STEPS, contains(thermoDto.getSteps().toArray()));
   }
 
   @Test
-  public void deleteThermocyclerProfile_callRepositoryDeleteOnID_profileNotFound() {
-    ThermocyclerProfile testThermocyclerProfile = createTestProfile();
-    thermocyclerProfileRepository.delete(testThermocyclerProfile.getUuid());
-    assertNull(entityManager.find(ThermocyclerProfile.class, testThermocyclerProfile.getId()));
+  public void updateThermocyclerProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields()
+      throws ResourceGoneException, ResourceNotFoundException {
+    ThermocyclerProfileDto tpDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
+    UUID tpUuid = createWithRepository(tpDto, thermocyclerProfileRepository::onCreate);
+
+    JsonApiDocument thermocyclerProfileToUpdate = JsonApiDocuments.createJsonApiDocument(tpUuid,
+      ThermocyclerProfileDto.TYPENAME, Map.of("cycles", "new cycles"));
+    thermocyclerProfileRepository.onUpdate(thermocyclerProfileToUpdate, tpUuid);
+
+    ThermocyclerProfileDto reloadedDto = thermocyclerProfileRepository.getOne(tpUuid, "").getDto();
+    assertEquals("new cycles", reloadedDto.getCycles());
+  }
+
+  @Test
+  public void deleteThermocyclerProfile_callRepositoryDeleteOnID_profileNotFound()
+      throws ResourceGoneException, ResourceNotFoundException {
+    ThermocyclerProfileDto tpDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
+    UUID tpUuid = createWithRepository(tpDto, thermocyclerProfileRepository::onCreate);
+    thermocyclerProfileRepository.onDelete(tpUuid);
+
+    assertThrows(ResourceNotFoundException.class, () -> thermocyclerProfileRepository.getOne(
+      tpUuid, ""
+    ));
   }
 
   @Test
   public void deleteThermocyclerProfile_nonexistentID_throwsResourceNotFoundException() {
     assertThrows(
       ResourceNotFoundException.class,
-      () -> thermocyclerProfileRepository.delete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+      () -> thermocyclerProfileRepository.onDelete(UUID.fromString("00000000-0000-0000-0000-000000000000"))
     );
   }
-
 }

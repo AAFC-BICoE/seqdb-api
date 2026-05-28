@@ -1,10 +1,5 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import io.crnk.core.resource.annotations.JsonApiField;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
-import io.crnk.core.resource.annotations.PatchStrategy;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -13,7 +8,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
 import ca.gc.aafc.dina.dto.ExternalRelationDto;
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.dina.repository.meta.JsonApiExternalRelation;
 import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
@@ -22,9 +22,9 @@ import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonApiResource(type = GenericMolecularAnalysisDto.TYPENAME)
+@JsonApiTypeForClass(GenericMolecularAnalysisDto.TYPENAME)
 @RelatedEntity(GenericMolecularAnalysis.class)
-public class GenericMolecularAnalysisDto {
+public class GenericMolecularAnalysisDto implements JsonApiResource {
 
   public static final String TYPENAME = "generic-molecular-analysis";
 
@@ -40,15 +40,26 @@ public class GenericMolecularAnalysisDto {
 
   private String analysisType;
 
-  @JsonApiExternalRelation(type = "protocol")
-  @JsonApiRelation
-  private ExternalRelationDto protocol;
-
   /**
    * Map of Managed attribute key to value object.
    */
-  @JsonApiField(patchStrategy = PatchStrategy.SET)
   @Builder.Default
   private Map<String, String> managedAttributes = Map.of();
 
+  // -- External relationships --
+  @JsonApiExternalRelation(type = "protocol")
+  @JsonIgnore
+  private ExternalRelationDto protocol;
+
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

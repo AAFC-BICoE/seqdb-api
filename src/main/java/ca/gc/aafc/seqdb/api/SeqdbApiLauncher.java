@@ -3,7 +3,6 @@ package ca.gc.aafc.seqdb.api;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import ca.gc.aafc.dina.service.JaversDataService;
 
@@ -13,7 +12,7 @@ import ca.gc.aafc.dina.service.JaversDataService;
  */
 //CHECKSTYLE:OFF HideUtilityClassConstructor (Configuration class can not have invisible constructor, ignore the check style error for this case)
 @SpringBootApplication
-@EnableJpaRepositories(considerNestedRepositories = true)
+//@EnableJpaRepositories(considerNestedRepositories = true)
 @MapperScan(basePackageClasses = JaversDataService.class)
 public class SeqdbApiLauncher {
 

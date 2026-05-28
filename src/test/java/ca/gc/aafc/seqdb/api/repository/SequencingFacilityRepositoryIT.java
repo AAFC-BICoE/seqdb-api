@@ -1,10 +1,15 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import ca.gc.aafc.dina.exception.ResourceGoneException;
+import ca.gc.aafc.dina.exception.ResourceNotFoundException;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
+import ca.gc.aafc.dina.jsonapi.JsonApiDocuments;
 import ca.gc.aafc.seqdb.api.dto.SequencingFacilityDto;
 import ca.gc.aafc.seqdb.api.testsupport.fixtures.SequencingFacilityTestFixture;
-import io.crnk.core.queryspec.QuerySpec;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+import java.util.UUID;
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,31 +20,30 @@ public class SequencingFacilityRepositoryIT extends BaseRepositoryTestV2 {
   @Inject
   private SequencingFacilityRepository sequencingFacilityRepository;
 
-  public SequencingFacilityDto setupSequencingFacility() {
-    return sequencingFacilityRepository
-            .create(SequencingFacilityTestFixture.newSequencingFacility());
+  public UUID setupSequencingFacility() {
+    SequencingFacilityDto dto = SequencingFacilityTestFixture.newSequencingFacility();
+    return createWithRepository(dto, sequencingFacilityRepository::onCreate);
   }
 
   @Test
-  public void createSeqReaction_onSuccess_SeqReactionCreated() {
-    SequencingFacilityDto sequencingFacilityDto = setupSequencingFacility();
-    assertNotNull(sequencingFacilityDto.getUuid());
+  public void createSeqReaction_onSuccess_SeqReactionCreated()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID sequencingFacilityUuid = setupSequencingFacility();
+    SequencingFacilityDto dto = sequencingFacilityRepository.getOne(sequencingFacilityUuid, "").getDto();
+      assertNotNull(dto.getUuid());
   }
 
   @Test
-  public void updateSeqReaction_onSuccess_SeqReactionUpdated() {
-    SequencingFacilityDto sequencingFacilityDto = setupSequencingFacility();
-    assertNotNull(sequencingFacilityDto.getUuid());
+  public void updateSeqReaction_onSuccess_SeqReactionUpdated()
+      throws ResourceGoneException, ResourceNotFoundException {
+    UUID sequencingFacilityUuid = setupSequencingFacility();
 
-    SequencingFacilityDto found = sequencingFacilityRepository.findOne(
-            sequencingFacilityDto.getUuid(),
-            new QuerySpec(SequencingFacilityDto.class)
-    );
+    JsonApiDocument sequencingFacilityToUpdate = JsonApiDocuments.createJsonApiDocument(sequencingFacilityUuid,
+      SequencingFacilityDto.TYPENAME, Map.of("name", "Updated name"));
+    sequencingFacilityRepository.onUpdate(sequencingFacilityToUpdate, sequencingFacilityUuid);
 
-    found.setName("Updated name");
-
-    SequencingFacilityDto updated = sequencingFacilityRepository.save(found);
-    assertEquals("Updated name", updated.getName());
+    SequencingFacilityDto reloadedDto = sequencingFacilityRepository.getOne(sequencingFacilityUuid, "").getDto();
+    assertEquals("Updated name", reloadedDto.getName());
   }
   
 }

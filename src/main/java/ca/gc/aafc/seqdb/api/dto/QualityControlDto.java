@@ -1,8 +1,5 @@
 package ca.gc.aafc.seqdb.api.dto;
 
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -14,6 +11,11 @@ import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.PropertyName;
 import org.javers.core.metamodel.annotation.TypeName;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.toedter.spring.hateoas.jsonapi.JsonApiId;
+import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;
+
+import ca.gc.aafc.dina.dto.JsonApiResource;
 import ca.gc.aafc.dina.dto.RelatedEntity;
 import ca.gc.aafc.seqdb.api.entities.QualityControl;
 
@@ -21,10 +23,10 @@ import ca.gc.aafc.seqdb.api.entities.QualityControl;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonApiResource(type = QualityControlDto.TYPENAME)
+@JsonApiTypeForClass(QualityControlDto.TYPENAME)
 @TypeName(QualityControlDto.TYPENAME)
 @RelatedEntity(QualityControl.class)
-public class QualityControlDto {
+public class QualityControlDto implements JsonApiResource {
 
   public static final String TYPENAME = "quality-control";
 
@@ -42,7 +44,18 @@ public class QualityControlDto {
 
   private String qcType;
 
-  @JsonApiRelation
+  @JsonIgnore
   private MolecularAnalysisRunItemDto molecularAnalysisRunItem;
 
+  @Override
+  @JsonIgnore
+  public String getJsonApiType() {
+    return TYPENAME;
+  }
+
+  @Override
+  @JsonIgnore
+  public UUID getJsonApiId() {
+    return uuid;
+  }
 }

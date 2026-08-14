@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -109,7 +110,8 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
   }
 
   @Test
-  public void updateLpc_onSuccess_lpcUpdated() throws ResourceGoneException, ResourceNotFoundException {
+  public void updateLpc_onSuccess_lpcUpdated()
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
     UUID indexSet = createIndexSet("test index set 1");
     UUID libraryPrepBatchId = createLibraryPrepBatchDto("test batch", indexSet);
 
@@ -254,7 +256,7 @@ public class LibraryPoolContentRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void createLpc_onDuplicateNestedLibraryPrepBatch_throwValidationException()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
 
     UUID indexSet = createIndexSet("test index set 1");
     UUID libraryPrepBatchId = createLibraryPrepBatchDto("test batch 1", indexSet);

@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities;
 
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -20,8 +19,9 @@ import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import ca.gc.aafc.seqdb.api.entities.libraryprep.LibraryPrep;
@@ -70,7 +70,7 @@ public class PreLibraryPrep implements DinaEntity {
   private OffsetDateTime createdOn;
 
   @NotNull
-  @Type(PostgreSQLEnumType.class)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Enumerated(EnumType.STRING)
   private PreLibraryPrepType preLibraryPrepType;
 

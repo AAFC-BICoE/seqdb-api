@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -53,7 +54,7 @@ public class NgsIndexRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateNgsIndex_onSuccess_ngsIndexUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
 
     NgsIndexDto ngsIndexDto = NgsIndexTestFixture.newNgsIndex();
     UUID ngsIndexId = createWithRepository(ngsIndexDto, ngsIndexRepository::onCreate);

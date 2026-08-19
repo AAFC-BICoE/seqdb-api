@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -65,7 +66,7 @@ public class LibraryPrepBatchRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateBatch_onSuccess_batchUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
     UUID batchId = createTestLibraryPrepBatch();
 
     JsonApiDocument libraryPrepBatchToUpdate = JsonApiDocuments.createJsonApiDocument(batchId,

@@ -2,16 +2,17 @@ package ca.gc.aafc.seqdb.api.entities;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import ca.gc.aafc.dina.entity.DinaEntityIdentifiableByName;
 import ca.gc.aafc.dina.entity.ManagedAttribute;
 import ca.gc.aafc.dina.i18n.MultilingualDescription;
 import ca.gc.aafc.dina.i18n.MultilingualTitle;
 
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -90,7 +91,7 @@ public class SequenceManagedAttribute implements ManagedAttribute, DinaEntityIde
   private String key;
 
   @NotNull
-  @Type(PostgreSQLEnumType.class)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Enumerated(EnumType.STRING)
   @Column(name = "type")
   private VocabularyElementType vocabularyElementType;

@@ -2,7 +2,7 @@ package ca.gc.aafc.seqdb.api.config;
 
 import java.util.UUID;
 
-public class SequenceVocabularyConfiguration {
+public final class SequenceVocabularyConfiguration {
 
   // Constant, by Liquibase migration
   public static final UUID MANAGED_ATTRIBUTE_VOCAB_UUID = UUID.fromString("fe62b8b4-875d-43b4-91a8-94f85b3aae42");

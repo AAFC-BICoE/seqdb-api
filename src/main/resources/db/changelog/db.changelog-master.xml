@@ -67,4 +67,5 @@
   <include file="db/changelog/migrations/60-Increase_name_length_molecular_analysis_run_item.xml"/>
   <include file="db/changelog/migrations/61-Increase_name_length_molecular_analysis_run.xml"/>
   <include file="db/changelog/migrations/62-Add_controlled_vocabulary.xml"/>
+  <include file="db/changelog/initial-data/2-Create_managed_attribute_controlled_vocabulary.xml"/>
 </databaseChangeLog>

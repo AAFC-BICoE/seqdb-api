@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-  name = "Products",
+  name = "products",
   uniqueConstraints = { @UniqueConstraint(columnNames = { "Name", "UPC" }) }
 )
 @Data
@@ -42,9 +42,10 @@ public class Product implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby")
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
   @Column(name = "groupname")
@@ -61,6 +62,7 @@ public class Product implements DinaEntity {
   private String description;
 
   @Version
+  @Column(name = "lastmodified")
   private Timestamp lastModified;
 
 }

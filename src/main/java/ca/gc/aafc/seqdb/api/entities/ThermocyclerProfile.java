@@ -48,9 +48,10 @@ public class ThermocyclerProfile implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
@@ -69,6 +70,7 @@ public class ThermocyclerProfile implements DinaEntity {
   private List<@Size(max = 250) String> steps;
 
   @Version
+  @Column(name = "lastmodified")
   private Timestamp lastModified;
 
   @ManyToOne(fetch = FetchType.LAZY)

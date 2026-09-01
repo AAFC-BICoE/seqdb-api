@@ -23,7 +23,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "LibraryPreps")
+@Table(name = "librarypreps")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,11 +38,13 @@ public class LibraryPrep implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
+  @Column(name = "inputng")
   private Double inputNg;
 
   private String quality;

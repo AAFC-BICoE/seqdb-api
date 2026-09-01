@@ -25,7 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "IndexSets")
+@Table(name = "indexsets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,9 +40,10 @@ public class IndexSet implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
@@ -52,8 +53,10 @@ public class IndexSet implements DinaEntity {
   @NotNull
   private String name;
   
+  @Column(name = "forwardadapter")
   private String forwardAdapter;
-  
+
+  @Column(name = "reverseadapter")
   private String reverseAdapter;
   
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "indexSet")

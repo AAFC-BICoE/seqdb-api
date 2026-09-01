@@ -43,9 +43,10 @@ public class Region implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby")
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
@@ -62,6 +63,7 @@ public class Region implements DinaEntity {
   private String aliases;
 
   @Size(max = 255)
+  @Column(name = "applicableorganisms")
   private String applicableOrganisms;
 
 }

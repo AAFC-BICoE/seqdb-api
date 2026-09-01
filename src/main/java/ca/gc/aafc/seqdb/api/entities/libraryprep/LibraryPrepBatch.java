@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
  * A batch of library preps for samples.
  */
 @Entity
-@Table(name = "LibraryPrepBatchs")
+@Table(name = "libraryprepbatchs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,22 +47,27 @@ public class LibraryPrepBatch implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby")
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
   @NotNull
   private String name;
 
+  @Column(name = "totallibraryyieldnm")
   private Double totalLibraryYieldNm;
 
   private String notes;
-
+  
+  @Column(name = "cleanupnotes")
   private String cleanUpNotes;
 
+  @Column(name = "yieldnotes")
   private String yieldNotes;
 
+  @Column(name = "dateused")
   private LocalDate dateUsed;
 
   @ManyToOne(fetch = FetchType.LAZY)

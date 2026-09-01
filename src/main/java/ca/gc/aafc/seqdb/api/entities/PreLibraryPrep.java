@@ -40,7 +40,7 @@ import lombok.NoArgsConstructor;
  *
  */
 @Entity
-@Table(name = "PreLibraryPreps")
+@Table(name = "prelibrarypreps")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -64,24 +64,29 @@ public class PreLibraryPrep implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
   @NotNull
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Enumerated(EnumType.STRING)
+  @Column(name = "prelibrarypreptype")
   private PreLibraryPrepType preLibraryPrepType;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "library_prep_id")
   private LibraryPrep libraryPrep;
 
+  @Column(name = "inputamount")
   private Double inputAmount;
 
+  @Column(name = "targetbpsize")
   private Double targetBpSize;
 
+  @Column(name = "averagefragmentsize")
   private Double averageFragmentSize;
 
   private Double concentration;
@@ -97,6 +102,7 @@ public class PreLibraryPrep implements DinaEntity {
   private Product product;
 
   @Version
+  @Column(name = "lastmodified")
   private Timestamp lastModified;
 
   @NotBlank

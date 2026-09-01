@@ -62,6 +62,7 @@ public class GenericMolecularAnalysis implements DinaEntity {
 
   @NotBlank
   @Size(max = 50)
+  @Column(name = "analysistype")
   private String analysisType;
 
   @Type(JsonType.class)

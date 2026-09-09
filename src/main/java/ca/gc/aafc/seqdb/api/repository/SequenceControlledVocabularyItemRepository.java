@@ -37,6 +37,7 @@ import ca.gc.aafc.dina.security.TextHtmlSanitizer;
 import ca.gc.aafc.dina.security.auth.SuperUserInGroupCUDAuthorizationService;
 import ca.gc.aafc.dina.service.AuditService;
 import ca.gc.aafc.dina.util.UUIDHelper;
+import ca.gc.aafc.seqdb.api.config.SequenceVocabularyConfiguration;
 import ca.gc.aafc.seqdb.api.dto.SequenceControlledVocabularyItemDto;
 import ca.gc.aafc.seqdb.api.entities.SequenceControlledVocabulary;
 import ca.gc.aafc.seqdb.api.entities.SequenceControlledVocabularyItem;
@@ -107,7 +108,7 @@ public class SequenceControlledVocabularyItemRepository extends DinaRepositoryV2
       SequenceControlledVocabulary vocab = controlledVocabularyService.findOneByKey(keyParts[0]);
       if (vocab != null) {
         SequenceControlledVocabularyItem item = controlledVocabularyItemService.findOneByKey(keyParts[1], vocab.getUuid(),
-          keyParts.length == 3 ? keyParts[2].toUpperCase() : null);
+          keyParts.length == 3 ? SequenceVocabularyConfiguration.DinaComponent.fromString(keyParts[2]).name() : null);
         if (item != null) {
           return handleFindOne(item.getUuid(), req);
         }

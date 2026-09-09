@@ -6,8 +6,7 @@ spring:
  #   password: postgres
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
-    contexts: schema-change, initial-data
-    # Physical naming strategy specified to allow @Table name property.
+    contexts: schema-change, initial-data, data-migration
   jpa:
     properties.jakarta.persistence.validation.mode: none
     open-in-view: false

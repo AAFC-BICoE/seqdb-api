@@ -107,7 +107,7 @@ public class SequenceControlledVocabularyItemRepository extends DinaRepositoryV2
       SequenceControlledVocabulary vocab = controlledVocabularyService.findOneByKey(keyParts[0]);
       if (vocab != null) {
         SequenceControlledVocabularyItem item = controlledVocabularyItemService.findOneByKey(keyParts[1], vocab.getUuid(),
-          keyParts.length == 3 ? keyParts[2] : null);
+          keyParts.length == 3 ? keyParts[2].toUpperCase() : null);
         if (item != null) {
           return handleFindOne(item.getUuid(), req);
         }

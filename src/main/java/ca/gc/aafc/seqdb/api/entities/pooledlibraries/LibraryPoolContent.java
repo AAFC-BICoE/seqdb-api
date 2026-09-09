@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
  * either a LibraryPrepBatch or a LibraryPool which is pooled by a LibraryPool.
  */
 @Entity
-@Table(name = "LibraryPoolContents")
+@Table(name = "librarypoolcontents")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,9 +44,10 @@ public class LibraryPoolContent implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   private OffsetDateTime createdOn;
 
   @NotNull

@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "PcrPrimers", uniqueConstraints = {
+@Table(name = "pcrprimers", uniqueConstraints = {
   @UniqueConstraint(columnNames = { "Name", "LotNumber" }) })
 @Getter
 @Setter
@@ -66,9 +66,10 @@ public class PcrPrimer implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby")
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
@@ -84,6 +85,7 @@ public class PcrPrimer implements DinaEntity {
   private String name;
 
   @NotNull
+  @Column(name = "lotnumber")
   private Integer lotNumber;
 
   private Integer version;
@@ -96,7 +98,10 @@ public class PcrPrimer implements DinaEntity {
   private String direction;
   
   @Size(max = 11)
+  @Column(name = "tmcalculated")
   private String tmCalculated;
+
+  @Column(name = "tmpe")
   private Integer tmPe;
 
   @Size(max = 10)
@@ -105,6 +110,7 @@ public class PcrPrimer implements DinaEntity {
   private String note;
 
   @Version
+  @Column(name = "lastmodified")
   private Timestamp lastModified;
 
   @Size(max = 200)
@@ -113,28 +119,35 @@ public class PcrPrimer implements DinaEntity {
 
   @Size(max = 50)
   @Pattern(regexp = "\\d+")
+  @Column(name = "sequencelength")
   private String sequenceLength;
 
   @Size(max = 50)
+  @Column(name = "targetspecies")
   private String targetSpecies;
 
   @Size(max = 50)
   private String supplier;
+
+  @Column(name = "dateordered")
   private LocalDate dateOrdered;
 
   @Size(max = 50)
   private String purification;
 
   @Size(max = 50)
+  @Column(name = "designedby")
   private String designedBy;
 
   @Size(max = 10)
+  @Column(name = "stockconcentration")
   private String stockConcentration;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "regionid")
   private Region region;
   
+  @Column(name = "datedestroyed")
   private LocalDate dateDestroyed;
 
   @ManyToOne(fetch = FetchType.LAZY)

@@ -31,7 +31,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "NgsIndexes")
+@Table(name = "ngsindexes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,15 +50,17 @@ public class NgsIndex implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
   @NotNull
   private String name;
 
+  @Column(name = "lotnumber")
   private Integer lotNumber;
 
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
@@ -66,18 +68,38 @@ public class NgsIndex implements DinaEntity {
   private NgsIndexDirection direction;
 
   private String purification;
+
+  @Column(name = "tmcalculated")
   private String tmCalculated;
+
+  @Column(name = "dateordered")
   private LocalDate dateOrdered;
+
+  @Column(name = "datedestroyed")
   private LocalDate dateDestroyed;
+
   private String application;
   private String reference;
   private String supplier;
+
+  @Column(name = "designedby")
   private String designedBy;
+
+  @Column(name = "stockconcentration")
   private String stockConcentration;
+
   private String notes;
+
+  @Column(name = "litreference")
   private String litReference;
+
+  @Column(name = "primersequence")
   private String primerSequence;
+
+  @Column(name = "miseqhiseqindexsequence")
   private String miSeqHiSeqIndexSequence;
+
+  @Column(name = "miniseqnextseqindexsequence")
   private String miniSeqNextSeqIndexSequence;
 
   @ManyToOne(fetch = FetchType.LAZY)

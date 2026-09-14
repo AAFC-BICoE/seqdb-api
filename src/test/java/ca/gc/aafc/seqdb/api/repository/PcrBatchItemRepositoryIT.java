@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -63,7 +64,7 @@ public class PcrBatchItemRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updatePcrBatchItem_onSuccess_PcrBatchItemUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
     PcrBatchItemDto newDto = PcrBatchItemTestFixture.newPcrBatchItem();
     UUID pcrBatchItemUuid = createWithRepository(newDto, pcrBatchItemRepository::onCreate);
 

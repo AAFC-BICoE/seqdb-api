@@ -1,5 +1,6 @@
 package ca.gc.aafc.seqdb.api.repository;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -35,7 +36,7 @@ public class SequencingFacilityRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateSeqReaction_onSuccess_SeqReactionUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
     UUID sequencingFacilityUuid = setupSequencingFacility();
 
     JsonApiDocument sequencingFacilityToUpdate = JsonApiDocuments.createJsonApiDocument(sequencingFacilityUuid,

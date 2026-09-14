@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.repository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -56,7 +57,7 @@ public class ThermocyclerResourceRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateThermocyclerProfile_dtoWithOnlyUpdatedFields_entityReturnedWithUpdatedFields()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
     ThermocyclerProfileDto tpDto = ThermocyclerProfileTestFixture.newThermocyclerProfile();
     UUID tpUuid = createWithRepository(tpDto, thermocyclerProfileRepository::onCreate);
 

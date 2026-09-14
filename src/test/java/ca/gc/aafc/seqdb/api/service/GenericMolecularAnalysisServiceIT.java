@@ -1,18 +1,19 @@
 package ca.gc.aafc.seqdb.api.service;
 
-import org.junit.jupiter.api.Test;
-
-import ca.gc.aafc.dina.vocabulary.TypedVocabularyElement;
-import ca.gc.aafc.seqdb.api.SequenceModuleBaseIT;
-import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
-import ca.gc.aafc.seqdb.api.entities.SequenceManagedAttribute;
-import ca.gc.aafc.seqdb.api.testsupport.factories.GenericMolecularAnalysisFactory;
-import ca.gc.aafc.seqdb.api.testsupport.factories.SequenceManagedAttributeFactory;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+
+import ca.gc.aafc.dina.vocabulary.TypedVocabularyElement;
+import ca.gc.aafc.seqdb.api.SequenceModuleBaseIT;
+import ca.gc.aafc.seqdb.api.config.SequenceVocabularyConfiguration;
+import ca.gc.aafc.seqdb.api.entities.GenericMolecularAnalysis;
+import ca.gc.aafc.seqdb.api.entities.SequenceControlledVocabularyItem;
+import ca.gc.aafc.seqdb.api.testsupport.factories.GenericMolecularAnalysisFactory;
+import ca.gc.aafc.seqdb.api.testsupport.factories.SequenceControlledVocabularyItemFactory;
 import jakarta.validation.ValidationException;
 
 public class GenericMolecularAnalysisServiceIT extends SequenceModuleBaseIT {
@@ -21,12 +22,13 @@ public class GenericMolecularAnalysisServiceIT extends SequenceModuleBaseIT {
 
   @Test
   void assignedValueContainedInAcceptedValues_validationPasses() {
-    SequenceManagedAttribute testManagedAttribute = SequenceManagedAttributeFactory.newManagedAttribute()
+    SequenceControlledVocabularyItem testManagedAttribute = SequenceControlledVocabularyItemFactory.newSequenceControlledVocabularyItem()
       .acceptedValues(new String[]{"val1", "val2"})
-      .managedAttributeComponent(SequenceManagedAttribute.ManagedAttributeComponent.GENERIC_MOLECULAR_ANALYSIS)
+      .dinaComponent(SequenceVocabularyConfiguration.DinaComponent.GENERIC_MOLECULAR_ANALYSIS.name())
+      .controlledVocabulary(getManagedAttributeControlledVocabularyRef())
       .build();
 
-    managedAttributeService.create(testManagedAttribute);
+    sequenceControlledVocabularyItemService.create(testManagedAttribute);
 
     GenericMolecularAnalysis genericMolecularAnalysis = GenericMolecularAnalysisFactory
       .newGenericMolecularAnalysis()
@@ -38,17 +40,17 @@ public class GenericMolecularAnalysisServiceIT extends SequenceModuleBaseIT {
 
   @Test
   void validate_WhenInvalidIntegerType_ExceptionThrown() {
-    SequenceManagedAttribute testManagedAttribute =
-      SequenceManagedAttributeFactory.newManagedAttribute()
+    SequenceControlledVocabularyItem testManagedAttribute =
+       SequenceControlledVocabularyItemFactory.newSequenceControlledVocabularyItem()
         .createdBy("GenericMolecularAnalysisServiceIT")
-        .managedAttributeComponent(
-          SequenceManagedAttribute.ManagedAttributeComponent.GENERIC_MOLECULAR_ANALYSIS)
+        .dinaComponent(SequenceVocabularyConfiguration.DinaComponent.GENERIC_MOLECULAR_ANALYSIS.name())
         .group(GROUP)
         .vocabularyElementType(TypedVocabularyElement.VocabularyElementType.INTEGER)
         .acceptedValues(null)
+        .controlledVocabulary(getManagedAttributeControlledVocabularyRef())
         .build();
 
-    managedAttributeService.create(testManagedAttribute);
+    sequenceControlledVocabularyItemService.create(testManagedAttribute);
 
     GenericMolecularAnalysis genericMolecularAnalysis = GenericMolecularAnalysisFactory
       .newGenericMolecularAnalysis()

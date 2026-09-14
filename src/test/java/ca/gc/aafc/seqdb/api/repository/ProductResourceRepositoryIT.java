@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -46,7 +47,7 @@ public class ProductResourceRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateProduct_whenSomeFieldsAreUpdated_productReturnedWithSelectedFieldsUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
 
     ProductDto productDto = ProductTestFixture.newProduct();
     UUID productUuid = createWithRepository(productDto, productRepository::onCreate);

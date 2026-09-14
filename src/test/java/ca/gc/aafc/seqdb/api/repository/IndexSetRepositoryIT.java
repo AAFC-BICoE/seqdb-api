@@ -2,6 +2,7 @@ package ca.gc.aafc.seqdb.api.repository;
 
 import org.junit.jupiter.api.Test;
 
+import ca.gc.aafc.dina.exception.ConflictException;
 import ca.gc.aafc.dina.exception.ResourceGoneException;
 import ca.gc.aafc.dina.exception.ResourceNotFoundException;
 import ca.gc.aafc.dina.jsonapi.JsonApiDocument;
@@ -37,7 +38,7 @@ public class IndexSetRepositoryIT extends BaseRepositoryTestV2 {
 
   @Test
   public void updateIndexSet_onSuccess_indexSetUpdated()
-      throws ResourceGoneException, ResourceNotFoundException {
+      throws ResourceGoneException, ResourceNotFoundException, ConflictException {
 
     IndexSetDto dto = IndexSetTestFixture.newIndexSet();
     UUID indexSetId = createWithRepository(dto, indexSetRepository::onCreate);

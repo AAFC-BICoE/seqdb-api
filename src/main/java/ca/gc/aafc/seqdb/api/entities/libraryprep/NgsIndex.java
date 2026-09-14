@@ -1,6 +1,5 @@
 package ca.gc.aafc.seqdb.api.entities.libraryprep;
 
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -21,8 +20,9 @@ import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "NgsIndexes")
+@Table(name = "ngsindexes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,34 +50,56 @@ public class NgsIndex implements DinaEntity {
   @NaturalId
   private UUID uuid;
 
+  @Column(name = "createdby", updatable = false)
   private String createdBy;
 
-  @Column(insertable = false, updatable = false)
+  @Column(name = "createdon", insertable = false, updatable = false)
   @Generated(value = GenerationTime.INSERT)
   private OffsetDateTime createdOn;
 
   @NotNull
   private String name;
 
+  @Column(name = "lotnumber")
   private Integer lotNumber;
 
-  @Type(PostgreSQLEnumType.class)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Enumerated(EnumType.STRING)
   private NgsIndexDirection direction;
 
   private String purification;
+
+  @Column(name = "tmcalculated")
   private String tmCalculated;
+
+  @Column(name = "dateordered")
   private LocalDate dateOrdered;
+
+  @Column(name = "datedestroyed")
   private LocalDate dateDestroyed;
+
   private String application;
   private String reference;
   private String supplier;
+
+  @Column(name = "designedby")
   private String designedBy;
+
+  @Column(name = "stockconcentration")
   private String stockConcentration;
+
   private String notes;
+
+  @Column(name = "litreference")
   private String litReference;
+
+  @Column(name = "primersequence")
   private String primerSequence;
+
+  @Column(name = "miseqhiseqindexsequence")
   private String miSeqHiSeqIndexSequence;
+
+  @Column(name = "miniseqnextseqindexsequence")
   private String miniSeqNextSeqIndexSequence;
 
   @ManyToOne(fetch = FetchType.LAZY)

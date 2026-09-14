@@ -4,6 +4,7 @@ import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.dina.entity.DinaEntity;
 
 import io.hypersistence.utils.hibernate.type.json.JsonType;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -76,7 +77,7 @@ public class SequencingFacility implements DinaEntity {
 
   @Data
   @Builder
-  public static class ContactRole {
+  public static class ContactRole implements Serializable {
 
     @NotEmpty
     private String name;

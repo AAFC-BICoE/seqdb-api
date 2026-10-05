@@ -9,7 +9,7 @@ spring:
     password: test
 embedded.postgresql:
   enabled: true
-  image: postgres:12.4
+  image: postgres:18
   init-script-file: init-test-db.sql
   database: seqdb_test
   schema: seqdb

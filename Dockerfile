@@ -1,7 +1,8 @@
-FROM eclipse-temurin:21-jre-jammy
 
-RUN useradd -s /bin/bash user
-USER user
-COPY --chown=644 target/seqdb.api-*.jar /seqdb-api.jar
+FROM eclipse-temurin:25-jre
+
+RUN useradd -r -u 10001 appuser
+USER appuser
+COPY --chown=appuser:appuser target/seqdb.api-*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/seqdb-api.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]

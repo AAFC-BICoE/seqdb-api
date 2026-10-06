@@ -31,7 +31,9 @@ public class SequencingFacilityRepositoryIT extends BaseRepositoryTestV2 {
       throws ResourceGoneException, ResourceNotFoundException {
     UUID sequencingFacilityUuid = setupSequencingFacility();
     SequencingFacilityDto dto = sequencingFacilityRepository.getOne(sequencingFacilityUuid, "").getDto();
-      assertNotNull(dto.getUuid());
+    assertNotNull(dto.getUuid());
+    assertNotNull(dto.getShippingAddress());
+    assertNotNull(dto.getShippingAddress().getAddressLine1());
   }
 
   @Test

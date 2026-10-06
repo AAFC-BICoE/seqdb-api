@@ -2,8 +2,6 @@ package ca.gc.aafc.seqdb.api.service;
 
 import org.springframework.stereotype.Service;
 
-import com.github.tennaito.rsql.misc.ArgumentParser;
-
 import ca.gc.aafc.dina.filter.DinaFilterArgumentParser;
 import ca.gc.aafc.dina.filter.FilterExpression;
 import ca.gc.aafc.dina.filter.SimpleFilterHandlerV2;
@@ -26,7 +24,8 @@ public class RunSummaryService {
 
   private static final Set<String> RELATIONSHIPS_TO_LOAD = Set.of(
     "genericMolecularAnalysis", "molecularAnalysisRunItem", "molecularAnalysisRunItem.result");
-  private static final ArgumentParser RSQL_ARGUMENT_PARSER = new DinaFilterArgumentParser();
+
+  private final DinaFilterArgumentParser filterArgumentParser = new DinaFilterArgumentParser();
 
   private final GenericMolecularAnalysisItemService genericMolecularAnalysisItemService;
 
@@ -40,7 +39,7 @@ public class RunSummaryService {
       GenericMolecularAnalysisItem.class,
       (criteriaBuilder, root, em) -> {
         Predicate restriction =
-          SimpleFilterHandlerV2.createPredicate(root, criteriaBuilder, RSQL_ARGUMENT_PARSER::parse,
+          SimpleFilterHandlerV2.createPredicate(root, criteriaBuilder, filterArgumentParser::parse,
             em.getMetamodel(), filterExpression);
         return new Predicate[] {restriction};
       },

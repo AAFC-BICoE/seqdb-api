@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.cfg.DateTimeFeature;
 import com.toedter.spring.hateoas.jsonapi.JsonApiConfiguration;
 
 import ca.gc.aafc.dina.DinaBaseApiAutoConfiguration;
@@ -21,9 +20,6 @@ public class MainConfiguration {
     return new JsonApiConfiguration()
       .withPluralizedTypeRendered(false)
       .withPageMetaAutomaticallyCreated(false)
-      .withObjectMapperCustomizer(objectMapper -> {
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.registerModule(new JavaTimeModule());
-      });
+      .withMapperCustomizer(builder -> builder.disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS));
   }
 }

@@ -3,6 +3,7 @@ package ca.gc.aafc.seqdb.api.rest;
 import static io.restassured.RestAssured.given;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,7 @@ import com.google.common.collect.ImmutableMap;
 
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep.PreLibraryPrepType;
+import ca.gc.aafc.seqdb.api.mapper.PreLibraryPrepMapper;
 import ca.gc.aafc.seqdb.api.testsupport.factories.PreLibraryPrepFactory;
 
 @Testable
@@ -32,7 +34,8 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .preLibraryPrepType(PreLibraryPrepType.SHEARING)
         .notes("Test Notes")
         .quality("Test Quality").build();
-    return toAttributeMap(preLibraryPrep);
+    return toAttributeMap(PreLibraryPrepMapper.INSTANCE.toDto(preLibraryPrep,
+        Set.of("group", "preLibraryPrepType", "notes", "quality"), null));
   }
   
   @Override
@@ -41,7 +44,8 @@ public class PreLibraryPrepJsonApiIT extends BaseJsonApiIntegrationTest {
         .preLibraryPrepType(PreLibraryPrepType.SIZE_SELECTION)
         .notes("Updated Notes")
         .quality("Updated Quality").build();
-    return toAttributeMap(preLibraryPrep);
+    return toAttributeMap(PreLibraryPrepMapper.INSTANCE.toDto(preLibraryPrep,
+        Set.of("group", "preLibraryPrepType", "notes", "quality"), null));
   }
 
   /**

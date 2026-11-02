@@ -1,10 +1,12 @@
 package ca.gc.aafc.seqdb.api.rest;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.platform.commons.annotation.Testable;
 
 import ca.gc.aafc.seqdb.api.entities.Region;
+import ca.gc.aafc.seqdb.api.mapper.RegionMapper;
 import ca.gc.aafc.seqdb.api.testsupport.factories.RegionFactory;
 
 /**
@@ -29,7 +31,8 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
     .description("test description")
     .symbol("test symbol").build();
     
-    Map<String, Object> map = toAttributeMap(region);
+    Map<String, Object> map = toAttributeMap(
+        RegionMapper.INSTANCE.toDto(region, Set.of("name", "description", "symbol"), null));
     
     return map;
   }
@@ -41,7 +44,8 @@ public class RegionJsonApiIT extends BaseJsonApiIntegrationTest {
     .description("updated description")
     .symbol("updated symbol").build();
     
-    Map<String, Object> map = toAttributeMap(region);
+    Map<String, Object> map = toAttributeMap(
+        RegionMapper.INSTANCE.toDto(region, Set.of("name", "description", "symbol"), null));
     
     return map;
   }

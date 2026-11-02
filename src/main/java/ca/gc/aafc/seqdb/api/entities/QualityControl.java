@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.generator.EventType;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
@@ -48,7 +48,7 @@ public class QualityControl implements DinaEntity {
   private String createdBy;
 
   @Column(name = "created_on", insertable = false, updatable = false)
-  @Generated(value = GenerationTime.INSERT)
+  @Generated(event = EventType.INSERT)
   private OffsetDateTime createdOn;
 
   @Column(name = "_group")

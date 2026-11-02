@@ -10,8 +10,9 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.google.common.collect.ImmutableMap;
 
 import org.apache.http.client.utils.URIBuilder;
@@ -39,7 +40,9 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
   
   public static final String JSON_API_CONTENT_TYPE = "application/vnd.api+json";
   
-  private static final ObjectMapper IT_OBJECT_MAPPER = new ObjectMapper();
+  private static final ObjectMapper IT_OBJECT_MAPPER = JsonMapper.builder()
+    .changeDefaultPropertyInclusion(inclusion -> inclusion.withValueInclusion(Include.NON_NULL))
+    .build();
   private static final TypeReference<Map<String, Object>> IT_OM_TYPE_REF = new TypeReference<Map<String, Object>>() {};
    
   public static final URI IT_BASE_URI;
@@ -54,7 +57,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
       fail(e.getMessage());
     }
     IT_BASE_URI = tmpURI;
-    IT_OBJECT_MAPPER.setSerializationInclusion(Include.NON_NULL);
   }
 
   public static final String API_BASE_PATH = "/api";
@@ -154,11 +156,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
       throws IOException, URISyntaxException {
     String id = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     
-    // Test with the crnk-compact header.
-    given().header("crnk-compact", "true").when()
-        .get(getResourceUnderTest() + "/" + id).then().statusCode(HttpStatus.OK.value());
-    
-    // Test without the crnk-compact header.
     given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
 
@@ -172,11 +169,6 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
     String id1 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
     String id2 = sendPost(toJsonAPIMap(buildCreateAttributeMap(), buildRelationshipMap()));
 
-    // Test with the crnk-compact header.
-    given().header("crnk-compact", "true").when()
-        .get(getResourceUnderTest()).then().statusCode(HttpStatus.OK.value());
-
-    // Test without the crnk-compact header.
     given().when().get(getResourceUnderTest()).then()
         .statusCode(HttpStatus.OK.value());
     
@@ -221,7 +213,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendGet(String id) {
-    return given().header("crnk-compact", "true").when().get(getResourceUnderTest() + "/" + id).then()
+    return given().when().get(getResourceUnderTest() + "/" + id).then()
         .statusCode(HttpStatus.OK.value());
   }
 
@@ -256,7 +248,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return id of the newly created resource
    */
   protected String sendPost(String resourceName, Map<String, Object> dataMap) {
-    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
         .post(resourceName);
     response.then().statusCode(HttpStatus.CREATED.value());
     String id = (String) response.body().jsonPath().get("data.id");
@@ -271,7 +263,7 @@ public abstract class BaseJsonApiIntegrationTest extends BaseHttpIntegrationTest
    * @return
    */
   protected ValidatableResponse sendPatch(String id, Map<String, Object> dataMap) {
-    Response response = given().header("crnk-compact", "true").contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
+    Response response = given().contentType(JSON_API_CONTENT_TYPE).body(dataMap).when()
         .patch(getResourceUnderTest() + "/" + id);
     return response.then().statusCode(HttpStatus.OK.value());
   }

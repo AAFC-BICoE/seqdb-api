@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.generator.EventType;
 import org.hibernate.annotations.NaturalId;
 
 import ca.gc.aafc.dina.entity.DinaEntity;
@@ -44,7 +44,7 @@ public class IndexSet implements DinaEntity {
   private String createdBy;
 
   @Column(name = "createdon", insertable = false, updatable = false)
-  @Generated(value = GenerationTime.INSERT)
+  @Generated(event = EventType.INSERT)
   private OffsetDateTime createdOn;
 
   @Column(name = "groupname")

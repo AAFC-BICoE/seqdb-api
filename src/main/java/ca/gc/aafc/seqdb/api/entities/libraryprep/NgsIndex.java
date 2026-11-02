@@ -19,7 +19,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.generator.EventType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.type.SqlTypes;
@@ -54,7 +54,7 @@ public class NgsIndex implements DinaEntity {
   private String createdBy;
 
   @Column(name = "createdon", insertable = false, updatable = false)
-  @Generated(value = GenerationTime.INSERT)
+  @Generated(event = EventType.INSERT)
   private OffsetDateTime createdOn;
 
   @NotNull

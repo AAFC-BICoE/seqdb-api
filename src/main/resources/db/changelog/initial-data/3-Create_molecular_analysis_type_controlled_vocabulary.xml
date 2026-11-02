@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://local.xsd/dbchangelog-4.4.xsd"
+                   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="3-Create_molecular_analysis_type_controlled_vocabulary" context="initial-data" author="cgendreau">
+        <insert tableName="controlled_vocabulary">
+            <column name="uuid" value="f964c7f8-526e-4b4a-88d4-264f77e6c324"/>
+            <column name="name" value="Molecular Analysis Type"/>
+            <column name="key" value="molecular_analysis_type"/>
+            <column name="type" value="SYSTEM"/>
+            <column name="vocab_class" value="QUALIFIED_VALUE"/>
+            <column name="version" value="1"/>
+            <column name="multilingual_title" value='{"titles":[{"lang":"en","title":"Molecular Analysis Type"}]}'/>
+            <column name="created_by" value="system"/>
+        </insert>
+
+        <insert tableName="controlled_vocabulary_item">
+            <column name="uuid" value="6bcaae0a-62d5-4242-bb28-3e8694481738"/>
+            <column name="controlled_vocabulary_id" valueComputed="(SELECT id FROM controlled_vocabulary WHERE uuid='f964c7f8-526e-4b4a-88d4-264f77e6c324')"/>
+            <column name="name" value="HRMS"/>
+            <column name="key" value="hrms"/>
+            <column name="_group" value="system"/>
+            <column name="dina_component" value="GENERIC_MOLECULAR_ANALYSIS"/>
+            <column name="vocabulary_element_type" value="STRING"/>
+            <column name="multilingual_title" value='{"titles":[{"lang":"en","title":"High Resolution Mass Spectrometry (HRMS)"},{"lang":"fr","title":"Spectrométrie de masse haute résolution (HRMS)"}]}'/>
+            <column name="created_by" value="system"/>
+        </insert>
+
+        <insert tableName="controlled_vocabulary_item">
+            <column name="uuid" value="660e064b-66f1-4db2-8256-b0528851f166"/>
+            <column name="controlled_vocabulary_id" valueComputed="(SELECT id FROM controlled_vocabulary WHERE uuid='f964c7f8-526e-4b4a-88d4-264f77e6c324')"/>
+            <column name="name" value="GCMS"/>
+            <column name="key" value="gcms"/>
+            <column name="_group" value="system"/>
+            <column name="dina_component" value="GENERIC_MOLECULAR_ANALYSIS"/>
+            <column name="vocabulary_element_type" value="STRING"/>
+            <column name="multilingual_title" value='{"titles":[{"lang":"en","title":"Gas chromatography coupled to low-resolution mass spectrometry (GCMS)"},{"lang":"fr","title":"Chromatographie en phase gazeuse couplée à la spectrométrie de masse basse résolution, simple (GCMS)"}]}'/>
+            <column name="created_by" value="system"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

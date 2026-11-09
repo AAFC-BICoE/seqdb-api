@@ -25,10 +25,18 @@ jobs:
       - name: Run SpotBugs
         run: mvn -q com.github.spotbugs:spotbugs-maven-plugin:check
       - name: Run OWASP dependency-check (only on dev)
-        run: mvn -q org.owasp:dependency-check-maven:check
         if: ${{ github.ref == 'refs/heads/dev' }}
+        uses: dependency-check/Dependency-Check_Action@main
+        id: natural-history-collection-api-dependency-check
         env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+          JAVA_HOME: /opt/jdk
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'
+          args: >
+            --failOnCVSS 8
+            --suppression owasp-suppression.xml
 
       - name: Extract Version
         if: ${{ github.ref == 'refs/heads/master' }}

@@ -3,7 +3,7 @@
 
   <groupId>ca.gc.aafc</groupId>
   <artifactId>seqdb.api</artifactId>
-  <version>3.0</version>
+  <version>3.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>seqdb-api</name>

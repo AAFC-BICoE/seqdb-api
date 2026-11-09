@@ -39,6 +39,8 @@ public class MolecularAnalysisResultDto implements JsonApiResource {
   @JsonApiExternalRelation(type = "metadata")
   private List<ExternalRelationDto> attachments = List.of();
 
+  private MolecularAnalysisResult.TabularResults tabularResults;
+
   @Override
   @JsonIgnore
   public String getJsonApiType() {

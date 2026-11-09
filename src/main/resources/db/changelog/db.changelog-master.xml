@@ -70,4 +70,5 @@
   <include file="db/changelog/initial-data/2-Create_managed_attribute_controlled_vocabulary.xml"/>
   <include file="db/changelog/migrations/63-Migrate_managed_attribute_to_controlled_vocabulary_item.xml"/>
   <include file="db/changelog/initial-data/3-Create_molecular_analysis_type_controlled_vocabulary.xml"/>
+  <include file="db/changelog/migrations/64-Add_tabular_results_to_MolecularAnalysisResult.xml"/>
 </databaseChangeLog>

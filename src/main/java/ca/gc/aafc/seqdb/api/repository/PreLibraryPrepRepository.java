@@ -20,7 +20,7 @@ import ca.gc.aafc.seqdb.api.entities.PreLibraryPrep;
 import ca.gc.aafc.seqdb.api.mapper.ExternalRelationshipMapper;
 import ca.gc.aafc.seqdb.api.mapper.PreLibraryPrepMapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;

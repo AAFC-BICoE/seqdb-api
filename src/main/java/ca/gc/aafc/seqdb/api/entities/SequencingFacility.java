@@ -3,17 +3,18 @@ package ca.gc.aafc.seqdb.api.entities;
 import ca.gc.aafc.dina.entity.Address;
 import ca.gc.aafc.dina.entity.DinaEntity;
 
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
-import org.hibernate.annotations.Type;
+import org.hibernate.generator.EventType;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,7 +54,7 @@ public class SequencingFacility implements DinaEntity {
   private String createdBy;
 
   @Column(name = "created_on", insertable = false, updatable = false)
-  @Generated(value = GenerationTime.INSERT)
+  @Generated(event = EventType.INSERT)
   private OffsetDateTime createdOn;
 
   @NotBlank
@@ -65,18 +66,20 @@ public class SequencingFacility implements DinaEntity {
   @Size(max = 50)
   private String name;
 
-  @Type(JsonType.class)
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "contacts", columnDefinition = "jsonb")
   @Valid
   private List<ContactRole> contacts = List.of();
 
-  @Type(JsonType.class)
+  @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "shipping_address", columnDefinition = "jsonb")
   @Valid
   private Address shippingAddress;
 
   @Data
   @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
   public static class ContactRole implements Serializable {
 
     @NotEmpty
